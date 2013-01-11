@@ -1,0 +1,123 @@
+List with O(1) cons and snoc in Scala
+February 20th, 2011
+
+Critique of Odersky’s Scala levels
+January 17th, 2011
+
+Today’s ride following natural disaster
+January 14th, 2011
+
+Java is pass by value
+January 13th, 2011
+
+Configuration versus Code
+January 9th, 2011
+
+The Writer Monad using Scala (example)
+December 12th, 2010
+
+Medileaks
+December 8th, 2010
+
+Dear Java library guy
+November 24th, 2010
+
+Safari Fuel Tanks — Husqvarna TE510
+October 26th, 2010
+
+Brad’s original post
+October 19th, 2010
+
+reverse.jar
+September 29th, 2010
+
+Even Further Understanding scala.Option (part 2)
+September 1st, 2010
+
+Further understanding scala.Option
+August 23rd, 2010
+
+Java and Practicality
+July 23rd, 2010
+
+Understanding Monads using Scala (Part 1)
+June 22nd, 2010
+
+Optional a -> a (negative proof)
+June 20th, 2010
+
+Beginner Java Exercise with Data Types
+May 12th, 2010
+
+Haskell Beginner Exercises with Tests
+April 25th, 2010
+
+Monad Exercises in Scala and Haskell
+April 5th, 2010
+
+Monad Exercises in Scala (addendum)
+April 3rd, 2010
+
+Type-classes are nothing like interfaces
+April 2nd, 2010
+
+What Does Functional Programming Mean?
+March 31st, 2010
+
+Monad exercises in Scala
+March 25th, 2010
+
+Why are there no big applications written using functional languages?
+March 24th, 2010
+
+A poke at the essence of functional programming
+March 24th, 2010
+
+Automated Validation with Applicatives and Semigroups (Part 2 - Java)
+March 21st, 2010
+
+Automated Validation with Applicatives and Semigroups (for Sanjiv)
+March 21st, 2010
+
+Linq has nothing to do with SQL or enumerable lists
+February 19th, 2010
+
+SKI combinator calculus in Java
+February 8th, 2010
+
+Scala exercise
+February 6th, 2010
+
+Higher-order Polymorphism for pseudo-Java
+January 28th, 2010
+
+What is Haskell’s primary feature?
+January 22nd, 2010
+
+Dear Java guy, State is a monad
+January 19th, 2010
+
+What Does Monad Mean?
+January 14th, 2010
+
+Parsing map data using a lazy language
+January 10th, 2010
+
+Debut with a Catamorphism
+December 2nd, 2009
+
+Mount Mee State Forest
+March 24th, 2009
+
+Dear Agile/Lean/Scrum/XP Person
+February 19th, 2009
+
+Funky Scala Bifunctor
+February 14th, 2009
+
+Continuation monad in Scala
+December 28th, 2008
+
+Controlling effects with flatMap/>>=
+December 26th, 2008
+

@@ -1,0 +1,5 @@
+# 404 Error
+
+The document you requested has either been moved or does not exist.  You can try the
+[list of all posts](/posts.html) or check out the entire history of this blog at
+[github](https://github.com/tonymorris/blog) to see if the file has been moved.
