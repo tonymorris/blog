@@ -119,20 +119,6 @@ feed =
     >>> arr (setField "extratitle" "")
     >>> applyTemplateCompiler "templates/atom.xml"
 
--- | The toplevel pages rules
-topLevel ::
-  Rules
-topLevel = match "toplevel/*" $ do
-    route $ gsubRoute "toplevel/" (const "") `composeRoutes` setExtension "html"
-    void . compile $ pageCompiler'
-      (
-        addPostsToFields "templates/post-item.html"
-        >>> requireA "tags" (setFieldA "tagcloud" renderTagCloud')
-      )
-      >>> arr (setField "mathjax" "")
-      >>> applyTemplateCompiler "templates/default.html"
-      >>> relativizeUrlsCompiler
-
 main ::
   IO ()
 main = hakyll $ do
@@ -146,7 +132,6 @@ main = hakyll $ do
   post
   feed
   tags
-  topLevel
     where
       xs --> f = mapM_ (`match` f) xs
       copy = route idRoute >> compile copyFileCompiler
