@@ -19,8 +19,8 @@ The `filter` function is one that accepts a list as an argument, keeping all ele
 or perhaps using Scala:
 
 ~~~{.Scala}
-scala> List(2,3,6,2,4,7,6,75,22)
-res0: List[Int] = List(2, 3, 6, 2, 4, 7, 6, 75, 22)
+scala> List(2,3,6,2,4,7,6,75,22) filter (_ % 2 == 0)
+res0: List[Int] = List(2, 6, 2, 4, 6, 22)
 ~~~
 
 In both cases, the list structure under examination is a [cons list](http://en.wikipedia.org/wiki/Cons).
@@ -93,7 +93,7 @@ All I have done here is use `id` on one side of the `if` branch. Next I am going
 fiilter p x = foldRight (\a b -> if p a then (:) a b else id b) [] x
 ~~~
 
-Now we can see that on we apply the true side to `b` using `(:) a` and the false side using `id`. We can refactor that away by returning a function on each branch, then applying that result to `b`:
+Now we apply the true side to `b` using `(:) a` and the false side using `id`. We can refactor that away by returning a function on each branch, then applying that result to `b`:
 
 ~~~{.Haskell}
 fiilter p x = foldRight (\a b -> (if p a then ((:) a) else id) b) [] x
@@ -158,7 +158,7 @@ However, for consistency with other *catamorphisms*[^3] in the Haskell library, 
 
 ~~~{.Haskell}
 if' :: x -> x -> Bool -> x
-if' t f p = if p then f else t
+if' f t p = if p then t else f
 ~~~
 
 Great, we have a branching function with arguments in appropriate order :)
@@ -191,7 +191,7 @@ Therefore, our expression `\a -> if' id ((:) a) (p a)` can be written:
 \a -> ((if' id . (:)) a) (p a)
 ~~~
 
-Although, this is somewhat messy step, it allows us to get to the next one, where the purpose becomes a bit more apparent.
+Although, this is a somewhat messy step, it allows us to get to the next one, where the purpose becomes a bit more apparent.
 
 ### The SK(I) combinator calculus
 
