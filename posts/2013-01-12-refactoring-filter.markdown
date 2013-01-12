@@ -29,16 +29,16 @@ The usual solutions are given either with explicit pattern-matching and recursio
 
 ~~~{.Haskell}
 fiilter _ [] = []
-fiilter p (h:t) = if p h then h:filter p t else filter p t
+fiilter p (h:t) = if p h then h:fiilter p t else fiilter p t
 ~~~
 
-…or by using the provided `foldRight` function, which implements the explicit pattern-matching and recursion for the general case:
+…or by using the provided `foldRight` function, which implements the explicit pattern-matching and recursion on a cons list for the general case:
 
 ~~~{.Haskell}
 fiilter p x = foldRight (\a b -> if p a then a:b else b) [] x
 ~~~
 
-Whichever solution is given, they are both correct. However, almost invariably, at this stage in the exercise there is a developing suspicion that this solution can be *done better*. For example, in the pattern-matching solution, both sides of the `if` branch repeat the code `filter p t`. Indeed, even in the `foldRight` solution, there is application to the value `b` on both sides of the `if` branch.
+Whichever solution is given, they are both correct. However, almost invariably, at this stage in the exercise there is a developing suspicion that this solution can be *done better*. For example, in the pattern-matching solution, both sides of the `if` branch repeat the code `fiilter p t`. Indeed, even in the `foldRight` solution, there is application to the value `b` on both sides of the `if` branch.
 
 [^1]: The function names have been altered to prevent clashing with those built-in.
 
