@@ -29,6 +29,7 @@ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 module Main where
 
+import Data.Char
 import Control.Monad (void)
 import Control.Arrow ((>>>), arr, second)
 import Hakyll
@@ -56,7 +57,7 @@ post ::
   Rules
 post =
   match "posts/*" $ do
-    route $ routePage
+    route (customRoute fileToDirectory)
     void . compile $ pageCompilerWith defaultHakyllParserState pandocOptions
        >>> arr (\p -> renderDateField "published" "%Y-%m-%dT%H:%M:%SZ" (getField "date" p) p)
        >>> arr (copyField "published" "updated")
@@ -101,7 +102,7 @@ tags ::
   Rules
 tags = do
   create "tags" $ requireAll "posts/*" (\_ ps -> readTags ps :: Tags String)
-  match "tags/*" . route $ setExtension ".html"
+  match "tags/*" . route . customRoute $ tagsPath
   withTags "tags" (fromCapture "tags/*") makeTagPage
   match "tagfeeds/*" $ route $ setExtension ".xml"
   withTags "tags" (fromCapture "tagfeeds/*") makeTagFeed
@@ -111,7 +112,7 @@ feed ::
   Rules
 feed =
   do
-  match "atom.xml" $ route routePage
+  match "atom.xml" . route . customRoute $ fileToDirectory
   void . create "atom.xml" $
     requireAll_ "posts/*"
     >>> listToPageCompiler "templates/atom-post.xml"
@@ -215,14 +216,14 @@ pageCompiler' ::
 pageCompiler' =
   pageCompilerWithFields defaultHakyllParserState defaultHakyllWriterOptions id
 
-routePage ::
-  Routes
-routePage =
-  customRoute fileToDirectory
-
 fileToDirectory ::
   Identifier a
   -> FilePath
 fileToDirectory =
   flip combine "index.html" . dropExtension . uncurry (++) . second (drop 11 {- yyyy-mm-dd- -}) . splitAt 6 {- "posts/" -} . identifierPath
 
+tagsPath ::
+  Identifier a
+  -> FilePath
+tagsPath =
+  flip combine "index.html" . ("category"++) . drop 4 {- "tags" -} . map toLower . identifierPath
