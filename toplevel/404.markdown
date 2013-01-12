@@ -1,5 +1,16 @@
 # 404 Error
 
-The document you requested has either been moved or does not exist.  You can try the
-[list of all posts](/posts.html) or check out the entire history of this blog at
-[github](https://github.com/tonymorris/blog) to see if the file has been moved.
+<div>
+<script type="text/javascript">
+  var fof = '/404.html';
+  if(window.location.pathname != fof) {
+    var path = window.location.pathname;
+    var p = "/posts";
+    var posts = path.substring(0, p.length) == p;
+    if(posts)
+      window.location = '/404.html';
+    else
+      window.location = p + path;
+  }
+</script>
+</div>
