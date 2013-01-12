@@ -26,7 +26,7 @@ divide(a, b); // undefined
 ~~~
 
 
-If we try to use this function with b = 0, we will observe an exception (ArithmeticException). If we were using reference types, we could write our own divide function that instead returns `null` or returns Maybe<Integer> and Nothing for the case of an undefined function application.
+If we try to use this function with b = 0, we will observe an exception (ArithmeticException). If we were using reference types, we could write our own divide function that instead returns `null` or returns `Maybe<Integer>` and Nothing for the case of an undefined function application.
 
 Have we got it? Great! :) The Maybe Monad is used for defining a partial function that might call 2 or more partial functions; if any of those functions called are undefined, then our function that we are writing is undefined. This might be called, "_threading partial function through a computation_". We could write it in pseudo-code:
 

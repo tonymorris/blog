@@ -89,7 +89,7 @@ To summarise the formula:
 
 
 > 
-For a method that would normally return a type T, we can transform it in such a way to accept an argument of type To<T> and returns void.
+For a method that would normally return a type T, we can transform it in such a way to accept an argument of type `To<T>` and returns void.
 
 
 

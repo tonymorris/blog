@@ -9,8 +9,8 @@ tags: Programming
 ---
 
 > 
-Nov 17 15:48:39 <jinok> i hate wasting vertical space declaring vals that i need to initialize outside of a try block so i can clean them up in a finally block
-Nov 17 15:48:53 <jinok> so i've started doing the initialization using lazy vals.
+`Nov 17 15:48:39 <jinok>` i hate wasting vertical space declaring vals that i need to initialize outside of a try block so i can clean them up in a finally block
+`Nov 17 15:48:53 <jinok>` so i've started doing the initialization using lazy vals.
 
 
 
