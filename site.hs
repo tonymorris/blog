@@ -112,7 +112,7 @@ feed ::
   Rules
 feed =
   do
-  match "atom.xml" . route . customRoute $ fileToDirectory
+  match "atom.xml" . route $ idRoute -- . customRoute $ fileToDirectory
   void . create "atom.xml" $
     requireAll_ "posts/*"
     >>> listToPageCompiler "templates/atom-post.xml"
