@@ -9,8 +9,6 @@
     var isCategory = path.substring(0, c.length + 1) == c + '/';
 
     if(isCategory) {
-      alert('isCategory');
-      alert(path.substring(c.length, path.length));
       window.location = '/tags' + path.substring(c.length, path.length);
     } else {
       var p = "/posts";
