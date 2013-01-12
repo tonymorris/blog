@@ -55,8 +55,14 @@ div#tags {
 }
 
 h1 {
-  color: rgb(180, 180, 180);
+  color: rgb(140, 140, 140);
   border-bottom: 2px solid rgb(150, 150, 250);
+  font-size: 22px;
+  margin-top: 30px;
+}
+
+h2 {
+  color: rgb(160, 160, 160);
   font-size: 22px;
   margin-top: 30px;
 }
