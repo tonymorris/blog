@@ -201,7 +201,7 @@ We have an expression of this form:
 \x -> f x (g x)
 ~~~
 
-This is known as *the S combinator of [the SK(I) combinator calculus](http://en.wikipedia.org/wiki/SKI_combinator_calculus)*[^5]. The S combinator generalises to an applicative functor[^6] and we exploit this to take our refactoring further. The S combinator (generalised) in Haskell is written with `(<*>)`[^7] and you will need to `import Control.Applicative` to use it.
+This is known as *the S combinator of [the SK(I) combinator calculus](http://en.wikipedia.org/wiki/SKI_combinator_calculus)*[^5]. The S combinator generalises to an applicative functor[^6] and we can exploit this to take our refactoring further. The S combinator (generalised) in Haskell is written with `(<*>)`[^7] and you will need to `import Control.Applicative` to use it.
 
 The expression `\x -> f x (g x)` can be written `f <*> g` and we have an expression of precisely this form:
 
