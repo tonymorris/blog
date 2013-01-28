@@ -1,14 +1,37 @@
 ---
 comments: true
-date: 2013-01-12 19:00.00
+date: 2013-01-28 19:00.00
 layout: post
 slug: memoisation-with-state-using-scala
 title: Memoisation with State using Scala
 tags: Programming, Scala
 ---
 
+Everyone has seen a naïve fibonacci implementation
 
-sdfsdf
+~~~{.Scala}
+object FibNaïve {
+  def fibnaïve(n: BigInt): BigInt =
+    if(n <= 1)
+      n
+    else
+      fibnaïve(n - 1) + fibnaïve(n - 2)
+}
+~~~
+
+While this implementation is elegant, it is exponential in time with respect to `n`. For example, computing the result of `fibnaïve(4)` will result in the unnecessary re-computation of values less than `4`. If we unravel the recursion, computation occurs as follows:
+
+~~~
+  fibnaïve(4)
+= fibnaïve(3) + fibnaïve(2)
+= (fibnaïve(2) + fibnaïve(1)) + (fibnaïve(1) + fibnaïve(0))
+= ((fibnaïve(1) + fibnaïve(0)) + fibnaïve(1)) + (fibnaïve(1) + fibnaïve(0))
+~~~
+
+What we would like to do is trade some space to store previous stored values for a given `n`. That is to say, when we compute `fibnaïve(n)`, we look up in a table to determine if the result for `n` has been computed earlier. We can achieve this by looking it up in a table and if it has already been computed, we return it then carry on, but if it hasn't, we compute the result, store it in the table, then return it. This technique is called *memoisation*.
+
+Memoisation is a technique that arises often in *Dynamic Programming Algorithms*. That is, algorithms for which the solution is
+
 
 ~~~{.Scala}
 // Fibonacci function
