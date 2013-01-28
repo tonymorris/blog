@@ -7,3 +7,94 @@ title: Memoisation with State using Scala
 tags: Programming, Scala
 ---
 
+
+sdfsdf
+
+~~~{.Scala}
+// Fibonacci function
+object Fibq {
+  def fibq(n: BigInt): BigInt =
+    if(n <= 1)
+      n
+    else
+      fibq(n - 1) + fibq(n - 2)
+}
+case class State[S, A](run: S => (A, S))  {
+    def map[B](f: A => B): State[S, B] =
+      State(s => {
+        val (a, t) = run(s)
+        (f(a), t)
+      })
+
+    def ap[B](f: State[S, B]): State[S, B] =
+      State(s => {
+        val (g, t) = f run s
+        val (a, u) = this run t
+        (g(a), u)
+      })
+
+    def flatMap[B](f: A => State[S, B]): State[S, B] =
+      State(s => {
+        val (a, t) = run(s)
+        f(a) run t
+    })
+
+    def eval(s: S): A =
+      run(s)._1
+
+    def something[B](x: State[S, A => B]): State[S, B] = State { s =>
+      val (f, s0) = x run s
+      val (a, s1) = this run s0
+      (f(a), s1)
+    }
+}
+object State {
+  def point[S, A](a: A): State[S, A] =
+    State(s => (a, s))
+}
+object Fib {
+  def insertWithDefault[K, V](k: K, v: => V, m: Map[K, V]): (V, Map[K, V]) =
+    m get k match {
+      case None => (v, m + ((k, v)))
+      case Some(vv) => (vv, m)
+    }
+  def insertWithDefaultq[K, V](k: K, v: => V, m: Map[K, V]): (V, Map[K, V]) =
+    m get k map( (_,m) ) getOrElse( (v, m + ((k, v))) )
+
+  type Memo = Map[BigInt, BigInt]
+
+  def fib(n: BigInt): BigInt = {
+    def fibmemo(z: BigInt): State[Memo, BigInt] =
+      if(List(0, 1) exists (BigInt(_) == z))
+        State.point(z)
+      else
+        State(memo => memo get z match {
+          case None => {
+            val k =
+              for {
+                r <- fibmemo(z - 1)
+                s <- fibmemo(z - 2)
+              } yield r + s
+            val l = k eval memo
+            (l, memo + ((z, l)))
+          }
+          case Some(v) => (v, memo)
+        })
+
+    fibmemo(n) eval Map.empty
+  }
+
+  def fibi(n: BigInt): BigInt = {
+    def fibmemo(z: BigInt): State[Memo, BigInt] =
+      if(List(0, 1) exists (BigInt(_) == z))
+        State.point(z)
+      else
+        State(memo => insertWithDefault(z, (for {
+          r <- fibmemo(z - 1)
+          s <- fibmemo(z - 2)
+        } yield r + s) eval memo, memo))
+
+    fibmemo(n) eval Map.empty
+  }
+}
+~~~
