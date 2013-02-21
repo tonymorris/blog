@@ -146,7 +146,7 @@ if' :: Bool -> x -> x -> x
 if' p t f = if p then t else f
 ~~~
 
-So how does out code look?
+So how does our code look?
 
 ~~~{.Haskell}
 fiilter p = foldRight (\a -> if' (p a) ((:) a) id) []
