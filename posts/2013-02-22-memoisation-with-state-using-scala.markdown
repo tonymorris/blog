@@ -4,7 +4,7 @@ date: 2013-02-22 19:00.00
 layout: post
 slug: memoisation-with-state-using-scala
 title: Memoisation with State using Scala
-tags: Programming, Scala
+tags: Programming, Scala, State, Memoisation, Fibonacci
 ---
 
 Everyone has seen a naïve fibonacci implementation
