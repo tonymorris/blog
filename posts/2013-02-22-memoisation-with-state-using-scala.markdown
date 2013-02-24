@@ -57,7 +57,7 @@ object FibMemo {
 }
 ~~~
 
-We have traded space (the memoisation table) for speed; the algorithm is more efficient by not recomputing values. However, we have sacrificed the elegance of the code. How can we achieve both elegance anf efficiency?
+We have traded space (the memoisation table) for speed; the algorithm is more efficient by not recomputing values. However, we have sacrificed the elegance of the code. How can we achieve both elegance and efficiency?
 
 ## The State Monad
 
