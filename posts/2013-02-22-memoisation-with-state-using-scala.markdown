@@ -167,7 +167,7 @@ How does our fibonacci implementation look now?
 object FibMemo {
   type Memo = Map[BigInt, BigInt]
 
-  def fibmemo3(: BigInt): BigInt = {
+  def fibmemo3(n: BigInt): BigInt = {
     def fibmemoR(z: BigInt): State[Memo, BigInt] =
       if(z <= 1)
         State.insert(z)
