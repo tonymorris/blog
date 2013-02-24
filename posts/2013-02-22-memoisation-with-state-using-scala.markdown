@@ -36,7 +36,7 @@ This algorithm calculates for `fibnaïve(2)` twice, which ultimately results in 
 As a first cut, let's solve fibonacci with a helper function that passes a `Map[BigInt, BigInt]` around in the recursion. This map will serve at the memoisation table.
 
 ~~~{.Scala}
-object FibMemo {
+object FibMemo1 {
   type Memo = Map[BigInt, BigInt]
 
   def fibmemo1(n: BigInt): BigInt = {
@@ -82,7 +82,7 @@ def fibmemoR(z: BigInt): State[Memo, BigInt]
 Let's write our new fibonacci function:
 
 ~~~{.Scala}
-object FibMemo {
+object FibMemo2 {
   type Memo = Map[BigInt, BigInt]
 
   def fibmemo2(n: BigInt): BigInt = {
@@ -112,11 +112,13 @@ Ew! This code is still rather clumsy as it manually passes the memo table around
 
 3. The `insert` function on the `object State` that *inserts a value while leaving the state unchanged*.
 
-I will also add two convenience methods:
+I will also add three convenience functions:
 
 1. `eval` method for running the `State` value and dropping the resulting state value.
 
-2. `memo` function for memoising the computed value if not already computed.
+2. `get` function for taking the current state to a value. `(S => A) => State[S, A]`
+
+3. `mod` function for modifying the current state. `(S => S) => State[S, Unit]`
 
 Here goes:
 
@@ -146,16 +148,13 @@ object State {
   def insert[S, A](a: A): State[S, A] =
     State(s => (a, s))
 
-  // Memoising function computes and memoises if not already
-  def memo[A, B](a: A, f: Map[A, B] => B): State[Map[A, B], B] =
-    State(m => m get a match {
-      case None => {
-        val r = f(m)
-        (r, m + ((a, r)))
-      }
-      case Some(b) =>
-        (b, m)
-    })
+  // Convenience function for taking the current state to a value
+  def get[S, A](f: S => A): State[S, A] =
+    State(s => (f(s), s))
+
+  // Convenience function for modifying the current state
+  def mod[S](f: S => S): State[S, Unit] =
+    State(s => ((), f(s)))
 }
 ~~~
 
@@ -164,20 +163,25 @@ We can see that the `flatMap` method takes care of passing the state value throu
 How does our fibonacci implementation look now?
 
 ~~~{.Scala}
-object FibMemo {
+object FibMemo3 {
   type Memo = Map[BigInt, BigInt]
 
   def fibmemo3(n: BigInt): BigInt = {
     def fibmemoR(z: BigInt): State[Memo, BigInt] =
       if(z <= 1)
         State.insert(z)
-      else State.memo(z, m => {
-          val k =
-            fibmemoR(z - 1) flatMap (r =>
-            fibmemoR(z - 2) map     (s =>
-            r + s))
-          k eval m
-        })
+      else
+        for {
+          u <- State.get((m: Memo) => m get z)
+          v <- u map State.insert[Memo, BigInt] getOrElse
+                 fibmemoR(z - 1) flatMap (r =>
+                 fibmemoR(z - 2) flatMap (s => {
+                 val t = r + s
+                 State.mod((m: Memo) => m + ((z, t))) map (_ =>
+                 t)
+                 }))
+        } yield v
+
     fibmemoR(n) eval Map()
   }
 }
@@ -190,21 +194,24 @@ Scala provides syntax for the type of computation that chains calls to `flatMap`
 How does this look?
 
 ~~~{.Scala}
-object FibMemo {
+object FibMemo4 {
   type Memo = Map[BigInt, BigInt]
 
   def fibmemo4(n: BigInt): BigInt = {
     def fibmemoR(z: BigInt): State[Memo, BigInt] =
       if(z <= 1)
         State.insert(z)
-      else State.memo(z, m => {
-          val k =
-            for {
-              r <- fibmemoR(z - 1)
-              s <- fibmemoR(z - 2)
-            } yield r + s
-          k eval m
-        })
+      else
+        for {
+          u <- State.get((m: Memo) => m get z)
+          v <- u map State.insert[Memo, BigInt] getOrElse (for {
+                 r <- fibmemoR(z - 1)
+                 s <- fibmemoR(z - 2)
+                 t = r + s
+                 _ <- State.mod((m: Memo) => m + ((z, t)))
+               } yield t)
+        } yield v
+
     fibmemoR(n) eval Map()
   }
 }
