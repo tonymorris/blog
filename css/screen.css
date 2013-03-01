@@ -92,3 +92,10 @@ div.figure {
 div.figure p.caption {
   font-style: italic;
 }
+
+table, th, td
+{
+  border: 1px solid gray;
+  border-collapse:  collapse;
+  width: 60%;
+}
