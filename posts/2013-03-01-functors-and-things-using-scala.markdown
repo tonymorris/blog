@@ -3,7 +3,7 @@ comments: true
 date: 2013-03-01 12:00.00
 layout: post
 slug: functors-and-things-using-scala
-title: Functors and Things using Scala
+title: Functors and things using Scala
 tags: Programming, Scala, Functor, Monad, Comonad, Applicative
 ---
 
