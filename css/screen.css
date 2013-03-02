@@ -99,3 +99,9 @@ table, th, td
   border-collapse:  collapse;
   width: 60%;
 }
+
+blockquote {
+  color: black;
+  background-color: #f3f3f3;
+  font-weight: bold;
+}
