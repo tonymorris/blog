@@ -70,7 +70,7 @@ trait Comonad[F[_]] {
 Sometimes I am asked how to remember all of these and/or determine which is appropriate. There are many answers to this question, but there is a common feature of all of these different types of functor:
 
     They all take an argument that is some arrangement of three type variables
-    and then return a function with the type `F[A] => F[B]`
+    and then return a function with the type F[A] => F[B]
 
 I memorise the table that is the type of the different argument arrangements to help me to determine which abstraction might be appropriate. Of course, I use other methods, but this particular technique is elegant and short. Here is that table:
 
