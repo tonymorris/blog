@@ -90,7 +90,7 @@ monad           `A => F[B]`{.Scala}
 comonad         `F[A] => B`{.Scala}
 ------------------------------------
 
-We can see from this table that there is not much reason to emphasise one over the other. For example, monads get *lots* of attention and associated stigma, but it's not undeserved. It's rather boring when put in the context of a bigger picture. It's just a different arrangement of its argument (`A => F[B]`).
+We can see from this table that there is not much reason to emphasise one over the other. For example, monads get *lots* of attention and associated stigma, but it's undeserved. It's rather boring when put in the context of a bigger picture. It's just a different arrangement of its argument (`A => F[B]`).
 
 Anyway, this table is a good way to keep a check on the different types of abstraction and how they might apply. There are also ways of deriving some from others, but that's for another rainy day. That's all, hope it helps!
 
