@@ -237,7 +237,7 @@ option.toList
 ~~~{.Scala}
 option match {
   case None => None
-  case Some(_) => foo(option)
+  case Some(_) => Some(foo(option))
 }
 ~~~
 
