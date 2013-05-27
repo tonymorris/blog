@@ -14,6 +14,6 @@ A talk on the list fold functions (fold left and fold right), delivered to [Bris
 * [Video](https://vimeo.com/64673035) *(vimeo)*
 
 <div class="embed-vimeo">
-  <iframe src="http://player.vimeo.com/video/64673035" width="688" height="387" frameborder="0" webkitAllowFullScreen mozallowfullscreen allowFullScreen>
+  <iframe src="http://player.vimeo.com/video/64673035" width="688" height="387" frameborder="0" webkitAllowFullScreen="true" mozallowfullscreen="true" allowFullScreen="true">
   </iframe>
 </div>
