@@ -18,8 +18,6 @@ My pain is now so severe that I am unable to perform my normal duties for my emp
 
 If you are ever inflicted with this condition, I highly recommend these publications, with most recommended appearing first:
 
-<div style="font-family: Courier, 'Courier New', monospace">
-
 1. Bradshaw, Chris, et al. "Obturator Nerve Entrapment A Cause of Groin Pain in Athletes." *The American journal of sports medicine* 25.3 (1997): 402-408. [_(link)_]($papers$/obturator-nerve-entrapment-a-cause-of-groin-pain.pdf?raw=true)
 
 2. Bradshaw, Chris, and Paul McCrory. "Obturator nerve entrapment." *Clinical Journal of Sport Medicine* 7.3 (1997): 217-219. [_(link)_]($papers$/obturator-nerve-entrapment.pdf?raw=true)
@@ -43,6 +41,5 @@ If you are ever inflicted with this condition, I highly recommend these publicat
 11. Anagnostopoulou, Sofia, et al. "Anatomic variations of the obturator nerve in the inguinal region: implications in conventional and ultrasound regional anesthesia techniques." *Regional anesthesia and pain medicine* 34.1 (2009): 33-39. [_(link)_]($papers$/anatomic-variations-of-the-obturator-nerve.pdf?raw=true)
 
 12. Falvey, Eanna Cian, Andrew Franklyn-Miller, and P. R. McCrory. "The groin triangle: a patho-anatomical approach to the diagnosis of chronic groin pain in athletes." *British journal of sports medicine* 43.3 (2009): 213-220. [_(link)_]($papers$/the-groin-triangle.pdf?raw=true)
-</div>
 
 [^1]: 21 surgeries under a strict definition of the term "surgery" but let's stick with 19 :)
