@@ -7,15 +7,15 @@ title: Scala Type-class Hierarchy
 tags: Programming, Scala
 ---
 
-Below is a proposed type-class hierarchy demonstrated using the Scala programming language. The goal of the hierarchy is to demonstrate a hierarchy that is useful and makes the appropriate trade-offs for general-purpose programming. It is therefore, independent of programming language, however some (many) programming-language type systems do not have the expressive power to witness the hierarchy.
+Below is a proposed type-class hierarchy demonstrated using the Scala programming language. The goal of the hierarchy is to demonstrate one an arrangement that is useful and makes the appropriate trade-offs for general-purpose programming. It is therefore independent of a specific programming language, however some (many) programming-language type systems do not have the expressive power to witness the hierarchy.
 
 This proposal is in the spirit of [the typeclassopedia](http://www.haskell.org/haskellwiki/Typeclassopedia) with the following differences:
 
 1. Use the Scala programming language for demonstration for those who prefer it.
 
-2. Discussion need not concern itself with any kind of backward compatibility.
+2. Discussion need not concern itself with any kind of backward compatibility with existing libraries.
 
-You will find a similar type-class hierarchy in [the Scalaz library](http://github.com/scalaz/scalaz). That implementation is far more comprehensive and is aimed primarily for production use. A secondary goal here is to help document the Scalaz hierarchy in terse form, however, note that you will find some minor differences.
+You will find a similar type-class hierarchy in [the Scalaz library](http://github.com/scalaz/scalaz). That implementation is far more comprehensive and is aimed primarily for production use. A secondary goal here is to help document the Scalaz hierarchy in terse form, however, note that you will find some minor differences (improvements?) in the arrangement.
 
 Discussion about addition or rearrangement of the proposed hierarchy is welcome.
 
