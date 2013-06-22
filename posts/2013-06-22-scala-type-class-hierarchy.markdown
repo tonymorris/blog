@@ -100,11 +100,11 @@ trait BindTransform[T[_[_], _]] extends MonadTransform[T] {
   def transformB[F[_]: Bind, G[_]: Monad, A](f: F ~> G): T[F, A] => T[G, A]
 }
 
-trait ComonadTrans[T[_[_], _]] {
+trait ComonadTransformer[T[_[_], _]] {
   def lower[M[_]: Comonad, A]: T[M, A] => M[A]
 }
 
-trait ExtendTrans[T[_[_], _]] {
+trait ExtendTransformer[T[_[_], _]] extends ComonadTransformer[T] {
   def lowerE[M[_]: Extend, A]: T[M, A] => M[A]
 }
 
@@ -112,7 +112,7 @@ trait ComonadHoist[T[_[_], _]] {
   def cohoist[M[_]: Comonad, A]: T[M, A] => T[Id, A]
 }
 
-trait ExtendHoist[T[_[_], _]] {
+trait ExtendHoist[T[_[_], _]] extends ComonadHoist[T] {
   def cohoistE[M[_]: Extend, A]: T[M, A] => T[Id, A]
 }
 
