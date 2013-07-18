@@ -117,8 +117,8 @@ arguments:
     * `reverse(Nil) == Nil`
 * Reversing a single-element list produces that same list
     * `element => reverse(element) == element`
-* Taking two lists, x and y, appending them then reversing, producing the same list as reversing each, then appending
-  the latter to the former.
+* Taking two lists, `l1` and `l2`, appending them then reversing, producing the same list as reversing each, then
+  appending the latter to the former.
     * `(l1, l2) => reverse(l1 ::: l2) == (reverse(l2) ::: reverse(l1))`
 
 If we can be confident that these properties hold, then we can also be confident that our `reverse` function does in
