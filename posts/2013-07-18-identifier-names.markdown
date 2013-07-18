@@ -146,7 +146,7 @@ def <-:[A, B](f: A => B): List[A] => List[B]
 
 Does it map the function across the list elements? Maybe. However, we definitely know that the elements in the resulting
 list came from running the given function on an element from the input list. You see? Parametricity, just like that, was
-a 73 fuck-loads more reliable than looking at the function name to comprehend how this code works, and this is only the
+73 fuck-loads more reliable than looking at the function name to comprehend how this code works, and this is only the
 start of answering the question. We have many more tools at our disposal. Importantly, they are _reliable_. I like
 reliable, because I also like things that are true. Hopefully you do too!
 
