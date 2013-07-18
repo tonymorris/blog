@@ -13,7 +13,7 @@ title: Home
 [All posts...](/posts.html)
 
 # Tags
-<div id="tags">
+<div id="taglist">
 $tagcloud$
 </div>
 
