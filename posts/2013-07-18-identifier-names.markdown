@@ -116,7 +116,7 @@ arguments:
 * Reversing the empty list produces the empty list
     * `reverse(Nil) == Nil`
 * Reversing a single-element list produces that same list
-    * `element => reverse(element) == element`
+    * `element => reverse(List(element)) == List(element)`
 * Taking two lists, `l1` and `l2`, appending them then reversing, producing the same list as reversing each, then
   appending the latter to the former.
     * `(l1, l2) => reverse(l1 ::: l2) == (reverse(l2) ::: reverse(l1))`
