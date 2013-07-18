@@ -150,6 +150,8 @@ a 73 fuck-loads more reliable than looking at the function name to comprehend ho
 start of answering the question. We have many more tools at our disposal. Importantly, they are _reliable_. I like
 reliable, because I also like things that are true. Hopefully you do too!
 
+----
+
 So what about these allegations of utility of identifier names? Do they have any merit at all?
 
 No. Insistence on the value of identifier names for code comprehension has some glaring holes in it. Let us put aside
