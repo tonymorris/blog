@@ -58,7 +58,7 @@ of this *parametricity* is that we can infer a significant number of things that
 what does not occur is ubiquitous when deploying these programming techniques and is described in more detail by
 Wadler[^2].
 
-Here is another example, using Haskell:
+Here is another example, using a SafeHaskell (a very similar language to Haskell):
 
 ~~~{.Haskell}
 add10 :: Int -> Int
@@ -66,12 +66,12 @@ add10 :: Int -> Int
 
 By the name of the function, we might unreliably infer (OK, let's be honest, we are making a bold guess) that the
 function adds `10` to its argument. However, looking at the type, we know for sure that the function *did not prints its argument to the standard output stream*. We know this because had the library provider attempted it, the code would
-not have compiled. To be clear, it would not be a valid Haskell program, so our assumption that we are looking at
-Haskell fails, forcing us to unify by selecting one of the following;
+not have compiled. To be clear, it would not be a valid SafeHaskell program, so our assumption that we are looking at
+SafeHaskell fails, forcing us to unify by selecting one of the following;
 
 * The function does not print its argument to the standard output stream.
-* We are not looking at Haskell source code.
-* We are exploiting an unsafe component of Haskell, existence implied by the halting problem.
+* We are not looking at SafeHaskell source code.
+* We are exploiting an unsafe component of SafeHaskell, existence implied by the halting problem.
 
 There are simply no other options. What other things can we reliably conclude this function does not do?
 
