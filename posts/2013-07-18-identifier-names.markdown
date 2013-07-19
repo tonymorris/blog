@@ -18,9 +18,9 @@ def reverse: List[Banana] => List[Banana]
 Without viewing the body of the code, one might infer that this code "reverses the list." What does it mean to reverse a
 list? Let us try to rigorously define reversing a list:
 
-* Reversing the empty list produces the empty list
-* Reversing a single-element list produces that same list
-* Taking two lists, appending them then reversing, producing the same list as reversing each, then appending
+* Reversing the empty list produces the empty list.
+* Reversing a single-element list produces that same list.
+* Taking two lists, appending them then reversing, produces the same list as reversing each, then appending
   the latter to the former.
 
 We infer all these things, even if informally, when we conclude that this function reverses the list. We might have
@@ -32,7 +32,7 @@ In order for this method of comprehension to be efficacious, it must produce a r
 say, the degree of confidence invoked by inferring that "this function reverses the list" from the premise, "because the
 function is named `reverse`", must be higher than inferring that the function does not reverse the list, from the same
 premise. In my experience, with which some will certainly disagree, this is not the case, rendering this comprehension
-method useless.
+method useless. That is to say, the identifier name persuades confidence of the inference by nil, not even a bit.
 
 Thankfully, this is unimportant. It is unimportant because there exist methods of code comprehension that are
 *significantly more effective*, so you can abandon the question of whether or not there is efficacy of using identifier
@@ -46,32 +46,34 @@ Suppose the following code:
 def reverse[A]: List[A] => List[A]
 ~~~
 
-At first glance, it might appear that we must take a leap of confidence in inferring that the function reverses the list. However, we can infer the following fact; *this function definitely does not peel the first `Banana` in the list*. I can infer this because if
-the function attempted to do this, it *would not compile*[^1]. In fact, I can infer lots of things here:
+At first glance, it might appear that we must take a leap of confidence in inferring that the function reverses the list. However, we can infer the following fact — *this function definitely does not peel the first `Banana` in the list*. I
+can infer this because if the function attempted to do this, it *would not compile*[^1]. In fact, I can infer lots of
+things here, such as:
 
 * The `reverse` function did not add `10` to every second list element.
 * All elements in the list returned by `reverse` are contained in the input list.
 
 We are able to infer these things simply by making the `reverse` function *parametric*. We are no longer reversing a
-list of bananas — although that might be our use-case — we are reversing a list of `A` for all values of `A`. A virtue
+list of bananas — although that might be our use-case — we are reversing a list of `A` for all values of `A`. One virtue
 of this *parametricity* is that we can infer a significant number of things that *do not occur*. This theme of learning
 what does not occur is ubiquitous when deploying these programming techniques and is described in more detail by
 Wadler[^2].
 
-Here is another example, using a SafeHaskell (a very similar language to Haskell):
+Here is another example, using a programming language called SafeHaskell (very similar to Haskell):
 
 ~~~{.Haskell}
 add10 :: Int -> Int
 ~~~
 
 By the name of the function, we might unreliably infer (OK, let's be honest, we are making a bold guess) that the
-function adds `10` to its argument. However, looking at the type, we know for sure that the function *did not prints its argument to the standard output stream*. We know this because had the library provider attempted it, the code would
-not have compiled. To be clear, it would not be a valid SafeHaskell program, so our assumption that we are looking at
-SafeHaskell fails, forcing us to unify by selecting one of the following;
+function adds `10` to its argument. However, looking at the type, we know for sure that the function *did not print its
+argument to the standard output stream*. We know this because had the library provider attempted it, the code would not
+have compiled. To be clear, it would not be a valid SafeHaskell program, so our assumption that we are looking at
+SafeHaskell fails, forcing us to unify by selecting one of the following:
 
 * The function does not print its argument to the standard output stream.
 * We are not looking at SafeHaskell source code.
-* We are exploiting an unsafe component of SafeHaskell, existence implied by the halting problem.
+* We are using an escape hatch, implied by the halting problem.
 
 There are simply no other options. What other things can we reliably conclude this function does not do?
 
@@ -92,7 +94,7 @@ its first. This might be protested:
     - This is yet another escape hatch.
 
 So why dismiss these protests? They are inescapable implications of the halting problem. The more practical question is,
-"how convenient does Scala make these escape hatches available?" and the answer is an unfortunate one; it can often
+"how convenient does Scala make these escape hatches available?" and the answer is an unfortunate one — it can often
 appear to be easier to exploit these escape hatches, but it won't be too long before the penalty is paid. Although in
 practice, it is easier both short and long term to avoid these escape hatches, the illusion of convenience persists in
 some cases.
@@ -117,19 +119,19 @@ arguments:
     * `reverse(Nil) == Nil`
 * Reversing a single-element list produces that same list
     * `element => reverse(List(element)) == List(element)`
-* Taking two lists, `l1` and `l2`, appending them then reversing, producing the same list as reversing each, then
+* Taking two lists, `l1` and `l2`, appending them then reversing, produces the same list as reversing each, then
   appending the latter to the former.
     * `(l1, l2) => reverse(l1 ::: l2) == (reverse(l2) ::: reverse(l1))`
 
 If we can be confident that these properties hold, then we can also be confident that our `reverse` function does in
 fact, reverse the list. In fact, there is no other possible function that satisfies the type and these properties,
-besides the one that reverses a list. Again, we have not resorted to the function name for code comprehension; we have
+besides the one that reverses a list. Again, we have not resorted to the function name for code comprehension — we have
 inspected *algebraic properties about the code*.
 
 So how do we increase confidence that these properties hold?
 
 Unfortunately, an implication of the halting problem is that we cannot prove these program properties, for the general
-case. This is not the end of the world though; we can still attempt to *disprove* these program properties. That is to
+case. This is not the end of the world though — we can still attempt to *disprove* these program properties. That is to
 say, we can go to efforts to determine if the function is *not* one which reverses the list. We can express our
 algebraic properties, which give away the full specification of the function, then automate the assertion that there
 exist values for which the property does not hold. This automation is precisely what [ScalaCheck](http://code.google.com/p/scalacheck/) does, however, the expression itself is enough to rigorously specify the function behaviour without degenerating to faith in function names.
@@ -163,7 +165,7 @@ Here is why this allegation is not just bullshit, but very obviously bullshit. A
 However, there is another level again — the staunch belief that this identifer name is conveying meaning exposes just
 how confused that belief is. Any query such as, "What exactly does `AbstractAdvisorAutoProxyCreator` mean?" is met
 with handwaving. This is because __nobody knows what `AbstractAdvisorAutoProxyCreator` means__ and the only practical
-implication here, in the world in which we all find ourselves, is one or more scatter-brains holding a belief otherwise.
+implication here, in the world in which we all find ourselves, is one or more scatterbrains holding a belief otherwise.
 
 From a näive perspective, this situation appears to be a ripe learning opportunity. There appears to be a lot to be
 gained simply by sharing knowledge with a beginner — a trivial investment of effort. So why not take it? That question
