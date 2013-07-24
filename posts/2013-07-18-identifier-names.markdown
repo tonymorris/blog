@@ -120,7 +120,7 @@ arguments:
 * Reversing a single-element list produces that same list
     * `element => reverse(List(element)) == List(element)`
 * Taking two lists, `l1` and `l2`, appending them then reversing, produces the same list as reversing each, then
-  appending the latter to the former.
+  appending the reverse of `l1` to the reverse of `l2`.
     * `(l1, l2) => reverse(l1 ::: l2) == (reverse(l2) ::: reverse(l1))`
 
 If we can be confident that these properties hold, then we can also be confident that our `reverse` function does in
