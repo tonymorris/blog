@@ -25,7 +25,7 @@ list? Let us try to rigorously define reversing a list:
 
 We infer all these things, even if informally, when we conclude that this function reverses the list. We might have
 some degree of confidence in concluding that all these properties hold purely from the function name, however, as part
-of this conclusion, we also conclude that the function also does not peel the first `Banana`. We have no evidence of
+of this conclusion, we also conclude that the function does not peel the first `Banana`. We have no evidence of
 these facts, except for the function name, alleged to be useful to infer some confidence about these facts.
 
 In order for this method of comprehension to be efficacious, it must produce a result better than guessing. That is to
@@ -112,7 +112,7 @@ Do we fall back to relying on the function name and simply hope so?
 No.
 
 We continue to use more reliable methods of code comprehension. Let us restate the definition of `reverse`, however, we
-can will include Scala source code. All expressions must return `true` regardless of the value of any of their
+will include Scala source code. All expressions must return `true` regardless of the value of any of their
 arguments:
 
 * Reversing the empty list produces the empty list
