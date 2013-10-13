@@ -189,7 +189,7 @@ option match {
 This code is equivalent to:
 
 ~~~{.Scala}
-option.OrElse(foo)
+option.orElse(foo)
 ~~~
 
 
