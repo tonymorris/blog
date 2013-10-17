@@ -85,6 +85,10 @@ a {
   text-decoration: none;
 }
 
+div#taglist {
+  font-size: small;
+}
+
 div.figure {
   text-align: center;
 }

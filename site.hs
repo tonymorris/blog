@@ -59,12 +59,19 @@ main =
         compile $ do
             list <- postList tags pattern recentFirst
             makeItem ""
-                >>= loadAndApplyTemplate "templates/posts.html"
+                >>= loadAndApplyTemplate "templates/tag.html"
                         (constField "title" title   `mappend`
                             constField "posts" list `mappend`
+                            constField "tag" tag `mappend`
+                            field "tags" (\_ -> renderTagList tags) `mappend`
                             defaultCtx)
                 >>= loadAndApplyTemplate "templates/default.html" defaultCtx
                 >>= relativizeUrls
+        version "atom" $ do
+            route $ setExtension "xml"
+            compile $ loadAllSnapshots pattern "content"
+                >>= fmap (take 10) . recentFirst
+                >>= renderAtom (feedConfiguration title) feedCtx
 
     match "index.html" $ do
         route idRoute
