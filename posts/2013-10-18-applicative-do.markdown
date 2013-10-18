@@ -358,5 +358,25 @@ class Semigroup a => Monoid a where
 
 but maybe I am biting off a bit too much there :)
 
+### Addendum on Pointed
+
+I have not mentioned the `Pointed` experiment, because it is not worth
+mentioning anymore. It was an experiment, executed in both Scala and Haskell,
+and the result is conclusive.
+
+However, here is the type-class:
+
+~~~{.Haskell}
+class Functor f => Pointed f where
+  pure ::
+    a
+    -> f a
+~~~
+
+It was once proposed to slot in between `Applicative` and `Functor`. The
+`Pointed` type-class is not at all useful and there is no value in continuing
+discussion in this context, but instead about the result of the failed
+experiment. This is for another day.
+
 [^1]: There are other functions on `Monad`, but these are either derivable
 (e.g. `(>>)`) or a mistake and hindrance to discussion (e.g. `fail`).
