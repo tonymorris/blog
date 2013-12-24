@@ -81,8 +81,6 @@ div#recent-posts-list li, div#all-posts-list li {
 
 a {
   color: rgb(30, 30, 30);
-  font-weight: bold;
-  text-decoration: none;
 }
 
 div#taglist {
