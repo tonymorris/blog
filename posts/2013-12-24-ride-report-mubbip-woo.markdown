@@ -174,7 +174,7 @@ It must have been 4 or 5 minutes when I heard it. I couldn't believe my ears. Th
 
 *"Mubbip woo!"* came from the trees to the side. Did I just hear that, seriously? Had I inadvertently ingested some funny flowers as I hurtled through these tracks, narrowly avoiding the overhanging foliage as it competed for space? Then it came again, loud and clear, "mubbip woo!"
 
-I knew this noise. It was Jason & Jason, the yowie searching I'd met in D'Aguilar National Park a few months ago. Again, at that time, I thought I was alone in the twilight forest. However, I stopped to say hello where they enthusiastically told me about their yowie adventures. I'd been advised to install a rear-facing camera on the Husqvarna to film yowies because "they are always behind you" after which, they had given me their business card. 
+I knew this noise. It was Jason & Jason, the yowie searchers I'd met in D'Aguilar National Park a few months ago. Again, at that time, I thought I was alone in the twilight forest. However, I stopped to say hello where they enthusiastically told me about their yowie adventures. I'd been advised to install a rear-facing camera on the Husqvarna to film yowies because "they are always behind you" after which, they had given me their business card. 
 
 <a href="http://i.imgur.com/qwTJ8y9.jpg"><img height="816" width="612" src="http://i.imgur.com/qwTJ8y9.jpgg" alt="J&J Yowie Search"></a>
 
