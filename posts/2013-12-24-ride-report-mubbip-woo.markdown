@@ -174,15 +174,23 @@ It must have been 4 or 5 minutes when I heard it. I couldn't believe my ears. Th
 
 *"Mubbip woo!"* came from the trees to the side. Did I just hear that, seriously? Had I inadvertently ingested some funny flowers as I hurtled through these tracks, narrowly avoiding the overhanging foliage as it competed for space? Then it came again, loud and clear, "mubbip woo!"
 
-I knew this noise. It was Jason & Jason, the yowie searchers I'd met in D'Aguilar National Park a few months ago. Again, at that time, I thought I was alone in the twilight forest. However, I stopped to say hello where they enthusiastically told me about their yowie adventures. I'd been advised to install a rear-facing camera on the Husqvarna to film yowies because "they are always behind you" after which, they had given me their business card. 
+I knew this noise. It was Jason & Jason, the yowie searchers I'd met in D'Aguilar National Park a few months ago. Again, at that time, I thought I was alone in the twilight forest. However, I stopped to say hello where they enthusiastically told me about their yowie adventures. They had advised me to install a rear-facing camera on the Husqvarna to film yowies because "they are always behind you" after which, they had given me their business card.
 
 <a href="http://i.imgur.com/qwTJ8y9.jpg"><img height="816" width="612" src="http://i.imgur.com/qwTJ8y9.jpgg" alt="J&J Yowie Search"></a>
+
+When I got home after this ride, in August 2013, I decided to take a look at the youtube channel. This is where I learned how to correctly call for yowies. A short, sharp call of "mubbip woo!" will attract and help identify the presence of yowies in the national parks of south-east Queensland. Here is a demonstration, starting at 3:17.
+
+----
+
+<iframe width="560" height="315" src="//www.youtube.com/embed/hScEb3r37K4?start=197" frameborder="0" allowfullscreen></iframe>
+
+----
 
 Yep, sure enough, [in the middle of absolutely nowhere](http://www.openstreetmap.org/?mlat=-26.70909&mlon=152.56792%20&zoom=17#map=17/-26.70909/152.56792), I'd found them again. They must have been just 100 metres away, somewhere in the trees, calling for yowies.
 
 I spun out. This truly was happening. I was completely stunned by the coincidence and immediately started hunting for alternative explanations. Yep, I am as lucid as can possibly be -- this is real. I was in the middle of the forest. I was completely lost.
 
-Stunned, I was able to gather myself enough to begin recording on my phone. The "mubbip woo" calls are very distinct but since they are distant, you will probably need earphones. Also, sorry about my squeaky boots.
+Awestruck, I was able to gather myself enough to begin recording on my phone. The "mubbip woo" calls are very distinct but since they are distant, you will probably need earphones. Also, sorry about my squeaky boots.
 
 ----
 
@@ -190,7 +198,7 @@ Stunned, I was able to gather myself enough to begin recording on my phone. The 
 
 ----
 
-I suspect the yowie searchers didn't realise I was there. They'd heard the bike coming, then stop, believing it to have passed. The "mubbip woo" calls resumed a few minutes after I'd stopped. As you can see, I made an attempt to say hi for a second meeting, but it was not to be. Fearing to be disturbing the yowies (and their searchers) in their habitat, I decided to move on. It's an enormous forest and we can all share. The only other species willing to socialise with me here were the Horse-flies. Bye yowie searchers, it was fun again. Mubbip wooooooooooo!
+I suspect the yowie searchers didn't realise I was there in Conondale NP. They'd heard the bike coming, then heard it stop, believing me to have passed. The "mubbip woo" calls had started a few minutes after I'd stopped. As you can see, I made an attempt to say hi for a second meeting by approaching their location, but it was not to be. Not to be disturbing the yowies (and yowie searchers) in their habitat, I decided to move on. It's an enormous forest and we can all share. The only other species willing to socialise with me here were the Horse-flies. Bye yowie searchers, it was fun again. Mubbip wooooooooooo!
 
 #### Exploring
 
