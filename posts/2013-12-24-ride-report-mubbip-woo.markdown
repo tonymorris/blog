@@ -198,7 +198,7 @@ Awestruck, I was able to gather myself enough to begin recording on my phone. Th
 
 ----
 
-I suspect the yowie searchers didn't realise I was there in Conondale NP. They'd heard the bike coming, then heard it stop, believing me to have passed. The "mubbip woo" calls had started a few minutes after I'd stopped. As you can see, I made an attempt to say hi for a second meeting by approaching their location, but it was not to be. Not to be disturbing the yowies (and yowie searchers) in their habitat, I decided to move on. It's an enormous forest and we can all share. The only other species willing to socialise with me here were the Horse-flies. Bye yowie searchers, it was fun again. Mubbip wooooooooooo!
+I suspect the yowie searchers didn't realise I was there in Conondale NP. They'd heard the bike coming, then heard it stop, believing me to have passed. The "mubbip woo" calls had started a few minutes after I'd stopped. As you can see, I made an attempt to say hi for a second meeting by approaching their location, but it was not to be. Not to be disturbing the yowies (and yowie searchers) in their habitat, I decided to move on. It's an enormous forest and we can all share. The only other species willing to socialise with me here were the horse-flies. Bye yowie searchers, it was fun again. Mubbip wooooooooooo!
 
 #### Exploring
 
@@ -231,7 +231,7 @@ Exploring now, I traversed Buffalo Road, Middle Road and I passed the [Sunday Cr
 
 I turned right down Cockalorum Road. This road is probably up there as the most fun in the forest. A very narrow, winding track full of surprises, such as a rutted-out, mud-filled trench after lifting both wheels off a small crest. A lush rainforest road, I wondered if vehicular traffic really were permitted, but I hadn't seen any signage to indicate otherwise.
 
-Cockalorum Road popped out again on Middle Road and by now it was getting late. I was heading back in the general direction of the yowies, hoping to say hi to just one more time, the trippers. However, [Sunday Creek Road](http://www.openstreetmap.org/?mlat=-26.694135&mlon=152.561194%20&zoom=17#map=17/-26.694135/152.561194) had me hooked. A wide, sweeping road I expected to come upon 4x4 traffic, but alas, I saw only one car who kindly allowed me to pass.
+Cockalorum Road popped out again on Middle Road and by now it was getting late. I was heading back in the general direction of the yowies, hoping to say hi just one more time, the trippers. However, [Sunday Creek Road](http://www.openstreetmap.org/?mlat=-26.694135&mlon=152.561194%20&zoom=17#map=17/-26.694135/152.561194) had me hooked. A wide, sweeping road I expected to come upon 4x4 traffic, but alas, I saw only one car who kindly allowed me to pass.
 
 #### Leaving
 
