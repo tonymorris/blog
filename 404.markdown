@@ -2,7 +2,7 @@
 
 <div>
 <script type="text/javascript">
-  var fof = '/404.html';
+  var fof = '/404';
   if(window.location.pathname != fof) {
     var path = window.location.pathname;
     var c = '/category';
@@ -14,7 +14,7 @@
       var p = "/posts";
       var isPosts = path.substring(0, p.length + 1) == p + '/';
       if(isPosts)
-        window.location = '/404.html';
+        window.location = '/404';
       else
         window.location = p + path;
     }

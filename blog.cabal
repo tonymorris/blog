@@ -1,5 +1,5 @@
 name:                blog
-version:             0.1.0.0
+version:             0.1.1.0
 synopsis:            Tony's Blog
 description:         Tony's Blog
 homepage:            http://blog.tmorris.net/
@@ -18,11 +18,18 @@ source-repository   head
 executable blog
   default-language: Haskell2010
   main-is:          site.hs
-  build-depends:      base   >=4.6 
-                    , hakyll >=4.3 
+  build-depends:      base   >= 4.6
+                    , hakyll >= 4.3
                     , pandoc >= 1.11.1 
                     , containers >= 0.5.0.0
+                    , filepath >= 1.3
+                    , lens >= 3.10
+
   ghc-options:
                     -Wall
                     -O2
+
+  default-extensions:
+                    OverloadedStrings
+                    NoImplicitPrelude
 

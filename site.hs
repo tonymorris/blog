@@ -1,9 +1,20 @@
 {-# LANGUAGE OverloadedStrings #-}
-import           Data.Monoid (mappend, mconcat)
-import           Hakyll
-import           Data.Maybe(fromMaybe)
-import qualified Data.Map as M
-import           Text.Pandoc(WriterOptions, HTMLMathMethod(..), writerHTMLMathMethod)
+{-# LANGUAGE NoImplicitPrelude #-}
+
+import Prelude(String, FilePath, IO, Monad(..), Functor(..), take, all, (=<<), (++), (.), ($))
+import Data.Monoid (mappend, mconcat)
+import Data.Maybe(fromMaybe)
+import Data.Map(lookup)
+import Text.Pandoc(WriterOptions, HTMLMathMethod(..), writerHTMLMathMethod)
+import System.FilePath(joinPath, splitDirectories, dropExtension, combine)
+import Control.Lens(_last, over)
+import Data.Char(isDigit)
+import Hakyll
+
+postsPattern ::
+  Pattern
+postsPattern =
+  "posts/*" .&&. complement "posts/index.html"
 
 main ::
   IO ()
@@ -18,16 +29,16 @@ main =
         compile compressCssCompiler
 
     -- Build tags
-    tags <- buildTags "posts/*" (fromCapture "tags/*.html")
+    tags <- buildTags postsPattern (fromCapture "tags/*.html")
 
     match (fromList ["contact.markdown", "404.markdown"]) $ do
-        route   $ setExtension "html"
+        route (customRoute directoryIdentifier)
         compile $ pandocCompiler
             >>= loadAndApplyTemplate "templates/default.html" (postCtx tags)
             >>= relativizeUrls
 
-    match "posts/*" $ do
-        route $ setExtension "html"
+    match postsPattern $ do
+        route (customRoute directoryIdentifier)
         compile $ pandocCompilerWith defaultHakyllReaderOptions pandocOptions
             >>= saveSnapshot "content"
             -- >>= return . fmap demoteHeaders
@@ -36,10 +47,10 @@ main =
             >>= loadAndApplyTemplate "templates/default.html" (postCtx tags)
             >>= relativizeUrls
 
-    create ["posts.html"] $ do
+    create ["posts/index.html"] $ do
         route idRoute
         compile $ do
-            list <- postList tags "posts/*" recentFirst
+            list <- postList tags postsPattern recentFirst
             let archiveCtx =
                     constField "posts" list                    `mappend`
                     constField "title" "Posts"                 `mappend`
@@ -53,9 +64,7 @@ main =
     -- Post tags
     tagsRules tags $ \tag pattern -> do
         let title = "Posts tagged " ++ tag
-
-        -- Copied from posts, need to refactor
-        route idRoute
+        route (customRoute directoryIdentifier)
         compile $ do
             list <- postList tags pattern recentFirst
             makeItem ""
@@ -76,7 +85,7 @@ main =
     match "index.html" $ do
         route idRoute
         compile $ do
-            list <- postList tags "posts/*" $ fmap (take 5) . recentFirst
+            list <- postList tags postsPattern $ fmap (take 5) . recentFirst
             let indexCtx = constField "posts" list          `mappend`
                     field "tags" (\_ -> renderTagList tags) `mappend`
                     defaultCtx
@@ -92,7 +101,7 @@ main =
     create ["atom.xml"] $ do
         route idRoute
         compile $
-            loadAllSnapshots "posts/*" "content"
+            loadAllSnapshots postsPattern "content"
                 >>= recentFirst
                 >>= renderAtom (feedConfiguration "All posts") feedCtx
     
@@ -102,7 +111,7 @@ colourField ::
   -> Context a
 colourField name defaultC = field name $ \i -> do
   metadata <- getMetadata (itemIdentifier i)
-  return . fromMaybe defaultC . M.lookup "colour" $ metadata
+  return . fromMaybe defaultC . lookup "colour" $ metadata
 
 defaultColour ::
   String
@@ -168,3 +177,21 @@ blogConfiguration ::
   Configuration
 blogConfiguration =
   defaultConfiguration { deployCommand = "cp -r _site/* ../" }
+
+
+{-
+fileToDirectory ::
+  Identifier a
+  -> FilePath
+fileToDirectory =
+  flip combine "index.html" . dropExtension . uncurry (++) . fmap (drop 11 {- yyyy-mm-dd- -}) . splitAt 6 {- "posts/" -} . identifierPath
+
+-}
+
+directoryIdentifier ::
+  Identifier
+  -> FilePath
+directoryIdentifier =
+  let dropDate (y1:y2:y3:y4:'-':m1:m2:'-':d1:d2:_:r) | all isDigit [y1,y2,y3,y4,m1,m2,d1,d2] = r
+      dropDate x = x
+  in (`combine` "index.html") . joinPath . over _last dropDate . splitDirectories . dropExtension . toFilePath
