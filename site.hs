@@ -2,7 +2,8 @@
 {-# LANGUAGE NoImplicitPrelude #-}
 
 import Prelude(String, FilePath, IO, Monad(..), Functor(..), take, all, (=<<), (++), (.), ($))
-import Data.Monoid (mappend, mconcat)
+import Data.List(drop)
+import Data.Monoid(mappend, mconcat)
 import Data.Maybe(fromMaybe)
 import Data.Map(lookup)
 import Text.Pandoc(WriterOptions, HTMLMathMethod(..), writerHTMLMathMethod)
@@ -20,6 +21,10 @@ main ::
   IO ()
 main =
   hakyllWith blogConfiguration $ do
+    match "static/*" $ do
+        route (customRoute (joinPath . drop 1 . splitDirectories . toFilePath))
+        compile copyFileCompiler
+
     match "images/*" $ do
         route   idRoute
         compile copyFileCompiler
@@ -177,16 +182,6 @@ blogConfiguration ::
   Configuration
 blogConfiguration =
   defaultConfiguration { deployCommand = "cp -r _site/* ../" }
-
-
-{-
-fileToDirectory ::
-  Identifier a
-  -> FilePath
-fileToDirectory =
-  flip combine "index.html" . dropExtension . uncurry (++) . fmap (drop 11 {- yyyy-mm-dd- -}) . splitAt 6 {- "posts/" -} . identifierPath
-
--}
 
 directoryIdentifier ::
   Identifier
