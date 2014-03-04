@@ -12,11 +12,12 @@ lot and it is extremely challenging; in my opinion, much more so than learning
 functional programming itself.
 
 I use the Haskell programming language for teaching functional programming. I
-like to emphasise the construction of *concepts* over any specific programming
-language. I am not into teaching programming languages; I really find that
-boring, uneventful and unhelpful for all involved. However, learning some of the
-intricacies of Haskell itself is inevitable. It doesn't take long though and is
-very much worth the investment of effort if you aspire to learning concepts.
+like to emphasise the learning and construction of *concepts* over learning the
+details of any specific programming language. I am not into teaching programming
+languages; I really find that boring, uneventful and unhelpful for all involved.
+However, learning some of the intricacies of Haskell itself is inevitable. It
+doesn't take long though and is very much worth the investment of effort if you
+aspire to learning concepts.
 
 That is to say, using (almost all) other programming languages for this
 objective is a false economy that is not even a close call. One could spent many
