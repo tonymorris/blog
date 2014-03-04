@@ -20,12 +20,12 @@ very much worth the investment of effort if you aspire to learning concepts.
 
 That is to say, using (almost all) other programming languages for this
 objective is a false economy that is not even a close call. One could spent many
-weeks or even years demanding to articulate concepts in a specific programming language, only
-to struggle precisely because that language resists an accurate expression and
-formation of that concept. I have seen this an overwhelming number of times. It
-is often supported by the fallacy of false compromise, "but all languages are
-Turing-complete, so I am going to use JavaScript, which even has first-class
-functions, in order to come to understand what monad means."
+weeks or even years demanding to articulate concepts in a specific programming
+language, only to struggle precisely because that language resists an accurate
+expression and formation of that concept. I have seen this an overwhelming
+number of times. It is often supported by the fallacy of false compromise, "but
+all languages are Turing-complete, so I am going to use JavaScript, which even
+has first-class functions, in order to come to understand what monad means."
 
 No, you won't, I absolutely insist and promise.
 
