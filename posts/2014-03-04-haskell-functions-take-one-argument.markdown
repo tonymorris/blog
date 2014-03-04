@@ -115,7 +115,7 @@ I will hear this question:
 
 > The argument to `foldRight` (which is itself a function) takes two arguments,
 however, the function you passed to `foldRight` has been specified to take only
-one (called `a`). How could this even work?
+one (which you have called `a`). How could this even work?
 
 It is at this moment that I hand out an infringement notice under our agreed
 penal code for the offence of:
