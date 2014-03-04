@@ -43,7 +43,8 @@ it is an absolute fact. However, even though a student may initially convince
 themselves of this fact, it has been my experience that they will renege on it
 at some time in the future.
 
-The use of casual terminology such as this surely helps to set this trap:
+The use of casual terminology such as the following surely helps to set this
+trap:
 
 > Examining the signature to the `map` function, we see that it takes *two
 arguments*:
@@ -56,11 +57,14 @@ We will then talk about the *first argument* and the *second argument* as if
 there even is such a thing.
 
 However, the truth of the original fact has not changed. Look at it, just
-sitting there, saying nothing, being all shiny and true.
+sitting there, saying nothing, being all shiny and true. So how could all
+functions take one argument, while we simultaneously and casually talk about a
+"second argument"? Are we just telling great big lies? Have we made a mistake?
 
 The problem is our vocabulary. In our spoken words, we are using an
-**approximation** of fact. Let us expand our approximation to more obviously
-coincide with our statement of fact. I have added some annotation in [brackets].
+**approximation** of fact and superficially, it looks like a blatant
+contradiction. Let us expand our approximation to more obviously coincide with
+our statement of fact. I have added some annotation in [brackets].
 
 > Examining the signature to the `map` function, we see that it is a function
 [therefore, it definitely takes one argument]. That argument is of the type
@@ -73,11 +77,11 @@ When we say out loud "the `map` function takes two arguments", we are
 approximating for the above expansion. It is important to understand what we
 really mean here.
 
-During my teaching, I will often make a deal with students; I will use this
+During my teaching, I will often make a deal with students; I will use the
 terser vocabulary with you and I will even let you use it, however, if at any
-moment you violate our understanding of its approximation, I will rip it on from
-under you and demand that you use the full expansion. Almost always, the student
-will agree to this deal.
+moment you violate our understanding of its proper meaning, I will rip it out
+from under you and demand that you use the full expansion. Almost always, the
+student will agree to this deal.
 
 Some time after having made this deal, I will hear the following question.
 Given, for example, this solution to an exercise:
@@ -108,12 +112,12 @@ filter f =
 
 I will hear this question:
 
-> The `foldRight` function takes two arguments, however, the function you passed
-to `foldRight` has been specified to take only one (called `a`). How could this
-even work?
+> The argument to `foldRight` (which is itself a function) takes two arguments,
+however, the function you passed to `foldRight` has been specified to take only
+one (called `a`). How could this even work?
 
-It is at this moment that I hand out an infringement notice under the penal code
-for the offence of:
+It is at this moment that I hand out an infringement notice under our agreed
+penal code for the offence of:
 
     Section 1.1
     Failure to Accept that All Haskell Functions Take One Argument
@@ -123,11 +127,11 @@ for the offence of:
     appointed Probation Officer
 
 I understand that in a learning environment, it may be easy to demonstrate and
-subsequently accept this fact, then later fall afoul when facts learned earlier
-interfere with this most recent one. The purpose of going back to square one and
-starting again is to properly internalise this fact. It is an important one, not
-just for the Haskell programming language, but for Functional Programming in
-general.
+subsequently accept this fact, then later fall afoul when previously learned
+facts interfere with this most recent one. The purpose of going back to square
+one and starting again is to properly internalise this fact. It is an important
+one, not just for the Haskell programming language, but for Functional
+Programming in general.
 
 Joking aside, the purpose of this post is to help reconcile these observations.
 There is a recipe to disentanglement. If you find yourself in this situation,
@@ -138,7 +142,7 @@ follow these steps:
    observing one!).
 2. From this starting position, reason about your observations with this fact in
    mind, even if it is a little clumsy at first. After some repetitions, this
-   clumsiness will disappear.
+   clumsiness will disappear. Persevere with it for now.
 3. Introspect on the thought process that led you into that trap to begin with.
    This will help you in the future as you begin to trust that principled
    thinking will resolve these kinds of conflicts. It can be initially clumsy,
