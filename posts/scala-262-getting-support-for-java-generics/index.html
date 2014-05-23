@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>λ Tony's blog λ - Scala 2.6.2 getting support for Java generics</title>
+  <link rel="stylesheet" type="text/css" href="../../css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/syntax.css" />
+  <link rel="alternate" type="application/atom+xml" href="http://blog.tmorris.net/atom.xml" title="Atom feed" />
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/javascript" src="https://raw.github.com/Mathapedia/LaTeX2HTML5/master/latex2html5.min.js"></script>
+</head>
+<body>
+<div id="title">
+  λ Tony's blog λ
+  <div id="subtitle">
+    The weblog of Tony Morris
+  </div>
+</div>
+<div id="header">
+  <div id="navigation">
+    <a href="../../index.html">Home</a>
+    <a href="../../posts/">All Posts</a>
+    <a href="../../contact/">Contact</a>
+    <a href="http://cv.tmorris.net/">CV</a>
+    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+  </div>
+</div>
+<h1>Scala 2.6.2 getting support for Java generics</h1>
+<div class="info">Posted on December 29, 2007, in <a href="../../tags/Programming/index.html">Programming</a></div>
+
+<p>Scala is a far superior language to Java. In fact, of all the languages that I have investigated, it is the most powerful language that also targets the JVM and Java libraries easily (sorry CAL). I have long held the position that <em>there are no (with one corner case) rational justifications for using the Java programming language for anything but educating our children on how not to design a programming language even when targetting legacy code</em>. This has of course, been met with ‘what about this?’ and ‘what about that?’[1] all of which I have been able to refute, except for one niggling corner case.</p>
+<p>Client code of existing Java-compiled code would not receive the benefits of generics, since they were erased. For example, if you were to call a Java-compiled method that returned a <code>List&lt;Integer&gt;</code> from Scala, you’d have a reference to <code>java.util.List</code> without the type argument. If you were to call this method from Java, then many methods on the returned <code>List</code> would return <code>Integer</code> in place of the type argument, however, for Scala, you’d have a type <code>AnyRef</code> (an alias for <code>java.lang.Object</code>) just like Java did in the pre-1.5 days. This gave Java one (and only one) case where its use was an improvement over the use of Scala.</p>
+<p>This has been the only remaining use case where Scala does not match or exceed Java in ability, however, Martin Odersky (creator of Scala) has revealed that the next version of Scala is to do away with this limitation! Furthermore, we can use the feature today! That is, we can start moving over any Scala &lt;= 2.6.1 code to 2.6.2 right now and have the full advantages of a powerful language and do away with Java forever, unless of course, you’re still out there appeasing the irrationalities of the suits (you poor buggers, no really, I mean it).</p>
+<p>From Martin on the Scala mailing list:</p>
+<blockquote>
+<p>Just to confirm:</p>
+</blockquote>
+<p>The nightly build of Scala contains now support for Java generics. The first official release supporting this will be 2.6.2. For instance java.util.List is considered a generic type in Scala in this release. I announce now so that you can experiment with the new feature. Maybe you also already want to start to migrate your codebase to the new scheme.</p>
+<p>More precisely, the following things have changed: <em>continues</em></p>
+<p>[1] Here are some that I have met and convincingly (and often quite easily) debunked in conversation. Perhaps I could write about them some time.</p>
+<ul>
+<li>From the CTO of X Corporation, “I don’t have any programmers capable of using Scala”. This myth is both easily falsified, but also extremely detrimental to the interests of the organisation – far more than is initially realised. That is to say, after debunking this myth, my opponent in the argument often has an enlightening experience and then an “Oh no! Given this (new understanding), look at what (detrimental decisions) I have been doing to the organisation!”. Of all fallacies, this is the one I’d like to put in the box of past events from which to learn.</li>
+</ul>
+<p>* But Java is enterprise-ready</p>
+<p>* But Java is a robust language with many libraries</p>
+
+
+<hr />
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'tonys--blog';
+  var discus_identifier = '/posts/scala-262-getting-support-for-java-generics/index.html';
+  var disqus_url = 'http://blog.tmorris.net/posts/scala-262-getting-support-for-java-generics/index.html';
+  var discus_title = 'Scala 2.6.2 getting support for Java generics';
+  (function () {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript><p>The comments use <a href="http://disqus.com/?ref_noscript">Disqus</a>,
+  which requires Javascript.</p></noscript>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-3405112-1']);
+  _gaq.push(['_trackPageview']);
+  (function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+</html>

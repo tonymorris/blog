@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>λ Tony's blog λ - Higher-order Polymorphism for pseudo-Java</title>
+  <link rel="stylesheet" type="text/css" href="../../css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/syntax.css" />
+  <link rel="alternate" type="application/atom+xml" href="http://blog.tmorris.net/atom.xml" title="Atom feed" />
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/javascript" src="https://raw.github.com/Mathapedia/LaTeX2HTML5/master/latex2html5.min.js"></script>
+</head>
+<body>
+<div id="title">
+  λ Tony's blog λ
+  <div id="subtitle">
+    The weblog of Tony Morris
+  </div>
+</div>
+<div id="header">
+  <div id="navigation">
+    <a href="../../index.html">Home</a>
+    <a href="../../posts/">All Posts</a>
+    <a href="../../contact/">Contact</a>
+    <a href="http://cv.tmorris.net/">CV</a>
+    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+  </div>
+</div>
+<h1>Higher-order Polymorphism for pseudo-Java</h1>
+<div class="info">Posted on January 28, 2010, in <a href="../../tags/Programming/index.html">Programming</a></div>
+
+<pre class="sourceCode Java"><code class="sourceCode java"><span class="co">// Simulate Higher-Order Functions.</span>
+<span class="co">// A lambda function is any implementation of this interface.</span>
+<span class="kw">interface</span> Lambda&lt;X, Y&gt; {
+  Y <span class="fu">apply</span>(X x);
+}
+
+<span class="co">// What is a covariant functor?</span>
+<span class="co">// It is any implementation of this interface.</span>
+<span class="co">// All implementations must also satisfy:</span>
+<span class="co">//   * The law of identity</span>
+<span class="co">//   * The law of composition</span>
+<span class="co">// (but let's brush that to the side)</span>
+<span class="kw">interface</span> Functor&lt;f&gt; {
+  &lt;A, B&gt; F&lt;b&gt; <span class="fu">fmap</span>(F&lt;a&gt; a, Lambda&lt;A, B&gt; f);
+}
+
+<span class="kw">import java.util.LinkedList;</span>
+
+<span class="co">// Here is the functor for Java's LinkedList.</span>
+<span class="co">// It maps a function across each element of the list and returns a new one.</span>
+<span class="co">// (trust me, it satisfies the two laws).</span>
+<span class="kw">class</span> LinkedListFunctor <span class="kw">implements</span> Functor&lt;linkedlist&gt; {
+  <span class="kw">public</span> &lt;A, B&gt; LinkedList&lt;b&gt; <span class="fu">fmap</span>(<span class="dt">final</span> LinkedList&lt;a&gt; a, <span class="dt">final</span> Lambda&lt;A, B&gt; f) {
+    <span class="dt">final</span> LinkedList&lt;b&gt; r = <span class="kw">new</span> LinkedList&lt;b&gt;();
+    <span class="kw">for</span>(<span class="dt">final</span> A x : a)
+      r.<span class="fu">append</span>(f.<span class="fu">apply</span>(x));
+    <span class="kw">return</span> r;
+  }
+}
+
+<span class="co">// Here is a trivial Java data type.</span>
+<span class="co">// It happens to be a covariant functor.</span>
+<span class="co">// Let's witness its instance...</span>
+<span class="kw">interface</span> IntConverter&lt;a&gt; {
+  A <span class="fu">convert</span>(<span class="dt">int</span> i);
+}
+
+<span class="co">// The Functor instance for the IntConverter.</span>
+<span class="kw">class</span> IntConverterFunctor <span class="kw">implements</span> Functor&lt;intconverter&gt; {
+  <span class="kw">public</span> &lt;A, B&gt; IntConverter&lt;b&gt; <span class="fu">fmap</span>(<span class="dt">final</span> IntConverter&lt;a&gt; a, <span class="dt">final</span> Lambda&lt;A, B&gt; f) {
+    <span class="kw">return</span> <span class="kw">new</span> IntConverter&lt;b&gt;() {
+      <span class="kw">public</span> B <span class="fu">convert</span>(<span class="dt">final</span> <span class="dt">int</span> i) {
+        <span class="kw">return</span> f.<span class="fu">apply</span>(a.<span class="fu">convert</span>(i));
+      }
+    };
+  }
+}
+
+<span class="co">// So why do we care?</span>
+<span class="co">// Because it prevents an enormous (*enormous*, *ENORMOUS!*)</span>
+<span class="co">// amount of otherwise needless repetition.</span>
+
+<span class="kw">class</span> FunctorX {
+  <span class="co">// Gives rise to:</span>
+  <span class="co">// LinkedList&lt;Lambda&lt;A, B&gt;&gt; =&gt; A =&gt; LinkedList&lt;b&gt;</span>
+  <span class="co">// IntConverter&lt;Lambda&lt;A, B&gt;&gt; =&gt; A =&gt; IntConverter&lt;b&gt;</span>
+  <span class="co">// ...</span>
+  <span class="co">// F&lt;Lambda&lt;A, B&gt;&gt; =&gt; A =&gt; F&lt;b&gt; (for many values of F)</span>
+  <span class="kw">public</span> <span class="dt">static</span> &lt;A, B, F&gt; F&lt;b&gt; <span class="fu">fapply</span>(<span class="dt">final</span> Functor&lt;f&gt; f, <span class="dt">final</span> F&lt;Lambda&lt;A, B&gt;&gt; lam, <span class="dt">final</span> A a) {
+    <span class="kw">return</span> f.<span class="fu">fmap</span>(lam, <span class="kw">new</span> Lambda&lt;Lambda&lt;A, B&gt;, B&gt;() {
+      <span class="kw">public</span> B <span class="fu">apply</span>(<span class="dt">final</span> Lambda&lt;A, B&gt; z) {
+        <span class="kw">return</span> z.<span class="fu">apply</span>(a);
+      }
+    });
+  }
+
+  <span class="co">// ... etcetra.</span>
+}
+
+<span class="co">// It turns a linear amount of code into a constant amount of code.</span>
+<span class="co">// Similarly a sort function that runs on lists of</span>
+<span class="co">// any type (provided a comparator) alleviates the need for linear</span>
+<span class="co">// amounts of code (a sort function for each possible list element type).</span></code></pre>
+
+
+<hr />
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'tonys--blog';
+  var discus_identifier = '/posts/higher-order-polymorphism-for-pseudo-java/index.html';
+  var disqus_url = 'http://blog.tmorris.net/posts/higher-order-polymorphism-for-pseudo-java/index.html';
+  var discus_title = 'Higher-order Polymorphism for pseudo-Java';
+  (function () {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript><p>The comments use <a href="http://disqus.com/?ref_noscript">Disqus</a>,
+  which requires Javascript.</p></noscript>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-3405112-1']);
+  _gaq.push(['_trackPageview']);
+  (function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+</html>

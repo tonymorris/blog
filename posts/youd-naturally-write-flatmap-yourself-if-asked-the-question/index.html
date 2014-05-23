@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>λ Tony's blog λ - You’d naturally write flatMap yourself if asked the question</title>
+  <link rel="stylesheet" type="text/css" href="../../css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/syntax.css" />
+  <link rel="alternate" type="application/atom+xml" href="http://blog.tmorris.net/atom.xml" title="Atom feed" />
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/javascript" src="https://raw.github.com/Mathapedia/LaTeX2HTML5/master/latex2html5.min.js"></script>
+</head>
+<body>
+<div id="title">
+  λ Tony's blog λ
+  <div id="subtitle">
+    The weblog of Tony Morris
+  </div>
+</div>
+<div id="header">
+  <div id="navigation">
+    <a href="../../index.html">Home</a>
+    <a href="../../posts/">All Posts</a>
+    <a href="../../contact/">Contact</a>
+    <a href="http://cv.tmorris.net/">CV</a>
+    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+  </div>
+</div>
+<h1>You’d naturally write flatMap yourself if asked the question</h1>
+<div class="info">Posted on June 25, 2008, in <a href="../../tags/Programming/index.html">Programming</a></div>
+
+<p>Many people struggle to understand those fluffy things called <em>Monads</em> and why they are important. I’m not going to attempt to alleviate this to a large degree, but I have had a recent success with a friend in having them attempt to write a familiar Scala function as a method. That is, the <code>[List.flatten](http://www.scala-lang.org/docu/files/api/scala/List$object.html#flatten(List[List[A]]))</code> function, which simply takes a <code>List</code> of <code>List</code> of some type <code>A</code> and returns a <code>List[A]</code>. It does this by concatenating all the lists together. I think most people are familiar with this function and have a good mental model of how it works. If this is the case and you are less confident about <code>List.flatMap</code>, then I hope to bring a point to your attention that might help you bring it home.</p>
+<p>If you take a look at <code>List.sort</code>, you see it takes a function <code>(A, A) =&gt; Boolean</code>. This is because the type parameter to <code>List</code> is ‘just any A’. It would be nice if it was ‘any A, so long as it has defined order’. That way, you can just call <code>list.sort</code> and be done with it. This would require the creation of a new class with a more restricted type parameter; for example, you might pass the function at list creation time, like you do with a <code>TreeMap</code>.</p>
+<p>Imagine writing <code>List.flatten</code> on the <code>List[A]</code> class as a <em>method</em> using the same technique. You wouldn’t be able to, since the method belongs on a <code>List[List[A]]</code>. You’d need to write the method such that it takes an argument: <code>A =&gt; List[A]</code> before you could then call <code>flatten</code>. When you have a <code>List[List[A]]</code>, you’d just call this method with the identity function <code>x =&gt; x</code> to obtain your resulting <code>List[A]</code>. Here is how the method would look:</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">def</span> <span class="fu">flatten</span>(f: A =&gt; List[A]): List[A] = ...</code></pre>
+<p>Guess what?! This method is <code>flatMap</code>! Let’s ignore the fact that the Scala API is significantly broken, including the <code>List.flatMap</code> method using <code>Iterable</code> in place of <code>List</code> here. Notice though, that <code>flatMap</code> is actually generalised by taking another type parameter, so we have just invented an unnecessarily specialised version of <code>flatMap</code>. Let’s fix it:</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">def</span> flatten[B](f: A =&gt; List[B]): List[B] = ...</code></pre>
+<p>Woot woot! In other words, <code>flatten(list)</code> is equivalent to <code>list flatMap (x =&gt; x)</code>. Furthermore, this should hold for more than just list, but for other type constructors too (sadly, <code>Option</code> is missing a flatten function: <code>Option[Option[A]] =&gt; Option[A]</code>). This is a special relationship that all monads have (join is a synonym for flatten and bind is a synonym for flatMap):</p>
+<pre class="sourceCode Haskell"><code class="sourceCode haskell">join <span class="fu">=</span> bind id</code></pre>
+<p>We can express this using <a href="http://reductiotest.org/">Reductio</a> (the Scala API of course!):</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">val</span> prop_flat = <span class="fu">prop</span>((t: List[List[Int]]) =&gt; List.<span class="fu">flatten</span>(t) == t.<span class="fu">flatMap</span>(x =&gt; x))
+<span class="co">// OK passed 100 tests.</span></code></pre>
+<p>I hope this helps. If it doesn’t, ask a question or ignore my ranting :)</p>
+
+
+<hr />
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'tonys--blog';
+  var discus_identifier = '/posts/youd-naturally-write-flatmap-yourself-if-asked-the-question/index.html';
+  var disqus_url = 'http://blog.tmorris.net/posts/youd-naturally-write-flatmap-yourself-if-asked-the-question/index.html';
+  var discus_title = 'You’d naturally write flatMap yourself if asked the question';
+  (function () {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript><p>The comments use <a href="http://disqus.com/?ref_noscript">Disqus</a>,
+  which requires Javascript.</p></noscript>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-3405112-1']);
+  _gaq.push(['_trackPageview']);
+  (function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+</html>

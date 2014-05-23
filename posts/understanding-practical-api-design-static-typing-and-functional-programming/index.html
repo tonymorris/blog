@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>λ Tony's blog λ - Understanding Practical API Design, Static Typing and Functional Programming</title>
+  <link rel="stylesheet" type="text/css" href="../../css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/syntax.css" />
+  <link rel="alternate" type="application/atom+xml" href="http://blog.tmorris.net/atom.xml" title="Atom feed" />
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/javascript" src="https://raw.github.com/Mathapedia/LaTeX2HTML5/master/latex2html5.min.js"></script>
+</head>
+<body>
+<div id="title">
+  λ Tony's blog λ
+  <div id="subtitle">
+    The weblog of Tony Morris
+  </div>
+</div>
+<div id="header">
+  <div id="navigation">
+    <a href="../../index.html">Home</a>
+    <a href="../../posts/">All Posts</a>
+    <a href="../../contact/">Contact</a>
+    <a href="http://cv.tmorris.net/">CV</a>
+    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+  </div>
+</div>
+<h1>Understanding Practical API Design, Static Typing and Functional Programming</h1>
+<div class="info">Posted on March  5, 2011, in <a href="../../tags/Programming/index.html">Programming</a></div>
+
+<p><em>…and how a marriage to a particular programming language is only indirectly and barely relevant</em></p>
+<p>I was really tempted to title this post, “What to Solve Before Expecting Me to Take Your Opinions of Static Typing Seriously”, however, I figured this would be a bit too controversial and might detract from the points I wish to make. Nevertheless, I just want to make note, I think it is a very appropriate title.</p>
+<p>The reason I think it’s a very appropriate title, is because of certain events that have happened recently. I teach advanced programming techniques to programmers. I do this voluntarily for the most part, and I occasionally deliver guest lectures to universities and other sporadic occurrences. I also teach at my place of employment, where I use these techniques for product development. I used to do university lecturing, until I came to the conclusion that the tertiary institution is in direct contention with the goal of education; the latter of which is important to me.</p>
+<p>I have constructed the course material myself, predicting what would be useful, too difficult or too easy and so on and revising over time as these predictions fell out of place. Recently I set a task, predicted how difficult it would be, then was astonished to find that it appears to be <em>significantly more difficult than I had originally predicted</em>. I’m still not sure what is going on here, however, I think there are some lessons to be taken. One of which is a lesson about approaches to teaching advanced concepts of programming – something I am constantly learning about (and yearning for more solid research and experimental results!).</p>
+<p>I asked students to write an API for the game tic-tac-toe. No need for the computer to tactically play tic-tac-toe – just an API that you can use to model the game itself. You can use any programming language you like, however, I think you will find certain environments to be lacking in the available tools, so I will guide you so that you’re not off somewhere “shaving yaks” so to speak.</p>
+<p>If I’d left the requirement there, I can predict what I would have ended up with. Probably something similar to the API that I used to support at L3 for IBM where the number of bugs coming in was at a rate faster than I could fix them – and we don’t want that. Worse still, every time I fixed one bug gave rise to several new ones, no matter what I did! The whole point of this exercise is to avoid this scenario, once and for all, and without all that nonsense that gives false promise to deliver on this objective (Agile, XP, Scrum and all that silliness).</p>
+<p>So I set some rules, but without further explanation of why these rules existed:</p>
+<ul>
+<li><p>If you write a function, I must be able to call it with the same arguments and always get the same results, forever.</p></li>
+<li><p>If I, as a client of your API, call one of your functions, I should always get a sensible result. Not <code>null</code> or an exception or other backdoors that cause the death of millions of kittens worldwide.</p></li>
+<li><p>If I call <code>move</code> on a tic-tac-toe board, but the game has finished, I should get a <strong>compile-time type-error</strong>. In other words, calling <code>move</code> on inappropriate game states (i.e. move doesn’t make sense) is disallowed by the types.</p></li>
+<li><p>If I call <code>takeMoveBack</code> on a tic-tac-toe board, but no moves have yet been made, I get a <strong>compile-time type-error</strong>.</p></li>
+<li><p>If I call <code>whoWonOrDraw</code> on a tic-tac-toe board, but the game hasn’t yet finished, I get a <strong>compile-time type-error</strong>.</p></li>
+<li><p>I should be able to call various functions on a game board that is in any state of play e.g. <code>isPositionOccupied</code> works for in-play and completed games.</p></li>
+<li><p>It is not possible to play out of turn.</p></li>
+</ul>
+<p>Now, why these rules? Well, because if you can achieve the goal of enforcing these rules, then the next phone call that I get in L3 support from an upset client, I can be guaranteed that one of the following are true:</p>
+<ul>
+<li><p>I have a bug in my code, in which case, the sooner the call, the better! …unless of course, fixing the bug results in only more bugs – but we have avoided that possibility – hopefully you can see why.</p></li>
+<li><p>The client has misused the API and circumvented the type system. The client has used <code>null</code>, thrown an exception or performed a side-effect within the API or perhaps even used such things as Java reflection or even type-casting or type-casing. Unfortunately, in some environments, there’s not much I can do about enforcing that except impose a de facto rule where you assume non-existence of these possibilities (Just don’t do that!). Hopefully you haven’t yet jumped to the conclusion that any of these things are necessary or even useful – they aren’t.</p></li>
+<li><p>The client is simply mistaken about the merits of their complaint.</p></li>
+</ul>
+<p>That’s it. There is nothing more to add to the list. <strong>Importantly, this list is significantly shorter than the list that I once had when supporting a typical Java application in IBM L3 support.</strong> How did I achieve this narrow list of possibilities before the phone even rang?</p>
+<p>I have actually solved this problem using various programming languages:</p>
+<ul>
+<li><p>Haskell</p></li>
+<li><p>Scala</p></li>
+<li><p>C#</p></li>
+<li><p>Java</p></li>
+</ul>
+<p>In order to take the emphasis off programming-language-centric issues, I will focus now on the Java solution (the most challenging environment in which to achieve the goal) and then I am going to invite you to conduct a thought experiment.</p>
+<p>Let’s take a look at <a href="http://dl.dropbox.com/u/7810909/TicTacToe/javadoc/index.html">the javadoc for the Java solution</a>. Ignore the <code>Main</code> class for now, which simply gives you a 2-player console application that uses the API (feel free to run it!) – it depends on the rest of the API and so could be deleted without breaking anything.</p>
+<p>If I asked you to be the most malicious user you can be, so long as you followed the rules (which I will assume you have done from here on), I want you to get an instance of the <code>FinishedBoard</code> class. If you rang me up in L3 support, even hiding your malicious intent from me, and said you had such an instance, then <em>I am absolutely guaranteed that you obtained that instance by playing a legitimate game of tic-tac-toe and ended up with a game that is in the position of a player winning or a draw</em>. Consider the implications of this for a moment.</p>
+<p>For another example, suppose you rang and said that you called the <code>move</code> function and when you ran it, something-or-rather happened at run-time, <em>I can be guaranteed that you called that function on a game that was in-play and so had the ability to move, since otherwise it would not have compiled, let alone run</em>.</p>
+<p>There are many more examples of these types of guarantees – invariants that I am certain have been met before I even start listening to you on the phone. I think this is an enormous advantage to real-world software tasks, don’t you? And all this done with Java and its overwhelmingly impractical type system. How about that!?</p>
+<p>Now, producing an API of this nature seems to be more difficult for programmers than I originally predicted. Why is this? I can only conjecture and given my already-disproportionate prediction, I am hesitant to do so. Nevertheless, what you are looking at is <em>an extremely robust API for a relatively trivial problem</em>. This API robustness was achieved by exploiting techniques available from static typing and functional programming.</p>
+<p>So let’s summarise. A robust API for a trivial game was written using several programming languages in such a way that appears to be difficult for many programmers to reproduce and using techniques such as exploiting static typing and functional programming. This was even done with a popular programming language that is not particularly amenable to achieving this degree of robustness.</p>
+<p>In other words, many programmers have difficulty solving a trivial problem using techniques that many programmers are compelled to offer their comment on – no wonder there is a lot of outrageous hype! On the topic of why I expect you to be able to solve this problem before I take you seriously – it’s not because I have high standards, they’re incredibly low – it’s just that while these standards are very low, they are rarely satisfied. This is not a high-horse-motivated rant (as many insecure people might hastily conclude), the point I am making here is that I think it’s important to set standards of scepticism – maybe you should too!</p>
+<p>It’s not just support issues where you will see an advantage to this programming technique. You might be writing an API for the guy sitting next to you. Those types are machine-checked documentation – he won’t have to keep bothering you about which function to call when – it’s obvious, since it’s specified in the type! You might even be your own client – suppose you hit a bug in your own code – you can rule out a huge number of possibilities of where that bug is, before you even start looking for it.</p>
+<p>All these advantages of robust API design for less expense than the contrary and yet robust API design seems to be overwhelmingly rare. I am left only with questions, aren’t you? Come on guys, we can do a whole lot better. It’s an invitation!</p>
+<p>It’s possible to take this particular API problem further using a language such as Agda or Coq and enforce the invariant that it’s not possible to make a move to a position on a board if that position has already been moved to. I know of one person who is attempting to achieve this. Godspeed.</p>
+<p>I haven’t shown you the source to any of these solutions because I figure you might want to take a crack at it yourself. Give it a go! If you really want the source let me know and I’ll send you a link.</p>
+<p>Hopefully this helps!</p>
+
+
+<hr />
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'tonys--blog';
+  var discus_identifier = '/posts/understanding-practical-api-design-static-typing-and-functional-programming/index.html';
+  var disqus_url = 'http://blog.tmorris.net/posts/understanding-practical-api-design-static-typing-and-functional-programming/index.html';
+  var discus_title = 'Understanding Practical API Design, Static Typing and Functional Programming';
+  (function () {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript><p>The comments use <a href="http://disqus.com/?ref_noscript">Disqus</a>,
+  which requires Javascript.</p></noscript>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-3405112-1']);
+  _gaq.push(['_trackPageview']);
+  (function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+</html>

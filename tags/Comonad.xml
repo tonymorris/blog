@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <title>λ Tony's blog λ — Posts tagged Comonad</title>
+    <link href="http://blog.tmorris.net/tags/Comonad.xml" rel="self" />
+    <link href="http://blog.tmorris.net" />
+    <id>http://blog.tmorris.net/tags/Comonad.xml</id>
+    <author>
+        <name>Tony Morris</name>
+        <email>blog@tmorris.net</email>
+    </author>
+    <updated>2013-03-01T00:00:00Z</updated>
+    <entry>
+    <title>Functors and things using Scala</title>
+    <link href="http://blog.tmorris.net/posts/functors-and-things-using-scala/index.html" />
+    <id>http://blog.tmorris.net/posts/functors-and-things-using-scala/index.html</id>
+    <published>2013-03-01T00:00:00Z</published>
+    <updated>2013-03-01T00:00:00Z</updated>
+    <summary type="html"><![CDATA[<h2 id="types-of-functors">Types of Functors</h2>
+<p>There are many types of functors. They can be expressed using the Scala programming language.</p>
+<ul>
+<li>covariant functors — defines the operation commonly known as <code>map</code> or <code>fmap</code>.</li>
+</ul>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// covariant functor</span>
+<span class="kw">trait</span> Functor[F[_]] {
+  <span class="kw">def</span> fmap[A, B](f: A =&gt; B): F[A] =&gt; F[B]
+}</code></pre>
+<ul>
+<li>contravariant functors — defines the operation commonly known as <code>contramap</code>.</li>
+</ul>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// contravariant functor</span>
+<span class="kw">trait</span> Contravariant[F[_]] {
+  <span class="kw">def</span> contramap[A, B](f: B =&gt; A): F[A] =&gt; F[B]
+}</code></pre>
+<ul>
+<li>exponential functors — defines the operation commonly known as <code>xmap</code>. Also known as <em>invariant functors</em>.</li>
+</ul>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// exponential functor</span>
+<span class="kw">trait</span> Exponential[F[_]] {
+  <span class="kw">def</span> xmap[A, B](f: (A =&gt; B, B =&gt; A)): F[A] =&gt; F[B]
+}</code></pre>
+<ul>
+<li>applicative functor<sup><a href="#fn1" class="footnoteRef" id="fnref1">1</a></sup> — defines the operation commonly known as <code>apply</code> or <code>&lt;*&gt;</code>.</li>
+</ul>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// applicative functor (abbreviated)</span>
+<span class="kw">trait</span> Applicative[F[_]] {
+  <span class="kw">def</span> apply[A, B](f: F[A =&gt; B]): F[A] =&gt; F[B]
+}</code></pre>
+<ul>
+<li>monad<sup><a href="#fn2" class="footnoteRef" id="fnref2">2</a></sup> — defines the operation commonly known as <code>bind</code>, <code>flatMap</code> or <code>=&lt;&lt;</code>.</li>
+</ul>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// monad (abbreviated)</span>
+<span class="kw">trait</span> Monad[F[_]] {
+  <span class="kw">def</span> flatMap[A, B](f: A =&gt; F[B]): F[A] =&gt; F[B]
+}</code></pre>
+<ul>
+<li>comonad<sup><a href="#fn3" class="footnoteRef" id="fnref3">3</a></sup> — defines the operation commonly known as <code>extend</code>, <code>coflatMap</code> or <code>&lt;&lt;=</code>.</li>
+</ul>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// comonad (abbreviated)</span>
+<span class="kw">trait</span> Comonad[F[_]] {
+  <span class="kw">def</span> coflatMap[A, B](f: F[A] =&gt; B): F[A] =&gt; F[B]
+}</code></pre>
+<h2 id="remembering-the-different-types">Remembering the different types</h2>
+<p>Sometimes I am asked how to remember all of these and/or determine which is appropriate. There are many answers to this question, but there is a common feature of all of these different types of functor:</p>
+<blockquote>
+<p>They all take an argument that is some arrangement of three type variables and then return a function with the type F[A] =&gt; F[B].</p>
+</blockquote>
+<p>I memorise the table that is the type of the different argument arrangements to help me to determine which abstraction might be appropriate. Of course, I use other methods, but this particular technique is elegant and short. Here is that table:</p>
+<table>
+<col width="20%" />
+<col width="25%" />
+<thead>
+<tr class="header">
+<th align="left">functor</th>
+<th align="left">argument arrangement</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">covariant</td>
+<td align="left"><code class="sourceCode scala">A =&gt; B</code></td>
+</tr>
+<tr class="even">
+<td align="left">contravariant</td>
+<td align="left"><code class="sourceCode scala">B =&gt; A</code></td>
+</tr>
+<tr class="odd">
+<td align="left">exponential</td>
+<td align="left"><code class="sourceCode scala">(A =&gt; B, B =&gt; A)</code></td>
+</tr>
+<tr class="even">
+<td align="left">applicative</td>
+<td align="left"><code class="sourceCode scala">F[A =&gt; B]</code></td>
+</tr>
+<tr class="odd">
+<td align="left">monad</td>
+<td align="left"><code class="sourceCode scala">A =&gt; F[B]</code></td>
+</tr>
+<tr class="even">
+<td align="left">comonad</td>
+<td align="left"><code class="sourceCode scala">F[A] =&gt; B</code></td>
+</tr>
+</tbody>
+</table>
+<p>We can see from this table that there is not much reason to emphasise one over the other. For example, monads get <em>lots</em> of attention and associated stigma, but it’s undeserved. It’s rather boring when put in the context of a bigger picture. It’s just a different arrangement of its argument (<code>A =&gt; F[B]</code>).</p>
+<p>Anyway, this table is a good way to keep a check on the different types of abstraction and how they might apply. There are also ways of deriving some from others, but that’s for another rainy day. That’s all, hope it helps!</p>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>applicative functors also define an identity operation (<code>def insert[A]: A =&gt; F[A]</code>) however, it is omitted.<a href="#fnref1">↩</a></p></li>
+<li id="fn2"><p>monads also define an identity operation (<code>def insert[A]: A =&gt; F[A]</code>) however, it is omitted.<a href="#fnref2">↩</a></p></li>
+<li id="fn3"><p>comonads also define an identity operation (<code>def extract[A]: F[A] =&gt; A</code>) however, it is omitted.<a href="#fnref3">↩</a></p></li>
+</ol>
+</div>]]></summary>
+</entry>
+
+</feed>

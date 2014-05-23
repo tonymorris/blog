@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>λ Tony's blog λ - Understanding Monads using Scala (Part 1)</title>
+  <link rel="stylesheet" type="text/css" href="../../css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/syntax.css" />
+  <link rel="alternate" type="application/atom+xml" href="http://blog.tmorris.net/atom.xml" title="Atom feed" />
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/javascript" src="https://raw.github.com/Mathapedia/LaTeX2HTML5/master/latex2html5.min.js"></script>
+</head>
+<body>
+<div id="title">
+  λ Tony's blog λ
+  <div id="subtitle">
+    The weblog of Tony Morris
+  </div>
+</div>
+<div id="header">
+  <div id="navigation">
+    <a href="../../index.html">Home</a>
+    <a href="../../posts/">All Posts</a>
+    <a href="../../contact/">Contact</a>
+    <a href="http://cv.tmorris.net/">CV</a>
+    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+  </div>
+</div>
+<h1>Understanding Monads using Scala (Part 1)</h1>
+<div class="info">Posted on June 22, 2010, in <a href="../../tags/Programming/index.html">Programming</a></div>
+
+<p>Below are three exercises using Scala. The instructions for each are in the comments. Exercises 1 and 2 must be completed before Exercise 3 (which is just a thinking exercise – no code).</p>
+<p>A follow-on to these exercises will be coming.</p>
+<p>Hope this helps!</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// A typical data type with a single abstract method</span>
+<span class="kw">case</span> <span class="kw">class</span> Inter[A](f: Int =&gt; A) {
+  <span class="co">// which is a functor</span>
+  <span class="kw">def</span> map[B](g: A =&gt; B): Inter[B] =
+    <span class="fu">Inter</span>(n =&gt; <span class="fu">g</span>(<span class="fu">f</span>(n)))
+
+  <span class="co">// and a monad (see unital below)</span>
+  <span class="kw">def</span> flatMap[B](g: A =&gt; Inter[B]): Inter[B] =
+    <span class="fu">Inter</span>(n =&gt; <span class="fu">g</span>(<span class="fu">f</span>(n)).<span class="fu">f</span>(n))
+}
+
+<span class="co">// unital: A =&gt; F[A]</span>
+<span class="co">// Implementations for F=Option and F=Inter</span>
+<span class="kw">object</span> Unitals {
+  <span class="kw">def</span> unitalOption[A](a: A): Option[A] =
+    Some(a)
+
+  <span class="kw">def</span> unitalInter[A](a: A): Inter[A] =
+    <span class="fu">Inter</span>(_ =&gt; a)
+}
+
+<span class="co">// Exercises</span>
+<span class="co">//</span>
+<span class="co">// It is recommended to use only map, flatMap and unital* for</span>
+<span class="co">// Option or Inter when implementing the exercises below.</span>
+<span class="co">// Any other libraries are acceptable (e.g. List functions).</span>
+<span class="kw">object</span> Sequencing {
+  <span class="kw">import</span> Unitals.<span class="fu">_</span>
+
+  <span class="co">// Exercise 1 of 3</span>
+  <span class="co">// ===============</span>
+  <span class="co">// Implement a function that returns None if the given list</span>
+  <span class="co">// contains any None values, otherwise, all the Some values.</span>
+  <span class="kw">def</span> sequenceOption[A](x: List[Option[A]]): Option[List[A]] =
+    <span class="fu">error</span>(<span class="st">&quot;todo&quot;</span>)
+
+    <span class="co">// SOLUTIONx2 (ROT-13)</span>
+    <span class="co">/*</span>
+<span class="co">    1)</span>
+<span class="co">    k.sbyqEvtug(havgnyBcgvba(Avy: Yvfg[N]))((n, o) =&gt; n syngZnc (k =&gt; o znc (k :: _)))</span>
+
+<span class="co">    2)</span>
+<span class="co">    k zngpu {</span>
+<span class="co">      pnfr Avy  =&gt; havgnyBcgvba(Avy)</span>
+<span class="co">      pnfr u::g =&gt; u syngZnc (k =&gt; frdhraprBcgvba(g) znc (k :: _))</span>
+<span class="co">    }</span>
+<span class="co">    */</span>
+
+  <span class="co">// Exercise 2 of 3</span>
+  <span class="co">// ===============</span>
+  <span class="co">// Implement a function that returns an Inter that applies an Int</span>
+  <span class="co">// to all the Inter implementations in the List of Inters and returns</span>
+  <span class="co">// all the results.</span>
+  <span class="kw">def</span> sequenceInter[A](x: List[Inter[A]]): Inter[List[A]] =
+    <span class="fu">error</span>(<span class="st">&quot;todo&quot;</span>)
+
+    <span class="co">// SOLUTIONx2 (ROT-13)</span>
+    <span class="co">/*</span>
+<span class="co">    1)</span>
+<span class="co">    k.sbyqEvtug(havgnyVagre(Avy: Yvfg[N]))((n, o) =&gt; n syngZnc (k =&gt; o znc (k :: _)))</span>
+
+<span class="co">    2)</span>
+<span class="co">    k zngpu {</span>
+<span class="co">      pnfr Avy  =&gt; havgnyVagre(Avy)</span>
+<span class="co">      pnfr u::g =&gt; u syngZnc (k =&gt; frdhraprVagre(g) znc (k :: _))</span>
+<span class="co">    }</span>
+<span class="co">    */</span>
+
+  <span class="co">// Exercise 3 of 3</span>
+  <span class="co">// ===============</span>
+  <span class="co">// There is repetition in the above exercises.</span>
+  <span class="co">// How might we be rid of it?</span>
+  <span class="co">// That is for Part 2.</span>
+
+  <span class="kw">def</span> <span class="fu">main</span>(args: Array[String]) {
+    <span class="kw">def</span> assertEquals[A](a1: A, a2: A) {
+      <span class="kw">if</span>(a1 != a2)
+        <span class="fu">error</span>(<span class="st">&quot;Assertion error. Expected: &quot;</span> + a1 + <span class="st">&quot; Actual: &quot;</span> + a2)
+    }
+
+    <span class="kw">def</span> assertInterEquals[A](a1: Inter[A], a2: Inter[A]) {
+      <span class="kw">val</span> testInts = List(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">0</span>, -<span class="dv">7</span>, -<span class="dv">9</span>, <span class="dv">113</span>, -<span class="dv">2048</span>)
+      <span class="fu">assertEquals</span>(testInts.<span class="fu">map</span>(a1.<span class="fu">f</span>(_)), testInts.<span class="fu">map</span>(a2.<span class="fu">f</span>(_)))
+    }
+
+    <span class="co">// sequenceOption</span>
+    <span class="fu">assertEquals</span>(<span class="fu">sequenceOption</span>(List(Some(<span class="dv">7</span>),
+        Some(<span class="dv">8</span>), Some(<span class="dv">9</span>))), Some(List(<span class="dv">7</span>, <span class="dv">8</span>, <span class="dv">9</span>)))
+    <span class="fu">assertEquals</span>(<span class="fu">sequenceOption</span>(List(Some(<span class="dv">7</span>), None, Some(<span class="dv">9</span>))),
+        None)
+    <span class="fu">assertEquals</span>(<span class="fu">sequenceOption</span>(List()),
+      Some(List()))
+
+    <span class="co">// sequenceInter</span>
+    <span class="fu">assertInterEquals</span>(<span class="fu">sequenceInter</span>(List()),
+      <span class="fu">Inter</span>(_ =&gt; List()))
+    <span class="fu">assertInterEquals</span>(<span class="fu">sequenceInter</span>(List(<span class="fu">Inter</span>(<span class="dv">1</span>+),
+        <span class="fu">Inter</span>(<span class="dv">2</span>*))), <span class="fu">Inter</span>(n =&gt; List(<span class="dv">1</span>+n, <span class="dv">2</span>*n)))
+  }
+}</code></pre>
+
+
+<hr />
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'tonys--blog';
+  var discus_identifier = '/posts/understanding-monads-using-scala-part-1/index.html';
+  var disqus_url = 'http://blog.tmorris.net/posts/understanding-monads-using-scala-part-1/index.html';
+  var discus_title = 'Understanding Monads using Scala (Part 1)';
+  (function () {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript><p>The comments use <a href="http://disqus.com/?ref_noscript">Disqus</a>,
+  which requires Javascript.</p></noscript>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-3405112-1']);
+  _gaq.push(['_trackPageview']);
+  (function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+</html>

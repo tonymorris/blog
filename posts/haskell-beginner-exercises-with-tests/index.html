@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>λ Tony's blog λ - Haskell Beginner Exercises with Tests</title>
+  <link rel="stylesheet" type="text/css" href="../../css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/syntax.css" />
+  <link rel="alternate" type="application/atom+xml" href="http://blog.tmorris.net/atom.xml" title="Atom feed" />
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/javascript" src="https://raw.github.com/Mathapedia/LaTeX2HTML5/master/latex2html5.min.js"></script>
+</head>
+<body>
+<div id="title">
+  λ Tony's blog λ
+  <div id="subtitle">
+    The weblog of Tony Morris
+  </div>
+</div>
+<div id="header">
+  <div id="navigation">
+    <a href="../../index.html">Home</a>
+    <a href="../../posts/">All Posts</a>
+    <a href="../../contact/">Contact</a>
+    <a href="http://cv.tmorris.net/">CV</a>
+    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+  </div>
+</div>
+<h1>Haskell Beginner Exercises with Tests</h1>
+<div class="info">Posted on April 25, 2010, in <a href="../../tags/Programming/index.html">Programming</a></div>
+
+<p>Follow-on from <a href="http://blog.tmorris.net/haskell-exercises-for-beginners/">Haskell Exercises for Beginners</a></p>
+<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="co">-- TOTAL marks:    /66</span>
+
+<span class="kw">module</span> <span class="dt">Exercises</span> <span class="kw">where</span>
+
+<span class="kw">import</span> Prelude <span class="kw">hiding</span> (sum, length, map, filter, maximum, reverse, succ, pred)
+
+<span class="co">-- BEGIN Helper functions and data types</span>
+
+<span class="co">-- The custom list type</span>
+<span class="kw">data</span> <span class="dt">List</span> t <span class="fu">=</span> <span class="dt">Nil</span> <span class="fu">|</span> <span class="dt">Cons</span> t (<span class="dt">List</span> t) <span class="kw">deriving</span> <span class="dt">Eq</span>
+
+<span class="kw">instance</span> (<span class="dt">Show</span> t) <span class="ot">=&gt;</span> <span class="dt">Show</span> (<span class="dt">List</span> t) <span class="kw">where</span>
+  show <span class="fu">=</span> show <span class="fu">.</span> toList
+    <span class="kw">where</span>
+    toList <span class="dt">Nil</span> <span class="fu">=</span> []
+    toList (<span class="dt">Cons</span> h t) <span class="fu">=</span> h <span class="fu">:</span> toList t
+
+<span class="co">-- the custom numeric type</span>
+<span class="kw">data</span> <span class="dt">Natural</span> <span class="fu">=</span> <span class="dt">Zero</span> <span class="fu">|</span> <span class="dt">Succ</span> <span class="dt">Natural</span> <span class="kw">deriving</span> <span class="dt">Eq</span>
+one <span class="fu">=</span> <span class="dt">Succ</span> <span class="dt">Zero</span>
+two <span class="fu">=</span> <span class="dt">Succ</span> one
+three <span class="fu">=</span> <span class="dt">Succ</span> two
+
+<span class="kw">instance</span> <span class="dt">Show</span> <span class="dt">Natural</span> <span class="kw">where</span>
+  show <span class="fu">=</span> show <span class="fu">.</span> toInt
+    <span class="kw">where</span>
+    toInt <span class="dt">Zero</span> <span class="fu">=</span> <span class="dv">0</span>
+    toInt (<span class="dt">Succ</span> x) <span class="fu">=</span> <span class="dv">1</span> <span class="fu">+</span> toInt x
+
+<span class="co">-- functions over Natural that you may consider using</span>
+succ<span class="ot"> ::</span> <span class="dt">Natural</span> <span class="ot">-&gt;</span> <span class="dt">Natural</span>
+succ <span class="fu">=</span> <span class="dt">Succ</span>
+
+pred<span class="ot"> ::</span> <span class="dt">Natural</span> <span class="ot">-&gt;</span> <span class="dt">Natural</span>
+pred <span class="dt">Zero</span> <span class="fu">=</span> error <span class="st">&quot;bzzt. Zero has no predecessor in naturals&quot;</span>
+pred (<span class="dt">Succ</span> x) <span class="fu">=</span> x
+
+<span class="co">-- functions over List that you may consider using</span>
+<span class="ot">foldRight ::</span> (a <span class="ot">-&gt;</span> b <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> b <span class="ot">-&gt;</span> <span class="dt">List</span> a <span class="ot">-&gt;</span> b
+foldRight _ b <span class="dt">Nil</span> <span class="fu">=</span> b
+foldRight f b (<span class="dt">Cons</span> h t) <span class="fu">=</span> f h (foldRight f b t)
+
+<span class="ot">foldLeft ::</span> (b <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> b <span class="ot">-&gt;</span> <span class="dt">List</span> a <span class="ot">-&gt;</span> b
+foldLeft _ b <span class="dt">Nil</span> <span class="fu">=</span> b
+foldLeft f b (<span class="dt">Cons</span> h t) <span class="fu">=</span> <span class="kw">let</span> b' <span class="fu">=</span> f b h <span class="kw">in</span> b' <span class="ot">`seq`</span> foldLeft f b' t
+
+<span class="ot">reduceRight ::</span> (a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> a) <span class="ot">-&gt;</span> <span class="dt">List</span> a <span class="ot">-&gt;</span> a
+reduceRight _ <span class="dt">Nil</span> <span class="fu">=</span> error <span class="st">&quot;bzzt. reduceRight on empty list&quot;</span>
+reduceRight f (<span class="dt">Cons</span> h t) <span class="fu">=</span> foldRight f h t
+
+<span class="ot">reduceLeft ::</span> (a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> a) <span class="ot">-&gt;</span> <span class="dt">List</span> a <span class="ot">-&gt;</span> a
+reduceLeft _ <span class="dt">Nil</span> <span class="fu">=</span> error <span class="st">&quot;bzzt. reduceLeft on empty list&quot;</span>
+reduceLeft f (<span class="dt">Cons</span> h t) <span class="fu">=</span> foldLeft f h t
+
+<span class="co">-- END Helper functions and data types</span>
+
+<span class="co">-- BEGIN Exercises</span>
+
+<span class="co">-- Exercise 1</span>
+<span class="co">-- Relative Difficulty: 1</span>
+<span class="co">-- Correctness: 2.0 marks</span>
+<span class="co">-- Performance: 0.5 mark</span>
+<span class="co">-- Elegance: 0.5 marks</span>
+<span class="co">-- Total: 3</span>
+<span class="ot">add ::</span> <span class="dt">Natural</span> <span class="ot">-&gt;</span> <span class="dt">Natural</span> <span class="ot">-&gt;</span> <span class="dt">Natural</span>
+add <span class="fu">=</span> error <span class="st">&quot;todo&quot;</span>
+
+<span class="co">-- Exercise 2</span>
+<span class="co">-- Relative Difficulty: 2</span>
+<span class="co">-- Correctness: 2.5 marks</span>
+<span class="co">-- Performance: 1 mark</span>
+<span class="co">-- Elegance: 0.5 marks</span>
+<span class="co">-- Total: 4</span>
+sum<span class="ot"> ::</span> <span class="dt">List</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span>
+sum <span class="fu">=</span> error <span class="st">&quot;todo&quot;</span>
+
+<span class="co">-- Exercise 3</span>
+<span class="co">-- Relative Difficulty: 2</span>
+<span class="co">-- Correctness: 2.5 marks</span>
+<span class="co">-- Performance: 1 mark</span>
+<span class="co">-- Elegance: 0.5 marks</span>
+<span class="co">-- Total: 4</span>
+length<span class="ot"> ::</span> <span class="dt">List</span> a <span class="ot">-&gt;</span> <span class="dt">Int</span>
+length <span class="fu">=</span> error <span class="st">&quot;todo&quot;</span>
+
+<span class="co">-- Exercise 4</span>
+<span class="co">-- Relative Difficulty: 5</span>
+<span class="co">-- Correctness: 4.5 marks</span>
+<span class="co">-- Performance: 1.0 mark</span>
+<span class="co">-- Elegance: 1.5 marks</span>
+<span class="co">-- Total: 7</span>
+map<span class="ot"> ::</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> <span class="dt">List</span> a <span class="ot">-&gt;</span> <span class="dt">List</span> b
+map <span class="fu">=</span> error <span class="st">&quot;todo&quot;</span>
+
+<span class="co">-- Exercise 5</span>
+<span class="co">-- Relative Difficulty: 5</span>
+<span class="co">-- Correctness: 4.5 marks</span>
+<span class="co">-- Performance: 1.5 marks</span>
+<span class="co">-- Elegance: 1 mark</span>
+<span class="co">-- Total: 7</span>
+filter<span class="ot"> ::</span> (a <span class="ot">-&gt;</span> <span class="dt">Bool</span>) <span class="ot">-&gt;</span> <span class="dt">List</span> a <span class="ot">-&gt;</span> <span class="dt">List</span> a
+filter <span class="fu">=</span> error <span class="st">&quot;todo&quot;</span>
+
+<span class="co">-- Exercise 6</span>
+<span class="co">-- Relative Difficulty: 5</span>
+<span class="co">-- Correctness: 4.5 marks</span>
+<span class="co">-- Performance: 1.5 marks</span>
+<span class="co">-- Elegance: 1 mark</span>
+<span class="co">-- Total: 7</span>
+<span class="ot">append ::</span> <span class="dt">List</span> a <span class="ot">-&gt;</span> <span class="dt">List</span> a <span class="ot">-&gt;</span> <span class="dt">List</span> a
+append <span class="fu">=</span> error <span class="st">&quot;todo&quot;</span>
+
+<span class="co">-- Exercise 7</span>
+<span class="co">-- Relative Difficulty: 5</span>
+<span class="co">-- Correctness: 4.5 marks</span>
+<span class="co">-- Performance: 1.5 marks</span>
+<span class="co">-- Elegance: 1 mark</span>
+<span class="co">-- Total: 7</span>
+<span class="ot">flatten ::</span> <span class="dt">List</span> (<span class="dt">List</span> a) <span class="ot">-&gt;</span> <span class="dt">List</span> a
+flatten <span class="fu">=</span> error <span class="st">&quot;todo&quot;</span>
+
+<span class="co">-- Exercise 8</span>
+<span class="co">-- Relative Difficulty: 7</span>
+<span class="co">-- Correctness: 5.0 marks</span>
+<span class="co">-- Performance: 1.5 marks</span>
+<span class="co">-- Elegance: 1.5 mark</span>
+<span class="co">-- Total: 8</span>
+<span class="ot">flatMap ::</span> <span class="dt">List</span> a <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> <span class="dt">List</span> b) <span class="ot">-&gt;</span> <span class="dt">List</span> b
+flatMap <span class="fu">=</span> error <span class="st">&quot;todo&quot;</span>
+
+<span class="co">-- Exercise 9</span>
+<span class="co">-- Relative Difficulty: 8</span>
+<span class="co">-- Correctness: 3.5 marks</span>
+<span class="co">-- Performance: 3.0 marks</span>
+<span class="co">-- Elegance: 2.5 marks</span>
+<span class="co">-- Total: 9</span>
+maximum<span class="ot"> ::</span> <span class="dt">List</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span>
+maximum <span class="fu">=</span> error <span class="st">&quot;todo&quot;</span>
+
+<span class="co">-- Exercise 10</span>
+<span class="co">-- Relative Difficulty: 10</span>
+<span class="co">-- Correctness: 5.0 marks</span>
+<span class="co">-- Performance: 2.5 marks</span>
+<span class="co">-- Elegance: 2.5 marks</span>
+<span class="co">-- Total: 10</span>
+reverse<span class="ot"> ::</span> <span class="dt">List</span> a <span class="ot">-&gt;</span> <span class="dt">List</span> a
+reverse <span class="fu">=</span> error <span class="st">&quot;todo&quot;</span>
+
+<span class="co">-- END Exercises</span>
+
+<span class="co">-- BEGIN Tests for Exercises</span>
+
+<span class="ot">main ::</span> <span class="dt">IO</span> ()
+main <span class="fu">=</span>
+  <span class="kw">let</span> showNil <span class="fu">=</span> show (<span class="dt">Nil</span><span class="ot"> ::</span> <span class="dt">List</span> <span class="dt">Int</span>)
+      results <span class="fu">=</span>
+        [
+        <span class="co">-- add</span>
+        (<span class="st">&quot;add&quot;</span>,
+         show (add one two)
+       , show three),
+
+        (<span class="st">&quot;add&quot;</span>,
+         show (add <span class="dt">Zero</span> two)
+       , show two),
+
+        <span class="co">-- sum</span>
+        (<span class="st">&quot;sum&quot;</span>,
+         show (sum (<span class="dt">Cons</span> <span class="dv">1</span> (<span class="dt">Cons</span> <span class="dv">2</span> (<span class="dt">Cons</span> <span class="dv">3</span> <span class="dt">Nil</span>))))
+       , show <span class="dv">6</span>),
+
+        (<span class="st">&quot;sum&quot;</span>,
+         show (sum <span class="dt">Nil</span>)
+       , show <span class="dv">0</span>),
+
+        <span class="co">-- length</span>
+        (<span class="st">&quot;length&quot;</span>,
+         show (length (<span class="dt">Cons</span> <span class="ch">'a'</span> (<span class="dt">Cons</span> <span class="ch">'b'</span> (<span class="dt">Cons</span> <span class="ch">'c'</span> <span class="dt">Nil</span>))))
+       , show <span class="dv">3</span>),
+
+        (<span class="st">&quot;length&quot;</span>,
+         show (length <span class="dt">Nil</span>)
+       , show <span class="dv">0</span>),
+
+        <span class="co">-- map</span>
+        (<span class="st">&quot;map&quot;</span>,
+         show (map (<span class="fu">+</span><span class="dv">1</span>) (<span class="dt">Cons</span> <span class="dv">1</span> (<span class="dt">Cons</span> <span class="dv">2</span> (<span class="dt">Cons</span> <span class="dv">3</span> <span class="dt">Nil</span>))))
+       , show (<span class="dt">Cons</span> <span class="dv">2</span> (<span class="dt">Cons</span> <span class="dv">3</span> (<span class="dt">Cons</span> <span class="dv">4</span> <span class="dt">Nil</span>)))),
+
+        (<span class="st">&quot;map&quot;</span>,
+         show (map (<span class="fu">+</span><span class="dv">1</span>) <span class="dt">Nil</span>)
+       , showNil),
+
+        <span class="co">-- filter</span>
+        (<span class="st">&quot;filter&quot;</span>,
+         show (filter even (<span class="dt">Cons</span> <span class="dv">1</span> (<span class="dt">Cons</span> <span class="dv">2</span> (<span class="dt">Cons</span> <span class="dv">3</span> <span class="dt">Nil</span>))))
+       , show (<span class="dt">Cons</span> <span class="dv">2</span> <span class="dt">Nil</span>)),
+
+        (<span class="st">&quot;filter&quot;</span>,
+         show (filter even <span class="dt">Nil</span>)
+       , showNil),
+
+        <span class="co">-- append</span>
+        (<span class="st">&quot;append&quot;</span>,
+         show (append (<span class="dt">Cons</span> <span class="dv">1</span> (<span class="dt">Cons</span> <span class="dv">2</span> (<span class="dt">Cons</span> <span class="dv">3</span> <span class="dt">Nil</span>))) (<span class="dt">Cons</span> <span class="dv">4</span> <span class="dt">Nil</span>))
+       , show (<span class="dt">Cons</span> <span class="dv">1</span> (<span class="dt">Cons</span> <span class="dv">2</span> (<span class="dt">Cons</span> <span class="dv">3</span> (<span class="dt">Cons</span> <span class="dv">4</span> <span class="dt">Nil</span>))))),
+
+        (<span class="st">&quot;append&quot;</span>,
+         show (append (<span class="dt">Cons</span> <span class="dv">1</span> (<span class="dt">Cons</span> <span class="dv">2</span> (<span class="dt">Cons</span> <span class="dv">3</span> <span class="dt">Nil</span>))) <span class="dt">Nil</span>)
+       , show (<span class="dt">Cons</span> <span class="dv">1</span> (<span class="dt">Cons</span> <span class="dv">2</span> (<span class="dt">Cons</span> <span class="dv">3</span> <span class="dt">Nil</span>)))),
+
+        <span class="co">-- flatten</span>
+        (<span class="st">&quot;flatten&quot;</span>,
+         show (flatten (<span class="dt">Cons</span> (<span class="dt">Cons</span> <span class="dv">1</span> (<span class="dt">Cons</span> <span class="dv">2</span> <span class="dt">Nil</span>)) (<span class="dt">Cons</span> (<span class="dt">Cons</span> <span class="dv">3</span> (<span class="dt">Cons</span> <span class="dv">4</span> <span class="dt">Nil</span>)) <span class="dt">Nil</span>)))
+       , show (<span class="dt">Cons</span> <span class="dv">1</span> (<span class="dt">Cons</span> <span class="dv">2</span> (<span class="dt">Cons</span> <span class="dv">3</span> (<span class="dt">Cons</span> <span class="dv">4</span> <span class="dt">Nil</span>))))),
+
+        <span class="co">-- flatMap</span>
+        (<span class="st">&quot;flatMap&quot;</span>,
+         show (flatMap (<span class="dt">Cons</span> <span class="dv">1</span> (<span class="dt">Cons</span> <span class="dv">2</span> (<span class="dt">Cons</span> <span class="dv">3</span> <span class="dt">Nil</span>))) (\n <span class="ot">-&gt;</span> <span class="dt">Cons</span> (n<span class="fu">+</span><span class="dv">1</span>) (<span class="dt">Cons</span> (n<span class="fu">+</span><span class="dv">2</span>) <span class="dt">Nil</span>)))
+       , show (<span class="dt">Cons</span> <span class="dv">2</span> (<span class="dt">Cons</span> <span class="dv">3</span> (<span class="dt">Cons</span> <span class="dv">3</span> (<span class="dt">Cons</span> <span class="dv">4</span> (<span class="dt">Cons</span> <span class="dv">4</span> (<span class="dt">Cons</span> <span class="dv">5</span> <span class="dt">Nil</span>))))))),
+
+        <span class="co">-- maximum</span>
+        (<span class="st">&quot;maximum&quot;</span>,
+         show (maximum (<span class="dt">Cons</span> <span class="dv">3</span> (<span class="dt">Cons</span> <span class="dv">1</span> (<span class="dt">Cons</span> <span class="dv">2</span> <span class="dt">Nil</span>))))
+       , show <span class="dv">3</span>),
+
+        <span class="co">-- reverse</span>
+        (<span class="st">&quot;reverse&quot;</span>,
+         show (reverse (<span class="dt">Cons</span> <span class="dv">1</span> (<span class="dt">Cons</span> <span class="dv">2</span> (<span class="dt">Cons</span> <span class="dv">3</span> <span class="dt">Nil</span>))))
+       , show (<span class="dt">Cons</span> <span class="dv">3</span> (<span class="dt">Cons</span> <span class="dv">2</span> (<span class="dt">Cons</span> <span class="dv">1</span> <span class="dt">Nil</span>))))
+        ]
+      check (n, a, b) <span class="fu">=</span> <span class="kw">do</span> print (<span class="st">&quot;=== &quot;</span> <span class="fu">++</span> n <span class="fu">++</span> <span class="st">&quot; ===&quot;</span>)
+                           print (<span class="kw">if</span> a <span class="fu">==</span> b <span class="kw">then</span> <span class="st">&quot;PASS&quot;</span> <span class="kw">else</span> <span class="st">&quot;FAIL Expected: &quot;</span> <span class="fu">++</span> b <span class="fu">++</span> <span class="st">&quot; Actual: &quot;</span> <span class="fu">++</span> a)
+
+  <span class="kw">in</span> mapM_ check results
+
+<span class="co">-- END Tests for Exercises</span></code></pre>
+
+
+<hr />
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'tonys--blog';
+  var discus_identifier = '/posts/haskell-beginner-exercises-with-tests/index.html';
+  var disqus_url = 'http://blog.tmorris.net/posts/haskell-beginner-exercises-with-tests/index.html';
+  var discus_title = 'Haskell Beginner Exercises with Tests';
+  (function () {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript><p>The comments use <a href="http://disqus.com/?ref_noscript">Disqus</a>,
+  which requires Javascript.</p></noscript>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-3405112-1']);
+  _gaq.push(['_trackPageview']);
+  (function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+</html>

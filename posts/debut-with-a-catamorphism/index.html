@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>λ Tony's blog λ - Debut with a Catamorphism</title>
+  <link rel="stylesheet" type="text/css" href="../../css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/syntax.css" />
+  <link rel="alternate" type="application/atom+xml" href="http://blog.tmorris.net/atom.xml" title="Atom feed" />
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/javascript" src="https://raw.github.com/Mathapedia/LaTeX2HTML5/master/latex2html5.min.js"></script>
+</head>
+<body>
+<div id="title">
+  λ Tony's blog λ
+  <div id="subtitle">
+    The weblog of Tony Morris
+  </div>
+</div>
+<div id="header">
+  <div id="navigation">
+    <a href="../../index.html">Home</a>
+    <a href="../../posts/">All Posts</a>
+    <a href="../../contact/">Contact</a>
+    <a href="http://cv.tmorris.net/">CV</a>
+    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+  </div>
+</div>
+<h1>Debut with a Catamorphism</h1>
+<div class="info">Posted on December  2, 2009, in <a href="../../tags/Health/index.html">Health</a>, <a href="../../tags/Programming/index.html">Programming</a></div>
+
+<p>Hello everyone,</p>
+<p>Many of you know I have been battling health problems for the last 2 years subsequent to a sporting injury. After a total of six surgical procedures, my most recent about 3 weeks ago, I am glad to be almost completely cured. Today I lodged a formal complaint to the Medical Health Board of Queensland against six doctors (coincidentally, the same number of operations – there were a total of 19 doctors mentioned).</p>
+<p>As a result of the aforementioned, I haven’t written in a while, so I plan to return to my usual from now on.</p>
+<p>I thought I’d write a little about a pervasive problem on the Scala mailing lists. Specifically, the misunderstanding of the purpose of static typing. Of course, there will always be lots of myths and proponents willing to ensure their survival, however, I am a strong believer that education is the only means by which we can advance the software development industry, despite the task often appearing insurmountable (ala Scala mailing list).</p>
+<p>Some discussions recently on the Scala mailing list include the relationship between <code>scala.Option</code> data type and <code>null</code> and another discussion about documentation and types that are once-inhabited such as <code>forall a b c. (a -&gt; b) -&gt; (b -&gt; c) -&gt; a -&gt; c</code></p>
+<p>I thought I’d propose a small piece of code and leave any potential insights unstated so as not to destroy anything for the observer. There is a Haskell version toward the end.</p>
+<p>I propose the following data type:</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">trait</span> MyOption[+A] {
+  <span class="co">// single abstract method</span>
+  <span class="kw">def</span> cata[X](some: A =&gt; X, none: =&gt; X): X
+}</code></pre>
+<p>Astute observers will notice that the <code>cata</code> method is similar to a combination of the <code>map</code> and <code>getOrElse</code> methods on <code>scala.Option</code>. This topic has also arisen on the Scala mailing list in the past. In other words, I could have written this:</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">trait</span> MyOption[+A] {
+  <span class="co">// two abstract methods</span>
+  <span class="kw">def</span> map[X](f: A =&gt; X): MyOption[X]
+  <span class="kw">def</span> getOrElse[AA &gt;: A](a: =&gt; AA): AA
+}</code></pre>
+<p>…and I’d have a data structure that is exactly the same as the previous one. What may not be obvious is that <code>MyOption</code> is also exactly the same as <code>scala.Option</code>. The correct term for “exactly the same” is <em>isomorphic</em>. Yes, this is despite not using case classes or subclasses – coincidentally, another area where much mythology is prevalent.</p>
+<p>I could also write construction functions that are akin to <code>scala.None</code> and <code>scala.Some</code>:</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">object</span> MyOption {
+  <span class="kw">def</span> none[A] = <span class="kw">new</span> MyOption[A] {
+    <span class="kw">def</span> cata[X](s: A =&gt; X, n: =&gt; X) = n
+  }
+
+  <span class="kw">def</span> some[A](a: A) = <span class="kw">new</span> MyOption[A] {
+    <span class="kw">def</span> cata[X](s: A =&gt; X, n: =&gt; X) = <span class="fu">s</span>(a)
+  }
+}</code></pre>
+<p>As an exercise, I propose filling out the <code>Option</code> API, however, using the single abstract method <code>cata</code> and the <code>none</code>/<code>some</code> constructor functions for additional convenience. I promise you it can be done and that anything <code>scala.Option</code> can do, <code>MyOption</code> can do also (and vice versa), since they are isomorphic.</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">trait</span> MyOption[+A] {
+  <span class="co">// single abstract method</span>
+  <span class="kw">def</span> cata[X](some: A =&gt; X, none: =&gt; X): X
+
+  <span class="kw">def</span> map[B](f: A =&gt; B): MyOption[B] = <span class="fu">error</span>(<span class="st">&quot;todo&quot;</span>)
+
+  <span class="kw">def</span> flatMap[B](f: A =&gt; MyOption[B]): MyOption[B] = <span class="fu">error</span>(<span class="st">&quot;todo&quot;</span>)
+
+  <span class="kw">def</span> getOrElse[AA &gt;: A](e: =&gt; AA): AA = <span class="fu">error</span>(<span class="st">&quot;todo&quot;</span>)
+
+  <span class="kw">def</span> <span class="fu">filter</span>(p: A =&gt; Boolean): MyOption[A] = <span class="fu">error</span>(<span class="st">&quot;todo&quot;</span>)
+
+  <span class="kw">def</span> <span class="fu">foreach</span>(f: A =&gt; Unit): Unit = <span class="fu">error</span>(<span class="st">&quot;todo&quot;</span>)
+
+  <span class="kw">def</span> isDefined: Boolean = <span class="fu">error</span>(<span class="st">&quot;todo&quot;</span>)
+
+  <span class="kw">def</span> isEmpty: Boolean = <span class="fu">error</span>(<span class="st">&quot;todo&quot;</span>)
+
+  <span class="co">// WARNING: not defined for None</span>
+  <span class="kw">def</span> get: A = <span class="fu">error</span>(<span class="st">&quot;todo&quot;</span>)
+
+  <span class="kw">def</span> orElse[AA &gt;: A](o: MyOption[AA]): MyOption[AA] = <span class="fu">error</span>(<span class="st">&quot;todo&quot;</span>)
+
+  <span class="kw">def</span> toLeft[X](right: =&gt; X): Either[A, X] = <span class="fu">error</span>(<span class="st">&quot;todo&quot;</span>)
+
+  <span class="kw">def</span> toRight[X](left: =&gt; X): Either[X, A] = <span class="fu">error</span>(<span class="st">&quot;todo&quot;</span>)
+
+  <span class="kw">def</span> toList: List[A] = <span class="fu">error</span>(<span class="st">&quot;todo&quot;</span>)
+
+  <span class="kw">def</span> iterator: Iterator[A] = <span class="fu">error</span>(<span class="st">&quot;todo&quot;</span>)
+}
+
+<span class="kw">object</span> MyOption {
+  <span class="kw">def</span> none[A] = <span class="kw">new</span> MyOption[A] {
+    <span class="kw">def</span> cata[X](s: A =&gt; X, n: =&gt; X) = n
+  }
+
+  <span class="kw">def</span> some[A](a: A) = <span class="kw">new</span> MyOption[A] {
+    <span class="kw">def</span> cata[X](s: A =&gt; X, n: =&gt; X) = <span class="fu">s</span>(a)
+  }
+}</code></pre>
+<p>If you get stuck, the answer is base-64 encoded below, however, I encourage you to follow the types and to the extent that there may be ambiguity, follow the existing Scala API specification for <code>scala.Option</code>. If need be, please ask questions. Best of luck!</p>
+<pre><code>dHJhaXQgTXlPcHRpb25bK0FdIHsKICAvLyBzaW5nbGUgYWJzdHJhY3QgbWV0aG9kCiAgZGVmIGNh
+dGFbWF0oc29tZTogQSA9PiBYLCBub25lOiA9PiBYKTogWAoKICBpbXBvcnQgTXlPcHRpb24uXwoK
+ICBkZWYgbWFwW0JdKGY6IEEgPT4gQik6IE15T3B0aW9uW0JdID0gY2F0YShmIGFuZFRoZW4gc29t
+ZSwgbm9uZSkKCiAgLy8gQWxzbwogIC8vIGRlZiBtYXBbQl0oZjogQSA9PiBCKTogTXlPcHRpb25b
+Ql0gPSBmbGF0TWFwKGYgYW5kVGhlbiBzb21lKQoKICBkZWYgZmxhdE1hcFtCXShmOiBBID0+IE15
+T3B0aW9uW0JdKTogTXlPcHRpb25bQl0gPSBjYXRhKGYsIG5vbmUpCgogIGRlZiBnZXRPckVsc2Vb
+QUEgPjogQV0oZTogPT4gQUEpOiBBQSA9IGNhdGEocyA9PiBzLCBlKQoKICBkZWYgZmlsdGVyKHA6
+IEEgPT4gQm9vbGVhbik6IE15T3B0aW9uW0FdID0gY2F0YShhID0+IGlmKHAoYSkpIHNvbWUoYSkg
+ZWxzZSBub25lLCBub25lKQoKICBkZWYgZm9yZWFjaChmOiBBID0+IFVuaXQpOiBVbml0ID0gY2F0
+YShmLCAoKSkKCiAgZGVmIGlzRGVmaW5lZDogQm9vbGVhbiA9IGNhdGEoXyA9PiB0cnVlLCBmYWxz
+ZSkKCiAgZGVmIGlzRW1wdHk6IEJvb2xlYW4gPSBjYXRhKF8gPT4gZmFsc2UsIHRydWUpCgogIC8v
+IFdBUk5JTkc6IG5vdCBkZWZpbmVkIGZvciBOb25lCiAgZGVmIGdldDogQSA9IGNhdGEoYSA9PiBh
+LCBlcnJvcigiTm9uZS5nZXQiKSkKCiAgZGVmIG9yRWxzZVtBQSA+OiBBXShvOiBNeU9wdGlvbltB
+QV0pOiBNeU9wdGlvbltBQV0gPSBjYXRhKF8gPT4gdGhpcywgbykKCiAgZGVmIHRvTGVmdFtYXShy
+aWdodDogPT4gWCk6IEVpdGhlcltBLCBYXSA9IGNhdGEoTGVmdChfKSwgUmlnaHQocmlnaHQpKQoK
+ICBkZWYgdG9SaWdodFtYXShsZWZ0OiA9PiBYKTogRWl0aGVyW1gsIEFdID0gY2F0YShSaWdodChf
+KSwgTGVmdChsZWZ0KSkKCiAgZGVmIHRvTGlzdDogTGlzdFtBXSA9IGNhdGEoTGlzdChfKSwgTmls
+KQoKICBkZWYgaXRlcmF0b3I6IEl0ZXJhdG9yW0FdID0gY2F0YShJdGVyYXRvci5zaW5nbGUoXyks
+IEl0ZXJhdG9yLmVtcHR5KQp9CgpvYmplY3QgTXlPcHRpb24gewogIGRlZiBub25lW0FdID0gbmV3
+IE15T3B0aW9uW0FdIHsKICAgIGRlZiBjYXRhW1hdKHM6IEEgPT4gWCwgbjogPT4gWCkgPSBuCiAg
+fQoKICBkZWYgc29tZVtBXShhOiBBKSA9IG5ldyBNeU9wdGlvbltBXSB7CiAgICBkZWYgY2F0YVtY
+XShzOiBBID0+IFgsIG46ID0+IFgpID0gcyhhKQogIH0KfQoK</code></pre>
+<p>For Haskell users:</p>
+<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="ot">{-# LANGUAGE RankNTypes #-}</span>
+
+<span class="co">-- Data.Maybe</span>
+<span class="kw">newtype</span> <span class="dt">Option</span> a <span class="fu">=</span> <span class="dt">Option</span> {<span class="ot"> cata ::</span> forall x<span class="fu">.</span> (a <span class="ot">-&gt;</span> x) <span class="ot">-&gt;</span> x <span class="ot">-&gt;</span> x }
+
+<span class="co">-- Just</span>
+<span class="ot">some ::</span> a <span class="ot">-&gt;</span> <span class="dt">Option</span> a
+some a <span class="fu">=</span> <span class="dt">Option</span> (\s _ <span class="ot">-&gt;</span> s a)
+
+<span class="co">-- Nothing</span>
+<span class="ot">none ::</span> <span class="dt">Option</span> a
+none <span class="fu">=</span> <span class="dt">Option</span> (const id)
+
+<span class="co">-- fmap</span>
+<span class="ot">map' ::</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> <span class="dt">Option</span> a <span class="ot">-&gt;</span> <span class="dt">Option</span> b
+map' f m <span class="fu">=</span> error <span class="st">&quot;todo&quot;</span>
+
+<span class="co">-- (&gt;&gt;=)</span>
+<span class="ot">flatMap ::</span> (a <span class="ot">-&gt;</span> <span class="dt">Option</span> b) <span class="ot">-&gt;</span> <span class="dt">Option</span> a <span class="ot">-&gt;</span> <span class="dt">Option</span> b
+flatMap f m <span class="fu">=</span> error <span class="st">&quot;todo&quot;</span>
+
+<span class="co">-- fromMaybe</span>
+<span class="ot">getOrElse ::</span> <span class="dt">Option</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> a
+getOrElse <span class="fu">=</span> error <span class="st">&quot;todo&quot;</span>
+
+filter<span class="ot"> ::</span> <span class="dt">Option</span> a <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> <span class="dt">Bool</span>) <span class="ot">-&gt;</span> <span class="dt">Option</span> a
+filter m p <span class="fu">=</span> error <span class="st">&quot;todo&quot;</span>
+
+<span class="co">-- mapM_</span>
+<span class="ot">foreach ::</span> <span class="dt">Option</span> a <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> <span class="dt">IO</span> ()) <span class="ot">-&gt;</span> <span class="dt">IO</span> ()
+foreach m f <span class="fu">=</span> error <span class="st">&quot;todo&quot;</span>
+
+<span class="co">-- isJust</span>
+<span class="ot">isDefined ::</span> <span class="dt">Option</span> a <span class="ot">-&gt;</span> <span class="dt">Bool</span>
+isDefined m <span class="fu">=</span> error <span class="st">&quot;todo&quot;</span>
+
+<span class="co">-- isNothing</span>
+<span class="ot">isEmpty ::</span> <span class="dt">Option</span> a <span class="ot">-&gt;</span> <span class="dt">Bool</span>
+isEmpty m <span class="fu">=</span> error <span class="st">&quot;todo&quot;</span>
+
+<span class="co">-- WARNING: not defined for None</span>
+<span class="co">-- fromJust</span>
+<span class="ot">get ::</span> <span class="dt">Option</span> a <span class="ot">-&gt;</span> a
+get m <span class="fu">=</span> error <span class="st">&quot;todo&quot;</span>
+
+<span class="co">-- mplus</span>
+<span class="ot">orElse ::</span> <span class="dt">Option</span> a <span class="ot">-&gt;</span> <span class="dt">Option</span> a <span class="ot">-&gt;</span> <span class="dt">Option</span> a
+orElse m n <span class="fu">=</span> error <span class="st">&quot;todo&quot;</span>
+
+<span class="ot">toLeft ::</span> <span class="dt">Option</span> a <span class="ot">-&gt;</span> x <span class="ot">-&gt;</span> <span class="dt">Either</span> a x
+toLeft m x <span class="fu">=</span> error <span class="st">&quot;todo&quot;</span>
+
+<span class="ot">toRight ::</span> <span class="dt">Option</span> a <span class="ot">-&gt;</span> x <span class="ot">-&gt;</span> <span class="dt">Either</span> x a
+toRight m x <span class="fu">=</span> error <span class="st">&quot;todo&quot;</span>
+
+<span class="co">-- maybeToList</span>
+<span class="ot">toList ::</span> <span class="dt">Option</span> a <span class="ot">-&gt;</span> [a]
+toList m <span class="fu">=</span> error <span class="st">&quot;todo&quot;</span>
+
+iterator <span class="fu">=</span> error <span class="st">&quot;bzzt. This is Haskell silly.&quot;</span></code></pre>
+<pre><code>ey0jIExBTkdVQUdFIFJhbmtOVHlwZXMgIy19CgotLSBEYXRhLk1heWJlCm5ld3R5cGUgT3B0aW9u
+IGEgPSBPcHRpb24geyBjYXRhIDo6IGZvcmFsbCB4LiAoYSAtPiB4KSAtPiB4IC0+IHggfQoKLS0g
+SnVzdApzb21lIDo6IGEgLT4gT3B0aW9uIGEKc29tZSBhID0gT3B0aW9uIChccyBfIC0+IHMgYSkK
+Ci0tIE5vdGhpbmcKbm9uZSA6OiBPcHRpb24gYQpub25lID0gT3B0aW9uIChjb25zdCBpZCkKCi0t
+IGZtYXAKbWFwJyA6OiAoYSAtPiBiKSAtPiBPcHRpb24gYSAtPiBPcHRpb24gYgptYXAnIGYgbSA9
+IGNhdGEgbSAoc29tZSAuIGYpIG5vbmUKCi0tICg+Pj0pCmZsYXRNYXAgOjogKGEgLT4gT3B0aW9u
+IGIpIC0+IE9wdGlvbiBhIC0+IE9wdGlvbiBiCmZsYXRNYXAgZiBtID0gY2F0YSBtIGYgbm9uZQoK
+LS0gZnJvbU1heWJlCmdldE9yRWxzZSA6OiBPcHRpb24gYSAtPiBhIC0+IGEKZ2V0T3JFbHNlID0g
+ZmxpcCBjYXRhIGlkCgpmaWx0ZXIgOjogT3B0aW9uIGEgLT4gKGEgLT4gQm9vbCkgLT4gT3B0aW9u
+IGEKZmlsdGVyIG0gcCA9IGNhdGEgbSAoXGEgLT4gaWYgcChhKSB0aGVuIHNvbWUgYSBlbHNlIG5v
+bmUpIG5vbmUKCi0tIG1hcE1fCmZvcmVhY2ggOjogT3B0aW9uIGEgLT4gKGEgLT4gSU8gKCkpIC0+
+IElPICgpCmZvcmVhY2ggbSBmID0gY2F0YSBtIGYgKHJldHVybiAoKSkKCi0tIGlzSnVzdAppc0Rl
+ZmluZWQgOjogT3B0aW9uIGEgLT4gQm9vbAppc0RlZmluZWQgbSA9IGNhdGEgbSAoY29uc3QgVHJ1
+ZSkgRmFsc2UKCi0tIGlzTm90aGluZwppc0VtcHR5IDo6IE9wdGlvbiBhIC0+IEJvb2wKaXNFbXB0
+eSBtID0gY2F0YSBtIChjb25zdCBGYWxzZSkgVHJ1ZQoKLS0gV0FSTklORzogbm90IGRlZmluZWQg
+Zm9yIE5vbmUKLS0gZnJvbUp1c3QKZ2V0IDo6IE9wdGlvbiBhIC0+IGEKZ2V0IG0gPSBjYXRhIG0g
+aWQgKGVycm9yICJOb25lLmdldCIpCgotLSBtcGx1cwpvckVsc2UgOjogT3B0aW9uIGEgLT4gT3B0
+aW9uIGEgLT4gT3B0aW9uIGEKb3JFbHNlIG0gbiA9IGNhdGEgbSAoY29uc3QgbSkgbgoKdG9MZWZ0
+IDo6IE9wdGlvbiBhIC0+IHggLT4gRWl0aGVyIGEgeAp0b0xlZnQgbSB4ID0gY2F0YSBtIExlZnQg
+KFJpZ2h0IHgpCgp0b1JpZ2h0IDo6IE9wdGlvbiBhIC0+IHggLT4gRWl0aGVyIHggYQp0b1JpZ2h0
+IG0geCA9IGNhdGEgbSBSaWdodCAoTGVmdCB4KQoKLS0gbWF5YmVUb0xpc3QKdG9MaXN0IDo6IE9w
+dGlvbiBhIC0+IFthXQp0b0xpc3QgbSA9IGNhdGEgbSAoOltdKSBbXQoKaXRlcmF0b3IgPSBlcnJv
+ciAiYnp6dC4gVGhpcyBpcyBIYXNrZWxsIHNpbGx5LiIK</code></pre>
+
+
+<hr />
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'tonys--blog';
+  var discus_identifier = '/posts/debut-with-a-catamorphism/index.html';
+  var disqus_url = 'http://blog.tmorris.net/posts/debut-with-a-catamorphism/index.html';
+  var discus_title = 'Debut with a Catamorphism';
+  (function () {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript><p>The comments use <a href="http://disqus.com/?ref_noscript">Disqus</a>,
+  which requires Javascript.</p></noscript>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-3405112-1']);
+  _gaq.push(['_trackPageview']);
+  (function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+</html>

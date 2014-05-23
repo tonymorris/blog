@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>λ Tony's blog λ - A Fling with Lazy Evaluation</title>
+  <link rel="stylesheet" type="text/css" href="../../css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/syntax.css" />
+  <link rel="alternate" type="application/atom+xml" href="http://blog.tmorris.net/atom.xml" title="Atom feed" />
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/javascript" src="https://raw.github.com/Mathapedia/LaTeX2HTML5/master/latex2html5.min.js"></script>
+</head>
+<body>
+<div id="title">
+  λ Tony's blog λ
+  <div id="subtitle">
+    The weblog of Tony Morris
+  </div>
+</div>
+<div id="header">
+  <div id="navigation">
+    <a href="../../index.html">Home</a>
+    <a href="../../posts/">All Posts</a>
+    <a href="../../contact/">Contact</a>
+    <a href="http://cv.tmorris.net/">CV</a>
+    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+  </div>
+</div>
+<h1>A Fling with Lazy Evaluation</h1>
+<div class="info">Posted on September  4, 2007, in <a href="../../tags/Programming/index.html">Programming</a></div>
+
+<p>Lazy evaluation is a core topic in computer programming that is also <em>widely</em> misunderstood and often, erroneously trivialised. Here, I will attempt to demonstrate some of the attributes of many common mainstream programming languages; namely strict programming languages. I will also attempt to distinguish <em>intrinsically</em> strict languages from optionally lazy languages by focusing on what intrinsically strict means. As a note, strict evaluation (or strictness) is what lazy evaluation (or laziness) is not.</p>
+<p>Some languages are optionally lazy, including one that I use quite a lot in my work called Scala. This means I have the option of laziness, however, the default in all cases is strictness. I have to explicitly annotate laziness (=&gt; in Scala). Some languages are optionally strict; one that I use a lot is Haskell. Laziness is the default, while strictness is explicitly annotated (seq or ! in Haskell). There are many debates about which is the correct default, but whatever the outcome of such a debate, the issue I describe next is one that demands much more attention.</p>
+<p>Some languages are <strong>forcibly</strong> strict. It is these languages that I intend to focus on for the remainder of this post. I assume that my reader either understands or is at least open to just how debilitating a language is that does not support user-defined lazy evaluation in any form whatsoever. I will explicitly discuss the Java programming language, though what I describe is equally applicable to C, C# and many other languages.</p>
+<p>In Java, the <em>only</em> lazy constructs are:</p>
+<ul>
+<li><p>if/else</p></li>
+<li><p>while</p></li>
+<li><p>for</p></li>
+<li><p>? : (ternary operator)</p></li>
+<li><p>&amp;&amp;</p></li>
+<li><p>||</p></li>
+</ul>
+<p>This is extremely limiting. To make the case clear, I will focus on a particular example of this. Consider the &amp;&amp; function of type (Boolean x Boolean) -&gt; Boolean. Here is a profound assertion:</p>
+<blockquote>
+<p>It is impossible to write &amp;&amp; in Java yourself.</p>
+</blockquote>
+<p>Some of you might be quick to rebut:</p>
+<blockquote>
+
+</blockquote>
+<blockquote>
+<pre><code>
+// Sure I can!
+boolean and(boolean b, boolean c) {
+  return b &amp;&amp; c;
+}</code></pre>
+</blockquote>
+<p>This is a very crucial mistake as you will soon see.</p>
+<p>Since the domain of the &amp;&amp; function is so small, there is room enough to enumerate it below:</p>
+<pre><code>a   b   a &amp;&amp; b
+t   t   t
+t   f   f
+f   t   f
+f   f   f
+t   ⊥   ⊥
+⊥   t   ⊥
+f   ⊥   f
+⊥   f   ⊥</code></pre>
+<p>Wait just a minute!! What are those last 4 entries in the table and just WTF is that upside-down T doing!? That upside-down T represents what is called the <code>bottom element</code>, sometimes also written as <em>|</em> when only ASCII is available. It is an extremely important part of the &amp;&amp; function (and all functions in fact!). In Java, the bottom element is typically represented by throwing an exception (or sometimes, with <code>null</code>).</p>
+<p>Remember, two functions are equivalent if for every element of the domain, the result of function application to that element on either function is equivalent. Here is a more formal definition for function equivalence:</p>
+<blockquote>
+<p>Two functions, f and g, are equivalent if the following property holds:</p>
+</blockquote>
+<blockquote>
+<pre><code>
+∀ x. f x ⇔ g x</code></pre>
+</blockquote>
+<p>We could rewrite the + function for <code>int</code> as follows:</p>
+<pre><code>int sum(int a, int b) {
+  return a + b;
+}</code></pre>
+<p>I won’t list out the table for each element in the domain of +, since it is so long, so you’ll either have to do it yourself, or take my word for it that the <code>sum</code> function above is equivalent to + :)</p>
+<p>However, why can’t we rewrite &amp;&amp;? If we look at the table for &amp;&amp; above and select the penultimate entry, we note the following:</p>
+<blockquote>
+
+</blockquote>
+<blockquote>
+<pre><code>
+false &amp;&amp; ⊥ == false</code></pre>
+</blockquote>
+<p>It is <strong>this</strong> entry that disallows us from rewriting &amp;&amp;. Look at the following function:</p>
+<pre><code>boolean bottom() {
+  throw new Error();
+}</code></pre>
+<p>What is the result of <code>false &amp;&amp; bottom()</code>? It is false of course! This is because &amp;&amp; is lazy in its second argument (sometimes; specifically, when the first argument is false). This is <em>impossible</em> to emulate in your own Java function. If we take the earlier function that attempted (but failed) to rewrite &amp;&amp; and call:</p>
+<blockquote>
+
+</blockquote>
+<blockquote>
+<pre><code>
+and(false, bottom())</code></pre>
+</blockquote>
+<p>The result of this function is ⊥ and not false, like it is with &amp;&amp;. Therefore, this function is <strong>not equivalent</strong> to &amp;&amp;. Further, I restate that it is not possible to write such a function in these languages. Unlike +. which is strict in both of its arguments, &amp;&amp; is not and this makes it impossible to write a user-defined version of &amp;&amp; and therefore, ||, if/else and ?: and importantly, many other potential functions that many Java programmers are probably not even aware of (Dynamic Programming Algorithms anyone?).</p>
+<p>If you are ever forced to use these severely limited programming languages, you could be thankful that you have some primitive lazy constructs for doing very primitive operations (oppression), or you could be resentful for not having the expressive power of other, lazy languages (resistance against oppression) :)</p>
+<p>Below is a session with my Scala interpreter to demonstrate that it is indeed possible to write &amp;&amp; in Scala (<code>lazyAnd</code>), but not Java. Note that the functions (def declarations) and final variables (val declarations) below are Java functions and final variables all running in a JVM (invoked by the Scala interpreter):</p>
+<pre><code>scala&gt; val x = false &amp;&amp; error(&quot;bottom&quot;)
+x: Boolean = false
+
+scala&gt; def and(a: Boolean, b: Boolean) = a &amp;&amp; b
+and: (Boolean,Boolean)Boolean
+
+scala&gt; val y = and(false, error(&quot;bottom&quot;))
+java.lang.Error: bottom
+
+scala&gt; def lazyAnd(a: Boolean, b: =&gt; Boolean) = a &amp;&amp; b // can't do this in Java, C#, C, etc.
+lazyAnd: (Boolean,=&gt; Boolean)Boolean
+
+scala&gt; val z = lazyAnd(false, error(&quot;bottom&quot;))
+z: Boolean = false</code></pre>
+
+
+<hr />
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'tonys--blog';
+  var discus_identifier = '/posts/a-fling-with-lazy-evaluation/index.html';
+  var disqus_url = 'http://blog.tmorris.net/posts/a-fling-with-lazy-evaluation/index.html';
+  var discus_title = 'A Fling with Lazy Evaluation';
+  (function () {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript><p>The comments use <a href="http://disqus.com/?ref_noscript">Disqus</a>,
+  which requires Javascript.</p></noscript>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-3405112-1']);
+  _gaq.push(['_trackPageview']);
+  (function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+</html>

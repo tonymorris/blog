@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>λ Tony's blog λ - You Lazy Thunk!</title>
+  <link rel="stylesheet" type="text/css" href="../../css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/syntax.css" />
+  <link rel="alternate" type="application/atom+xml" href="http://blog.tmorris.net/atom.xml" title="Atom feed" />
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/javascript" src="https://raw.github.com/Mathapedia/LaTeX2HTML5/master/latex2html5.min.js"></script>
+</head>
+<body>
+<div id="title">
+  λ Tony's blog λ
+  <div id="subtitle">
+    The weblog of Tony Morris
+  </div>
+</div>
+<div id="header">
+  <div id="navigation">
+    <a href="../../index.html">Home</a>
+    <a href="../../posts/">All Posts</a>
+    <a href="../../contact/">Contact</a>
+    <a href="http://cv.tmorris.net/">CV</a>
+    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+  </div>
+</div>
+<h1>You Lazy Thunk!</h1>
+<div class="info">Posted on May 16, 2007, in <a href="../../tags/Programming/index.html">Programming</a></div>
+
+<p>I recently read an article (on C programming) that made the following claim:</p>
+<blockquote>
+<p>Either f() or g() gets called twice. This is inefficient [where both f and g are equivalent functions.]</p>
+</blockquote>
+<p>Unfortunately, these kind of statements are very common among programmers who generally only use a certain class of programming languages (strict and imperative; C, Java, C# etc.) and I have seen the statement in various forms many times before, but I have been compelled to dispel this myth. I don’t intend to pick on this particular article – after all, the intended topic of the article is unrelated to the fallacious statement, despite being a premise for the article’s conclusions and there are many other writers who are most capable of propagating this misinformation anyway. What the author of this statement might not know is that it contradicts some really interesting branches of mathematics including the Lambda Calculus and Complexity Theory (you may have noticed the lambda symbols in the title of this page and you may have seen the term λ-calculus written before).</p>
+<p>The space versus computation trade is a standard problem for computer scientists, but recent industry trends have generalised this problem to the point of actually not appearing like a problem at all. You see, space has become cheap, <strong>really</strong> cheap – so cheap that it almost appears infinite. Let us consider the problem of finding the nth element of an array and a linked list. For the array, this will execute in <em>constant time</em>, however, for the linked list, the time to compute it will depend on the value of n. Notice how the array exists in-memory while the linked list might not (e.g. it may read from a file as it is traversed). That is, it has incurred a space cost. This cost has provided the benefit of computation speed. A trade has occurred, not an efficiency gain.</p>
+<p>The use of the linked list is called <strong>lazy evaluation</strong> (or laziness) while the use of an array is called <strong>strict evaluation</strong> (or strictness). Traversing the linked list is sometimes called <strong>thunking</strong> (which is just an obscure word for invoking a function) and evaluating each of its elements is called <strong>Weak Head Normal Form (WHNF)</strong>, which is a term taken from the λ-calculus.</p>
+<p>Given a lazily evaluated structure, it is possible to make it strict by bringing it to WHNF. This computation will occur once and its result may be placed in a universally-available table with constant time lookup to prevent computing the value again. This storage will incur space and is a process called <strong>memoisation</strong>. Unfortunately, a strict structure cannot be made lazy since the space cost has already been incurred. In fact, doing so yields no benefit whatsoever (other than to appeal to a type system).</p>
+<p>We can observe laziness and strictness in some of our <em>poor-yet-popular</em> programming languages like Java, where an array represents a strict, homogenous list, while an InputStream or Iterator represents a lazy list. A ByteArrayInputStream is a (unfortunate) attempt to construct a lazy structure from a strict one with no additional benefit – in this case, it is to appeal to a type system (e.g. to use a method that must accept an InputStream instead of a byte[]). A Haskell list, which is lazy, is more like a Java iterator than a Java list or array (but still with a significant difference) and it is often better to think this way if you are learning a lazy language coming from a strict, imperative language. In fact, like a Haskell list, a Java iterator can have an infinite length where its <code>hasNext</code> method never returns <code>false</code>.</p>
+<p>We can see now that if <em>f() or g() gets called twice</em>, then this is not inefficient, nor is it efficient. This is actually a trade. Computation has been spent while space has been gained, since the result of the computation of the first call of either function is not stored, but is recomputed. Similarly, purchasing a bottle of water for one dollar is not more or less efficient, assuming that the bottle of water is indeed worth one dollar. You are no more or less better off whether you purchased the water or not. Of course, we rarely see such purist forms of capitalism, but the analogy makes sense otherwise :)</p>
+<p>Programmers of strict, imperative languages do not always elect to strictly evaluate from what is called a <em>universe (or domain) of discourse</em> (from Set Theory). That is to say, from the universe (U) that is passed to the programmer, each expression is not necessarily brought to WHNF. Ideally, only what is necessary is evaluated to complete the computation and anything else from U is left untouched, however, the decision of what to evaluate is often (at least in my observations) totally arbitrary due to a lack of formal reasoning and inexperience with the foundations of computer programming – on the part of the programmer. If a subset of the universe is evaluated that is never needed to complete the computation, then this <strong>is</strong> an inefficiency and it happens very often in strict, imperative languages. (Think tip: Is it any wonder your Java application consumes all your volatile memory?)</p>
+<p>Let’s demonstrate this. Suppose a Java programmer is asked to compute an int – the sum of the first 2 bytes from an InputStream, or compute 1024 if the bytes are not available. The InputStream represents a potentially infinite universe of discourse (|U| = ∞), however, not all of it is necessarily evaluated (if it were infinite, the function would never terminate). Here is a canonical solution:</p>
+<pre class="sourceCode Java"><code class="sourceCode java"><span class="dt">int</span> <span class="fu">firstByte</span>(InputStream in) <span class="kw">throws</span> IOException {
+  <span class="dt">final</span> <span class="dt">int</span> i = in.<span class="fu">read</span>();
+  <span class="dt">final</span> <span class="dt">int</span> j = in.<span class="fu">read</span>();
+  <span class="kw">return</span> i == -<span class="dv">1</span> || j == -<span class="dv">1</span> ? <span class="dv">1024</span> : i + j;
+}</code></pre>
+<p>Notice how the entire InputStream is not read until the end (if there is one), <em>simply because you can</em>, since this would be an inefficiency. The domain or universe is an InputStream, but only two reads occur. Indeed, if this InputStream were infinite, the function would still terminate. Similarly, the following equivalent Haskell function will terminate:</p>
+<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">let</span> first (i<span class="fu">:</span>j<span class="fu">:</span>_) <span class="fu">=</span> i <span class="fu">+</span> j; first _ <span class="fu">=</span> <span class="dv">1024</span></code></pre>
+<p>…even if passed an infinite list:</p>
+<pre><code>&gt; first [20..] -- from 20 to infinity
+41</code></pre>
+<p>If a byte[] were passed to the <code>firstByte</code> function instead and the entire array were never evaluated for the computation (why would it?), we would have an inefficiency. If the array was fully evaluated during computation, then we have neither an efficiency, nor an inefficiency. Certainly, evaluating beyond the universe of discourse yields no benefit whatsoever while incurring a space cost. Unfortunately, this is not immediately obvious because <em>poor-yet-popular</em> programming languages sometimes make it cumbersome to write the desired expression without incurring this inefficiency and so it appears as if it were a necessary trade with the language itself. That is, the reasoning “because this language is cumbersome to such an extreme, it will force you to incur inefficiencies by evaluating outside your domain for computation so as to avoid writing code that is cumbersome” is often overlooked, typically because the alternatives are not known. Also, the more elegant solution, even in that cumbersome programming language, is often overlooked. Nevertheless, I find this behaviour of both the programming language and the programmer using that language, completely absurd (I love you Alex ;))</p>
+<p>However, languages such as C/Java often make laziness very easy. Suppose you write an <code>if/else</code>. The runtime will not evaluate both the if and else block before executing one or the other. This is lazy behaviour. Similarly, the ternary operator (?:) is also lazy. Finally, the &amp;&amp; and || operators are also lazy, since their second argument is only evaluated on-demand. Therefore, we see clearly that laziness is not a completely foreign concept to (mostly :)) strict, imperative languages and is often preferred, since the contrary may certainly result in an inefficiency.</p>
+<p>I leave now with the following transcript from my GHC/Haskell interpreter (which is inherently lazy):</p>
+<pre><code>&gt; take 5 [1..] -- take the first 5 elements from the list of 1 to infinity
+[1,2,3,4,5]
+&gt; foldr (&amp;&amp;) True $ repeat False -- fold the conjunction of True and an infinite list of False
+False
+&gt; foldr (||) False $ repeat True -- fold the disjunction of False and an infinite list of True
+True
+&gt; -- foldr (||) True $ repeat False -- eek! this will never terminate!
+&gt; take 5 $ map (*2) [1..] -- take the first 5 elements from the list with the function (*2) mapped across 1 to infinity
+[2,4,6,8,10]</code></pre>
+
+
+<hr />
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'tonys--blog';
+  var discus_identifier = '/posts/you-lazy-thunk/index.html';
+  var disqus_url = 'http://blog.tmorris.net/posts/you-lazy-thunk/index.html';
+  var discus_title = 'You Lazy Thunk!';
+  (function () {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript><p>The comments use <a href="http://disqus.com/?ref_noscript">Disqus</a>,
+  which requires Javascript.</p></noscript>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-3405112-1']);
+  _gaq.push(['_trackPageview']);
+  (function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+</html>

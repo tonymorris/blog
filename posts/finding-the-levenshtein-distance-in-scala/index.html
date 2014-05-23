@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>λ Tony's blog λ - Finding the Levenshtein Distance in Scala</title>
+  <link rel="stylesheet" type="text/css" href="../../css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/syntax.css" />
+  <link rel="alternate" type="application/atom+xml" href="http://blog.tmorris.net/atom.xml" title="Atom feed" />
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/javascript" src="https://raw.github.com/Mathapedia/LaTeX2HTML5/master/latex2html5.min.js"></script>
+</head>
+<body>
+<div id="title">
+  λ Tony's blog λ
+  <div id="subtitle">
+    The weblog of Tony Morris
+  </div>
+</div>
+<div id="header">
+  <div id="navigation">
+    <a href="../../index.html">Home</a>
+    <a href="../../posts/">All Posts</a>
+    <a href="../../contact/">Contact</a>
+    <a href="http://cv.tmorris.net/">CV</a>
+    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+  </div>
+</div>
+<h1>Finding the Levenshtein Distance in Scala</h1>
+<div class="info">Posted on April 24, 2008, in <a href="../../tags/Programming/index.html">Programming</a></div>
+
+<p>In the spirit of esoteric code snippets like <a href="http://www.poromenos.org/node/87">this one</a>, I thought I’d put my two bob in :)</p>
+<p>I have written the Levenshtein Distance algorithm using <a href="http://scala-lang.org/">Scala</a> below. The Levensthein Distance algorithm is a <a href="http://en.wikipedia.org/wiki/Dynamic_programming">Dynamic Programming Algorithm</a> (DPA). This implementation is a little different to the Python one (which creates the arrays explicitly and fills them using loops):</p>
+<ul>
+<li><p>The code more closely represents the mathematical definition of the algorithm</p></li>
+<li><p>The code is easier to reason about because the destructive updates occur behind the scenes (in the memoisation library)</p></li>
+<li><p>The code below requires a third party library (Scalaz) <em>note that Scalaz comes with demo code including the levenshtein distance and other DPAs</em></p></li>
+<li><p>The code has a better complexity than the typical loopy version by using lazy evaluation (notice that ‘c’ is not always evaluated)</p></li>
+<li><p>While the code memoises with an array, you could use say, a map and save some space as well</p></li>
+<li><p>The code builds the call stack as it traverses the matrix (the loopy one does not)</p></li>
+</ul>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">import</span> scalaz.<span class="fu">memo</span>.<span class="fu">Memo</span>
+<span class="kw">import</span> scalaz.<span class="fu">memo</span>.<span class="fu">SizedMemo</span>.<span class="fu">arraySizedMemo</span>
+
+<span class="kw">object</span> Levenshtein {
+  <span class="kw">def</span> levenshtein[A](x: Array[A], y: Array[A]): Int = {
+    <span class="kw">val</span> im = arraySizedMemo
+    <span class="kw">val</span> m = im[Memo[Int, Int]](x.<span class="fu">length</span> + <span class="dv">1</span>)
+    <span class="co">// the call matrix</span>
+    <span class="kw">def</span> <span class="fu">mx</span>(i: Int, j: Int): Int = <span class="kw">if</span>(i == <span class="dv">0</span>) j <span class="kw">else</span> <span class="kw">if</span>(j == <span class="dv">0</span>) i <span class="kw">else</span> {
+      <span class="kw">def</span> f = (n: Int) =&gt; im[Int](y.<span class="fu">length</span> + <span class="dv">1</span>)
+      <span class="kw">val</span> a = <span class="fu">m</span>(f)(i - <span class="dv">1</span>)(<span class="fu">mx</span>(i - <span class="dv">1</span>, _))(j) + <span class="dv">1</span>
+      <span class="kw">val</span> b = <span class="fu">m</span>(f)(i - <span class="dv">1</span>)(<span class="fu">mx</span>(i - <span class="dv">1</span>, _))(j - <span class="dv">1</span>) + (<span class="kw">if</span>(<span class="fu">x</span>(i - <span class="dv">1</span>) == <span class="fu">y</span>(j - <span class="dv">1</span>)) <span class="dv">0</span> <span class="kw">else</span> <span class="dv">1</span>)
+      <span class="kw">lazy</span> <span class="kw">val</span> c = <span class="fu">m</span>(f)(i)(<span class="fu">mx</span>(i, _))(j - <span class="dv">1</span>) + <span class="dv">1</span>
+      <span class="kw">if</span>(a &lt; b) a <span class="kw">else</span> <span class="kw">if</span>(b &lt;= c) b <span class="kw">else</span> c
+    }
+    <span class="fu">mx</span>(x.<span class="fu">length</span>, y.<span class="fu">length</span>)
+  }
+
+  <span class="kw">def</span> <span class="fu">main</span>(args: Array[String]) =
+    <span class="fu">println</span>(<span class="fu">levenshtein</span>(<span class="fu">args</span>(<span class="dv">0</span>).<span class="fu">toCharArray</span>, <span class="fu">args</span>(<span class="dv">1</span>).<span class="fu">toCharArray</span>))
+}</code></pre>
+<p>To run this code:</p>
+<pre><code>$ wget http://projects.workingmouse.com/public/scalaz/artifacts/2.4/scalaz.jar # download Scalaz 2.4
+$ scalac -classpath scalaz.jar Levenshtein.scala # compile
+$ scala -classpath .:scalaz.jar Levenshtein algorithm altruistic # find the distance!
+&lt;strong&gt;6&lt;/strong&gt;</code></pre>
+
+
+<hr />
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'tonys--blog';
+  var discus_identifier = '/posts/finding-the-levenshtein-distance-in-scala/index.html';
+  var disqus_url = 'http://blog.tmorris.net/posts/finding-the-levenshtein-distance-in-scala/index.html';
+  var discus_title = 'Finding the Levenshtein Distance in Scala';
+  (function () {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript><p>The comments use <a href="http://disqus.com/?ref_noscript">Disqus</a>,
+  which requires Javascript.</p></noscript>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-3405112-1']);
+  _gaq.push(['_trackPageview']);
+  (function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+</html>

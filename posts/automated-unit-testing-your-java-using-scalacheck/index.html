@@ -1,0 +1,269 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>λ Tony's blog λ - Automated Unit Testing your Java using ScalaCheck</title>
+  <link rel="stylesheet" type="text/css" href="../../css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/syntax.css" />
+  <link rel="alternate" type="application/atom+xml" href="http://blog.tmorris.net/atom.xml" title="Atom feed" />
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/javascript" src="https://raw.github.com/Mathapedia/LaTeX2HTML5/master/latex2html5.min.js"></script>
+</head>
+<body>
+<div id="title">
+  λ Tony's blog λ
+  <div id="subtitle">
+    The weblog of Tony Morris
+  </div>
+</div>
+<div id="header">
+  <div id="navigation">
+    <a href="../../index.html">Home</a>
+    <a href="../../posts/">All Posts</a>
+    <a href="../../contact/">Contact</a>
+    <a href="http://cv.tmorris.net/">CV</a>
+    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+  </div>
+</div>
+<h1>Automated Unit Testing your Java using ScalaCheck</h1>
+<div class="info">Posted on April  6, 2008, in <a href="../../tags/Programming/index.html">Programming</a></div>
+
+<h3 id="what-is-automated-unit-testing">What is automated unit testing?</h3>
+<p>I’m assuming you’re familiar with traditional mainstream unit testing techniques such as that purported by JUnit, NUnit and so on. Automated unit testing automates the generation of elements to apply a function to, in light of a stated <em>algebraic property of that function</em>. This is in contrast to traditional unit testing, where a proposition is made about the application of a function to specific elements of the domain.</p>
+<p>Take, for example, the <code>java.lang.String.endsWith</code> function. Using JUnit, we might write:</p>
+<pre><code>  assertTrue(&quot;abc&quot;.endsWith(&quot;&quot;));
+  assertTrue(&quot;abc&quot;.endsWith(&quot;bc&quot;));
+  assertFalse(&quot;abc&quot;.endsWith(&quot;ab&quot;));
+  // ...and so on</code></pre>
+<p>Using automated testing, we might instead write something like this English statement:</p>
+<blockquote>
+<p>For any two Strings (x and y), then <code>(x + y).endsWith(y)</code> is <code>true</code>.</p>
+</blockquote>
+<p>Here is that same statement for formally:</p>
+<pre><code>∀ x. ∀y. (x + y) endsWith y</code></pre>
+<p>Note that we don’t have to declare x or y to be elements of the set <code>java.lang.String</code>, since the type system <em>proves</em> this fact. Note also that we assume correctness of <code>+</code> as a premise of the proposition, while the proposition itself is <em>open</em> (that is, this is the statement we are trying to disprove).</p>
+<p>After putting forward the above open statement, the test software would automatically attempt to <em>falsify</em> (note that this is different to “prove”) this proposition by generating <em>arbitrary</em> values. As a user, you may wish to skew the distribution of these values, adjust the amount of attempts at falsification and various other configuration values. Many have reasonable defaults, such as when generating integer values, include 0, 1, -1, max, min, max-1 and min-1 and typically make 100 to 500 attempts at falsification by default (in critical code, for example, you may turn this up).</p>
+<h3 id="credit-where-it-is-due">Credit where it is due</h3>
+<p>This concept of automated testing did not originate with <a href="http://code.google.com/p/scalacheck/">ScalaCheck</a>. In fact, I have recently noticed the mainstream fraternity have started replicating watered down versions of automated testing (note that it is extremely cumbersome to achieve effectively in mainstream languages). Indeed, advanced programming concepts often take a lot of time to bubble down from research/academia to mainstream in a typically diluted form. This concept originated from a paper titled <a href="http://www.cs.chalmers.se/~rjmh/QuickCheck/">QuickCheck: Automated Specification-Based Unit Testing</a>. Note that JUnit et. al. is not automated, but (very) manual testing.</p>
+<h3 id="on-with-the-story">On with the story</h3>
+<p>The original language, Haskell, has language features called type-classes and higher-order functions, as does Scala. Both of these are required language features to use automated testing effectively, though it is possible to achieve in a lesser form in less useful languages. Note that Java does not have either of these language features. Are we hosed? No!</p>
+<p>Take a look at this source file, which states our property about <code>endsWith</code> using Scala (see <code>endsWithProperty</code>):</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// CheckString.scala</span>
+
+<span class="kw">import</span> org.<span class="fu">scalacheck</span>.<span class="fu">Prop</span>.<span class="fu">_</span>
+<span class="kw">import</span> org.<span class="fu">scalacheck</span>.<span class="fu">ConsoleReporter</span>.<span class="fu">testStatsEx</span>
+<span class="kw">import</span> org.<span class="fu">scalacheck</span>.<span class="fu">Test</span>.<span class="fu">check</span>
+
+<span class="kw">object</span> CheckString {
+  <span class="co">// Here is the property</span>
+
+  <span class="kw">val</span> endsWithProperty = <span class="fu">property</span>((x: String, y: String) =&gt;
+    ((x + y) endsWith y)
+  )
+
+  <span class="co">// A List of properties - we only have one at the moment.</span>
+  <span class="kw">val</span> tests = scala.<span class="fu">List</span>(
+      (<span class="st">&quot;endsWithProperty&quot;</span>, endsWithProperty)
+  )
+
+  <span class="co">// Run all our properties with the default configuration.</span>
+  <span class="co">// Are our properties false?</span>
+  <span class="kw">def</span> <span class="fu">main</span>(args: scala.<span class="fu">Array</span>[String]) =
+    tests foreach { <span class="kw">case</span> (name, p) =&gt; <span class="fu">testStatsEx</span>(name, <span class="fu">check</span>(p)) }
+}</code></pre>
+<p>You can run this source file by downloading <a href="http://scalacheck.googlecode.com/files/ScalaCheck-1.2.jar">ScalaCheck-1.2.jar</a> and compiling it with the <a href="http://www.scala-lang.org/downloads/index.html">Scala</a> compiler.</p>
+<pre><code>$ scalac -classpath ScalaCheck-1.2.jar CheckString.scala</code></pre>
+<p>Does our stated property falsify?</p>
+<pre><code>$ scala -classpath .:ScalaCheck-1.2.jar CheckString
++ OK, passed 100 tests.</code></pre>
+<p>No! After <strong>100 unit tests</strong>, the stated property cannot be shown to be false. We might assume its correctness now. Note that this is <code>java.lang.String</code> that we are testing here running on a Java Virtual Machine, not some other esoteric <code>String</code> – yes, the one you use in your Java enterprise applications ;) You can apply this technique to <strong>any Java type</strong>.</p>
+<p>How about this proposition:</p>
+<blockquote>
+<p>For any two Strings (x and y), then <code>x.reverse.startsWith(y.reverse))</code> is equivalent (in truth) to <code>x.endsWith(y)</code>.</p>
+</blockquote>
+<p>Again, <code>startsWith</code> is assumed correct as a premise of the proposition (or theorem). Can the statement be falsified by the test automation?</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// CheckString.scala</span>
+
+<span class="kw">import</span> org.<span class="fu">scalacheck</span>.<span class="fu">Prop</span>.<span class="fu">_</span>
+<span class="kw">import</span> org.<span class="fu">scalacheck</span>.<span class="fu">ConsoleReporter</span>.<span class="fu">testStatsEx</span>
+<span class="kw">import</span> org.<span class="fu">scalacheck</span>.<span class="fu">Test</span>.<span class="fu">check</span>
+
+<span class="kw">object</span> CheckString {
+  <span class="kw">val</span> endsWithProperty = <span class="fu">property</span>((x: String, y: String) =&gt;
+    ((x + y) endsWith y)
+  )
+
+  <span class="co">// Can you falsify this?</span>
+  <span class="kw">val</span> endsWithProperty2 = <span class="fu">property</span>((x: String, y: String) =&gt;
+    x.<span class="fu">endsWith</span>(y) == x.<span class="fu">reverse</span>.<span class="fu">startsWith</span>(y.<span class="fu">reverse</span>))
+
+  <span class="kw">val</span> tests = scala.<span class="fu">List</span>(
+      (<span class="st">&quot;endsWithProperty&quot;</span>, endsWithProperty),
+      (<span class="st">&quot;endsWithProperty2&quot;</span>, endsWithProperty2)
+  )
+
+  <span class="kw">def</span> <span class="fu">main</span>(args: scala.<span class="fu">Array</span>[String]) =
+    tests foreach { <span class="kw">case</span> (name, p) =&gt; <span class="fu">testStatsEx</span>(name, <span class="fu">check</span>(p)) }
+}</code></pre>
+<p>Well, can it? Oh come on, please tell me! :)</p>
+<pre><code>$ scala -classpath .:ScalaCheck-1.2.jar CheckString
++ OK, passed 100 tests.
++ OK, passed 100 tests.</code></pre>
+<p>No. We have now successfully executed 200 unit tests so we may be prepared to declare satisfaction with the correctness of the propositions under analysis. Note again, that we have not <em>proven</em> these properties to be true (we did prove others to be true using the type system). In fact, doing so for the general program is equivalent to solving the halting problem, so good luck if you’re looking for something more rigorous ;)</p>
+<p>You may have observed that I called a method on <code>String</code> that does not exist in the Java API – reverse. In Scala, you can add methods to objects in a type-safe manner. The <code>reverse</code> method is added by default in the Scala runtime. In Java, you might instead have written reverse as a <code>static</code> method of a <code>StringUtils</code> class or something. This fact does not negate the fact that we are still using the same ol’ <code>java.lang.String</code> that Java Jim is using next door.</p>
+<h3 id="what-were-the-string-values">What were the String values?</h3>
+<p>The test automation supplied 100 <code>String</code> values for each of the two properties in an attempt to falsify; where did they come from? ScalaCheck includes an abstract type called <code>[Arbitrary](http://scalacheck.googlecode.com/svn/artifacts/1.2/doc/api/org/scalacheck/Arbitrary.html)</code> and an implementation for the <code>String</code> type is supplied by ScalaCheck. It is this that is used to generate <code>String</code> values. If we wish to generate values for our own types, we must write our own <code>Arbitrary</code> implementation for it.</p>
+<p>I will state some properties now about <code>java.util.LinkedList</code> and its <code>addFirst</code> method. However, note that unlike <code>java.lang.String</code>, ScalaCheck does not include an arbitrary generator for linked lists, so we will have to write one. Luckily, generators are instances of what is known as a <em>functor</em> (also, a <em>monad</em>), so this task will be quite trivial. Let’s start with doing that.</p>
+<p>We can generate arrays, since that ability comes with ScalaCheck, so we can use the <code>map</code> function (i.e. the essence of a functor) to take the generator for arrays to a generator for linked lists. Given an array, we can create a linked list using: <code>new LinkedList[A](Arrays.asList(array))</code>. This is precisely what the code below does using what is called a <em>higher-order function</em> inside the <code>Arbitrary</code> functor. You needn’t concern yourself with these advanced programming concepts in these demonstrations, but just acknowledge their existence and that the given code is trivial and it works.</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">import</span> org.<span class="fu">scalacheck</span>.<span class="fu">Arbitrary</span>
+<span class="kw">import</span> org.<span class="fu">scalacheck</span>.<span class="fu">Arbitrary</span>.<span class="fu">arbitrary</span>
+<span class="kw">import</span> java.<span class="fu">util</span>.{LinkedList, Arrays}
+
+<span class="kw">object</span> CheckLinkedList {
+  <span class="kw">implicit</span> <span class="kw">def</span> arbitraryLinkedList[A](<span class="kw">implicit</span> a: Arbitrary[A]): Arbitrary[LinkedList[A]] =
+    <span class="fu">Arbitrary</span>(arbitrary[Array[A]].<span class="fu">map</span>(array =&gt; <span class="kw">new</span> LinkedList[A](Arrays.<span class="fu">asList</span>(array))))
+}</code></pre>
+<p>Note the <code>implicit</code> declaration on the method. This is <em>required</em>, however, this language feature is very powerful and only a very lengthy discussion would do it justice, so we will say nothing more than it is required in this case, it is very powerful and Java has no equivalent (you can mildly emulate it with the singleton anti-pattern – another topic).</p>
+<p>What properties can we state now about <code>addFirst</code>? How about for any list and any element, adding the element to the list adds 1 to its <code>size</code>? We call this property <code>addsLengthOne</code> below.</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// CheckLinkedList.scala</span>
+
+<span class="kw">import</span> org.<span class="fu">scalacheck</span>.<span class="fu">Arbitrary</span>
+<span class="kw">import</span> org.<span class="fu">scalacheck</span>.<span class="fu">Arbitrary</span>.<span class="fu">arbitrary</span>
+<span class="kw">import</span> java.<span class="fu">util</span>.{LinkedList, Arrays}
+<span class="kw">import</span> org.<span class="fu">scalacheck</span>.<span class="fu">Prop</span>.<span class="fu">_</span>
+<span class="kw">import</span> org.<span class="fu">scalacheck</span>.<span class="fu">ConsoleReporter</span>.<span class="fu">testStatsEx</span>
+<span class="kw">import</span> org.<span class="fu">scalacheck</span>.<span class="fu">Test</span>.<span class="fu">check</span>
+
+<span class="kw">object</span> CheckLinkedList {
+  <span class="kw">implicit</span> <span class="kw">def</span> arbitraryLinkedList[A](<span class="kw">implicit</span> a: Arbitrary[A]): Arbitrary[LinkedList[A]] =
+    <span class="fu">Arbitrary</span>(arbitrary[Array[A]].<span class="fu">map</span>(array =&gt; <span class="kw">new</span> LinkedList[A](Arrays.<span class="fu">asList</span>(array))))
+
+  <span class="kw">val</span> addsLengthOne = <span class="fu">property</span>((list: LinkedList[String], s: String) =&gt;
+    list.<span class="fu">size</span> + <span class="dv">1</span> == { list.<span class="fu">addFirst</span>(s); list.<span class="fu">size</span> }
+  )
+
+  <span class="kw">val</span> tests = scala.<span class="fu">List</span>(
+      (<span class="st">&quot;addsLengthOne&quot;</span>, addsLengthOne)
+  )
+
+  <span class="kw">def</span> <span class="fu">main</span>(args: scala.<span class="fu">Array</span>[String]) =
+    tests foreach { <span class="kw">case</span> (name, p) =&gt; <span class="fu">testStatsEx</span>(name, <span class="fu">check</span>(p)) }
+}</code></pre>
+<p><em>I’ve copied and pasted the boilerplate to get the tests running for the demonstration, but please feel encouraged to put this kind of code in its own function to avoid this repetition.</em></p>
+<p>How did we go?</p>
+<pre><code>$ scala -classpath .:ScalaCheck-1.2.jar CheckLinkedList
++ OK, passed 100 tests.</code></pre>
+<p>Yippee!!</p>
+<p>We might state two more properties:</p>
+<p>* For any list and any element (s), <code>list.add(s)</code> then <code>list.get(0)</code> will always yield <code>s</code>.</p>
+<p>* For any list, any element (s) and any integer between 0 and list.length - 1 (n), then calling <code>list.get(n)</code> is equivalent to calling <code>list.addFirst(s).get(n + 1)</code>.</p>
+<pre><code>$ scala -classpath .:ScalaCheck-1.2.jar CheckLinkedList
++ OK, passed 100 tests.
++ OK, passed 100 tests.
++ OK, passed 100 tests.</code></pre>
+<p>I have left off the code for the moment and I will give a complete example toward the end. Note that we have 300 passing unit tests – the code is around 25 lines (excluding the boilerplate to get the tests running).</p>
+<p>At this point, we have given <strong>an unambiguous specification for <code>addFirst</code></strong>. In other words, it is not possible to write a terminating function that does not satisfy these properties that is not equivalent to <code>addFirst</code>. However, this ignores the unfortunate potential for uncontrolled side-effects, which is an inherent property of Java (and Scala for that matter). We will assume it to be the case – no additional side-effects. It then follows that one additional benefit of automated testing is that we also obtain extremely valuable documentation for the function.</p>
+<p>Consider being provided with:</p>
+<p>* The type signature for <code>addFirst</code> (the properties which are proved).</p>
+<p>* The three stated properties for <code>addFirst</code>.</p>
+<p>Is there anything more useful to add in terms of documentation? Isn’t this unambiguous, highly readable specification more than you could possibly ask for? This is an interesting question to ponder, particularly in a more pure environment than the one we are discussing here, but I thought I would mention it anyway :)</p>
+<p>I will state a property that is false, just to exemplify what happens. The idea is that it is extremely difficult (but not impossible – remember halting problem) to state a false property that ScalaCheck passes. I’m not going to look for a specific corner case that traditional unit testing is unlikely to pick up, but I encourage you to do so as an added exercise.</p>
+<p>Instead, I will state an obviously false property; for any list and any element, adding the element with <code>addFirst</code> is equivalent to adding that element with <code>addLast</code>.</p>
+<p>Here we go (note the fourth property – <code>thisIsFalse</code>):</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// CheckLinkedList.scala</span>
+
+<span class="kw">import</span> org.<span class="fu">scalacheck</span>.<span class="fu">Arbitrary</span>
+<span class="kw">import</span> org.<span class="fu">scalacheck</span>.<span class="fu">Arbitrary</span>.<span class="fu">arbitrary</span>
+<span class="kw">import</span> java.<span class="fu">util</span>.{LinkedList, Arrays}
+<span class="kw">import</span> org.<span class="fu">scalacheck</span>.<span class="fu">Prop</span>.<span class="fu">_</span>
+<span class="kw">import</span> org.<span class="fu">scalacheck</span>.<span class="fu">ConsoleReporter</span>.<span class="fu">testStatsEx</span>
+<span class="kw">import</span> org.<span class="fu">scalacheck</span>.<span class="fu">Test</span>.<span class="fu">check</span>
+
+<span class="kw">object</span> CheckLinkedList {
+  <span class="kw">implicit</span> <span class="kw">def</span> arbitraryLinkedList[A](<span class="kw">implicit</span> a: Arbitrary[A]): Arbitrary[LinkedList[A]] =
+    <span class="fu">Arbitrary</span>(arbitrary[Array[A]].<span class="fu">map</span>(array =&gt; <span class="kw">new</span> LinkedList[A](Arrays.<span class="fu">asList</span>(array))))
+
+  <span class="kw">val</span> addsLengthOne = <span class="fu">property</span>((list: LinkedList[String], s: String) =&gt;
+    list.<span class="fu">size</span> + <span class="dv">1</span> == { list.<span class="fu">addFirst</span>(s); list.<span class="fu">size</span> }
+  )
+
+  <span class="kw">val</span> getZero = <span class="fu">property</span>((list: LinkedList[String], s: String) =&gt;
+    { list.<span class="fu">addFirst</span>(s); list.<span class="fu">get</span>(<span class="dv">0</span>) == s }
+  )
+
+  <span class="kw">val</span> getPlusOne = <span class="fu">property</span>((list: LinkedList[String], s: String, n: Int) =&gt;
+    (n &gt;= <span class="dv">0</span> &amp;&amp; n &lt; list.<span class="fu">size</span>) ==&gt;
+    (list.<span class="fu">get</span>(n) == { list.<span class="fu">addFirst</span>(s); list.<span class="fu">get</span>(n + <span class="dv">1</span>) })
+  )
+
+  <span class="kw">val</span> thisIsFalse = <span class="fu">property</span>((list: LinkedList[String], s: String) =&gt;
+    {
+      <span class="kw">val</span> listt = list.<span class="fu">clone</span>.<span class="fu">asInstanceOf</span>[LinkedList[String]]
+      list.<span class="fu">addFirst</span>(s)
+      listt.<span class="fu">addLast</span>(s)
+      list == listt
+    }
+  )
+
+  <span class="kw">val</span> tests = scala.<span class="fu">List</span>(
+      (<span class="st">&quot;addsLengthOne&quot;</span>, addsLengthOne),
+      (<span class="st">&quot;getZero&quot;</span>, getZero),
+      (<span class="st">&quot;getPlusOne&quot;</span>, getPlusOne),
+      (<span class="st">&quot;you're a big fat liar!&quot;</span>, thisIsFalse)
+  )
+
+  <span class="kw">def</span> <span class="fu">main</span>(args: scala.<span class="fu">Array</span>[String]) =
+    tests foreach { <span class="kw">case</span> (name, p) =&gt; <span class="fu">testStatsEx</span>(name, <span class="fu">check</span>(p)) }
+}</code></pre>
+<p>And when we run:</p>
+<pre><code>$ scala -classpath .:ScalaCheck-1.2.jar CheckLinkedList
++ OK, passed 100 tests.
++ OK, passed 100 tests.
++ OK, passed 100 tests.
+! Falsified after 2 passed tests:
+&gt; ARG_0 = &quot;[, a, b]&quot;
+&gt; ARG_1 = &quot;&quot;
+java.lang.Error: you're a big fat liar!: Failed(List(Arg(,[, a, b],0), Arg(,,0)))</code></pre>
+<p>Our usual three properties pass just fine, but notice that ScalaCheck prints the <em>counter-example</em> to the false property. We can determine that this will never be the empty list since the property holds for the empty list (does it? don’t just take my word for it!). ScalaCheck likely tries the empty list one or two times before it declared to have “Falsified after 2 passed tests” using a non-empty list.</p>
+<p>Imagine if ScalaCheck had printed a list of length 20 or 30. If our property was particularly complicated, it would be more difficult to reason about our code and the property to determine <em>why what we stated was false</em>. If the property is also false for a list of length 10, we’d probably want to see that counter-example instead to make debugging easier. Indeed, it would be even easier to have the shortest possible list length that still falsifies what we believed to be correct. This concept is known as <em>shrinking</em> and ScalaCheck certainly provides this ability – occasionally with some assistance from the user for user-defined types – a bit like having to declare your own <code>Arbitrary</code>, you also declare your own shrinking strategy and this is also typically trivial.</p>
+<p>In our case, the linked list was not shrunk, since we hadn’t provided a shrinking strategy for linked list (and one is not supplied with ScalaCheck), so the first counter-example was used. In non-demonstration environments, it is encouraged to put this additional effort in to your testing practices by supplying a shrinking strategy for user-defined types (if possible and sensible – it is not always so).</p>
+<h3 id="conclusion">Conclusion</h3>
+<p>Automated unit testing is an incredibly important tool to any programmer – even when using Java. It serves as rigorous documentation at the very worst and more typically, as a robust unit testing platform (300 unit tests in 25 lines in a demo – it’s usually even better than that! <a href="http://projects.workingmouse.com/public/scalaz/tags/2.4/src/test/scalaz/CheckEither.scala">here is over 30,000 unit tests</a>).</p>
+<p>Coming up with good properties is an extremely (this adverb cannot be exaggerated) disciplined task and I implore any programmer to strive to do it effectively. Note that stating one property may imply others, so stating those others is potentially redundant. In other words, it is the set of properties that make up the unit for analysis – you cannot necessarily declare the legitimacy of each one independently.</p>
+<p>This form of testing is a physical manifestation of an integral part of computer programming – the formation of the logical theorem (see Curry-Howard Isomorphism) that makes up the program. We conclude by noting that this more disciplined, robust and formal approach to programming requires considerably less effort than traditional unit testing techniques, but rigorous mental discipline. It can also be observed that this approach de-emphasises the English description (i.e. function name, javadoc, etc.) as a meaningful method of extrapolating function behaviour.</p>
+
+
+<hr />
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'tonys--blog';
+  var discus_identifier = '/posts/automated-unit-testing-your-java-using-scalacheck/index.html';
+  var disqus_url = 'http://blog.tmorris.net/posts/automated-unit-testing-your-java-using-scalacheck/index.html';
+  var discus_title = 'Automated Unit Testing your Java using ScalaCheck';
+  (function () {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript><p>The comments use <a href="http://disqus.com/?ref_noscript">Disqus</a>,
+  which requires Javascript.</p></noscript>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-3405112-1']);
+  _gaq.push(['_trackPageview']);
+  (function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+</html>

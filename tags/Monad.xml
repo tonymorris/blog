@@ -1,0 +1,354 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <title>λ Tony's blog λ — Posts tagged Monad</title>
+    <link href="http://blog.tmorris.net/tags/Monad.xml" rel="self" />
+    <link href="http://blog.tmorris.net" />
+    <id>http://blog.tmorris.net/tags/Monad.xml</id>
+    <author>
+        <name>Tony Morris</name>
+        <email>blog@tmorris.net</email>
+    </author>
+    <updated>2013-10-18T20:00:00Z</updated>
+    <entry>
+    <title>Improving Applicative do-notation</title>
+    <link href="http://blog.tmorris.net/posts/applicative-do/index.html" />
+    <id>http://blog.tmorris.net/posts/applicative-do/index.html</id>
+    <published>2013-10-18T20:00:00Z</published>
+    <updated>2013-10-18T20:00:00Z</updated>
+    <summary type="html"><![CDATA[<h3 id="monad-and-functor">Monad and Functor</h3>
+<p>The <a href="http://haskell.org/">Haskell programming language</a> has a <code>Monad</code> type-class as well as a <code>Functor</code> type-class. It is possible to derive the <code>Functor</code> primitive (<code>fmap</code>) from the <code>Monad</code> primitives:</p>
+<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="co">-- derive fmap from the Monad primitives, (&gt;&gt;=) and return</span>
+fmap f x <span class="fu">=</span>
+  x <span class="fu">&gt;&gt;=</span> return <span class="fu">.</span> f</code></pre>
+<p>Therefore, it is reasonably argued that <code>Monad</code> should extend <code>Functor</code> so as to provide this default definition of <code>fmap</code>. Due to history, this is not the case, which leads to some awkward situations.</p>
+<p>For example, since not all <code>Functor</code> instances are <code>Monad</code> instances, a given operation may wish to restrict itself (if possible) to <code>Functor</code> so that it can be used against those data types. In short, use <code>fmap</code> instead of <code>liftM</code> to prevent an unnecessary constraint on the type of the operation.</p>
+<pre class="sourceCode Haskell"><code class="sourceCode haskell">fFlip <span class="ot">::</span>
+  <span class="dt">Functor</span> f <span class="ot">=&gt;</span>
+  f (a <span class="ot">-&gt;</span> b)
+  <span class="ot">-&gt;</span> a
+  <span class="ot">-&gt;</span> f b
+fFlip f a <span class="fu">=</span>
+  fmap (<span class="fu">$</span>a) f
+
+mFlip <span class="ot">::</span>
+  <span class="dt">Monad</span> f <span class="ot">=&gt;</span>
+  f (a <span class="ot">-&gt;</span> b)
+  <span class="ot">-&gt;</span> a
+  <span class="ot">-&gt;</span> f b
+mFlip f a <span class="fu">=</span>
+  liftM (<span class="fu">$</span>a) f</code></pre>
+<p>The <code>fFlip</code> is available to use to a strict superset of the data types that <code>mFlip</code> is available to, yet they are both equivalent in power. It is desirable to implement <code>fFlip</code>. However, when we combine a usage of <code>fFlip</code> with a monad operation, our type constraint becomes <code>(Monad f, Functor f) =&gt;</code>, which is undesirable boilerplate because <code>Monad</code> implies <code>Functor</code>!</p>
+<h3 id="monad-applicative-and-functor">Monad, Applicative and Functor</h3>
+<p>A <a href="http://www.haskell.org/haskellwiki/Functor-Applicative-Monad_Proposal">proposal to amend this introduces the <code>Applicative</code> type-class</a>, which sits between <code>Monad</code> and <code>Functor</code>. In other words, <code>Monad</code> extends <code>Applicative</code> and <code>Applicative</code> extends <code>Functor</code>. This is again, because the primitives of each superclass can be derived:</p>
+<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="co">-- derive fmap from the Applicative primitives, (&lt;*&gt;) and pure</span>
+fmap <span class="ot">::</span>
+  <span class="dt">Applicative</span> f <span class="ot">=&gt;</span>
+  (a <span class="ot">-&gt;</span> b)
+  <span class="ot">-&gt;</span> f a
+  <span class="ot">-&gt;</span> f b
+fmap <span class="fu">=</span>
+  (<span class="fu">&lt;*&gt;</span>) <span class="fu">.</span> pure
+
+<span class="co">-- derive (&lt;*&gt;) and pure from the Monad primitives, (&gt;&gt;=) and return</span>
+(<span class="fu">&lt;*&gt;</span>) <span class="ot">::</span>
+  <span class="dt">Monad</span> f <span class="ot">=&gt;</span>
+  f (a <span class="ot">-&gt;</span> b)
+  <span class="ot">-&gt;</span> f a
+  <span class="ot">-&gt;</span> f b
+f <span class="fu">&lt;*&gt;</span> a <span class="fu">=</span>
+  <span class="kw">do</span> f&#39; <span class="ot">&lt;-</span> f
+     a&#39; <span class="ot">&lt;-</span> a
+     return (f&#39; a&#39;)
+
+pure <span class="ot">::</span>
+  <span class="dt">Monad</span> f <span class="ot">=&gt;</span>
+  a
+  <span class="ot">-&gt;</span> f a
+pure <span class="fu">=</span>
+  return</code></pre>
+<h3 id="applicative-do-notation">Applicative do-notation</h3>
+<p>With this proposal, there is <a href="http://ghc.haskell.org/trac/ghc/wiki/ApplicativeDo">another proposal to extend do-notation</a> to take advantage of this improved flexibility. Currently, do-notation translates to the code that uses the <code>Monad</code> primitives, <code>(&gt;&gt;=)</code> and <code>return</code><sup><a href="#fn1" class="footnoteRef" id="fnref1">1</a></sup>.</p>
+<p>There are some arguments against this proposal, because this extension is not always desirable. In particular, the degree to which values are shared may be affected. Consider:</p>
+<pre class="sourceCode Haskell"><code class="sourceCode haskell">result <span class="fu">=</span>
+  <span class="kw">do</span> a <span class="ot">&lt;-</span> expr
+     b <span class="ot">&lt;-</span> spaceyExpr
+     return (f a b)
+
+<span class="co">-- monad desugaring (current)</span>
+result <span class="fu">=</span>
+  expr <span class="fu">&gt;&gt;=</span> \a <span class="ot">-&gt;</span>
+  spaceyExpr <span class="fu">&gt;&gt;=</span> \b <span class="ot">-&gt;</span>
+  return (f a b)
+
+<span class="co">-- applicative desugaring (proposed)</span>
+result <span class="fu">=</span>
+  fmap f expr <span class="fu">&lt;*&gt;</span> spaceyExpr</code></pre>
+<p>Since <code>spaceyExpr</code>appears inside a lambda for the current desugaring, it will not be retained and so computed on each invocation of <code>a</code>. However, in the proposed desugaring, the value is retained and shared when the expression is evaluated. This could, of course, lead to surprises in space usage.</p>
+<p>It might be argued that do-notation should maintain its current desugaring using <code>Monad</code> and introduce another means by which to perform <code>Applicative</code> desugaring.</p>
+<p>Whatever the outcome, all of this distracts from the otherwise glaring oversight.</p>
+<h3 id="no">No</h3>
+<p>The Functor, Monad, Applicative proposal opens with the following paragraph:</p>
+<pre><code>Haskell calls a couple of historical accidents its own. While some of them,
+such as the &quot;number classes&quot; hierarchy, can be justified by pragmatism or
+lack of a strictly better suggestion, there is one thing that stands out as,
+well, not that: Applicative not being a superclass of Monad.</code></pre>
+<p>It is my opinion that this proposal is about to commit <em>exactly the same historical mistake</em> that is attempting to be eschewed. Furthermore, by properly eliminating this mistake, the syntax proposal would be improved as a consequence.</p>
+<p>Being a strong proponent of progress, and that Haskell is often pushing the front of progress, this makes me a bit sad :(</p>
+<p>Fact: not all semigroups are monoids.</p>
+<p>No desugaring, current or proposed, utilises the identity value. In the <code>Monad</code> case, this is <code>return</code> and in the <code>Applicative</code> case, this is <code>pure</code>. However, it is a requirement of users to implement these functions. There exist structures that can utilise the full power of this desugaring, but cannot provide the identity value. Therefore, we can eliminate the identity value and still exploit the full advantage of desugaring. Not only this, but it then makes operations available to a strict superset of data types.</p>
+<p>Consider the following amendment to the proposal:</p>
+<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">class</span> <span class="dt">Functor</span> f <span class="ot">=&gt;</span> <span class="dt">Apply</span> f <span class="kw">where</span>
+  (<span class="fu">&lt;*&gt;</span>) <span class="ot">::</span>
+    f (a <span class="ot">-&gt;</span> b)
+    <span class="ot">-&gt;</span> f a
+    <span class="ot">-&gt;</span> f b
+
+<span class="kw">class</span> <span class="dt">Apply</span> f <span class="ot">=&gt;</span> <span class="dt">Applicative</span> f <span class="kw">where</span>
+  pure <span class="ot">::</span>
+    a
+    <span class="ot">-&gt;</span> f a</code></pre>
+<p>We may still derive many of the ubiquitous functions, without the full power of <code>Applicative</code>.</p>
+<pre class="sourceCode Haskell"><code class="sourceCode haskell">liftA2 <span class="ot">::</span>
+  <span class="dt">Apply</span> f <span class="ot">=&gt;</span>
+  (a <span class="ot">-&gt;</span> b <span class="ot">-&gt;</span> c)
+  <span class="ot">-&gt;</span> f a
+  <span class="ot">-&gt;</span> f b
+  <span class="ot">-&gt;</span> f c
+liftA2 f a b <span class="fu">=</span>
+  fmap f a <span class="fu">&lt;*&gt;</span> b</code></pre>
+<p>We may still exploit our do-notation:</p>
+<pre class="sourceCode Haskell"><code class="sourceCode haskell">result <span class="fu">=</span>
+  <span class="kw">do</span> a <span class="ot">&lt;-</span> expr1
+     b <span class="ot">&lt;-</span> expr2
+     return (f a b)
+
+<span class="co">-- apply desugaring</span>
+result <span class="fu">=</span>
+  fmap f expr1 <span class="fu">&lt;*&gt;</span> expr2</code></pre>
+<p>However, more to the point, there are now data structures for which these operations (e.g. <code>liftA2</code>) and do-notation become available, that otherwise would not have been.</p>
+<p>Here are some examples of those:</p>
+<h5 id="also">Also</h5>
+<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">NonEmptyList</span> a <span class="fu">=</span> <span class="dt">NEL</span> a [a]
+<span class="kw">data</span> <span class="dt">Also</span> a x <span class="fu">=</span> <span class="dt">Also</span> (<span class="dt">NonEmptyList</span> a) x
+<span class="kw">instance</span> <span class="dt">Functor</span> (<span class="dt">Also</span> a) <span class="kw">where</span>
+<span class="kw">instance</span> <span class="dt">Apply</span> (<span class="dt">Also</span> a) <span class="kw">where</span>
+  <span class="dt">Also</span> (<span class="dt">NEL</span> h t) f <span class="fu">&lt;*&gt;</span> <span class="dt">Also</span> (<span class="dt">NEL</span> h&#39; t&#39;) x <span class="fu">=</span>
+    <span class="dt">Also</span> (<span class="dt">NEL</span> h (t <span class="fu">++</span> h&#39; <span class="fu">:</span> t&#39;)) (f x)</code></pre>
+<p>The <code>Also</code> data type has no possible <code>Applicative</code> instance, yet it has a very usable <code>Apply</code>. This means we can use (amended) <code>liftA2</code> and do-notation on <code>Also</code> values, without losing any power.</p>
+<p>This data type generalises in fact, while still maintaining an <code>Apply</code> instance.</p>
+<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">Also</span> s x <span class="fu">=</span> <span class="dt">Also</span> s x</code></pre>
+<p>There is an <code>Apply</code> instance for <code>(Also s)</code> for as long as there is a <code>Semigroup</code> instance for <code>s</code>, however, if your semigroup is not a monoid, then there is no <code>Monoid</code> instance. I have used <code>(NonEmptyList a)</code> as an example of a data type with a semigroup, but not a monoid.</p>
+<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">class</span> <span class="dt">Semigroup</span> a <span class="kw">where</span>
+<span class="ot">  (&lt;&gt;) ::</span> <span class="co">-- associative</span>
+    a
+    <span class="ot">-&gt;</span> a
+    <span class="ot">-&gt;</span> a
+
+<span class="kw">instance</span> <span class="dt">Semigroup</span> s <span class="ot">=&gt;</span> <span class="dt">Apply</span> (<span class="dt">Also</span> s) <span class="kw">where</span>
+  <span class="dt">Also</span> s1 f <span class="fu">&lt;*&gt;</span> <span class="dt">Also</span> s2 x <span class="fu">=</span>
+    <span class="dt">Also</span> (s1 <span class="fu">&lt;&gt;</span> s2) (f x)</code></pre>
+<h5 id="ornot">OrNot</h5>
+<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">OrNot</span> a <span class="fu">=</span> <span class="co">-- Maybe (NonEmptyList a)</span>
+  <span class="dt">Not</span>
+  <span class="fu">|</span> <span class="dt">Or</span> (<span class="dt">NonEmptyList</span> a)
+
+<span class="kw">instance</span> <span class="dt">Functor</span> <span class="dt">OrNot</span> <span class="kw">where</span>
+
+<span class="kw">instance</span> <span class="dt">Apply</span> <span class="dt">OrNot</span> <span class="kw">where</span>
+  <span class="dt">Not</span> <span class="fu">&lt;*&gt;</span> _ <span class="fu">=</span>
+    <span class="dt">Not</span>
+  <span class="dt">Or</span> _ <span class="fu">&lt;*&gt;</span> <span class="dt">Not</span> <span class="fu">=</span>
+    <span class="dt">Not</span>
+  <span class="dt">Or</span> (<span class="dt">NEL</span> h t) <span class="fu">&lt;*&gt;</span> <span class="dt">Or</span> (<span class="dt">NEL</span> h&#39; t&#39;) <span class="fu">=</span>
+    <span class="dt">Or</span> (<span class="dt">NEL</span> (h h&#39;) (t <span class="fu">&lt;*&gt;</span> t&#39;))</code></pre>
+<p>The <code>OrNot</code> data is isomorphic to <code>Maybe (NonEmptyList a)</code> and has an <code>Apply</code> instance that is similar to the <code>Applicative</code> for <code>Maybe</code>. However, since this data type holds a non-empty list, there is no possibility for an <code>Applicative</code> instance.</p>
+<p>Again, with an amended do-notation and library functions, we could use <code>OrNot</code> values.</p>
+<h5 id="but-it-doesnt-stop-there">But it doesn’t stop there…</h5>
+<p>Your regular old <code>Data.Map#Map</code> can provide an <code>Apply</code> instance, but not an <code>Applicative</code>.</p>
+<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">instance</span> <span class="dt">Ord</span> k <span class="ot">=&gt;</span> <span class="dt">Apply</span> (<span class="dt">Map</span> k) <span class="kw">where</span>
+  (<span class="fu">&lt;*&gt;</span>) <span class="fu">=</span>
+    Map.intersectionWith (<span class="fu">$</span>)</code></pre>
+<p>There is no corresponding <code>Applicative</code> instance for this <code>Apply</code> instance. This is the same story for <code>Data.IntMap#IntMap</code>.</p>
+<p>I want to use <code>liftA2</code> and many other generalised functions on <code>(Map k)</code> values and no, I am not sorry!</p>
+<h3 id="apply-not-applicative">Apply not Applicative</h3>
+<p>I could go on and on with useful data types that have <code>Apply</code> instances, but no corresponding <code>Applicative</code>. However, I hope this is enough to illustrate the point.</p>
+<p>If we are going to amend the type-class hierarchy, taking on all the compatibility issues of doing so, then let us provide a kick-arse solution. It is especially compelling in that this amendment to the proposal subsumes the existing error. Let us move on from yet another historical mistake that <a href="http://hackage.haskell.org/package/semigroupoids">has already been acknowledged</a>.</p>
+<h3 id="bind-not-monad">Bind not Monad</h3>
+<p>This story is not just about <code>Apply</code> and <code>Applicative</code>. All of the same reasoning applies to semi-monads or the <code>Bind</code> type-class. The <code>return</code> operation is not essential to do-notation or even many monad functions, so it is an unnecessary, imposed requirement for implementers of the <code>Monad</code> type-class.</p>
+<p>Similarly, there are structures for which there is a <code>Bind</code> instance, but not a <code>Monad</code> instance.</p>
+<h3 id="type-class-hierarchy-proper">Type-class Hierarchy Proper</h3>
+<p>In order to take full advantage of a type-class amendment, I submit the following proposed type-class hierarchy. I contend that it subsumes the existing proposal by providing additional flexibility for zero additional loss.</p>
+<p>Library functions, such as <code>liftA2</code>, could slowly adopt an amendment to their type signature so as to open up to more data types.</p>
+<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">class</span> <span class="dt">Functor</span> f <span class="kw">where</span>
+  fmap <span class="ot">::</span>
+    (a <span class="ot">-&gt;</span> b)
+    <span class="ot">-&gt;</span> f a
+    <span class="ot">-&gt;</span> f b
+
+<span class="kw">class</span> <span class="dt">Functor</span> f <span class="ot">=&gt;</span> <span class="dt">Apply</span> f <span class="kw">where</span>
+  (<span class="fu">&lt;*&gt;</span>) <span class="ot">::</span>
+    f (a <span class="ot">-&gt;</span> b)
+    <span class="ot">-&gt;</span> f a
+    <span class="ot">-&gt;</span> f b
+
+<span class="kw">class</span> <span class="dt">Apply</span> f <span class="ot">=&gt;</span> <span class="dt">Applicative</span> f <span class="kw">where</span>
+  pure <span class="ot">::</span>
+    a
+    <span class="ot">-&gt;</span> f a
+
+<span class="kw">class</span> <span class="dt">Apply</span> f <span class="ot">=&gt;</span> <span class="dt">Bind</span> f <span class="kw">where</span>
+  (<span class="fu">&gt;&gt;=</span>) <span class="ot">::</span>
+    (a <span class="ot">-&gt;</span> f b)
+    <span class="ot">-&gt;</span> f a
+    <span class="ot">-&gt;</span> f b
+
+<span class="kw">class</span> (<span class="dt">Applicative</span> f, <span class="dt">Bind</span> f) <span class="ot">=&gt;</span> <span class="dt">Monad</span> f <span class="kw">where</span></code></pre>
+<p>and while we’re at it…</p>
+<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">class</span> <span class="dt">Semigroup</span> a <span class="kw">where</span>
+<span class="ot">  (&lt;&gt;) ::</span> <span class="co">-- mappend</span>
+    a
+    <span class="ot">-&gt;</span> a
+    <span class="ot">-&gt;</span> a
+
+<span class="kw">class</span> <span class="dt">Semigroup</span> a <span class="ot">=&gt;</span> <span class="dt">Monoid</span> a <span class="kw">where</span>
+  mempty <span class="ot">::</span>
+    a</code></pre>
+<p>but maybe I am biting off a bit too much there :)</p>
+<h3 id="addendum-on-pointed">Addendum on Pointed</h3>
+<p>I have not mentioned the <code>Pointed</code> experiment, because it is not worth mentioning anymore. It was an experiment, executed in both Scala and Haskell, and the result is conclusive.</p>
+<p>However, here is the type-class:</p>
+<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">class</span> <span class="dt">Functor</span> f <span class="ot">=&gt;</span> <span class="dt">Pointed</span> f <span class="kw">where</span>
+  pure <span class="ot">::</span>
+    a
+    <span class="ot">-&gt;</span> f a</code></pre>
+<p>It was once proposed to slot in between <code>Applicative</code> and <code>Functor</code>. The <code>Pointed</code> type-class is not at all useful and there is no value in continuing discussion in this context, but instead about the result of the failed experiment. This is for another day.</p>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>There are other functions on <code>Monad</code>, but these are either derivable (e.g. <code>(&gt;&gt;)</code>) or a mistake and hindrance to discussion (e.g. <code>fail</code>).<a href="#fnref1">↩</a></p></li>
+</ol>
+</div>]]></summary>
+</entry>
+<entry>
+    <title>Monad Transformers at BFPG</title>
+    <link href="http://blog.tmorris.net/posts/monad-transformers/index.html" />
+    <id>http://blog.tmorris.net/posts/monad-transformers/index.html</id>
+    <published>2013-09-03T12:00:00Z</published>
+    <updated>2013-09-03T12:00:00Z</updated>
+    <summary type="html"><![CDATA[<p>A talk on monad transformers , delivered to <a href="http://www.meetup.com/Brisbane-Functional-Programming-Group/events/104664162/">Brisbane Functional Programming Group on Tuesday 27 August 2013</a>.</p>
+<ul>
+<li><p><a href="http://dl.dropbox.com/u/7810909/media/doc/monad-transformers.pdf">Slides</a> <em>(pdf)</em></p></li>
+<li><p><a href="https://vimeo.com/73648150">Video</a> <em>(vimeo)</em></p></li>
+</ul>
+<div class="embed-vimeo">
+  <iframe src="http://player.vimeo.com/video/73648150" width="688" height="387" frameborder="0" webkitAllowFullScreen="true" mozallowfullscreen="true" allowFullScreen="true">
+  </iframe>
+</div>
+
+]]></summary>
+</entry>
+<entry>
+    <title>Functors and things using Scala</title>
+    <link href="http://blog.tmorris.net/posts/functors-and-things-using-scala/index.html" />
+    <id>http://blog.tmorris.net/posts/functors-and-things-using-scala/index.html</id>
+    <published>2013-03-01T00:00:00Z</published>
+    <updated>2013-03-01T00:00:00Z</updated>
+    <summary type="html"><![CDATA[<h2 id="types-of-functors">Types of Functors</h2>
+<p>There are many types of functors. They can be expressed using the Scala programming language.</p>
+<ul>
+<li>covariant functors — defines the operation commonly known as <code>map</code> or <code>fmap</code>.</li>
+</ul>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// covariant functor</span>
+<span class="kw">trait</span> Functor[F[_]] {
+  <span class="kw">def</span> fmap[A, B](f: A =&gt; B): F[A] =&gt; F[B]
+}</code></pre>
+<ul>
+<li>contravariant functors — defines the operation commonly known as <code>contramap</code>.</li>
+</ul>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// contravariant functor</span>
+<span class="kw">trait</span> Contravariant[F[_]] {
+  <span class="kw">def</span> contramap[A, B](f: B =&gt; A): F[A] =&gt; F[B]
+}</code></pre>
+<ul>
+<li>exponential functors — defines the operation commonly known as <code>xmap</code>. Also known as <em>invariant functors</em>.</li>
+</ul>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// exponential functor</span>
+<span class="kw">trait</span> Exponential[F[_]] {
+  <span class="kw">def</span> xmap[A, B](f: (A =&gt; B, B =&gt; A)): F[A] =&gt; F[B]
+}</code></pre>
+<ul>
+<li>applicative functor<sup><a href="#fn1" class="footnoteRef" id="fnref1">1</a></sup> — defines the operation commonly known as <code>apply</code> or <code>&lt;*&gt;</code>.</li>
+</ul>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// applicative functor (abbreviated)</span>
+<span class="kw">trait</span> Applicative[F[_]] {
+  <span class="kw">def</span> apply[A, B](f: F[A =&gt; B]): F[A] =&gt; F[B]
+}</code></pre>
+<ul>
+<li>monad<sup><a href="#fn2" class="footnoteRef" id="fnref2">2</a></sup> — defines the operation commonly known as <code>bind</code>, <code>flatMap</code> or <code>=&lt;&lt;</code>.</li>
+</ul>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// monad (abbreviated)</span>
+<span class="kw">trait</span> Monad[F[_]] {
+  <span class="kw">def</span> flatMap[A, B](f: A =&gt; F[B]): F[A] =&gt; F[B]
+}</code></pre>
+<ul>
+<li>comonad<sup><a href="#fn3" class="footnoteRef" id="fnref3">3</a></sup> — defines the operation commonly known as <code>extend</code>, <code>coflatMap</code> or <code>&lt;&lt;=</code>.</li>
+</ul>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// comonad (abbreviated)</span>
+<span class="kw">trait</span> Comonad[F[_]] {
+  <span class="kw">def</span> coflatMap[A, B](f: F[A] =&gt; B): F[A] =&gt; F[B]
+}</code></pre>
+<h2 id="remembering-the-different-types">Remembering the different types</h2>
+<p>Sometimes I am asked how to remember all of these and/or determine which is appropriate. There are many answers to this question, but there is a common feature of all of these different types of functor:</p>
+<blockquote>
+<p>They all take an argument that is some arrangement of three type variables and then return a function with the type F[A] =&gt; F[B].</p>
+</blockquote>
+<p>I memorise the table that is the type of the different argument arrangements to help me to determine which abstraction might be appropriate. Of course, I use other methods, but this particular technique is elegant and short. Here is that table:</p>
+<table>
+<col width="20%" />
+<col width="25%" />
+<thead>
+<tr class="header">
+<th align="left">functor</th>
+<th align="left">argument arrangement</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">covariant</td>
+<td align="left"><code class="sourceCode scala">A =&gt; B</code></td>
+</tr>
+<tr class="even">
+<td align="left">contravariant</td>
+<td align="left"><code class="sourceCode scala">B =&gt; A</code></td>
+</tr>
+<tr class="odd">
+<td align="left">exponential</td>
+<td align="left"><code class="sourceCode scala">(A =&gt; B, B =&gt; A)</code></td>
+</tr>
+<tr class="even">
+<td align="left">applicative</td>
+<td align="left"><code class="sourceCode scala">F[A =&gt; B]</code></td>
+</tr>
+<tr class="odd">
+<td align="left">monad</td>
+<td align="left"><code class="sourceCode scala">A =&gt; F[B]</code></td>
+</tr>
+<tr class="even">
+<td align="left">comonad</td>
+<td align="left"><code class="sourceCode scala">F[A] =&gt; B</code></td>
+</tr>
+</tbody>
+</table>
+<p>We can see from this table that there is not much reason to emphasise one over the other. For example, monads get <em>lots</em> of attention and associated stigma, but it’s undeserved. It’s rather boring when put in the context of a bigger picture. It’s just a different arrangement of its argument (<code>A =&gt; F[B]</code>).</p>
+<p>Anyway, this table is a good way to keep a check on the different types of abstraction and how they might apply. There are also ways of deriving some from others, but that’s for another rainy day. That’s all, hope it helps!</p>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>applicative functors also define an identity operation (<code>def insert[A]: A =&gt; F[A]</code>) however, it is omitted.<a href="#fnref1">↩</a></p></li>
+<li id="fn2"><p>monads also define an identity operation (<code>def insert[A]: A =&gt; F[A]</code>) however, it is omitted.<a href="#fnref2">↩</a></p></li>
+<li id="fn3"><p>comonads also define an identity operation (<code>def extract[A]: F[A] =&gt; A</code>) however, it is omitted.<a href="#fnref3">↩</a></p></li>
+</ol>
+</div>]]></summary>
+</entry>
+
+</feed>

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>λ Tony's blog λ - Automated Validation with Applicatives and Semigroups (Part 2 - Java)</title>
+  <link rel="stylesheet" type="text/css" href="../../css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/syntax.css" />
+  <link rel="alternate" type="application/atom+xml" href="http://blog.tmorris.net/atom.xml" title="Atom feed" />
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/javascript" src="https://raw.github.com/Mathapedia/LaTeX2HTML5/master/latex2html5.min.js"></script>
+</head>
+<body>
+<div id="title">
+  λ Tony's blog λ
+  <div id="subtitle">
+    The weblog of Tony Morris
+  </div>
+</div>
+<div id="header">
+  <div id="navigation">
+    <a href="../../index.html">Home</a>
+    <a href="../../posts/">All Posts</a>
+    <a href="../../contact/">Contact</a>
+    <a href="http://cv.tmorris.net/">CV</a>
+    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+  </div>
+</div>
+<h1>Automated Validation with Applicatives and Semigroups (Part 2 - Java)</h1>
+<div class="info">Posted on March 21, 2010, in <a href="../../tags/Programming/index.html">Programming</a></div>
+
+<p>In <a href="http://blog.tmorris.net/automated-validation-with-applicatives-and-semigroups-for-sanjiv/">a previous post</a>, I mentioned a small library for validating using an applicative functor pattern with a semigroup for accumulating errors using Haskell, Scala and Java programming languages. In this post, I will give a set up for an example usage, but not necessarily a complete example. This is left as an exercise and may be elaborated on in a future post.</p>
+<p>I will start with Java. First we must decide <em>how we are going to accumulate errors</em>. I have decided to store them in a <code>LinkedList</code>. In more practical languages with a better collections library, we would probably use something else. We will use something else for Scala and Haskell (later!), or you could use the <a href="http://functionaljava.org/">Functional Java</a> extension. In the meantime, we will use <code>java.util.LinkedList</code>. We start by writing its <code>Semigroup</code> implementation:</p>
+<pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">public</span> <span class="dt">static</span> &lt;a&gt; Semigroup&lt;LinkedList&lt;a&gt;&gt; <span class="fu">LinkedListSemigroup</span>() {
+  <span class="kw">return</span> <span class="kw">new</span> Semigroup&lt;LinkedList&lt;a&gt;&gt;() {
+    <span class="kw">public</span> LinkedList&lt;a&gt; <span class="fu">append</span>(<span class="dt">final</span> LinkedList&lt;a&gt; a1,
+                                <span class="dt">final</span> LinkedList&lt;a&gt; a2) {
+      <span class="dt">final</span> LinkedList&lt;a&gt; r = <span class="kw">new</span> LinkedList&lt;a&gt;(a1);
+      r.<span class="fu">addAll</span>(a2);
+      <span class="kw">return</span> r;
+    }
+  };
+}</code></pre>
+<p>This is very straight-forward. In the previous example, I mentioned a class <code>Person</code> that is made of an age and a name. The age is an integer between 0 and 130 while the name is any string that starts with an upper-case character. Let’s write these data types:</p>
+<pre class="sourceCode Java"><code class="sourceCode java"><span class="co">// int wrapper between 0 and 130</span>
+<span class="kw">class</span> Age {
+  <span class="kw">private</span> <span class="dt">final</span> <span class="dt">int</span> i;
+  <span class="kw">private</span> <span class="fu">Age</span>(<span class="dt">final</span> <span class="dt">int</span> i) { <span class="kw">this</span>.<span class="fu">i</span> = i; }
+  <span class="kw">public</span> <span class="dt">int</span> <span class="fu">value</span>() { <span class="kw">return</span> i; }
+  <span class="kw">public</span> <span class="dt">static</span> Age <span class="fu">age</span>(<span class="dt">final</span> <span class="dt">int</span> i) {
+    <span class="kw">if</span>(i &lt;= <span class="dv">0</span> || i &gt;= <span class="dv">130</span>)
+      <span class="kw">throw</span> <span class="kw">new</span> Error(<span class="st">&quot;out of range&quot;</span>);
+    <span class="kw">else</span>
+      <span class="kw">return</span> <span class="kw">new</span> <span class="fu">Age</span>(i);
+  }
+}</code></pre>
+<p>And here is <code>Name</code>:</p>
+<pre class="sourceCode Java"><code class="sourceCode java"><span class="co">// String wrapper starts with upper-case</span>
+<span class="kw">class</span> Name {
+  <span class="kw">private</span> <span class="dt">final</span> String s;
+  <span class="kw">private</span> Name(<span class="dt">final</span> String s) { <span class="kw">this</span>.<span class="fu">s</span> = s; }
+  <span class="kw">public</span> String <span class="fu">value</span>() { <span class="kw">return</span> s; }
+  <span class="kw">public</span> <span class="dt">static</span> Name <span class="fu">name</span>(<span class="dt">final</span> String s) {
+    <span class="kw">if</span>(s.<span class="fu">isEmpty</span>() || !Character.<span class="fu">isUpperCase</span>(s.<span class="fu">charAt</span>(<span class="dv">0</span>)))
+      <span class="kw">throw</span> <span class="kw">new</span> java.<span class="fu">lang</span>.<span class="fu">Error</span>();
+    <span class="kw">else</span>
+      <span class="kw">return</span> <span class="kw">new</span> Name(s);
+  }
+}</code></pre>
+<p>I won’t bother writing the <code>Person</code> data type, but it is sufficient to say it will have an <code>Age</code> field and a <code>Name</code> field.</p>
+<p>Now for validation. Suppose we have two string values; one each for age and name. We would like to check these for validation and return either one or more error messages (<code>String</code>) or a <code>Person</code>. More succinctly, we want a function with the type:</p>
+<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Validation</span><span class="fu">&lt;</span><span class="dt">LinkedList</span><span class="fu">&lt;</span><span class="dt">String</span><span class="fu">&gt;</span>, <span class="dt">Person</span><span class="fu">&gt;&gt;</span></code></pre>
+<p>How are we going to achieve this function? First we must say how to create an <code>Age</code> from a <code>String</code> or an error message if we cannot:</p>
+<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Validation</span><span class="fu">&lt;</span><span class="dt">LinkedList</span><span class="fu">&lt;</span><span class="dt">String</span><span class="fu">&gt;</span>, <span class="dt">Age</span><span class="fu">&gt;&gt;</span></code></pre>
+<p>and same for <code>Name</code></p>
+<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Validation</span><span class="fu">&lt;</span><span class="dt">LinkedList</span><span class="fu">&lt;</span><span class="dt">String</span>, <span class="dt">Name</span><span class="fu">&gt;&gt;</span></code></pre>
+<p>We also need a function to create a <code>Person</code> from an <code>Age</code> and a <code>Name</code></p>
+<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="dt">Age</span> <span class="ot">-&gt;</span> <span class="dt">Name</span> <span class="ot">-&gt;</span> <span class="dt">Person</span></code></pre>
+<p>This is simple. It’s the <code>Person</code> constructor.</p>
+<p>So to sum up, we need to write a function with this type:</p>
+<p>Arguments:</p>
+<p>*</p>
+<pre class="sourceCode Java"><code class="sourceCode java">F&lt;String, Validation&lt;LinkedList&lt;string&gt;, Age&gt;&gt;&gt;</code></pre>
+<p>*</p>
+<pre class="sourceCode Java"><code class="sourceCode java">F&lt;String, Validation&lt;LinkedList&lt;string&gt;, Name&gt;&gt;&gt;</code></pre>
+<p>*</p>
+<pre class="sourceCode Java"><code class="sourceCode java">F&lt;Age, F&lt;Name, Person&gt;&gt;</code></pre>
+<p>*</p>
+<pre class="sourceCode Java"><code class="sourceCode java">Semigroup&lt;LinkedList&lt;string&gt;&gt;</code></pre>
+<p>Return type:</p>
+<pre class="sourceCode Java"><code class="sourceCode java">F&lt;String, F&lt;String, &lt;Validation&lt;LinkedList&lt;string&gt;, Person&gt;&gt;&gt;&gt;</code></pre>
+<p>Of course such a function is likely to be polymorphic, rather than specifying concrete types. I recommend starting by writing a function with this type:</p>
+<p>Arguments:</p>
+<p>*</p>
+<pre class="sourceCode Java"><code class="sourceCode java">F&lt;T, F&lt;U, V&gt;&gt;</code></pre>
+<p>*</p>
+<pre class="sourceCode Java"><code class="sourceCode java">F&lt;A, Validation&lt;E, T&gt;&gt;</code></pre>
+<p>*</p>
+<pre class="sourceCode Java"><code class="sourceCode java">F&lt;B, Validation&lt;E, U&gt;&gt;</code></pre>
+<p>Return type:</p>
+<pre class="sourceCode Java"><code class="sourceCode java">F&lt;A, F&lt;B, Validation&lt;E, V&gt;&gt;</code></pre>
+<p>This function can be written by using the constructs mentioned in the previous post. I’m out of breath. Java is incredibly laborious.</p>
+<p>Scala and Haskell for another time!</p>
+
+
+<hr />
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'tonys--blog';
+  var discus_identifier = '/posts/automated-validation-with-applicatives-and-semigroups-part-2-java/index.html';
+  var disqus_url = 'http://blog.tmorris.net/posts/automated-validation-with-applicatives-and-semigroups-part-2-java/index.html';
+  var discus_title = 'Automated Validation with Applicatives and Semigroups (Part 2 - Java)';
+  (function () {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript><p>The comments use <a href="http://disqus.com/?ref_noscript">Disqus</a>,
+  which requires Javascript.</p></noscript>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-3405112-1']);
+  _gaq.push(['_trackPageview']);
+  (function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>λ Tony's blog λ - Scala exercise</title>
+  <link rel="stylesheet" type="text/css" href="../../css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/syntax.css" />
+  <link rel="alternate" type="application/atom+xml" href="http://blog.tmorris.net/atom.xml" title="Atom feed" />
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/javascript" src="https://raw.github.com/Mathapedia/LaTeX2HTML5/master/latex2html5.min.js"></script>
+</head>
+<body>
+<div id="title">
+  λ Tony's blog λ
+  <div id="subtitle">
+    The weblog of Tony Morris
+  </div>
+</div>
+<div id="header">
+  <div id="navigation">
+    <a href="../../index.html">Home</a>
+    <a href="../../posts/">All Posts</a>
+    <a href="../../contact/">Contact</a>
+    <a href="http://cv.tmorris.net/">CV</a>
+    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+  </div>
+</div>
+<h1>Scala exercise</h1>
+<div class="info">Posted on February  6, 2010, in </div>
+
+<p>A result of a discussion in the <a href="irc://freenode.net/#scala">#scala IRC channel</a>.</p>
+<p><strong>Write a minimum function that works on <code>Array[String]</code> and <code>List[Int]</code>.</strong> <em>(see <code>error(&quot;todo&quot;)</code>)</em></p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">trait</span> Foldable[-F[_]] {
+  <span class="kw">def</span> foldl[A, B](f: (A, B) =&gt; A, a: A, as: F[B]): A
+
+  <span class="kw">def</span> reducel[A](f: (A, A) =&gt; A, as: F[A]): Option[A] = foldl[Option[A], A]((a1, a2) =&gt;
+    Some(a1 <span class="kw">match</span> {
+      <span class="kw">case</span> None =&gt; a2
+      <span class="kw">case</span> Some(x) =&gt; <span class="fu">f</span>(a2, x)
+    }), None, as)
+}
+
+<span class="kw">object</span> Foldable {
+  <span class="kw">val</span> ListFoldable = <span class="kw">new</span> Foldable[List] {
+    <span class="kw">def</span> foldl[A, B](f: (A, B) =&gt; A, a: A, as: List[B]) =
+      as.<span class="fu">foldLeft</span>(a)(f)
+  }
+
+  <span class="kw">val</span> ArrayFoldable = <span class="kw">new</span> Foldable[Array] {
+    <span class="kw">def</span> foldl[A, B](f: (A, B) =&gt; A, a: A, as: Array[B]) =
+      as.<span class="fu">foldLeft</span>(a)(f)
+  }
+}
+
+<span class="kw">sealed</span> <span class="kw">trait</span> Ordering
+<span class="kw">case</span> <span class="kw">object</span> LT <span class="kw">extends</span> Ordering
+<span class="kw">case</span> <span class="kw">object</span> EQ <span class="kw">extends</span> Ordering
+<span class="kw">case</span> <span class="kw">object</span> GT <span class="kw">extends</span> Ordering
+
+<span class="co">// contra</span>
+<span class="kw">trait</span> Order[A] {
+  <span class="kw">def</span> <span class="fu">compare</span>(a1: A, a2: A): Ordering
+
+  <span class="kw">def</span> <span class="fu">min</span>(a1: A, a2: A) =
+    <span class="kw">if</span>(<span class="fu">compare</span>(a1, a2) == LT) a1 <span class="kw">else</span> a2
+}
+
+<span class="kw">object</span> Order {
+  <span class="kw">def</span> order[A](f: (A, A) =&gt; Ordering): Order[A] = <span class="kw">new</span> Order[A] {
+    <span class="kw">def</span> <span class="fu">compare</span>(a1: A, a2: A) = <span class="fu">f</span>(a1, a2)
+  }
+
+  <span class="kw">val</span> IntOrder = order[Int]((a1, a2) =&gt;
+    <span class="kw">if</span>(a1 &gt; a2) GT
+    <span class="kw">else</span> <span class="kw">if</span>(a1 &lt; a2) LT
+    <span class="kw">else</span> EQ)
+
+  <span class="kw">val</span> StringOrder = order[String]((a1, a2) =&gt;
+    <span class="kw">if</span>(a1 &gt; a2) GT
+    <span class="kw">else</span> <span class="kw">if</span>(a1 &lt; a2) LT
+    <span class="kw">else</span> EQ)
+}
+
+<span class="kw">object</span> Main {
+  <span class="kw">import</span> Foldable.<span class="fu">_</span>
+  <span class="kw">import</span> Order.<span class="fu">_</span>
+
+  <span class="kw">def</span> minimum[F[_], A](as: F[A], order: Order[A], fold: Foldable[F]) =
+    <span class="co">// Zm9sZC5yZWR1Y2VsW0FdKChhLCBiKSA9PiBvcmRlci5taW4oYSwgYiksIGFzKQ==</span>
+    <span class="fu">error</span>(<span class="st">&quot;todo&quot;</span>)
+
+  <span class="kw">def</span> <span class="fu">main</span>(args: Array[String]) {
+    <span class="kw">val</span> i = <span class="fu">minimum</span>(args, StringOrder, ArrayFoldable)
+    <span class="fu">println</span>(i)
+
+    <span class="kw">val</span> j = <span class="fu">minimum</span>(List(<span class="dv">5</span>, <span class="dv">8</span>, <span class="dv">2</span>, <span class="dv">9</span>), IntOrder, ListFoldable)
+    <span class="fu">println</span>(j)
+  }
+}</code></pre>
+
+
+<hr />
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'tonys--blog';
+  var discus_identifier = '/posts/scala-exercise/index.html';
+  var disqus_url = 'http://blog.tmorris.net/posts/scala-exercise/index.html';
+  var discus_title = 'Scala exercise';
+  (function () {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript><p>The comments use <a href="http://disqus.com/?ref_noscript">Disqus</a>,
+  which requires Javascript.</p></noscript>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-3405112-1']);
+  _gaq.push(['_trackPageview']);
+  (function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+</html>

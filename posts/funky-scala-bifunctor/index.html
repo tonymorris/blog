@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>λ Tony's blog λ - Funky Scala Bifunctor</title>
+  <link rel="stylesheet" type="text/css" href="../../css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/syntax.css" />
+  <link rel="alternate" type="application/atom+xml" href="http://blog.tmorris.net/atom.xml" title="Atom feed" />
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/javascript" src="https://raw.github.com/Mathapedia/LaTeX2HTML5/master/latex2html5.min.js"></script>
+</head>
+<body>
+<div id="title">
+  λ Tony's blog λ
+  <div id="subtitle">
+    The weblog of Tony Morris
+  </div>
+</div>
+<div id="header">
+  <div id="navigation">
+    <a href="../../index.html">Home</a>
+    <a href="../../posts/">All Posts</a>
+    <a href="../../contact/">Contact</a>
+    <a href="http://cv.tmorris.net/">CV</a>
+    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+  </div>
+</div>
+<h1>Funky Scala Bifunctor</h1>
+<div class="info">Posted on February 14, 2009, in <a href="../../tags/Programming/index.html">Programming</a></div>
+
+<p>A co-variant binary functor (aka bifunctor) is any type constructor with a kind * -&gt; * -&gt; * that can satisfy identity and composition when mapping on either type variable. A couple of examples of bifunctors in the Scala library are</p>
+<ul>
+<li><p><code>Tuple2</code></p></li>
+<li><p><code>Either</code></p></li>
+</ul>
+<p>Note that <code>Function1</code> is not a bifunctor, evident by the fact that it is contra-variant in its first type variable. It is notable that <code>Tuple2</code> represents <em>conjunction</em> while <code>Either</code> represents the <em>disjunction</em> of two theorems under the <a href="http://en.wikipedia.org/wiki/Curry-Howard_correspondence">Curry-Howard Isomorphism</a> (<code>Function1</code> represents <em>implication</em>`).</p>
+<p>A bifunctor often combines the two possible mappings into a function called <code>bimap</code> with the signature (Scala-ish syntax):</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala">F[A, B] =&gt; (A =&gt; C) =&gt; (B =&gt; D) =&gt; F[C, D]</code></pre>
+<p>Recall that identity and composition laws must satisfy in the implementation.</p>
+<p>Consider now an implementation of <code>bimap</code> for both <code>Tuple2</code> and <code>Either</code>:</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">trait</span> Bifunctor[F[+_, +_]] {
+  <span class="kw">def</span> bimap[A, B, C, D](fa: F[A, B], f: A =&gt; C, g: B =&gt; D): F[C, D]
+}
+
+<span class="kw">object</span> Bifunctor {
+  <span class="kw">implicit</span> <span class="kw">def</span> Tuple2Bifunctor = <span class="kw">new</span> Bifunctor[Tuple2] {
+    <span class="kw">def</span> bimap[A, B, C, D](fa: (A, B), f: A =&gt; C, g: B =&gt; D) =
+      (<span class="fu">f</span>(fa.<span class="fu">_1</span>), <span class="fu">g</span>(fa.<span class="fu">_2</span>))
+  }
+
+  <span class="kw">implicit</span> <span class="kw">def</span> EitherBifunctor = <span class="kw">new</span> Bifunctor[Either] {
+    <span class="kw">def</span> bimap[A, B, C, D](fa: Either[A, B], f: A =&gt; C, g: B =&gt; D) =
+      fa <span class="kw">match</span> {
+        <span class="kw">case</span> <span class="fu">Left</span>(a) =&gt; <span class="fu">Left</span>(<span class="fu">f</span>(a))
+        <span class="kw">case</span> <span class="fu">Right</span>(b) =&gt; <span class="fu">Right</span>(<span class="fu">g</span>(b))
+      }
+  }
+}</code></pre>
+<p>These implementations are quite easy to understand, but they are not so pretty to use. This is an unfortunate consequence of a number of factors about Scala, including:</p>
+<ul>
+<li><p>Higher-kinds are never inferred</p></li>
+<li><p>Functions cannot be used in infix position</p></li>
+</ul>
+<p>In Scala, methods that end with a colon (:) can have their arguments swapped when not using dot notation. For example, the following two lines are equivalent:</p>
+<pre><code>obj.::(arg) 
+arg :: obj</code></pre>
+<p>This is evident when using <code>scala.List</code> and the cons (<code>::</code>) method.</p>
+<p>We might wrap up our <code>Bifunctor</code> implementation similarly and create some nice syntax for mapping on the bifunctor. For example, let us define three methods on any <code>Bifunctor</code> value:</p>
+<ul>
+<li><p><code>&lt;-:</code> for mapping on one side</p></li>
+<li><p><code>:-&gt;</code> for mapping on the other side</p></li>
+<li><p><code>&lt;-:-&gt;</code> for mapping on both sides</p></li>
+</ul>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">trait</span> BifunctorW[F[+_, +_], A, B] {
+  <span class="kw">val</span> value: F[A, B]
+  <span class="kw">val</span> bifunctor: Bifunctor[F]
+
+  <span class="kw">def</span> &lt;-:-&gt;[C, D](f: A =&gt; C, g: B =&gt; D) = bifunctor.<span class="fu">bimap</span>(value, f, g)
+
+  <span class="kw">def</span> &lt;-:[C](f: A =&gt; C) = bifunctor.<span class="fu">bimap</span>(value, f, identity[B])
+
+  <span class="kw">def</span> :-&gt;[D](g: B =&gt; D) = bifunctor.<span class="fu">bimap</span>(value, identity[A], g)
+}
+
+<span class="kw">object</span> BifunctorW {
+  <span class="co">// a somewhat verbose but handy trick</span>
+  <span class="co">// for partially applying type variables.</span>
+  <span class="kw">def</span> bifunctor[F[+_, +_]] = <span class="kw">new</span> BifunctorApply[F] {
+    <span class="kw">def</span> apply[A, B](v: F[A, B])(<span class="kw">implicit</span> b: Bifunctor[F]) =
+        <span class="kw">new</span> BifunctorW[F, A, B] {
+      <span class="kw">val</span> value = v
+      <span class="kw">val</span> bifunctor = b
+    }
+  }
+
+  <span class="kw">trait</span> BifunctorApply[F[+_, +_]] {
+    <span class="kw">def</span> apply[A, B](v: F[A, B])(<span class="kw">implicit</span> b: Bifunctor[F]): BifunctorW[F, A, B]
+  }
+
+  <span class="kw">implicit</span> <span class="kw">def</span> Tuple2Bifunctor[A, B](v: (A, B)) =
+    bifunctor[Tuple2](v)
+
+  <span class="kw">implicit</span> <span class="kw">def</span> Either2Bifunctor[A, B](v: Either[A, B]) =
+    bifunctor[Either](v)
+}</code></pre>
+<p>So we’ve wrapped a value and its <code>Bifunctor</code> implementation. So how does it look when we use it? Like this!</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">object</span> Main {
+  <span class="kw">def</span> <span class="fu">main</span>(args: Array[String]) {
+    <span class="kw">import</span> BifunctorW.<span class="fu">_</span>
+
+    <span class="kw">val</span> x: Either[Int, String] = <span class="fu">Left</span>(<span class="dv">7</span>)
+    <span class="kw">val</span> y = (<span class="st">&quot;hello&quot;</span>, <span class="dv">42</span>)
+
+    <span class="kw">val</span> f = (n: Int) =&gt; n + <span class="dv">1</span>
+    <span class="kw">val</span> g = (s: String) =&gt; s.<span class="fu">reverse</span>
+    <span class="kw">val</span> h = (s: String) =&gt; s.<span class="fu">toUpperCase</span>
+    <span class="kw">val</span> i = (n: Int) =&gt; n * <span class="dv">2</span>
+
+   <span class="co">// Pretty neat eh?</span>
+    <span class="kw">val</span> p = f &lt;-: x :-&gt; g
+    <span class="kw">val</span> q = h &lt;-: y :-&gt; i
+
+    <span class="co">// $ scala Main</span>
+    <span class="co">// Left(8)</span>
+    <span class="co">// (HELLO,84)</span>
+    <span class="fu">println</span>(p)
+    <span class="fu">println</span>(q)
+  }
+}</code></pre>
+<p>And I think that’s an elegant use of a sometimes baroque (when trying for advanced concepts) language :)</p>
+
+
+<hr />
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'tonys--blog';
+  var discus_identifier = '/posts/funky-scala-bifunctor/index.html';
+  var disqus_url = 'http://blog.tmorris.net/posts/funky-scala-bifunctor/index.html';
+  var discus_title = 'Funky Scala Bifunctor';
+  (function () {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript><p>The comments use <a href="http://disqus.com/?ref_noscript">Disqus</a>,
+  which requires Javascript.</p></noscript>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-3405112-1']);
+  _gaq.push(['_trackPageview']);
+  (function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+</html>

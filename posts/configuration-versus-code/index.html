@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>λ Tony's blog λ - Configuration versus Code</title>
+  <link rel="stylesheet" type="text/css" href="../../css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/syntax.css" />
+  <link rel="alternate" type="application/atom+xml" href="http://blog.tmorris.net/atom.xml" title="Atom feed" />
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/javascript" src="https://raw.github.com/Mathapedia/LaTeX2HTML5/master/latex2html5.min.js"></script>
+</head>
+<body>
+<div id="title">
+  λ Tony's blog λ
+  <div id="subtitle">
+    The weblog of Tony Morris
+  </div>
+</div>
+<div id="header">
+  <div id="navigation">
+    <a href="../../index.html">Home</a>
+    <a href="../../posts/">All Posts</a>
+    <a href="../../contact/">Contact</a>
+    <a href="http://cv.tmorris.net/">CV</a>
+    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+  </div>
+</div>
+<h1>Configuration versus Code</h1>
+<div class="info">Posted on January  9, 2011, in <a href="../../tags/Programming/index.html">Programming</a></div>
+
+<p>Sometimes I’ll be working away when a colleague will make some distinction between “that which is configuration” and “that which is code.” In all cases, it turns out that this distinction is premised on a having a very narrow understanding of solving software problems. That can’t be good.</p>
+<p>When we write compositional code using techniques such as <em>referential transparency</em>, the distinction between configuration and code completely evaporates. I wish to emphasise this evaporation, so I will restate it: <strong>it is not possible to determine which is configuration and which is code, except when using very sloppy problem solving habits, no matter how much we wish to save the thesis</strong>. I made this emphasis because I have even seen people accept that the delineation disappears, then in the very next breath say something to the effect as if it were still there. Brains are fascinating machines. I digress.</p>
+<p>Let us suppose a Haskell program, though, the language is unimportant to this point. We only need to examine the type signature:</p>
+<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="ot">application ::</span> <span class="dt">IO</span> ()</code></pre>
+<p>If we need some form of “configuration”, such as a possible <code>String</code> value with a “default”, we pass it as such:</p>
+<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="ot">application ::</span> <span class="dt">Maybe</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()</code></pre>
+<p>Then the body of <code>application</code> will apply the default: <code>fromMaybe &quot;default string&quot;</code>. Easy right?</p>
+<p>You might have multiple configuration values and not necessarily with the type <code>String</code>. Now of course, since we are using Haskell (and not XML!), we can give our configuration values a type! Here is an example:</p>
+<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">Initialisation</span> <span class="fu">=</span> <span class="dt">Initialisation</span> {
+<span class="ot">  ioWait ::</span> <span class="dt">Int</span>
+,<span class="ot"> performance ::</span> <span class="dt">Speed</span>
+,<span class="ot"> password ::</span> <span class="dt">String</span>
+}</code></pre>
+<p>then your application becomes:</p>
+<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="ot">application ::</span> <span class="dt">Initialisation</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()</code></pre>
+<p>With Haskell you also get record selector syntax with this data structure. This means that setting say, 2 of these values can be done with effort proportional to the size of 2. With languages such as Java, achieving this goal results in a quadratic blow-out, requiring n^2 methods with overloads where n is the number of record fields.</p>
+<p>Now, notice how doing this is simply, <strong>using a function</strong>. Let’s be clear, I am using a function, like any other, a function, code. It is not special and does not deserve any elevated status above other functions. No more useless ceremony here.</p>
+<p>A good example of an application, that I use each day, is <a href="http://xmonad.org/">xmonad</a>, which I “configure” by writing Haskell. OK, now let’s be honest, I just write a program and take advantage of the comprehensive libraries.</p>
+<p>In some cases that make the distinction between configuration and code, it’s often that an inappropriate language has been chosen to write code in, such as XML. There is a direct mapping between the XML and whatever programming language they are using. However, the XML will often exhibit properties that programming languages such as Haskell exhibit universally e.g. reordering statements does not affect the observable outcome of the program. In other words, this is just functional programming with XML (yeah, my thoughts exactly).</p>
+<p>Any effort that delineates between configuration and code is nothing more than a very reliable indicator of sloppy thinking. Think again.</p>
+
+
+<hr />
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'tonys--blog';
+  var discus_identifier = '/posts/configuration-versus-code/index.html';
+  var disqus_url = 'http://blog.tmorris.net/posts/configuration-versus-code/index.html';
+  var discus_title = 'Configuration versus Code';
+  (function () {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript><p>The comments use <a href="http://disqus.com/?ref_noscript">Disqus</a>,
+  which requires Javascript.</p></noscript>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-3405112-1']);
+  _gaq.push(['_trackPageview']);
+  (function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+</html>

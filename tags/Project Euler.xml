@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <title>λ Tony's blog λ — Posts tagged Project Euler</title>
+    <link href="http://blog.tmorris.net/tags/Project%20Euler.xml" rel="self" />
+    <link href="http://blog.tmorris.net" />
+    <id>http://blog.tmorris.net/tags/Project%20Euler.xml</id>
+    <author>
+        <name>Tony Morris</name>
+        <email>blog@tmorris.net</email>
+    </author>
+    <updated>2008-10-03T14:04:43Z</updated>
+    <entry>
+    <title>Project Euler Problem 2 Functional Java</title>
+    <link href="http://blog.tmorris.net/posts/project-euler-problem-2-functional-java/index.html" />
+    <id>http://blog.tmorris.net/posts/project-euler-problem-2-functional-java/index.html</id>
+    <published>2008-10-03T14:04:43Z</published>
+    <updated>2008-10-03T14:04:43Z</updated>
+    <summary type="html"><![CDATA[<p><a href="http://projecteuler.net/index.php?section=problems&amp;id=2">Project Euler Problem 2</a> using <a href="http://functionaljava.org/">Functional Java</a>:</p>
+<pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">import fj.data.Stream;</span>
+<span class="kw">import fj.P1;</span>
+<span class="kw">import fj.F2;</span>
+<span class="kw">import static fj.function.Integers.even;</span>
+<span class="kw">import static fj.pre.Ord.intOrd;</span>
+<span class="kw">import static fj.pre.Monoid.intAdditionMonoid;</span>
+<span class="kw">import static fj.data.Stream.cons;</span>
+<span class="kw">import static fj.Function.curry;</span>
+
+...
+
+Stream&lt;integer&gt; fibs = <span class="kw">new</span> F2&lt;Integer, Integer, Stream&lt;integer&gt;&gt;() {
+  <span class="kw">public</span> Stream&lt;integer&gt; <span class="fu">f</span>(<span class="dt">final</span> Integer a, <span class="dt">final</span> Integer b) {
+    <span class="kw">return</span> <span class="fu">cons</span>(a, P1.<span class="fu">curry</span>(<span class="fu">curry</span>(<span class="kw">this</span>).<span class="fu">f</span>(b)).<span class="fu">f</span>(a + b));
+  }
+}.<span class="fu">f</span>(<span class="dv">1</span>, <span class="dv">2</span>);
+
+<span class="dt">final</span> <span class="dt">int</span> problem2 = intAdditionMonoid.<span class="fu">sumLeft</span>(fibs.<span class="fu">takeWhile</span>(intOrd.<span class="fu">isLessThan</span>(<span class="dv">1000001</span>)).<span class="fu">filter</span>(even).<span class="fu">toList</span>());</code></pre>]]></summary>
+</entry>
+<entry>
+    <title>Project Euler Problem 1 Functional Java</title>
+    <link href="http://blog.tmorris.net/posts/project-euler-problem-1-functional-java/index.html" />
+    <id>http://blog.tmorris.net/posts/project-euler-problem-1-functional-java/index.html</id>
+    <published>2008-10-03T13:59:39Z</published>
+    <updated>2008-10-03T13:59:39Z</updated>
+    <summary type="html"><![CDATA[<p><a href="http://projecteuler.net/index.php?section=problems&amp;id=1">Project Euler Problem 1</a> using <a href="http://functionaljava.org/">Functional Java</a>:</p>
+<pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">import static fj.pre.Monoid.intAdditionMonoid;</span>
+<span class="kw">import static fj.data.List.range;</span>
+<span class="kw">import fj.F;</span>
+
+...
+
+<span class="dt">final</span> <span class="dt">int</span> problem1 = intAdditionMonoid.<span class="fu">sumLeft</span>(<span class="fu">range</span>(<span class="dv">0</span>, <span class="dv">1000</span>).<span class="fu">filter</span>(<span class="kw">new</span> F&lt;Integer, Boolean&gt;() {
+  <span class="kw">public</span> Boolean <span class="fu">f</span>(<span class="dt">final</span> Integer a) {
+    <span class="kw">return</span> a % <span class="dv">3</span> == <span class="dv">0</span> || a % <span class="dv">5</span> == <span class="dv">0</span>;
+  }
+}));</code></pre>]]></summary>
+</entry>
+
+</feed>

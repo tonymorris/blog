@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>λ Tony's blog λ - Java is pass by value</title>
+  <link rel="stylesheet" type="text/css" href="../../css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/syntax.css" />
+  <link rel="alternate" type="application/atom+xml" href="http://blog.tmorris.net/atom.xml" title="Atom feed" />
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/javascript" src="https://raw.github.com/Mathapedia/LaTeX2HTML5/master/latex2html5.min.js"></script>
+</head>
+<body>
+<div id="title">
+  λ Tony's blog λ
+  <div id="subtitle">
+    The weblog of Tony Morris
+  </div>
+</div>
+<div id="header">
+  <div id="navigation">
+    <a href="../../index.html">Home</a>
+    <a href="../../posts/">All Posts</a>
+    <a href="../../contact/">Contact</a>
+    <a href="http://cv.tmorris.net/">CV</a>
+    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+  </div>
+</div>
+<h1>Java is pass by value</h1>
+<div class="info">Posted on January 13, 2011, in <a href="../../tags/Programming/index.html">Programming</a></div>
+
+<p>I was linked to <a href="http://www.theserverside.com/news/thread.tss?track=NL-461&amp;ad=808081&amp;thread_id=61622&amp;asrc=EM_NLN_13145929&amp;uid=2780877">this silly thread</a> today. I didn’t read much of it and I recommend you don’t either.</p>
+<p>Instead, take note, it’s yet another example of Java programmers knowing one language and knowing it poorly. This consistent observation is not particularly interesting, but this particular misunderstanding was cleared up <em>years</em> ago. I went through an old Java FAQ database that I had written while I was working on the IBM implementation <em>in 2000</em> where I explained all this. It was even asked in one of my wanky Java certifications back then. There were surely other explanations around at the time too. <em>Sigh</em>, Java guys, please… do yourself a favour and at least understand the shitty language that you hold so dear.</p>
+<p>Java has two possible parameter types</p>
+<ol style="list-style-type: decimal">
+<li><p>Object references</p></li>
+<li><p>primitives (restricted to 8 in total)</p></li>
+</ol>
+<p>Note here that Java never passes objects, ever. They do not appear in the list above, double-check to make sure. Now, you don’t have to take my word for it; after all, I’m just a former implementer of the language and API specification and I assure you, that doesn’t change a thing with regard to credibility. However, just what was I implementing back then? It was a number of specifications; one of which was called The Java Virtual Machine Specification (VMS).</p>
+<p>Here is <a href="http://java.sun.com/docs/books/jvms/second_edition/html/Concepts.doc.html#26454">section 2.10.1 of the VMS</a>. I will quote the whole section to make sure this point sinks in. If you are unsure whether Java passes by reference or value or some variation, then please read it again. Repeat this until you comprehend the important part. Here goes:</p>
+<blockquote>
+<p>The formal parameters of a method, if any, are specified by a list of comma-separated parameter specifiers. Each parameter specifier consists of a type and an identifier that specifies the name of the parameter. When the method is invoked, the values of the actual argument expressions initialize newly created parameter variables (§2.5), each of the declared type, before execution of the body of the method.</p>
+</blockquote>
+<p>A method parameter of type float always contains an element of the float value set (§2.4.3); similarly, a method parameter of type double always contains an element of the double value set. It is not permitted for a method parameter of type float to contain an element of the float-extended-exponent value set that is not also an element of the float value set, nor for a method parameter of type double to contain an element of the double-extended-exponent value set that is not also an element of the double value set.</p>
+<p>Where an actual argument expression corresponding to a parameter variable is not FP-strict (§2.18), evaluation of that actual argument expression is permitted to use values drawn from the appropriate extended-exponent value sets. Prior to being stored in the parameter variable, the result of such an expression is mapped to the nearest value in the corresponding standard value set by method invocation conversion (§2.6.8).</p>
+<p>Let me extract a really important part:</p>
+<blockquote>
+<p>_…initialize newly created parameter variables (§2.5), each of the declared type, before execution of the body of the method. _</p>
+</blockquote>
+<p>Did you see that? Java is pass by value, without reservation. It says so in the specification. It is even observable by writing a trivial program.</p>
+<pre class="sourceCode Java"><code class="sourceCode java">Object o = <span class="kw">new</span> Object();</code></pre>
+<p>Now I know you may be accustomed to calling ‘o’ an object here, and it may even be the source of confusion, but it’s not an object. It’s an object reference. The object referred to by ‘o’ has no name.</p>
+<p>When you pass ‘o’, it is copied, as per the <strong>specification</strong>, to a new reference, specified by the method being called. This means that if you reassign that reference, it cannot be observed outside of that method. Of course, since <strong>it is a copy of the method parameter</strong>.</p>
+<pre class="sourceCode Java"><code class="sourceCode java"><span class="dt">void</span> <span class="fu">method</span>(Object o) {
+  o = x; <span class="co">// not observable outside local scope</span>
+}</code></pre>
+<p>If you were to dereference ‘o’ you may be able to execute some effect that may be outside of the method. Note the adjective here, <strong>dereference</strong>. What are we dereferencing? An object reference of course! Surely you have seen a <code>NullPointerException</code>. Know what this means? You dereferenced a reference which held no object!</p>
+<p>I don’t know how else to make this clear, so I won’t continue trying.</p>
+<p><strong>Java is pass by value.</strong></p>
+
+
+<hr />
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'tonys--blog';
+  var discus_identifier = '/posts/java-is-pass-by-value/index.html';
+  var disqus_url = 'http://blog.tmorris.net/posts/java-is-pass-by-value/index.html';
+  var discus_title = 'Java is pass by value';
+  (function () {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript><p>The comments use <a href="http://disqus.com/?ref_noscript">Disqus</a>,
+  which requires Javascript.</p></noscript>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-3405112-1']);
+  _gaq.push(['_trackPageview']);
+  (function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+</html>

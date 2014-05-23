@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>λ Tony's blog λ - Continuation monad in Scala</title>
+  <link rel="stylesheet" type="text/css" href="../../css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/syntax.css" />
+  <link rel="alternate" type="application/atom+xml" href="http://blog.tmorris.net/atom.xml" title="Atom feed" />
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/javascript" src="https://raw.github.com/Mathapedia/LaTeX2HTML5/master/latex2html5.min.js"></script>
+</head>
+<body>
+<div id="title">
+  λ Tony's blog λ
+  <div id="subtitle">
+    The weblog of Tony Morris
+  </div>
+</div>
+<div id="header">
+  <div id="navigation">
+    <a href="../../index.html">Home</a>
+    <a href="../../posts/">All Posts</a>
+    <a href="../../contact/">Contact</a>
+    <a href="http://cv.tmorris.net/">CV</a>
+    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+  </div>
+</div>
+<h1>Continuation monad in Scala</h1>
+<div class="info">Posted on December 28, 2008, in <a href="../../tags/Programming/index.html">Programming</a></div>
+
+<p>Here is how a continuation data type might look in Scala:</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">sealed</span> <span class="kw">trait</span> Continuation[R, +A] {
+  <span class="kw">def</span> <span class="fu">apply</span>(f: A =&gt; R): R
+
+  <span class="kw">import</span> Continuation.<span class="fu">continuation</span>
+
+  <span class="kw">def</span> map[B](k: A =&gt; B) =
+    continuation[R, B](z =&gt; <span class="fu">apply</span>(z compose k))
+
+  <span class="kw">def</span> flatMap[B](k: A =&gt; Continuation[R, B]) =
+    continuation[R, B](z =&gt; <span class="fu">apply</span>(<span class="fu">k</span>(_)(z)))
+}</code></pre>
+<p>Note that there are <code>map</code> and <code>flatMap</code> functions that satisfy the functor and monad laws. <code>Continuation[R, _]</code> is a monad.</p>
+<p>Now let’s add some construction functions:</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">object</span> Continuation {
+  <span class="kw">def</span> continuation[R, A](g: (A =&gt; R) =&gt; R) = <span class="kw">new</span> Continuation[R, A] {
+    <span class="kw">def</span> <span class="fu">apply</span>(f: A =&gt; R) = <span class="fu">g</span>(f)
+  }
+
+  <span class="kw">def</span> <span class="dt">unit</span>[R] = <span class="kw">new</span> {
+    <span class="kw">def</span> apply[A](a: A) = continuation[R, A](f =&gt; <span class="fu">f</span>(a))
+  }
+
+  <span class="kw">def</span> callcc[R, A, B](f: (A =&gt; Continuation[R, B]) =&gt; Continuation[R, A]) =
+    continuation[R, A](k =&gt; <span class="fu">f</span>(a =&gt; <span class="fu">continuation</span>(x =&gt; <span class="fu">k</span>(a)))(k))
+}</code></pre>
+<p>The <code>continuation</code> function is a straight-forward construction. The <code>unit</code> function constructs a continuation is such a way as to satisfy the monad laws against the <code>flatMap</code> method. The <code>callcc</code> function (call with current continuation) is to allow “escaping” from the current continuation.</p>
+<p>Here is some example client code that squares a number using a continuation (see <code>squarec</code>):</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">object</span> Square {
+  <span class="kw">import</span> Continuation.<span class="fu">_</span>
+
+  <span class="kw">def</span> <span class="fu">square</span>(n: Int) = n * n
+
+  <span class="co">// Continuation for square</span>
+  <span class="kw">def</span> squarec[R](n: Int) = <span class="dt">unit</span>[R](<span class="fu">square</span>(n))
+
+  <span class="co">// Continuation for effect (Unit) on square.</span>
+  <span class="co">// This is simply to help the type inferencer by applying a type argument.</span>
+  <span class="kw">def</span> <span class="fu">squareE</span>(n: Int) = squarec[Unit](n)
+
+  <span class="kw">def</span> <span class="fu">main</span>(args: Array[String]) {
+    <span class="kw">val</span> k = <span class="fu">squareE</span>(<span class="fu">args</span>(<span class="dv">0</span>).<span class="fu">toInt</span>)
+    <span class="fu">k</span>(println)
+  }
+}</code></pre>
+<p>A slightly more complicated example for modelling exceptions. Let’s divide where the denominator must be 0 or an “exception” is thrown:</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">object</span> Divide {
+  <span class="kw">import</span> Continuation.<span class="fu">_</span>
+
+  <span class="co">// Division</span>
+  <span class="kw">def</span> div[R](c: String =&gt; Continuation[R, Int])
+            (n: Int, <span class="co">// numerator</span>
+             d: Int) <span class="co">// denominator</span>
+                    : Continuation[R, Int] =
+    callcc[R, Int, String](ok =&gt;
+      callcc[R, String, String](err =&gt;
+        <span class="kw">if</span>(d == <span class="dv">0</span>) <span class="fu">err</span>(<span class="st">&quot;Denominator 0&quot;</span>)
+        <span class="kw">else</span> <span class="fu">ok</span>(n / d)
+      ) flatMap c)
+
+  <span class="kw">def</span> <span class="fu">main</span>(args: Array[String]) {
+    <span class="kw">def</span> divError[R] = div[R](<span class="fu">error</span>(_)) _
+    <span class="fu">println</span>(<span class="fu">divError</span>(<span class="dv">7</span>, <span class="dv">3</span>)(x =&gt; x))
+    <span class="fu">println</span>(<span class="fu">divError</span>(<span class="dv">7</span>, <span class="dv">0</span>)(x =&gt; x)) <span class="co">// throws error</span>
+  }
+}</code></pre>
+
+
+<hr />
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'tonys--blog';
+  var discus_identifier = '/posts/continuation-monad-in-scala/index.html';
+  var disqus_url = 'http://blog.tmorris.net/posts/continuation-monad-in-scala/index.html';
+  var discus_title = 'Continuation monad in Scala';
+  (function () {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript><p>The comments use <a href="http://disqus.com/?ref_noscript">Disqus</a>,
+  which requires Javascript.</p></noscript>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-3405112-1']);
+  _gaq.push(['_trackPageview']);
+  (function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+</html>

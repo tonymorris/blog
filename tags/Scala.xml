@@ -1,0 +1,939 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <title>λ Tony's blog λ — Posts tagged Scala</title>
+    <link href="http://blog.tmorris.net/tags/Scala.xml" rel="self" />
+    <link href="http://blog.tmorris.net" />
+    <id>http://blog.tmorris.net/tags/Scala.xml</id>
+    <author>
+        <name>Tony Morris</name>
+        <email>blog@tmorris.net</email>
+    </author>
+    <updated>2013-07-18T20:00:00Z</updated>
+    <entry>
+    <title>Sticks, stones, but names are not useful to me</title>
+    <link href="http://blog.tmorris.net/posts/identifier-names/index.html" />
+    <id>http://blog.tmorris.net/posts/identifier-names/index.html</id>
+    <published>2013-07-18T20:00:00Z</published>
+    <updated>2013-07-18T20:00:00Z</updated>
+    <summary type="html"><![CDATA[<p>There are various tools for comprehending code. It is often alleged to me that identifier names are one such tool — an important one even. In order to be a useful tool for comprehension, it must have a degree of efficacy above an arbitrary hypothesis. For example, suppose the following code:</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">def</span> reverse: List[Banana] =&gt; List[Banana]</code></pre>
+<p>Without viewing the body of the code, one might infer that this code “reverses the list.” What does it mean to reverse a list? Let us try to rigorously define reversing a list:</p>
+<ul>
+<li>Reversing the empty list produces the empty list.</li>
+<li>Reversing a single-element list produces that same list.</li>
+<li>Taking two lists, appending them then reversing, produces the same list as reversing each, then appending the latter to the former.</li>
+</ul>
+<p>We infer all these things, even if informally, when we conclude that this function reverses the list. We might have some degree of confidence in concluding that all these properties hold purely from the function name, however, as part of this conclusion, we also conclude that the function does not peel the first <code>Banana</code>. We have no evidence of these facts, except for the function name, alleged to be useful to infer some confidence about these facts.</p>
+<p>In order for this method of comprehension to be efficacious, it must produce a result better than guessing. That is to say, the degree of confidence invoked by inferring that “this function reverses the list” from the premise, “because the function is named <code>reverse</code>”, must be higher than inferring that the function does not reverse the list, from the same premise. In my experience, with which some will certainly disagree, this is not the case, rendering this comprehension method useless. That is to say, the identifier name persuades confidence of the inference by nil, not even a bit.</p>
+<p>Thankfully, this is unimportant. It is unimportant because there exist methods of code comprehension that are <em>significantly more effective</em>, so you can abandon the question of whether or not there is efficacy of using identifier names for inferring properties of code.</p>
+<hr />
+<p>Suppose the following code:</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">def</span> reverse[A]: List[A] =&gt; List[A]</code></pre>
+<p>At first glance, it might appear that we must take a leap of confidence in inferring that the function reverses the list. However, we can infer the following fact — <em>this function definitely does not peel the first <code>Banana</code> in the list</em>. I can infer this because if the function attempted to do this, it <em>would not compile</em><sup><a href="#fn1" class="footnoteRef" id="fnref1">1</a></sup>. In fact, I can infer lots of things here, such as:</p>
+<ul>
+<li>The <code>reverse</code> function did not add <code>10</code> to every second list element.</li>
+<li>All elements in the list returned by <code>reverse</code> are contained in the input list.</li>
+</ul>
+<p>We are able to infer these things simply by making the <code>reverse</code> function <em>parametric</em>. We are no longer reversing a list of bananas — although that might be our use-case — we are reversing a list of <code>A</code> for all values of <code>A</code>. One virtue of this <em>parametricity</em> is that we can infer a significant number of things that <em>do not occur</em>. This theme of learning what does not occur is ubiquitous when deploying these programming techniques and is described in more detail by Wadler<sup><a href="#fn2" class="footnoteRef" id="fnref2">2</a></sup>.</p>
+<p>Here is another example, using a programming language called SafeHaskell (very similar to Haskell):</p>
+<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="ot">add10 ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span></code></pre>
+<p>By the name of the function, we might unreliably infer (OK, let’s be honest, we are making a bold guess) that the function adds <code>10</code> to its argument. However, looking at the type, we know for sure that the function <em>did not print its argument to the standard output stream</em>. We know this because had the library provider attempted it, the code would not have compiled. To be clear, it would not be a valid SafeHaskell program, so our assumption that we are looking at SafeHaskell fails, forcing us to unify by selecting one of the following:</p>
+<ul>
+<li>The function does not print its argument to the standard output stream.</li>
+<li>We are not looking at SafeHaskell source code.</li>
+<li>We are using an escape hatch, implied by the halting problem.</li>
+</ul>
+<p>There are simply no other options. What other things can we reliably conclude this function does not do?</p>
+<p>Here is yet another example:</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">def</span> constant[A, B]: A =&gt; B =&gt; A</code></pre>
+<p>In this case, we can reliably infer that this function does one single thing. It ignores its second argument and returns its first. This might be protested:</p>
+<ul>
+<li>It might perform a side-effect first!
+<ul>
+<li>This is true, but assuming a pure subset of the language is useful for reasons other than this one.</li>
+</ul></li>
+<li>It might type-cast or type-case (<code>asInstanceOf</code> or <code>isInstanceOf</code>).
+<ul>
+<li>This is another unfortunate escape hatch in the Scala type system that conveniently permits unsafe code.</li>
+</ul></li>
+<li>It might recurse forever, return <code>null</code> or throw an exception.
+<ul>
+<li>This is yet another escape hatch.</li>
+</ul></li>
+</ul>
+<p>So why dismiss these protests? They are inescapable implications of the halting problem. The more practical question is, “how convenient does Scala make these escape hatches available?” and the answer is an unfortunate one — it can often appear to be easier to exploit these escape hatches, but it won’t be too long before the penalty is paid. Although in practice, it is easier both short and long term to avoid these escape hatches, the illusion of convenience persists in some cases.</p>
+<p>If we are to concede these abilities, it is simply up to our own discipline to enforce that we have not attempted to take the illusory easy way out. This includes using a pure-functional subset of Scala, which is a lot easier than is often made out. For example, the <code>scalaz.effects.STRef</code> data type permits a pure-functional <code>var</code> that has all the capabilities of <code>var</code> while also maintaining all the aforementioned abilities (unlike <code>var</code> itself). This is a win-win. <a href="https://qconnewyork.com/sites/default/files/QConNY2013_RunarBjarnesson_PurelyFunctionalIO.pdf">Rúnar Bjarnason goes into detail on this at QCon 2013.</a></p>
+<p>By these methods of exploiting the type system, we are able to very reliably infer things that did not occur and occasionally, infer and conclude the only thing that did occur. However, what about narrowing it down further? We know that the (parametric) <code>reverse</code> function doesn’t manipulate the list elements, but how do we know it reverses the list? Do we fall back to relying on the function name and simply hope so?</p>
+<p>No.</p>
+<p>We continue to use more reliable methods of code comprehension. Let us restate the definition of <code>reverse</code>, however, we will include Scala source code. All expressions must return <code>true</code> regardless of the value of any of their arguments:</p>
+<ul>
+<li>Reversing the empty list produces the empty list
+<ul>
+<li><code>reverse(Nil) == Nil</code></li>
+</ul></li>
+<li>Reversing a single-element list produces that same list
+<ul>
+<li><code>element =&gt; reverse(List(element)) == List(element)</code></li>
+</ul></li>
+<li>Taking two lists, <code>l1</code> and <code>l2</code>, appending them then reversing, produces the same list as reversing each, then appending the reverse of <code>l1</code> to the reverse of <code>l2</code>.
+<ul>
+<li><code>(l1, l2) =&gt; reverse(l1 ::: l2) == (reverse(l2) ::: reverse(l1))</code></li>
+</ul></li>
+</ul>
+<p>If we can be confident that these properties hold, then we can also be confident that our <code>reverse</code> function does in fact, reverse the list. In fact, there is no other possible function that satisfies the type and these properties, besides the one that reverses a list. Again, we have not resorted to the function name for code comprehension — we have inspected <em>algebraic properties about the code</em>.</p>
+<p>So how do we increase confidence that these properties hold?</p>
+<p>Unfortunately, an implication of the halting problem is that we cannot prove these program properties, for the general case. This is not the end of the world though — we can still attempt to <em>disprove</em> these program properties. That is to say, we can go to efforts to determine if the function is <em>not</em> one which reverses the list. We can express our algebraic properties, which give away the full specification of the function, then automate the assertion that there exist values for which the property does not hold. This automation is precisely what <a href="http://code.google.com/p/scalacheck/">ScalaCheck</a> does, however, the expression itself is enough to rigorously specify the function behaviour without degenerating to faith in function names.</p>
+<p>The next time you see a function named <code>&lt;-:</code> and you think to yourself, “OMG, how unreadable, what am I going to do now!?”, ask yourself if there are other tools — perhaps more robust than those familiar — to comprehend the code. What is its type? What are its algebraic properties? Are there parametric properties to exploit?</p>
+<p>What if it has this type?</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">def</span> &lt;-:[A, B](f: A =&gt; B): List[A] =&gt; List[B]</code></pre>
+<p>Does it map the function across the list elements? Maybe. However, we definitely know that the elements in the resulting list came from running the given function on an element from the input list. You see? Parametricity, just like that, was 73 fuck-loads more reliable than looking at the function name to comprehend how this code works, and this is only the start of answering the question. We have many more tools at our disposal. Importantly, they are <em>reliable</em>. I like reliable, because I also like things that are true. Hopefully you do too!</p>
+<hr />
+<p>So what about these allegations of utility of identifier names? Do they have any merit at all?</p>
+<p>No. Insistence on the value of identifier names for code comprehension has some glaring holes in it. Let us put aside that there are far more robust methods of comprehension. Let us also put aside that the claims are probably motivated by a lack of familiarity with superior tools.</p>
+<p>Here is why this allegation is not just bullshit, but very obviously bullshit. Anyone who names a data type, <code>AbstractAdvisorAutoProxyCreator</code> is just as committed to not using identifier names for meaning as anyone else. However, there is another level again — the staunch belief that this identifer name is conveying meaning exposes just how confused that belief is. Any query such as, “What exactly does <code>AbstractAdvisorAutoProxyCreator</code> mean?” is met with handwaving. This is because <strong>nobody knows what <code>AbstractAdvisorAutoProxyCreator</code> means</strong> and the only practical implication here, in the world in which we all find ourselves, is one or more scatterbrains holding a belief otherwise.</p>
+<p>From a näive perspective, this situation appears to be a ripe learning opportunity. There appears to be a lot to be gained simply by sharing knowledge with a beginner — a trivial investment of effort. So why not take it? That question is fraught with complexity, but often, it is more constructive to have a giggle, a little lament, then dismiss the confused allegations.</p>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Due to the halting problem, there are some additional premises required to further increase confidence in this conclusion.<a href="#fnref1">↩</a></p></li>
+<li id="fn2"><p>Wadler, Philip. “Theorems for free!.” Proceedings of the fourth international conference on Functional programming languages and computer architecture. ACM, 1989.<a href="#fnref2">↩</a></p></li>
+</ol>
+</div>]]></summary>
+</entry>
+<entry>
+    <title>Scala Type-class Hierarchy</title>
+    <link href="http://blog.tmorris.net/posts/scala-type-class-hierarchy/index.html" />
+    <id>http://blog.tmorris.net/posts/scala-type-class-hierarchy/index.html</id>
+    <published>2013-06-22T20:00:00Z</published>
+    <updated>2013-06-22T20:00:00Z</updated>
+    <summary type="html"><![CDATA[<p>Below is a proposed type-class hierarchy demonstrated using the Scala programming language. The goal of the hierarchy is to demonstrate one an arrangement that is useful and makes the appropriate trade-offs for general-purpose programming. It is therefore independent of a specific programming language, however some (many) programming-language type systems do not have the expressive power to witness the hierarchy.</p>
+<p>This proposal is in the spirit of <a href="http://www.haskell.org/haskellwiki/Typeclassopedia">the typeclassopedia</a> with the following differences:</p>
+<ol style="list-style-type: decimal">
+<li><p>Use the Scala programming language for demonstration for those who prefer it.</p></li>
+<li><p>Discussion need not concern itself with any kind of backward compatibility with existing libraries.</p></li>
+</ol>
+<p>You will find a similar type-class hierarchy in <a href="http://github.com/scalaz/scalaz">the Scalaz library</a>. That implementation is far more comprehensive and is aimed primarily for production use. A secondary goal here is to help document the Scalaz hierarchy in terse form, however, note that you will find some minor differences (improvements?) in the arrangement.</p>
+<p>Discussion about addition or rearrangement of the proposed hierarchy is welcome.</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">trait</span> ~&gt;[F[_], G[_]] {
+  <span class="kw">def</span> apply[A]: F[A] =&gt; G[A]
+}
+
+<span class="kw">case</span> <span class="kw">class</span> Id[A](x: A)
+
+<span class="kw">trait</span> Semigroup[M] {
+  <span class="kw">def</span> op: M =&gt; M =&gt; M
+}
+
+<span class="kw">trait</span> Monoid[M] <span class="kw">extends</span> Semigroup[M] {
+  <span class="kw">val</span> id: M
+}
+
+<span class="kw">trait</span> Functor[F[_]] {
+  <span class="kw">def</span> fmap[A, B](f: A =&gt; B): F[A] =&gt; F[B]
+}
+
+<span class="kw">trait</span> Apply[F[_]] <span class="kw">extends</span> Functor[F] {
+  <span class="kw">def</span> ap[A, B](f: F[A =&gt; B]): F[A] =&gt; F[B]
+}
+
+<span class="kw">trait</span> Bind[F[_]] <span class="kw">extends</span> Apply[F] {
+  <span class="kw">def</span> bind[A, B](f: A =&gt; F[B]): F[A] =&gt; F[B]
+}
+
+<span class="kw">trait</span> Applicative[F[_]] <span class="kw">extends</span> Apply[F] {
+  <span class="kw">def</span> insert[A]: A =&gt; F[A]
+}
+
+<span class="kw">trait</span> Monad[F[_]] <span class="kw">extends</span> Applicative[F] <span class="kw">with</span> Bind[F]
+
+<span class="kw">trait</span> Extend[F[_]] <span class="kw">extends</span> Functor[F] {
+  <span class="kw">def</span> extend[A, B](f: F[A] =&gt; B): F[A] =&gt; F[B]
+}
+
+<span class="kw">trait</span> Comonad[F[_]] <span class="kw">extends</span> Extend[F] {
+  <span class="kw">def</span> extract[A]: F[A] =&gt; A
+}
+
+<span class="kw">trait</span> Contravariant[F[_]] {
+  <span class="kw">def</span> contramap[A, B](f: B =&gt; A): F[A] =&gt; F[B]
+}
+
+<span class="kw">trait</span> Distributive[T[_]] <span class="kw">extends</span> Functor[T] {
+  <span class="kw">def</span> distribute[F[_]: Functor, A, B](f: A =&gt; T[B]): F[A] =&gt; T[F[B]]
+}
+
+<span class="kw">trait</span> Foldable[T[_]] {
+  <span class="kw">def</span> foldMap[A, M: Monoid](f: A =&gt; M): T[A] =&gt; M
+}
+
+<span class="kw">trait</span> Foldable1[T[_]] <span class="kw">extends</span> Foldable[T] {
+  <span class="kw">def</span> foldMap1[A, M: Semigroup](f: A =&gt; M): T[A] =&gt; M
+}
+
+<span class="kw">trait</span> Traversable[T[_]] <span class="kw">extends</span> Functor[T] <span class="kw">with</span> Foldable[T] {
+  <span class="kw">def</span> traverse[F[_]: Applicative, A, B](f: A =&gt; F[B]): T[A] =&gt; F[T[B]]
+}
+
+<span class="kw">trait</span> Traversable1[T[_]] <span class="kw">extends</span> Traversable[T] <span class="kw">with</span> Foldable1[T] {
+  <span class="kw">def</span> traverse1[F[_]: Apply, A, B](f: A =&gt; F[B]): T[A] =&gt; F[T[B]]
+}
+
+<span class="kw">trait</span> MonadTransformer[T[_[_], _]] {
+  <span class="kw">def</span> lift[M[_]: Monad, A]: M[A] =&gt; T[M, A]
+}
+
+<span class="kw">trait</span> BindTransformer[T[_[_], _]] <span class="kw">extends</span> MonadTransformer[T] {
+  <span class="kw">def</span> liftB[M[_]: Bind, A]: M[A] =&gt; T[M, A]
+}
+
+<span class="kw">trait</span> MonadTransform[T[_[_], _]] {
+  <span class="kw">def</span> transform[F[_]: Monad, G[_]: Monad, A](f: F ~&gt; G): T[F, A] =&gt; T[G, A]
+}
+
+<span class="kw">trait</span> BindTransform[T[_[_], _]] <span class="kw">extends</span> MonadTransform[T] {
+  <span class="kw">def</span> transformB[F[_]: Bind, G[_]: Monad, A](f: F ~&gt; G): T[F, A] =&gt; T[G, A]
+}
+
+<span class="kw">trait</span> ComonadTransformer[T[_[_], _]] {
+  <span class="kw">def</span> lower[M[_]: Comonad, A]: T[M, A] =&gt; M[A]
+}
+
+<span class="kw">trait</span> ExtendTransformer[T[_[_], _]] <span class="kw">extends</span> ComonadTransformer[T] {
+  <span class="kw">def</span> lowerE[M[_]: Extend, A]: T[M, A] =&gt; M[A]
+}
+
+<span class="kw">trait</span> ComonadHoist[T[_[_], _]] {
+  <span class="kw">def</span> cohoist[M[_]: Comonad, A]: T[M, A] =&gt; T[Id, A]
+}
+
+<span class="kw">trait</span> ExtendHoist[T[_[_], _]] <span class="kw">extends</span> ComonadHoist[T] {
+  <span class="kw">def</span> cohoistE[M[_]: Extend, A]: T[M, A] =&gt; T[Id, A]
+}
+
+<span class="kw">trait</span> Semigroupoid[~&gt;[_, _]] {
+  <span class="kw">def</span> compose[A, B, C]: (B ~&gt; C) =&gt; (A ~&gt; B) =&gt; (A ~&gt; C)
+}
+
+<span class="kw">trait</span> Category[~&gt;[_, _]] <span class="kw">extends</span> Semigroupoid[~&gt;] {
+  <span class="kw">def</span> id[A]: A ~&gt; A
+}
+
+<span class="kw">trait</span> First[~&gt;[_, _]] <span class="kw">extends</span> Semigroupoid[~&gt;] {
+  <span class="kw">def</span> first[A, B, C]: (A ~&gt; B) =&gt; ((A, C) ~&gt; (B, C))
+}
+
+<span class="kw">trait</span> Arrow[~&gt;[_, _]] <span class="kw">extends</span> Category[~&gt;] <span class="kw">with</span> First[~&gt;] {
+  <span class="kw">def</span> idA[A, B]: (A =&gt; B) =&gt; (A ~&gt; B)
+}</code></pre>]]></summary>
+</entry>
+<entry>
+    <title>Refactoring Puzzle</title>
+    <link href="http://blog.tmorris.net/posts/refactoring-puzzle/index.html" />
+    <id>http://blog.tmorris.net/posts/refactoring-puzzle/index.html</id>
+    <published>2013-06-05T20:00:00Z</published>
+    <updated>2013-06-05T20:00:00Z</updated>
+    <summary type="html"><![CDATA[<p>The following programming puzzle is about code duplication. The goal is to identify and remove the code duplication. The exercise is given in a number of programming languages and the means by which the problem is solved may depend on the specific programming language. It might even be the case that the best solution is “do nothing”, since the programming language does not provide the support for alleviating the code duplication. Therefore, a complete solution to this puzzle is a solution for each of the programming languages.</p>
+<p>The two functions <code>runOptions</code> and <code>runIntRdrs</code> implement a specific function with a small difference between each. The duplication in their code bodies is noted in the comments and is denoted by asterisks.</p>
+<p><strong>How might the problem of code duplication be solved for this case?</strong></p>
+<p>The puzzle is designed to compile as-is, which means for some languages, support data structures need to be provided. For example, the C# programming language does not provide an immutable (cons) list data structure, so the bare minimum is supplied here. This makes the puzzle appear quite noisy for that specific programming language, however be assured it is the same code.</p>
+<h1 id="scala">Scala</h1>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">object</span> RefactorPuzzle {
+  <span class="kw">case</span> <span class="kw">class</span> IntRdr[+A](read: Int =&gt; A) {
+    <span class="kw">def</span> map[B](f: A =&gt; B): IntRdr[B] =
+      <span class="fu">IntRdr</span>(f compose read)
+
+    <span class="kw">def</span> flatMap[B](f: A =&gt; IntRdr[B]): IntRdr[B] =
+      <span class="fu">IntRdr</span>(n =&gt; <span class="fu">f</span>(<span class="fu">read</span>(n)).<span class="fu">read</span>(n))
+  }
+
+  <span class="kw">object</span> IntRdr {
+    <span class="kw">def</span> apply[A](a: A): IntRdr[A] =
+      <span class="fu">IntRdr</span>(_ =&gt; a)
+  }
+
+  <span class="co">// Return all the Some values, or None if not all are Some.</span>
+  <span class="kw">def</span> runOptions[A](x: List[Option[A]]): Option[List[A]] =
+    x.<span class="fu">foldRight</span>[Option[List[A]]](Option(Nil))((a, b) =&gt; a.<span class="fu">flatMap</span>(aa =&gt; b.<span class="fu">map</span>(aa :: _)))
+
+  <span class="co">// Apply an Int to a list of int readers and return the list of return values.</span>
+  <span class="kw">def</span> runIntRdrs[A](x: List[IntRdr[A]]): IntRdr[List[A]] =
+    x.<span class="fu">foldRight</span>[IntRdr[List[A]]](<span class="fu">IntRdr</span>(Nil))((a, b) =&gt; a.<span class="fu">flatMap</span>(aa =&gt; b.<span class="fu">map</span>(aa :: _)))
+
+<span class="co">// Code Duplication</span>
+
+<span class="co">// *******      *************      *******      ***********</span>
+<span class="co">// def runOptions[A](x: List[Option[A]]): Option[List[A]] =</span>
+<span class="co">// def runIntRdrs[A](x: List[IntRdr[A]]): IntRdr[List[A]] =</span>
+
+<span class="co">// ************      ***********      *************************************************</span>
+<span class="co">// x.foldRight[Option[List[A]]](Option(Nil))((a, b) =&gt; a.flatMap(aa =&gt; b.map(aa :: _)))</span>
+<span class="co">// x.foldRight[IntRdr[List[A]]](IntRdr(Nil))((a, b) =&gt; a.flatMap(aa =&gt; b.map(aa :: _)))</span>
+
+}</code></pre>
+<h1 id="haskell">Haskell</h1>
+<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">module</span> <span class="dt">RefactoringPuzzle</span> <span class="kw">where</span>
+
+<span class="kw">newtype</span> <span class="dt">IntRdr</span> a <span class="fu">=</span>
+  <span class="dt">IntRdr</span> {
+<span class="ot">    readIntRdr ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> a
+  }
+
+mapIntRdr <span class="ot">::</span>
+  <span class="dt">IntRdr</span> a
+  <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> b)
+  <span class="ot">-&gt;</span> <span class="dt">IntRdr</span> b
+mapIntRdr (<span class="dt">IntRdr</span> g) f <span class="fu">=</span>
+  <span class="dt">IntRdr</span> (f <span class="fu">.</span> g)
+
+bindIntRdr <span class="ot">::</span>
+  <span class="dt">IntRdr</span> a
+  <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> <span class="dt">IntRdr</span> b)
+  <span class="ot">-&gt;</span> <span class="dt">IntRdr</span> b
+bindIntRdr (<span class="dt">IntRdr</span> g) f <span class="fu">=</span>
+  <span class="dt">IntRdr</span> (\n <span class="ot">-&gt;</span> readIntRdr (f (g n)) n)
+
+applyIntRdr <span class="ot">::</span>
+  a
+  <span class="ot">-&gt;</span> <span class="dt">IntRdr</span> a
+applyIntRdr <span class="fu">=</span>
+  <span class="dt">IntRdr</span> <span class="fu">.</span> const
+
+<span class="kw">type</span> <span class="dt">Option</span> <span class="fu">=</span> <span class="dt">Maybe</span>
+
+mapOption <span class="ot">::</span>
+  <span class="dt">Option</span> a
+  <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> b)
+  <span class="ot">-&gt;</span> <span class="dt">Option</span> b
+mapOption <span class="dt">Nothing</span> _ <span class="fu">=</span>
+  <span class="dt">Nothing</span>
+mapOption (<span class="dt">Just</span> a) f <span class="fu">=</span>
+  <span class="dt">Just</span> (f a)
+
+bindOption <span class="ot">::</span>
+  <span class="dt">Option</span> a
+  <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> <span class="dt">Option</span> b)
+  <span class="ot">-&gt;</span> <span class="dt">Option</span> b
+bindOption <span class="dt">Nothing</span> _ <span class="fu">=</span>
+  <span class="dt">Nothing</span>
+bindOption (<span class="dt">Just</span> a) f <span class="fu">=</span>
+  f a
+
+applyOption <span class="ot">::</span>
+  a
+  <span class="ot">-&gt;</span> <span class="dt">Option</span> a
+applyOption a <span class="fu">=</span>
+  <span class="dt">Just</span> a
+
+<span class="co">-- Return all the Some values, or None if not all are Some.</span>
+<span class="ot">runOptions ::</span> [<span class="dt">Option</span> a] <span class="ot">-&gt;</span> <span class="dt">Option</span> [a]
+runOptions <span class="fu">=</span> foldr (\a b <span class="ot">-&gt;</span> bindOption a (\aa <span class="ot">-&gt;</span> mapOption b (aa<span class="fu">:</span>))) (applyOption [])
+
+<span class="co">-- Apply an Int to a list of int readers and return the list of return values.</span>
+<span class="ot">runIntRdrs ::</span> [<span class="dt">IntRdr</span> a] <span class="ot">-&gt;</span> <span class="dt">IntRdr</span> [a]
+runIntRdrs <span class="fu">=</span> foldr (\a b <span class="ot">-&gt;</span> bindIntRdr a (\aa <span class="ot">-&gt;</span> mapIntRdr b (aa<span class="fu">:</span>))) (applyIntRdr [])
+
+<span class="co">-- Code Duplication</span>
+
+<span class="co">-- ***      ******      *******      ****</span>
+<span class="co">-- runOptions :: [Option a] -&gt; Option [a]</span>
+<span class="co">-- runIntRdrs :: [IntRdr a] -&gt; IntRdr [a]</span>
+
+<span class="co">-- ***      ***********************      **************      ************           ****</span>
+<span class="co">-- runOptions = foldr (\a b -&gt; bindOption a (\aa -&gt; mapOption b (aa:))) (applyOption [])</span>
+<span class="co">-- runIntRdrs = foldr (\a b -&gt; bindIntRdr a (\aa -&gt; mapIntRdr b (aa:))) (applyIntRdr [])</span></code></pre>
+<h1 id="c">C#</h1>
+<pre class="sourceCode cs"><code class="sourceCode cs"><span class="kw">using</span> System;
+
+<span class="kw">namespace</span> RefactoringPuzzle {
+<span class="kw">class</span> IntRdr&lt;A&gt; {
+  <span class="kw">public</span> <span class="kw">readonly</span> Func&lt;<span class="dt">int</span>, A&gt; read;
+
+  <span class="fu">IntRdr</span>(Func&lt;<span class="dt">int</span>, A&gt; read) {
+    <span class="kw">this</span>.<span class="fu">read</span> = read;
+  }
+
+  <span class="kw">public</span> IntRdr&lt;B&gt; Select&lt;B&gt;(Func&lt;A, B&gt; f) {
+    <span class="kw">return</span> <span class="kw">new</span> IntRdr&lt;B&gt;(n =&gt; <span class="fu">f</span>(<span class="fu">read</span>(n)));
+  }
+
+  <span class="kw">public</span> IntRdr&lt;B&gt; SelectMany&lt;B&gt;(Func&lt;A, IntRdr&lt;B&gt;&gt; f) {
+    <span class="kw">return</span> <span class="kw">new</span> IntRdr&lt;B&gt;(n =&gt; <span class="fu">f</span>(<span class="fu">read</span>(n)).<span class="fu">read</span>(n));
+  }
+
+  <span class="kw">public</span> <span class="kw">static</span> IntRdr&lt;A&gt; <span class="fu">apply</span>(A a) {
+    <span class="kw">return</span> <span class="kw">new</span> IntRdr&lt;A&gt;(_ =&gt; a);
+  }
+}
+
+<span class="kw">abstract</span> <span class="kw">class</span> Option&lt;A&gt; {
+  <span class="kw">public</span> <span class="kw">abstract</span> X Fold&lt;X&gt;(Func&lt;A, X&gt; some, X none);
+
+  <span class="kw">public</span> Option&lt;B&gt; Select&lt;B&gt;(Func&lt;A, B&gt; f) {
+    <span class="kw">return</span> Fold&lt;Option&lt;B&gt;&gt;(a =&gt; <span class="kw">new</span> Option&lt;B&gt;.<span class="fu">Some</span>(<span class="fu">f</span>(a)), <span class="kw">new</span> Option&lt;B&gt;.<span class="fu">None</span>());
+  }
+
+  <span class="kw">public</span> Option&lt;B&gt; SelectMany&lt;B&gt;(Func&lt;A, Option&lt;B&gt;&gt; f) {
+    <span class="kw">return</span> <span class="fu">Fold</span>(f, <span class="kw">new</span> Option&lt;B&gt;.<span class="fu">None</span>());
+  }
+
+  <span class="kw">public</span> <span class="kw">static</span> Option&lt;A&gt; <span class="fu">apply</span>(A a) {
+    <span class="kw">return</span> <span class="kw">new</span> <span class="fu">Some</span>(a);
+  }
+
+  <span class="kw">public</span> <span class="kw">class</span> Some : Option&lt;A&gt; {
+    <span class="kw">readonly</span> A a;
+
+    <span class="kw">public</span> <span class="fu">Some</span>(A a) {
+      <span class="kw">this</span>.<span class="fu">a</span> = a;
+    }
+
+    <span class="kw">public</span> <span class="kw">override</span> X Fold&lt;X&gt;(Func&lt;A, X&gt; some, X none) {
+      <span class="kw">return</span> <span class="fu">some</span>(a);
+    }
+  }
+
+  <span class="kw">public</span> <span class="kw">class</span> None : Option&lt;A&gt; {
+    <span class="kw">public</span> <span class="kw">override</span> X Fold&lt;X&gt;(Func&lt;A, X&gt; some, X none) {
+      <span class="kw">return</span> none;
+    }
+  }
+}
+
+<span class="kw">abstract</span> <span class="kw">class</span> List&lt;A&gt; {
+  <span class="kw">public</span> <span class="kw">abstract</span> X FoldRight&lt;X&gt;(Func&lt;A, X, X&gt; f, X x);
+
+  <span class="co">// Return all the Some values, or None if not all are Some.</span>
+  Option&lt;List&lt;A&gt;&gt; <span class="fu">runOptions</span>(List&lt;Option&lt;A&gt;&gt; x) {
+    <span class="kw">return</span> x.<span class="fu">FoldRight</span>((a, b) =&gt; a.<span class="fu">SelectMany</span>(aa =&gt;
+      b.<span class="fu">Select</span>(bb =&gt; bb.<span class="fu">Prepend</span>(aa))), Option&lt;List&lt;A&gt;&gt;.<span class="fu">apply</span>(<span class="kw">new</span> <span class="fu">Nil</span>()));
+  }
+
+  <span class="co">// Apply an Int to a list of int readers and return the list of return values.</span>
+  IntRdr&lt;List&lt;A&gt;&gt; <span class="fu">runIntRdrs</span>(List&lt;IntRdr&lt;A&gt;&gt; x) {
+    <span class="kw">return</span> x.<span class="fu">FoldRight</span>((a, b) =&gt; a.<span class="fu">SelectMany</span>(aa =&gt;
+      b.<span class="fu">Select</span>(bb =&gt; bb.<span class="fu">Prepend</span>(aa))), IntRdr&lt;List&lt;A&gt;&gt;.<span class="fu">apply</span>(<span class="kw">new</span> <span class="fu">Nil</span>()));
+  }
+
+  <span class="kw">public</span> List&lt;A&gt; <span class="fu">Prepend</span>(A a) {
+    <span class="kw">return</span> <span class="kw">new</span> <span class="fu">Cons</span>(a, <span class="kw">this</span>);
+  }
+
+  <span class="kw">public</span> <span class="kw">class</span> Nil : List&lt;A&gt; {
+    <span class="kw">public</span> <span class="kw">override</span> X FoldRight&lt;X&gt;(Func&lt;A, X, X&gt; f, X x) {
+      <span class="kw">return</span> x;
+    }
+  }
+
+  <span class="kw">public</span> <span class="kw">class</span> Cons : List&lt;A&gt; {
+    <span class="kw">readonly</span> A head;
+    <span class="kw">readonly</span> List&lt;A&gt; tail;
+
+    <span class="kw">public</span> <span class="fu">Cons</span>(A head, List&lt;A&gt; tail) {
+      <span class="kw">this</span>.<span class="fu">head</span> = head;
+      <span class="kw">this</span>.<span class="fu">tail</span> = tail;
+    }
+
+    <span class="kw">public</span> <span class="kw">override</span> X FoldRight&lt;X&gt;(Func&lt;A, X, X&gt; f, X x) {
+      <span class="kw">return</span> <span class="fu">f</span>(head, tail.<span class="fu">FoldRight</span>(f, x));
+    }
+  }
+}
+
+<span class="co">// Code Duplication</span>
+
+<span class="co">//       *************      *******      *********</span>
+<span class="co">// Option&lt;List&lt;A&gt;&gt; runOptions(List&lt;Option&lt;A&gt;&gt; x) {</span>
+<span class="co">// IntRdr&lt;List&lt;A&gt;&gt; runIntRdrs(List&lt;IntRdr&lt;A&gt;&gt; x) {</span>
+
+<span class="co">// ***********************************************</span>
+<span class="co">// return x.FoldRight((a, b) =&gt; a.SelectMany(aa =&gt;</span>
+<span class="co">// return x.FoldRight((a, b) =&gt; a.SelectMany(aa =&gt;</span>
+
+<span class="co">// *********************************      ****************************</span>
+<span class="co">// b.Select(bb =&gt; bb.Prepend(aa))), Option&lt;List&lt;A&gt;&gt;.apply(new Nil()));</span>
+<span class="co">// b.Select(bb =&gt; bb.Prepend(aa))), IntRdr&lt;List&lt;A&gt;&gt;.apply(new Nil()));</span>
+
+}</code></pre>
+<h1 id="java">Java</h1>
+<pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">package RefactoringPuzzle;</span>
+
+<span class="kw">abstract</span> <span class="kw">class</span> Func&lt;T, U&gt; {
+  <span class="kw">abstract</span> U <span class="fu">apply</span>(T t);
+}
+
+<span class="kw">abstract</span> <span class="kw">class</span> IntRdr&lt;A&gt; {
+  <span class="kw">abstract</span> A <span class="fu">read</span>(<span class="dt">int</span> i);
+
+  &lt;B&gt; IntRdr&lt;B&gt; <span class="fu">map</span>(<span class="dt">final</span> Func&lt;A, B&gt; f) {
+    <span class="kw">return</span> <span class="kw">new</span> IntRdr&lt;B&gt;() {
+      B <span class="fu">read</span>(<span class="dt">int</span> i) {
+        <span class="kw">return</span> f.<span class="fu">apply</span>(IntRdr.<span class="fu">this</span>.<span class="fu">read</span>(i));
+      }
+    };
+  }
+
+  &lt;B&gt; IntRdr&lt;B&gt; <span class="fu">bind</span>(<span class="dt">final</span> Func&lt;A, IntRdr&lt;B&gt;&gt; f) {
+    <span class="kw">return</span> <span class="kw">new</span> IntRdr&lt;B&gt;() {
+      B <span class="fu">read</span>(<span class="dt">int</span> i) {
+        <span class="kw">return</span> f.<span class="fu">apply</span>(IntRdr.<span class="fu">this</span>.<span class="fu">read</span>(i)).<span class="fu">read</span>(i);
+      }
+    };
+  }
+
+  <span class="dt">static</span> &lt;A&gt; IntRdr&lt;A&gt; <span class="fu">apply</span>(<span class="dt">final</span> A a) {
+    <span class="kw">return</span> <span class="kw">new</span> IntRdr&lt;A&gt;() {
+      A <span class="fu">read</span>(<span class="dt">int</span> _) {
+        <span class="kw">return</span> a;
+      }
+    };
+  }
+}
+
+<span class="kw">abstract</span> <span class="kw">class</span> Option&lt;A&gt; {
+  <span class="kw">abstract</span> &lt;X&gt; X <span class="fu">fold</span>(Func&lt;A, X&gt; some, X none);
+
+  &lt;B&gt; Option&lt;B&gt; <span class="fu">map</span>(<span class="dt">final</span> Func&lt;A, B&gt; f) {
+    <span class="kw">return</span> <span class="kw">new</span> Option&lt;B&gt;() {
+      &lt;X&gt; X <span class="fu">fold</span>(<span class="dt">final</span> Func&lt;B, X&gt; some, X none) {
+        <span class="kw">return</span> Option.<span class="fu">this</span>.<span class="fu">fold</span>(<span class="kw">new</span> Func&lt;A, X&gt;(){
+          X <span class="fu">apply</span>(A a) {
+            <span class="kw">return</span> some.<span class="fu">apply</span>(f.<span class="fu">apply</span>(a));
+          }
+        }, none);
+      }
+    };
+  }
+
+  &lt;B&gt; Option&lt;B&gt; <span class="fu">bind</span>(<span class="dt">final</span> Func&lt;A, Option&lt;B&gt;&gt; f) {
+    <span class="kw">return</span> <span class="kw">new</span> Option&lt;B&gt;() {
+      &lt;X&gt; X <span class="fu">fold</span>(<span class="dt">final</span> Func&lt;B, X&gt; some, <span class="dt">final</span> X none) {
+        <span class="kw">return</span> Option.<span class="fu">this</span>.<span class="fu">fold</span>(<span class="kw">new</span> Func&lt;A, X&gt;(){
+          X <span class="fu">apply</span>(A a) {
+            <span class="kw">return</span> f.<span class="fu">apply</span>(a).<span class="fu">fold</span>(some, none);
+          }
+        }, none);
+      }
+    };
+  }
+
+  <span class="dt">static</span> &lt;A&gt; Option&lt;A&gt; <span class="fu">apply</span>(<span class="dt">final</span> A a) {
+    <span class="kw">return</span> <span class="kw">new</span> Option&lt;A&gt;() {
+      &lt;X&gt; X <span class="fu">fold</span>(Func&lt;A, X&gt; some, X none) {
+        <span class="kw">return</span> some.<span class="fu">apply</span>(a);
+      }
+    };
+  }
+}
+
+<span class="kw">abstract</span> <span class="kw">class</span> List&lt;A&gt; {
+  <span class="kw">abstract</span> &lt;X&gt; X <span class="fu">foldRight</span>(Func&lt;A, Func&lt;X, X&gt;&gt; f, X x);
+
+  <span class="co">// Return all the Some values, or None if not all are Some.</span>
+  <span class="dt">static</span> &lt;A&gt; Option&lt;List&lt;A&gt;&gt; <span class="fu">runOptions</span>(List&lt;Option&lt;A&gt;&gt; x) {
+    <span class="kw">return</span> x.<span class="fu">foldRight</span>(<span class="kw">new</span> Func&lt;Option&lt;A&gt;, Func&lt;Option&lt;List&lt;A&gt;&gt;, Option&lt;List&lt;A&gt;&gt;&gt;&gt;(){
+      Func&lt;Option&lt;List&lt;A&gt;&gt;, Option&lt;List&lt;A&gt;&gt;&gt; <span class="fu">apply</span>(<span class="dt">final</span> Option&lt;A&gt; a) {
+        <span class="kw">return</span> <span class="kw">new</span> Func&lt;Option&lt;List&lt;A&gt;&gt;, Option&lt;List&lt;A&gt;&gt;&gt;() {
+          Option&lt;List&lt;A&gt;&gt; <span class="fu">apply</span>(<span class="dt">final</span> Option&lt;List&lt;A&gt;&gt; b) {
+            <span class="kw">return</span> a.<span class="fu">bind</span>(<span class="kw">new</span> Func&lt;A, Option&lt;List&lt;A&gt;&gt;&gt;(){
+              Option&lt;List&lt;A&gt;&gt; <span class="fu">apply</span>(<span class="dt">final</span> A aa) {
+                <span class="kw">return</span> b.<span class="fu">map</span>(<span class="kw">new</span> Func&lt;List&lt;A&gt;, List&lt;A&gt;&gt;(){
+                  List&lt;A&gt; <span class="fu">apply</span>(List&lt;A&gt; bb) {
+                    <span class="kw">return</span> bb.<span class="fu">prepend</span>(aa);
+                  }
+                });
+              }
+            });
+          }
+        };
+      }
+    }, Option.<span class="fu">apply</span>(List.&lt;A&gt;<span class="fu">nil</span>()));
+  }
+
+  <span class="co">// Apply an Int to a list of int readers and return the list of return values.</span>
+  <span class="dt">static</span> &lt;A&gt; IntRdr&lt;List&lt;A&gt;&gt; <span class="fu">runIntRdrs</span>(List&lt;IntRdr&lt;A&gt;&gt; x) {
+    <span class="kw">return</span> x.<span class="fu">foldRight</span>(<span class="kw">new</span> Func&lt;IntRdr&lt;A&gt;, Func&lt;IntRdr&lt;List&lt;A&gt;&gt;, IntRdr&lt;List&lt;A&gt;&gt;&gt;&gt;(){
+      Func&lt;IntRdr&lt;List&lt;A&gt;&gt;, IntRdr&lt;List&lt;A&gt;&gt;&gt; <span class="fu">apply</span>(<span class="dt">final</span> IntRdr&lt;A&gt; a) {
+        <span class="kw">return</span> <span class="kw">new</span> Func&lt;IntRdr&lt;List&lt;A&gt;&gt;, IntRdr&lt;List&lt;A&gt;&gt;&gt;() {
+          IntRdr&lt;List&lt;A&gt;&gt; <span class="fu">apply</span>(<span class="dt">final</span> IntRdr&lt;List&lt;A&gt;&gt; b) {
+            <span class="kw">return</span> a.<span class="fu">bind</span>(<span class="kw">new</span> Func&lt;A, IntRdr&lt;List&lt;A&gt;&gt;&gt;(){
+              IntRdr&lt;List&lt;A&gt;&gt; <span class="fu">apply</span>(<span class="dt">final</span> A aa) {
+                <span class="kw">return</span> b.<span class="fu">map</span>(<span class="kw">new</span> Func&lt;List&lt;A&gt;, List&lt;A&gt;&gt;(){
+                  List&lt;A&gt; <span class="fu">apply</span>(List&lt;A&gt; bb) {
+                    <span class="kw">return</span> bb.<span class="fu">prepend</span>(aa);
+                  }
+                });
+              }
+            });
+          }
+        };
+      }
+    }, IntRdr.<span class="fu">apply</span>(List.&lt;A&gt;<span class="fu">nil</span>()));
+  }
+
+  List&lt;A&gt; <span class="fu">prepend</span>(<span class="dt">final</span> A a) {
+    <span class="kw">return</span> <span class="kw">new</span> List&lt;A&gt;() {
+      &lt;X&gt; X <span class="fu">foldRight</span>(Func&lt;A, Func&lt;X, X&gt;&gt; f, X x) {
+        <span class="kw">return</span> f.<span class="fu">apply</span>(a).<span class="fu">apply</span>(<span class="kw">this</span>.<span class="fu">foldRight</span>(f, x));
+      }
+    };
+  }
+
+  <span class="dt">static</span> &lt;A&gt; List&lt;A&gt; <span class="fu">nil</span>() {
+    <span class="kw">return</span> <span class="kw">new</span> List&lt;A&gt;() {
+      &lt;X&gt; X <span class="fu">foldRight</span>(Func&lt;A, Func&lt;X, X&gt;&gt; f, X x) {
+        <span class="kw">return</span> x;
+      }
+    };
+  }
+}
+
+<span class="co">// Code Duplication</span>
+
+<span class="co">// ***********      *************      *******      *********</span>
+<span class="co">// static &lt;A&gt; Option&lt;List&lt;A&gt;&gt; runOptions(List&lt;Option&lt;A&gt;&gt; x) {</span>
+<span class="co">// static &lt;A&gt; IntRdr&lt;List&lt;A&gt;&gt; runIntRdrs(List&lt;IntRdr&lt;A&gt;&gt; x) {</span>
+
+<span class="co">//   ****************************      **********      ***********      **************</span>
+<span class="co">//   return x.foldRight(new Func&lt;Option&lt;A&gt;, Func&lt;Option&lt;List&lt;A&gt;&gt;, Option&lt;List&lt;A&gt;&gt;&gt;&gt;(){</span>
+<span class="co">//   return x.foldRight(new Func&lt;IntRdr&lt;A&gt;, Func&lt;IntRdr&lt;List&lt;A&gt;&gt;, IntRdr&lt;List&lt;A&gt;&gt;&gt;&gt;(){</span>
+
+<span class="co">//     *****      ***********      ***********************      ********</span>
+<span class="co">//     Func&lt;Option&lt;List&lt;A&gt;&gt;, Option&lt;List&lt;A&gt;&gt;&gt; apply(final Option&lt;A&gt; a) {</span>
+<span class="co">//     Func&lt;IntRdr&lt;List&lt;A&gt;&gt;, IntRdr&lt;List&lt;A&gt;&gt;&gt; apply(final IntRdr&lt;A&gt; a) {</span>
+
+<span class="co">//       ****************      ***********      **************</span>
+<span class="co">//       return new Func&lt;Option&lt;List&lt;A&gt;&gt;, Option&lt;List&lt;A&gt;&gt;&gt;() {</span>
+<span class="co">//       return new Func&lt;IntRdr&lt;List&lt;A&gt;&gt;, IntRdr&lt;List&lt;A&gt;&gt;&gt;() {</span>
+
+<span class="co">//               **********************      **************</span>
+<span class="co">//         Option&lt;List&lt;A&gt;&gt; apply(final Option&lt;List&lt;A&gt;&gt; b) {</span>
+<span class="co">//         IntRdr&lt;List&lt;A&gt;&gt; apply(final IntRdr&lt;List&lt;A&gt;&gt; b) {</span>
+
+<span class="co">//           **************************      *************</span>
+<span class="co">//           return a.bind(new Func&lt;A, Option&lt;List&lt;A&gt;&gt;&gt;(){</span>
+<span class="co">//           return a.bind(new Func&lt;A, IntRdr&lt;List&lt;A&gt;&gt;&gt;(){</span>
+
+<span class="co">//                   *****************************</span>
+<span class="co">//             Option&lt;List&lt;A&gt;&gt; apply(final A aa) {</span>
+<span class="co">//             IntRdr&lt;List&lt;A&gt;&gt; apply(final A aa) {</span>
+
+<span class="co">//               ******************************************</span>
+<span class="co">//               return b.map(new Func&lt;List&lt;A&gt;, List&lt;A&gt;&gt;(){</span>
+<span class="co">//               return b.map(new Func&lt;List&lt;A&gt;, List&lt;A&gt;&gt;(){</span>
+
+<span class="co">//                 ***************************</span>
+<span class="co">//                 List&lt;A&gt; apply(List&lt;A&gt; bb) {</span>
+<span class="co">//                 List&lt;A&gt; apply(List&lt;A&gt; bb) {</span>
+
+<span class="co">//                   **********************</span>
+<span class="co">//                   return bb.prepend(aa);</span>
+<span class="co">//                   return bb.prepend(aa);</span>
+  …
+<span class="co">//   ***      ***********************</span>
+<span class="co">//   }, Option.apply(List.&lt;A&gt;nil()));</span>
+<span class="co">//   }, IntRdr.apply(List.&lt;A&gt;nil()));</span>
+  …</code></pre>]]></summary>
+</entry>
+<entry>
+    <title>List Folds at BFPG</title>
+    <link href="http://blog.tmorris.net/posts/list-folds-bfpg/index.html" />
+    <id>http://blog.tmorris.net/posts/list-folds-bfpg/index.html</id>
+    <published>2013-04-24T15:00:00Z</published>
+    <updated>2013-04-24T15:00:00Z</updated>
+    <summary type="html"><![CDATA[<p>A talk on the list fold functions (fold left and fold right), delivered to <a href="http://www.bfpg.org/events/96368322/?eventId=96368322&amp;action=detail">Brisbane Functional Programming Group on Tuesday 23 April 2013</a>.</p>
+<ul>
+<li><p><a href="http://dl.dropbox.com/u/7810909/media/doc/list-folds.pdf">Slides</a> <em>(pdf)</em></p></li>
+<li><p><a href="https://vimeo.com/64673035">Video</a> <em>(vimeo)</em></p></li>
+</ul>
+<div class="embed-vimeo">
+  <iframe src="http://player.vimeo.com/video/64673035" width="688" height="387" frameborder="0" webkitAllowFullScreen="true" mozallowfullscreen="true" allowFullScreen="true">
+  </iframe>
+</div>
+
+]]></summary>
+</entry>
+<entry>
+    <title>Teaching a Man to Fish …and all that</title>
+    <link href="http://blog.tmorris.net/posts/teaching-a-man-to-fish/index.html" />
+    <id>http://blog.tmorris.net/posts/teaching-a-man-to-fish/index.html</id>
+    <published>2013-04-10T13:00:00Z</published>
+    <updated>2013-04-10T13:00:00Z</updated>
+    <summary type="html"><![CDATA[<p>One of the very nice properties of type-safe, functional source code or API is that “an example usage of that API …” can almost always be answered with “anything that type-checks.” Now for some people and for some libraries, this answer is unsatisfactory, offensive even — they demand an example dammit!</p>
+<p>But what they think I am going to do? Do they really think I have a library of examples in my head that I am holding hostage? Do they think that I am being spiteful toward them by withholding this library of knowledge that I possess and they do not? No, what I would do here is exactly what they are very capable of doing — they can find any type-checking program. In fact, this is the tool support that I aspire to so that I do not have to maintain a “library of examples” in my own head.</p>
+<p>By appeasing their demand for “example usages of …”, if I were to do such an unfortunate thing, I am disservicing them. I am taking away their opportunity to develop the skills to answer this question for themselves. I am not even giving a good answer to the specifics of the question. It is not “a good example” of anything at all. It is the <em>process</em> by which the example is derived that is useful and nothing else.</p>
+<p>So go on, try it. Create yourself a type-checking program. You may be a bit uncomfortable with the much higher degree of tool support in this environment. All I can say is, embrace it, cherish it even. Go.</p>]]></summary>
+</entry>
+<entry>
+    <title>Functors and things using Scala</title>
+    <link href="http://blog.tmorris.net/posts/functors-and-things-using-scala/index.html" />
+    <id>http://blog.tmorris.net/posts/functors-and-things-using-scala/index.html</id>
+    <published>2013-03-01T00:00:00Z</published>
+    <updated>2013-03-01T00:00:00Z</updated>
+    <summary type="html"><![CDATA[<h2 id="types-of-functors">Types of Functors</h2>
+<p>There are many types of functors. They can be expressed using the Scala programming language.</p>
+<ul>
+<li>covariant functors — defines the operation commonly known as <code>map</code> or <code>fmap</code>.</li>
+</ul>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// covariant functor</span>
+<span class="kw">trait</span> Functor[F[_]] {
+  <span class="kw">def</span> fmap[A, B](f: A =&gt; B): F[A] =&gt; F[B]
+}</code></pre>
+<ul>
+<li>contravariant functors — defines the operation commonly known as <code>contramap</code>.</li>
+</ul>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// contravariant functor</span>
+<span class="kw">trait</span> Contravariant[F[_]] {
+  <span class="kw">def</span> contramap[A, B](f: B =&gt; A): F[A] =&gt; F[B]
+}</code></pre>
+<ul>
+<li>exponential functors — defines the operation commonly known as <code>xmap</code>. Also known as <em>invariant functors</em>.</li>
+</ul>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// exponential functor</span>
+<span class="kw">trait</span> Exponential[F[_]] {
+  <span class="kw">def</span> xmap[A, B](f: (A =&gt; B, B =&gt; A)): F[A] =&gt; F[B]
+}</code></pre>
+<ul>
+<li>applicative functor<sup><a href="#fn1" class="footnoteRef" id="fnref1">1</a></sup> — defines the operation commonly known as <code>apply</code> or <code>&lt;*&gt;</code>.</li>
+</ul>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// applicative functor (abbreviated)</span>
+<span class="kw">trait</span> Applicative[F[_]] {
+  <span class="kw">def</span> apply[A, B](f: F[A =&gt; B]): F[A] =&gt; F[B]
+}</code></pre>
+<ul>
+<li>monad<sup><a href="#fn2" class="footnoteRef" id="fnref2">2</a></sup> — defines the operation commonly known as <code>bind</code>, <code>flatMap</code> or <code>=&lt;&lt;</code>.</li>
+</ul>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// monad (abbreviated)</span>
+<span class="kw">trait</span> Monad[F[_]] {
+  <span class="kw">def</span> flatMap[A, B](f: A =&gt; F[B]): F[A] =&gt; F[B]
+}</code></pre>
+<ul>
+<li>comonad<sup><a href="#fn3" class="footnoteRef" id="fnref3">3</a></sup> — defines the operation commonly known as <code>extend</code>, <code>coflatMap</code> or <code>&lt;&lt;=</code>.</li>
+</ul>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// comonad (abbreviated)</span>
+<span class="kw">trait</span> Comonad[F[_]] {
+  <span class="kw">def</span> coflatMap[A, B](f: F[A] =&gt; B): F[A] =&gt; F[B]
+}</code></pre>
+<h2 id="remembering-the-different-types">Remembering the different types</h2>
+<p>Sometimes I am asked how to remember all of these and/or determine which is appropriate. There are many answers to this question, but there is a common feature of all of these different types of functor:</p>
+<blockquote>
+<p>They all take an argument that is some arrangement of three type variables and then return a function with the type F[A] =&gt; F[B].</p>
+</blockquote>
+<p>I memorise the table that is the type of the different argument arrangements to help me to determine which abstraction might be appropriate. Of course, I use other methods, but this particular technique is elegant and short. Here is that table:</p>
+<table>
+<col width="20%" />
+<col width="25%" />
+<thead>
+<tr class="header">
+<th align="left">functor</th>
+<th align="left">argument arrangement</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="left">covariant</td>
+<td align="left"><code class="sourceCode scala">A =&gt; B</code></td>
+</tr>
+<tr class="even">
+<td align="left">contravariant</td>
+<td align="left"><code class="sourceCode scala">B =&gt; A</code></td>
+</tr>
+<tr class="odd">
+<td align="left">exponential</td>
+<td align="left"><code class="sourceCode scala">(A =&gt; B, B =&gt; A)</code></td>
+</tr>
+<tr class="even">
+<td align="left">applicative</td>
+<td align="left"><code class="sourceCode scala">F[A =&gt; B]</code></td>
+</tr>
+<tr class="odd">
+<td align="left">monad</td>
+<td align="left"><code class="sourceCode scala">A =&gt; F[B]</code></td>
+</tr>
+<tr class="even">
+<td align="left">comonad</td>
+<td align="left"><code class="sourceCode scala">F[A] =&gt; B</code></td>
+</tr>
+</tbody>
+</table>
+<p>We can see from this table that there is not much reason to emphasise one over the other. For example, monads get <em>lots</em> of attention and associated stigma, but it’s undeserved. It’s rather boring when put in the context of a bigger picture. It’s just a different arrangement of its argument (<code>A =&gt; F[B]</code>).</p>
+<p>Anyway, this table is a good way to keep a check on the different types of abstraction and how they might apply. There are also ways of deriving some from others, but that’s for another rainy day. That’s all, hope it helps!</p>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>applicative functors also define an identity operation (<code>def insert[A]: A =&gt; F[A]</code>) however, it is omitted.<a href="#fnref1">↩</a></p></li>
+<li id="fn2"><p>monads also define an identity operation (<code>def insert[A]: A =&gt; F[A]</code>) however, it is omitted.<a href="#fnref2">↩</a></p></li>
+<li id="fn3"><p>comonads also define an identity operation (<code>def extract[A]: F[A] =&gt; A</code>) however, it is omitted.<a href="#fnref3">↩</a></p></li>
+</ol>
+</div>]]></summary>
+</entry>
+<entry>
+    <title>Memoisation with State using Scala</title>
+    <link href="http://blog.tmorris.net/posts/memoisation-with-state-using-scala/index.html" />
+    <id>http://blog.tmorris.net/posts/memoisation-with-state-using-scala/index.html</id>
+    <published>2013-02-22T00:00:00Z</published>
+    <updated>2013-02-22T00:00:00Z</updated>
+    <summary type="html"><![CDATA[<p>Everyone has seen a naïve fibonacci implementation</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">object</span> FibNaïve {
+  <span class="kw">def</span> fibnaïve(n: BigInt): BigInt =
+    <span class="kw">if</span>(n &lt;= <span class="dv">1</span>)
+      n
+    <span class="kw">else</span> {
+      <span class="kw">val</span> r = fibnaïve(n - <span class="dv">1</span>)
+      <span class="kw">val</span> s = fibnaïve(n - <span class="dv">2</span>)
+      r + s
+    }
+}</code></pre>
+<p>While this implementation is elegant, it is exponential in time with respect to <code>n</code>. For example, computing the result of <code>fibnaïve(4)</code> will result in the unnecessary re-computation of values less than <code>4</code>. If we unravel the recursion, computation occurs as follows:</p>
+<pre><code>  fibnaïve(4)
+= fibnaïve(3) + fibnaïve(2)
+= (fibnaïve(2) + fibnaïve(1)) + (fibnaïve(1) + fibnaïve(0))
+= ((fibnaïve(1) + fibnaïve(0)) + fibnaïve(1)) + (fibnaïve(1) + fibnaïve(0))</code></pre>
+<p>This algorithm calculates for <code>fibnaïve(2)</code> twice, which ultimately results in a lot of repeated calculations, especially as <code>n</code> grows. What we would like to do is trade some space to store previous stored values for a given <code>n</code>. We can achieve this by looking up the argument value in a table and if it has already been computed, we return it then carry on, but if it hasn’t, we compute the result by calling <code>fibnaïve</code>, store it in the table, then return it. This technique is called <em>memoisation</em>.</p>
+<p>As a first cut, let’s solve fibonacci with a helper function that passes a <code>Map[BigInt, BigInt]</code> around in the recursion. This map will serve at the memoisation table.</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">object</span> FibMemo1 {
+  <span class="kw">type</span> Memo = Map[BigInt, BigInt]
+
+  <span class="kw">def</span> <span class="fu">fibmemo1</span>(n: BigInt): BigInt = {
+    <span class="kw">def</span> <span class="fu">fibmemoR</span>(z: BigInt, memo: Memo): (BigInt, Memo) =
+      <span class="kw">if</span>(z &lt;= <span class="dv">1</span>)
+        (z, memo)
+      <span class="kw">else</span> memo get z <span class="kw">match</span> {
+        <span class="kw">case</span> None =&gt; {
+          <span class="kw">val</span> (r, memo0) = <span class="fu">fibmemoR</span>(z - <span class="dv">1</span>, memo)
+          <span class="kw">val</span> (s, memo1) = <span class="fu">fibmemoR</span>(z - <span class="dv">2</span>, memo0)
+          (r + s, memo1)
+        }
+        <span class="kw">case</span> Some(v) =&gt; (v, memo)
+      }
+
+    <span class="fu">fibmemoR</span>(n, Map()).<span class="fu">_1</span>
+  }
+}</code></pre>
+<p>We have traded space (the memoisation table) for speed; the algorithm is more efficient by not recomputing values. However, we have sacrificed the elegance of the code. How can we achieve both elegance and efficiency?</p>
+<h2 id="the-state-monad">The State Monad</h2>
+<p>The previous code (<code>fibmemo1</code>) has <em>passed state through the computation</em>. In other words, where we once returned a value of the type <code>A</code>, we are accepting an argument of the type <code>Memo</code> and returning the pair <code>(A, Memo)</code>. The state in this case is a value of the type <code>Memo</code>. We can represent this as a data structure:</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">case</span> <span class="kw">class</span> State[S, A](run: S =&gt; (A, S))</code></pre>
+<p>Our <code>fibmemoR</code> function which once had this type:</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">def</span> <span class="fu">fibmemoR</span>(z: BigInt, memo: Memo): (BigInt, Memo)</code></pre>
+<p>…can be transformed to this type:</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">def</span> <span class="fu">fibmemoR</span>(z: BigInt): State[Memo, BigInt]</code></pre>
+<p>Let’s write our new fibonacci function:</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">object</span> FibMemo2 {
+  <span class="kw">type</span> Memo = Map[BigInt, BigInt]
+
+  <span class="kw">def</span> <span class="fu">fibmemo2</span>(n: BigInt): BigInt = {
+    <span class="kw">def</span> <span class="fu">fibmemoR</span>(z: BigInt): State[Memo, BigInt] =
+      State(memo =&gt;
+        <span class="kw">if</span>(z &lt;= <span class="dv">1</span>)
+          (z, memo)
+        <span class="kw">else</span> memo get z <span class="kw">match</span> {
+          <span class="kw">case</span> None =&gt; {
+            <span class="kw">val</span> (r, memo0) = <span class="fu">fibmemoR</span>(z - <span class="dv">1</span>) run memo
+            <span class="kw">val</span> (s, memo1) = <span class="fu">fibmemoR</span>(z - <span class="dv">2</span>) run memo
+            (r + s, memo1)
+          }
+          <span class="kw">case</span> Some(v) =&gt; (v, memo)
+        })
+
+    <span class="fu">fibmemoR</span>(n).<span class="fu">run</span>(Map()).<span class="fu">_1</span>
+  }
+}</code></pre>
+<p>Ew! This code is still rather clumsy as it manually passes the memo table around. What can we do about it? This is where the state monad is going to help us out. The state monad is going to take care of passing the state value around for us. The monad itself is implemented by three functions:</p>
+<ol style="list-style-type: decimal">
+<li><p>The <code>map</code> method on <code>State[S, A]</code>.</p></li>
+<li><p>The <code>flatMap</code> method on <code>State[S, A]</code>.</p></li>
+<li><p>The <code>insert</code> function on the <code>object State</code> that <em>inserts a value while leaving the state unchanged</em>.</p></li>
+</ol>
+<p>I will also add three convenience functions:</p>
+<ol style="list-style-type: decimal">
+<li><p><code>eval</code> method for running the <code>State</code> value and dropping the resulting state value.</p></li>
+<li><p><code>get</code> function for taking the current state to a value. <code>(S =&gt; A) =&gt; State[S, A]</code></p></li>
+<li><p><code>mod</code> function for modifying the current state. <code>(S =&gt; S) =&gt; State[S, Unit]</code></p></li>
+</ol>
+<p>Here goes:</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">case</span> <span class="kw">class</span> State[S, A](run: S =&gt; (A, S)) {
+  <span class="co">// 1. the map method</span>
+  <span class="kw">def</span> map[B](f: A =&gt; B): State[S, B] =
+    State(s =&gt; {
+      <span class="kw">val</span> (a, t) = <span class="fu">run</span>(s)
+      (<span class="fu">f</span>(a), t)
+    })
+
+  <span class="co">// 2. the flatMap method</span>
+  <span class="kw">def</span> flatMap[B](f: A =&gt; State[S, B]): State[S, B] =
+    State(s =&gt; {
+      <span class="kw">val</span> (a, t) = <span class="fu">run</span>(s)
+      <span class="fu">f</span>(a) run t
+    })
+
+  <span class="co">// Convenience function to drop the resulting state value</span>
+  <span class="kw">def</span> <span class="fu">eval</span>(s: S): A =
+    <span class="fu">run</span>(s).<span class="fu">_1</span>
+}
+
+<span class="kw">object</span> State {
+  <span class="co">// 3. The insert function</span>
+  <span class="kw">def</span> insert[S, A](a: A): State[S, A] =
+    State(s =&gt; (a, s))
+
+  <span class="co">// Convenience function for taking the current state to a value</span>
+  <span class="kw">def</span> get[S, A](f: S =&gt; A): State[S, A] =
+    State(s =&gt; (<span class="fu">f</span>(s), s))
+
+  <span class="co">// Convenience function for modifying the current state</span>
+  <span class="kw">def</span> mod[S](f: S =&gt; S): State[S, Unit] =
+    State(s =&gt; ((), <span class="fu">f</span>(s)))
+}</code></pre>
+<p>We can see that the <code>flatMap</code> method takes care of passing the state value through a given function. This is the ultimate purpose of the state monad. Specifically, the state monad allows the programmer to pass a state (<code>S</code>) value through a computation (<code>A</code>) without us having to manually handle it. The <code>map</code> and <code>insert</code> methods complete the state monad.</p>
+<p>How does our fibonacci implementation look now?</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">object</span> FibMemo3 {
+  <span class="kw">type</span> Memo = Map[BigInt, BigInt]
+
+  <span class="kw">def</span> <span class="fu">fibmemo3</span>(n: BigInt): BigInt = {
+    <span class="kw">def</span> <span class="fu">fibmemoR</span>(z: BigInt): State[Memo, BigInt] =
+      <span class="kw">if</span>(z &lt;= <span class="dv">1</span>)
+        State.<span class="fu">insert</span>(z)
+      <span class="kw">else</span>
+        <span class="kw">for</span> {
+          u &lt;- State.<span class="fu">get</span>((m: Memo) =&gt; m get z)
+          v &lt;- u map State.<span class="fu">insert</span>[Memo, BigInt] getOrElse
+                 <span class="fu">fibmemoR</span>(z - <span class="dv">1</span>) <span class="fu">flatMap</span> (r =&gt;
+                 <span class="fu">fibmemoR</span>(z - <span class="dv">2</span>) <span class="fu">flatMap</span> (s =&gt; {
+                 <span class="kw">val</span> t = r + s
+                 State.<span class="fu">mod</span>((m: Memo) =&gt; m + ((z, t))) <span class="fu">map</span> (_ =&gt;
+                 t)
+                 }))
+        } <span class="kw">yield</span> v
+
+    <span class="fu">fibmemoR</span>(n) eval Map()
+  }
+}</code></pre>
+<p>Now we have used the three state monad methods to pass the memo table through the computation for us - no more manual handling of passing that memo table through to successive recursive calls.</p>
+<p>Scala provides syntax for the type of computation that chains calls to <code>flatMap</code> and <code>map</code>. It is implemented using the <code>for</code> and <code>yield</code> keywords in what is called a <em>for-comprehension</em>. The for-comprehension syntax will make the calls to <code>flatMap</code> and <code>map</code>, while allowing a more imperative-looking style. For example, where we once wrote code such as <code>x flatMap (r =&gt;</code>, we will now write <code>r &lt;- x</code> inside the for-comprehension.</p>
+<p>How does this look?</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">object</span> FibMemo4 {
+  <span class="kw">type</span> Memo = Map[BigInt, BigInt]
+
+  <span class="kw">def</span> <span class="fu">fibmemo4</span>(n: BigInt): BigInt = {
+    <span class="kw">def</span> <span class="fu">fibmemoR</span>(z: BigInt): State[Memo, BigInt] =
+      <span class="kw">if</span>(z &lt;= <span class="dv">1</span>)
+        State.<span class="fu">insert</span>(z)
+      <span class="kw">else</span>
+        <span class="kw">for</span> {
+          u &lt;- State.<span class="fu">get</span>((m: Memo) =&gt; m get z)
+          v &lt;- u map State.<span class="fu">insert</span>[Memo, BigInt] <span class="fu">getOrElse</span> (<span class="kw">for</span> {
+                 r &lt;- <span class="fu">fibmemoR</span>(z - <span class="dv">1</span>)
+                 s &lt;- <span class="fu">fibmemoR</span>(z - <span class="dv">2</span>)
+                 t = r + s
+                 _ &lt;- State.<span class="fu">mod</span>((m: Memo) =&gt; m + ((z, t)))
+               } <span class="kw">yield</span> t)
+        } <span class="kw">yield</span> v
+
+    <span class="fu">fibmemoR</span>(n) eval Map()
+  }
+}</code></pre>
+<p>This is a lot neater as the memoisation table is handled by the state monad. In fact, it is starting to look like the original naïve solution. We are no longer manually handling the state transitions, which allows us to express the essence of the problem and without the calculation speed blow-out.</p>
+<p>Where you once may have use <code>var</code>, consider if the state monad is instead more appropriate.</p>]]></summary>
+</entry>
+
+</feed>

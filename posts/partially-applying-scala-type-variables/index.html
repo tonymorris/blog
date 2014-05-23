@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>λ Tony's blog λ - Partially Applying Scala type variables</title>
+  <link rel="stylesheet" type="text/css" href="../../css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/syntax.css" />
+  <link rel="alternate" type="application/atom+xml" href="http://blog.tmorris.net/atom.xml" title="Atom feed" />
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/javascript" src="https://raw.github.com/Mathapedia/LaTeX2HTML5/master/latex2html5.min.js"></script>
+</head>
+<body>
+<div id="title">
+  λ Tony's blog λ
+  <div id="subtitle">
+    The weblog of Tony Morris
+  </div>
+</div>
+<div id="header">
+  <div id="navigation">
+    <a href="../../index.html">Home</a>
+    <a href="../../posts/">All Posts</a>
+    <a href="../../contact/">Contact</a>
+    <a href="http://cv.tmorris.net/">CV</a>
+    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+  </div>
+</div>
+<h1>Partially Applying Scala type variables</h1>
+<div class="info">Posted on September 22, 2008, in <a href="../../tags/Programming/index.html">Programming</a></div>
+
+<p>Below is a neat trick that others may find useful when designing APIs using the Scala programming language.</p>
+<p>Scala’s type inferencer is not as clever as some. As a result, we often find ourselves explicitly annotating type variables in certain contexts. This can become a little annoying, but what is worse, is if you have a type variable list and only one of those requires explicit specification, the others must also be explicitly specified even though they would have otherwise been inferred.</p>
+<p>Let me demonstrate. I will use Scala’s higher-kinds, which are never inferred (this is quite acceptable given the problems associated with inferring higher-kinds – consider Java and C# where they do not even exist, thus leading to an enormous repetitive chore) though other examples may be applicable. However, it can be annoying if you were to write say, the Monad join function:</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">def</span> join[M[_], A](m: M[M[A]]): M[A] = <span class="fu">error</span>(<span class="st">&quot;todo&quot;</span>)</code></pre>
+<p>A caller invocation might look like:</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">val</span> x = join[List, Int](List(List(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), List(<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>)))</code></pre>
+<p>Notice the explicit annotation with the <code>List</code> type constructor, however, the second type variable (<code>Int</code>) must also be explicitly specified, even though it could have otherwise been inferred. This is a bit annoying.</p>
+<p>We can do away with it like so:</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">def</span> join[M[_]] = <span class="kw">new</span> {
+  <span class="kw">def</span> apply[A](m: M[M[A]]): M[A] = <span class="fu">error</span>(<span class="st">&quot;todo&quot;</span>)
+}</code></pre>
+<p>And now the caller code no longer has that clumsy type annotation:</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">val</span> x = join[List](List(List(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>), List(<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>)))</code></pre>
+<p>Yay! Have a nice day :)</p>
+
+
+<hr />
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'tonys--blog';
+  var discus_identifier = '/posts/partially-applying-scala-type-variables/index.html';
+  var disqus_url = 'http://blog.tmorris.net/posts/partially-applying-scala-type-variables/index.html';
+  var discus_title = 'Partially Applying Scala type variables';
+  (function () {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript><p>The comments use <a href="http://disqus.com/?ref_noscript">Disqus</a>,
+  which requires Javascript.</p></noscript>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-3405112-1']);
+  _gaq.push(['_trackPageview']);
+  (function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+</html>

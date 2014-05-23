@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>λ Tony's blog λ - Functional Java 2.9</title>
+  <link rel="stylesheet" type="text/css" href="../../css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/syntax.css" />
+  <link rel="alternate" type="application/atom+xml" href="http://blog.tmorris.net/atom.xml" title="Atom feed" />
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/javascript" src="https://raw.github.com/Mathapedia/LaTeX2HTML5/master/latex2html5.min.js"></script>
+</head>
+<body>
+<div id="title">
+  λ Tony's blog λ
+  <div id="subtitle">
+    The weblog of Tony Morris
+  </div>
+</div>
+<div id="header">
+  <div id="navigation">
+    <a href="../../index.html">Home</a>
+    <a href="../../posts/">All Posts</a>
+    <a href="../../contact/">Contact</a>
+    <a href="http://cv.tmorris.net/">CV</a>
+    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+  </div>
+</div>
+<h1>Functional Java 2.9</h1>
+<div class="info">Posted on August  5, 2008, in <a href="../../tags/Programming/index.html">Programming</a></div>
+
+<p><strong>Patient</strong>: I have 6 potentially failing methods (a, b, c, d, e, f) and if one of those fails, I want to cease execution and return that failure, otherwise continue execution.</p>
+<p><strong>Doctor</strong>: What do they return if they succeed?</p>
+<p><strong>Patient</strong>: Nothing, they side-effect</p>
+<p><strong>Doctor</strong>: eek! OK, let’s see what we can do? What happens after you’ve completed this computation?</p>
+<p><strong>Patient</strong>: Well, it gets a bit hairier you see. Then I have 3 more potentially failing computations (g, h, i) and if any of those fail (or the original failed), then I also want to fail, however, I want to <em>keep</em> the errors in these last three computations.</p>
+<p><strong>Doctor</strong>: So let’s get this right, you perform all of the latter three computations regardless of their outcome and you only succeed if all nine computations succeed and you fail otherwise?</p>
+<p><strong>Patient</strong>: Yes, that’s right and…</p>
+<p><strong>Doctor</strong>: And for whatever silly reason, you’re using Java.</p>
+<p><strong>Patient</strong>: <em>cowers</em>; er yeah.</p>
+<p><strong>Doctor</strong>: Well, I’ve told you about that, haven’t I?</p>
+<p><strong>Patient</strong>: <em>cowers more</em>; yes you have but…</p>
+<p><strong>Doctor</strong>: So, if any of the first six computations fail, then you check the latter three for failures as well. These latter three are side-effecting, void return type, as well aren’t they?</p>
+<p><strong>Patient</strong>: Yes…</p>
+<p><strong>Doctor</strong>: If the first six succeed, you perform the latter three computations anyway, accumulating potential failures.</p>
+<p><strong>Patient</strong>: Right, exactly</p>
+<p><strong>Doctor</strong>: And just as an interesting observation, you will have at most, four errors and possibly none in the event of all nine succeeding.</p>
+<p><strong>Patient</strong>: Umm yeah, I hadn’t thought of it that way.</p>
+<p><strong>Doctor</strong>: <em>smiles</em></p>
+<pre class="sourceCode Java"><code class="sourceCode java">Validation&lt;Throwable, Unit&gt; a;
+Validation&lt;Throwable, Unit&gt; b;
+Validation&lt;Throwable, Unit&gt; c;
+Validation&lt;Throwable, Unit&gt; d;
+Validation&lt;Throwable, Unit&gt; e;
+Validation&lt;Throwable, Unit&gt; f;
+<span class="co">////</span>
+Validation&lt;Throwable, Unit&gt; g;
+Validation&lt;Throwable, Unit&gt; h;
+Validation&lt;Throwable, Unit&gt; i;
+
+Validation&lt;Throwable, Unit&gt; <span class="fu">first</span>() {
+  <span class="kw">return</span> a.<span class="fu">sequence</span>(b).
+          <span class="fu">sequence</span>(c).
+          <span class="fu">sequence</span>(d).
+          <span class="fu">sequence</span>(e).
+          <span class="fu">sequence</span>(f);
+}
+
+Option&lt;NonEmptyList&lt;throwable&gt;&gt; <span class="fu">second</span>() {
+  <span class="kw">return</span> <span class="fu">first</span>().<span class="fu">nel</span>().<span class="fu">accumulate</span>(Semigroup.&lt;throwable&gt;<span class="fu">nonEmptyListSemigroup</span>(),
+          g.<span class="fu">nel</span>(),
+          h.<span class="fu">nel</span>(),
+          i.<span class="fu">nel</span>());
+}</code></pre>
+<p><strong>Doctor</strong>: Now, this is the best that Java can do at solving this very popular request of yours, but come and see me when you’re ready to upgrade your tools…</p>
+<p><strong>Patient</strong>: Thanks Doc! I will!</p>
+<p><strong>Doctor</strong>: <em>outward smile, inward scepticism</em>; In the meantime, I will prescribe you with <a href="http://functionaljava.org/">Functional Java 2.9</a> which is only going to work if you exercise <em>at least some</em> amount of intellectual discipline. You will need it for the solution above.</p>
+<p><strong>Doctor</strong>: On your way then.</p>
+<p><em>Update: Functional Java 2.10 includes <code>Validation.sequence</code>.</em></p>
+
+
+<hr />
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'tonys--blog';
+  var discus_identifier = '/posts/functional-java-29/index.html';
+  var disqus_url = 'http://blog.tmorris.net/posts/functional-java-29/index.html';
+  var discus_title = 'Functional Java 2.9';
+  (function () {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript><p>The comments use <a href="http://disqus.com/?ref_noscript">Disqus</a>,
+  which requires Javascript.</p></noscript>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-3405112-1']);
+  _gaq.push(['_trackPageview']);
+  (function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+</html>

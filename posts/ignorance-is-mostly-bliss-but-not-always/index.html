@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>λ Tony's blog λ - Ignorance is mostly bliss, but not always</title>
+  <link rel="stylesheet" type="text/css" href="../../css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/syntax.css" />
+  <link rel="alternate" type="application/atom+xml" href="http://blog.tmorris.net/atom.xml" title="Atom feed" />
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/javascript" src="https://raw.github.com/Mathapedia/LaTeX2HTML5/master/latex2html5.min.js"></script>
+</head>
+<body>
+<div id="title">
+  λ Tony's blog λ
+  <div id="subtitle">
+    The weblog of Tony Morris
+  </div>
+</div>
+<div id="header">
+  <div id="navigation">
+    <a href="../../index.html">Home</a>
+    <a href="../../posts/">All Posts</a>
+    <a href="../../contact/">Contact</a>
+    <a href="http://cv.tmorris.net/">CV</a>
+    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+  </div>
+</div>
+<h1>Ignorance is mostly bliss, but not always</h1>
+<div class="info">Posted on February  9, 2007, in <a href="../../tags/Programming/index.html">Programming</a></div>
+
+<p>I have been using <a href="http://www.scala-lang.org/">Scala</a> for the past few weeks to write a web framework that ‘fixes’ the convoluted Java Servlet Specification. I have succeeded in doing so and I have a prototype running on Apache Tomcat right now as I write this post, however I didn’t get to this point easily; not without first having to do such things as:</p>
+<ul>
+<li><p>write a lazy cons list <strong>without</strong> any methods declared on the type – rather, functions over the type that are declared in a Scala <em>object</em> (roughly analogous to Java static methods)</p></li>
+<li><p>conceding to using mutable state/destructive update at some points – particularly converting strict and/or side-effecting Java types to nice, lazy, pure types</p></li>
+<li><p>missing out on the syntactic niceties that monads provide – Scala does not support higher-order kinds</p></li>
+</ul>
+<p>Scala is what I consider a very pragmatic (to steal a buzzword from the hype generators) approach to software development as it exists today. It satisfies the incompetent assertions of the illegitimate authority (aka management) – “you must use Java (et al.)”, while still allowing a reasonably concise expression and programming paradigm e.g. Scala has pattern matching, case classes, variance annotations, higher-order functions and implicit defs (similar to Haskell type-classes). These features alone dramatically reduce the amount of repetitious work that you otherwise do in more mainstream languages by one of those crazy orders of magnitude that would never be believed by a mainstream programmer and so could easily be explained away as nonsense with support from other ill-informed peers (those who know what I mean, know what I mean).</p>
+<p>I had read about <a href="http://labs.businessobjects.com/cal/">CAL</a>, but didn’t ever give it much consideration until today. And it is today that I realise that my blissful ignorance has cost me. CAL is very <em>Haskell-like</em> with full support for using Java types (just as Scala does) and compiles straight to the JVM (just as Scala does) – making up for the deficiencies of the Java runtime compiler using techniques such as tail recursive call elimination (again, just as Scala does).</p>
+<p>However, upon further reading (I admit to not having used it in great detail just yet), CAL does more – much more. It is lazily evaluated and it is pure functional. It has higher-order kinds <a href="http://blog.tmorris.net/strong-type-systems/">and we know how important that is</a>. It has monads and even the <code>Monad</code> data type subtypes the <code>Functor</code> data type! Not even Haskell does that (though I’m sure things would be different given hindsight ala CAL)! Type parameters are covariant, given its pure functional nature and it makes expressing strictness much easier than it does in other lazy languages (apparently). Of course, this is all potentially a reiteration of hyperbole, since I’ve yet to try it out – but it does look promising, especially given that it has now been released under a BSD licence.</p>
+<p>The point is, my ignorance (of CAL) has cost me, since I have a well thought-out, very usable web application framework (sorry <a href="http://happs.org/">HAppS</a>) that has been written in a possibly (probably) inferior language. Here I was thinking I had the best of both worlds – satisfying the pointy-haired boss, while still getting on with writing software. Though, it could be worse, <strong>much</strong> worse – I could have written it in Java/C# like many other participants in this circus are doing.</p>
+
+
+<hr />
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'tonys--blog';
+  var discus_identifier = '/posts/ignorance-is-mostly-bliss-but-not-always/index.html';
+  var disqus_url = 'http://blog.tmorris.net/posts/ignorance-is-mostly-bliss-but-not-always/index.html';
+  var discus_title = 'Ignorance is mostly bliss, but not always';
+  (function () {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript><p>The comments use <a href="http://disqus.com/?ref_noscript">Disqus</a>,
+  which requires Javascript.</p></noscript>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-3405112-1']);
+  _gaq.push(['_trackPageview']);
+  (function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+</html>

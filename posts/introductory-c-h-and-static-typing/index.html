@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>λ Tony's blog λ - Introductory C-H and Static Typing</title>
+  <link rel="stylesheet" type="text/css" href="../../css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/syntax.css" />
+  <link rel="alternate" type="application/atom+xml" href="http://blog.tmorris.net/atom.xml" title="Atom feed" />
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/javascript" src="https://raw.github.com/Mathapedia/LaTeX2HTML5/master/latex2html5.min.js"></script>
+</head>
+<body>
+<div id="title">
+  λ Tony's blog λ
+  <div id="subtitle">
+    The weblog of Tony Morris
+  </div>
+</div>
+<div id="header">
+  <div id="navigation">
+    <a href="../../index.html">Home</a>
+    <a href="../../posts/">All Posts</a>
+    <a href="../../contact/">Contact</a>
+    <a href="http://cv.tmorris.net/">CV</a>
+    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+  </div>
+</div>
+<h1>Introductory C-H and Static Typing</h1>
+<div class="info">Posted on August 15, 2008, in <a href="../../tags/Programming/index.html">Programming</a></div>
+
+<p>We use logic every day. No, I don’t mean just us programmers; I mean all of us. Here is an observation about propositional logic:</p>
+<blockquote>
+<p>I have three propositions P, Q and R.</p>
+</blockquote>
+<p>It doesn’t matter what these three propositions actually are, it will always hold that, “if P then Q implies that if Q then R implies that if P then R”.</p>
+<p>I’ve subverted that a little to try to make it read a little better, but perhaps look it at it a bit more formally:</p>
+<pre><code>forall P Q R. (P → Q) → (Q → R) → (P → R)</code></pre>
+<p>You might like to try it out on paper using some example propositions, such as:</p>
+<ul>
+<li><p>P = Today is Tuesday</p></li>
+<li><p>Q = I am going swimming</p></li>
+<li><p>R = I have hairy armpits</p></li>
+</ul>
+<p>I won’t bastardise it with English again ;) However, I will give you a hint. Here is the truth table for → (logical implication):</p>
+<pre><code>A | B | A → B
+0 | 0 | 1
+0 | 1 | 1
+1 | 0 | 0
+1 | 1 | 1</code></pre>
+<p>Here is where it gets a little interesting. This same logical statement <code>forall P Q R. (P → Q) → (Q → R) → (P → R)</code> can also be expressed in most programming languages. Here it is in Java as the <code>z</code> method:</p>
+<pre><code>interface F&lt;A, B&gt; { B f(A a); }
+static &lt;P, Q, R&gt; F&lt;P, R&gt; z(F&lt;P, Q&gt; f, F&lt;Q, R&gt; g) { ...</code></pre>
+<p>It gets more interesting; there is only <em>one implementation</em> of this function if we assume a terminating subset of the language (for Java, no <code>null</code> or throwing an exception). If you add in a side-effect such as writing to a file or the network, then you have perverted the function signature. Java allows us to do that, so we also have to assume a subset of the language that disallows this unfortunate anomaly. This notion of a type signature having only one implementation is called <em>once inhabited</em>.</p>
+<p>Let’s write out the truth table for this. Notice the consistent <code>1</code> values in the final column. The statement is a tautology.</p>
+<pre><code>P | Q | R | P → R | Q → R | P → R | (Q → R) → P → R | (P → Q) → (Q → R) → P → R
+0 | 0 | 0 | 1     | 1     | 1     | 1               | 1
+0 | 0 | 1 | 1     | 1     | 1     | 1               | 1
+0 | 1 | 0 | 1     | 0     | 1     | 1               | 1
+0 | 1 | 1 | 1     | 1     | 1     | 1               | 1
+1 | 0 | 0 | 0     | 1     | 0     | 0               | 1
+1 | 0 | 1 | 0     | 1     | 1     | 1               | 1
+1 | 1 | 0 | 1     | 0     | 0     | 1               | 1
+1 | 1 | 1 | 1     | 1     | 1     | 1               | 1</code></pre>
+<p>Under the Curry-Howard Isomorphism, logical implication is represented by a function or in the example above using Java, by the <code>F</code> interface. The <code>z</code> function is called <em>function composition</em>. It takes the two give functions/propositions and composes them.</p>
+<p>In Haskell, function composition is not called <code>z</code> as we called it with Java, but instead <code>(.)</code>. That’s a full-stop character in parentheses. We can ask for the type of <code>(.)</code> in the GHC interpreter:</p>
+<pre><code>Prelude&gt; :type (.)
+(.) :: (b -&gt; c) -&gt; (a -&gt; b) -&gt; a -&gt; c</code></pre>
+<p>We might even call it by passing in function instances (similar to instances of the Java <code>F</code> interface):</p>
+<pre><code>Prelude&gt; ((+1) . (*7)) 20
+141
+
+Prelude&gt; (reverse . map Char.toUpper) &quot;hello there&quot;
+&quot;EREHT OLLEH&quot;</code></pre>
+<p>You could do the same using Java, but it’s a little more verbose, so I’ll omit that ;)</p>
+<p>Here is a simple quiz. If we suppose the same <code>F</code> interface earlier, how many implementations of this function are there:</p>
+<pre><code>static &lt;a&gt; F&lt;A, A&gt; t() { ...</code></pre>
+<p>What about this one?</p>
+<pre><code>static &lt;A, B&gt; F&lt;A, B&gt; u() { ...</code></pre>
+
+
+<hr />
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'tonys--blog';
+  var discus_identifier = '/posts/introductory-c-h-and-static-typing/index.html';
+  var disqus_url = 'http://blog.tmorris.net/posts/introductory-c-h-and-static-typing/index.html';
+  var discus_title = 'Introductory C-H and Static Typing';
+  (function () {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript><p>The comments use <a href="http://disqus.com/?ref_noscript">Disqus</a>,
+  which requires Javascript.</p></noscript>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-3405112-1']);
+  _gaq.push(['_trackPageview']);
+  (function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+</html>

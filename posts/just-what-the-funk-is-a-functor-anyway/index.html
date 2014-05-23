@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>λ Tony's blog λ - Just what the funk is a Functor anyway?</title>
+  <link rel="stylesheet" type="text/css" href="../../css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/syntax.css" />
+  <link rel="alternate" type="application/atom+xml" href="http://blog.tmorris.net/atom.xml" title="Atom feed" />
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/javascript" src="https://raw.github.com/Mathapedia/LaTeX2HTML5/master/latex2html5.min.js"></script>
+</head>
+<body>
+<div id="title">
+  λ Tony's blog λ
+  <div id="subtitle">
+    The weblog of Tony Morris
+  </div>
+</div>
+<div id="header">
+  <div id="navigation">
+    <a href="../../index.html">Home</a>
+    <a href="../../posts/">All Posts</a>
+    <a href="../../contact/">Contact</a>
+    <a href="http://cv.tmorris.net/">CV</a>
+    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+  </div>
+</div>
+<h1>Just what the funk is a Functor anyway?</h1>
+<div class="info">Posted on June 28, 2008, in <a href="../../tags/Programming/index.html">Programming</a></div>
+
+<p><a href="http://apocalisp.wordpress.com/">Runar</a> recently made mention of these so-called Functors and Monads in <a href="http://apocalisp.wordpress.com/2008/06/18/parallel-strategies-and-the-callable-monad/">his excellent post about concurrency/actors in Java</a>. There are all sorts of tutorials out there for understanding what a Monad is, however, I am of the opinion that one must first understand what a Functor is. This is because it is less complex and more general (all monads are functors plus more).</p>
+<p>The Java Posse also made a couple of false claims about Runar’s article, but one in particular needs addressing. This is the notion that a functor is applicable to “Functional Programming”. This is false. A functor is applicable to <em>programming</em>. You really, really need to understand what a functor is, if you’re ever going to be skilled in <em>any type of</em> programming; even if it’s just Java web applications for the rest of your life. This concept does not exist ‘on the other side of the fence’ in the imaginary ‘functional programming world’. These suggestions are understandable of course and I don’t intend to labour the point – only make this point clear, since these apparent divides seem to pop up often. On with the story…</p>
+<p>In Java, we have an interface called <code>[CharSequence](http://java.sun.com/javase/6/docs/api/java/lang/CharSequence.html)</code>. A few things can be said about <code>CharSequence</code>. How about:</p>
+<blockquote>
+<p>All implementations guarantee that for some integer <code>n</code>, then if <code>n &gt;= 0 &amp;&amp; n &lt; length()</code>, then <code>charAt(n)</code> will not throw an exception.</p>
+</blockquote>
+<p>We might call this a <em>law</em> about <code>CharSequence</code> that all implementations must satisfy. We could even find other laws that must satisfy about implementations of the <code>CharSequence</code> interface.</p>
+<p>A Functor is an interface and it has two laws. Sadly though, this interface cannot be expressed using Java’s type system – it is simply not clever enough. We must use a hypothetical Java to express it. First though, we have to make up for Java’s missing first-class functions by using an interface. This is easy:</p>
+<pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">interface</span> Function&lt;A, B&gt; {
+  B <span class="fu">f</span>(A a);
+}</code></pre>
+<p>OK, so this a just an interface like any others. It needn’t satisfy any laws; it just takes an argument (A) and returns (B). We could write bazillions of implementations of this interface in Java. We’re going to need this interface to write the <code>Functor</code> interface.</p>
+<p>Now, the missing part of Java is called <em>higher-kinds</em> – a term you needn’t concern yourself with too much. I hope this hypothetical syntax is enough to make the point clear:</p>
+<pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">interface</span> Functor&lt;E&lt;_&gt;&gt; {
+  &lt;A, B&gt; E&lt;b&gt; <span class="fu">fmap</span>(Function&lt;A, B&gt; f, E&lt;a&gt; fa);
+}</code></pre>
+<p>So the foreign part here is <code>E&lt;_&gt;</code>. Consider E to stand for ‘Environment’. It is a type parameter that takes yet another type parameter (which is why it is denoted E&lt;_&gt;). This means I could use <code>List</code> or <code>Set</code>, but not <code>Integer</code> as the type parameter value for E, since <code>List</code> and <code>Set</code> take another type parameter while <code>Integer</code> does not. You might think of the <code>Functor</code> interface as ‘applying the given function within the environment’.</p>
+<p>We might write an implementation like this:</p>
+<pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">class</span> ListFunctor <span class="kw">implements</span> Functor&lt;list&gt; {
+  <span class="kw">public</span> &lt;A, B&gt; List&lt;b&gt; <span class="fu">fmap</span>(Function&lt;A, B&gt; f, List&lt;a&gt; list) {
+    <span class="co">// todo: apply the given function on all elements in 'list' and return the result</span>
+  }
+}</code></pre>
+<p>In general discussion, we would call this <em>the list functor</em>, simply because the value for the environment has been applied. In Runar’s article, he was talking about the <code>Callable</code> functor; yet another environment. There are many possibilities for the environment here; <code>List</code> and <code>Callable</code> are but two.</p>
+<h4 id="the-laws">The Laws</h4>
+<p>Let us not forget the laws :) Just like all implementations of <code>CharSequence</code> have laws to obey, so do all functors. They are called <em>identity</em> and <em>composition</em>.</p>
+<h5 id="identity">Identity</h5>
+<p>Remember the <code>Function</code> interface? Here is an implementation:</p>
+<pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">class</span> Identity&lt;a&gt; <span class="kw">implements</span> Function&lt;A, A&gt; {
+  <span class="kw">public</span> A <span class="fu">f</span>(A a) { <span class="kw">return</span> a; }
+}</code></pre>
+<p>If we are given an implementation of <code>Functor</code> – which I will call <code>f</code> – then it must satisfy <code>f.fmap(new Identity(), x)</code> is equivalent to <code>x</code> <em>(for any value of x)</em>. So that’s the identity law out of the way. Mapping <em>the identity function</em> across a functor yields the same value.</p>
+<h5 id="composition">Composition</h5>
+<p>The law of composition is a little less friendly when it comes to expressing it in Java so I will refrain :) While it is an important part of making up the concept of a functor, it may be best to defer this final piece of the puzzle for now.</p>
+<p>For completeness, I will state the law using a shorter syntax, but if this is foreign or worrying, then please ignore it: <code>f.fmap(a compose b, x)</code> is equivalent to <code>f.fmap(a, f.fmap(b, x))</code> <em>(for any value of a, b and x – a and b are <code>Function</code> objects)</em>.</p>
+<p>That’s all there is to a Functor. If you use the <code>map</code> function on lists or perhaps the <code>map</code> method on <code>scala.Option</code>, then you are using one specific instance of a functor, since these functions/methods satisfy the conditions for a functor. Even throwing an exception is using a specific functor! Perhaps that can be explained another time :)</p>
+<p>I should also add that when referring to a functor (unqualified), we are referring to a <em>covariant</em> functor. Other types of functors include contra-variant and invariant functors. We can talk about those another day :)</p>
+<p>Next: Just What the Flip is a Monad?</p>
+<p>Questions?</p>
+
+
+<hr />
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'tonys--blog';
+  var discus_identifier = '/posts/just-what-the-funk-is-a-functor-anyway/index.html';
+  var disqus_url = 'http://blog.tmorris.net/posts/just-what-the-funk-is-a-functor-anyway/index.html';
+  var discus_title = 'Just what the funk is a Functor anyway?';
+  (function () {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript><p>The comments use <a href="http://disqus.com/?ref_noscript">Disqus</a>,
+  which requires Javascript.</p></noscript>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-3405112-1']);
+  _gaq.push(['_trackPageview']);
+  (function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+</html>

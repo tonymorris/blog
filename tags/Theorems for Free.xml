@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <title>λ Tony's blog λ — Posts tagged Theorems for Free</title>
+    <link href="http://blog.tmorris.net/tags/Theorems%20for%20Free.xml" rel="self" />
+    <link href="http://blog.tmorris.net" />
+    <id>http://blog.tmorris.net/tags/Theorems%20for%20Free.xml</id>
+    <author>
+        <name>Tony Morris</name>
+        <email>blog@tmorris.net</email>
+    </author>
+    <updated>2013-07-18T20:00:00Z</updated>
+    <entry>
+    <title>Sticks, stones, but names are not useful to me</title>
+    <link href="http://blog.tmorris.net/posts/identifier-names/index.html" />
+    <id>http://blog.tmorris.net/posts/identifier-names/index.html</id>
+    <published>2013-07-18T20:00:00Z</published>
+    <updated>2013-07-18T20:00:00Z</updated>
+    <summary type="html"><![CDATA[<p>There are various tools for comprehending code. It is often alleged to me that identifier names are one such tool — an important one even. In order to be a useful tool for comprehension, it must have a degree of efficacy above an arbitrary hypothesis. For example, suppose the following code:</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">def</span> reverse: List[Banana] =&gt; List[Banana]</code></pre>
+<p>Without viewing the body of the code, one might infer that this code “reverses the list.” What does it mean to reverse a list? Let us try to rigorously define reversing a list:</p>
+<ul>
+<li>Reversing the empty list produces the empty list.</li>
+<li>Reversing a single-element list produces that same list.</li>
+<li>Taking two lists, appending them then reversing, produces the same list as reversing each, then appending the latter to the former.</li>
+</ul>
+<p>We infer all these things, even if informally, when we conclude that this function reverses the list. We might have some degree of confidence in concluding that all these properties hold purely from the function name, however, as part of this conclusion, we also conclude that the function does not peel the first <code>Banana</code>. We have no evidence of these facts, except for the function name, alleged to be useful to infer some confidence about these facts.</p>
+<p>In order for this method of comprehension to be efficacious, it must produce a result better than guessing. That is to say, the degree of confidence invoked by inferring that “this function reverses the list” from the premise, “because the function is named <code>reverse</code>”, must be higher than inferring that the function does not reverse the list, from the same premise. In my experience, with which some will certainly disagree, this is not the case, rendering this comprehension method useless. That is to say, the identifier name persuades confidence of the inference by nil, not even a bit.</p>
+<p>Thankfully, this is unimportant. It is unimportant because there exist methods of code comprehension that are <em>significantly more effective</em>, so you can abandon the question of whether or not there is efficacy of using identifier names for inferring properties of code.</p>
+<hr />
+<p>Suppose the following code:</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">def</span> reverse[A]: List[A] =&gt; List[A]</code></pre>
+<p>At first glance, it might appear that we must take a leap of confidence in inferring that the function reverses the list. However, we can infer the following fact — <em>this function definitely does not peel the first <code>Banana</code> in the list</em>. I can infer this because if the function attempted to do this, it <em>would not compile</em><sup><a href="#fn1" class="footnoteRef" id="fnref1">1</a></sup>. In fact, I can infer lots of things here, such as:</p>
+<ul>
+<li>The <code>reverse</code> function did not add <code>10</code> to every second list element.</li>
+<li>All elements in the list returned by <code>reverse</code> are contained in the input list.</li>
+</ul>
+<p>We are able to infer these things simply by making the <code>reverse</code> function <em>parametric</em>. We are no longer reversing a list of bananas — although that might be our use-case — we are reversing a list of <code>A</code> for all values of <code>A</code>. One virtue of this <em>parametricity</em> is that we can infer a significant number of things that <em>do not occur</em>. This theme of learning what does not occur is ubiquitous when deploying these programming techniques and is described in more detail by Wadler<sup><a href="#fn2" class="footnoteRef" id="fnref2">2</a></sup>.</p>
+<p>Here is another example, using a programming language called SafeHaskell (very similar to Haskell):</p>
+<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="ot">add10 ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span></code></pre>
+<p>By the name of the function, we might unreliably infer (OK, let’s be honest, we are making a bold guess) that the function adds <code>10</code> to its argument. However, looking at the type, we know for sure that the function <em>did not print its argument to the standard output stream</em>. We know this because had the library provider attempted it, the code would not have compiled. To be clear, it would not be a valid SafeHaskell program, so our assumption that we are looking at SafeHaskell fails, forcing us to unify by selecting one of the following:</p>
+<ul>
+<li>The function does not print its argument to the standard output stream.</li>
+<li>We are not looking at SafeHaskell source code.</li>
+<li>We are using an escape hatch, implied by the halting problem.</li>
+</ul>
+<p>There are simply no other options. What other things can we reliably conclude this function does not do?</p>
+<p>Here is yet another example:</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">def</span> constant[A, B]: A =&gt; B =&gt; A</code></pre>
+<p>In this case, we can reliably infer that this function does one single thing. It ignores its second argument and returns its first. This might be protested:</p>
+<ul>
+<li>It might perform a side-effect first!
+<ul>
+<li>This is true, but assuming a pure subset of the language is useful for reasons other than this one.</li>
+</ul></li>
+<li>It might type-cast or type-case (<code>asInstanceOf</code> or <code>isInstanceOf</code>).
+<ul>
+<li>This is another unfortunate escape hatch in the Scala type system that conveniently permits unsafe code.</li>
+</ul></li>
+<li>It might recurse forever, return <code>null</code> or throw an exception.
+<ul>
+<li>This is yet another escape hatch.</li>
+</ul></li>
+</ul>
+<p>So why dismiss these protests? They are inescapable implications of the halting problem. The more practical question is, “how convenient does Scala make these escape hatches available?” and the answer is an unfortunate one — it can often appear to be easier to exploit these escape hatches, but it won’t be too long before the penalty is paid. Although in practice, it is easier both short and long term to avoid these escape hatches, the illusion of convenience persists in some cases.</p>
+<p>If we are to concede these abilities, it is simply up to our own discipline to enforce that we have not attempted to take the illusory easy way out. This includes using a pure-functional subset of Scala, which is a lot easier than is often made out. For example, the <code>scalaz.effects.STRef</code> data type permits a pure-functional <code>var</code> that has all the capabilities of <code>var</code> while also maintaining all the aforementioned abilities (unlike <code>var</code> itself). This is a win-win. <a href="https://qconnewyork.com/sites/default/files/QConNY2013_RunarBjarnesson_PurelyFunctionalIO.pdf">Rúnar Bjarnason goes into detail on this at QCon 2013.</a></p>
+<p>By these methods of exploiting the type system, we are able to very reliably infer things that did not occur and occasionally, infer and conclude the only thing that did occur. However, what about narrowing it down further? We know that the (parametric) <code>reverse</code> function doesn’t manipulate the list elements, but how do we know it reverses the list? Do we fall back to relying on the function name and simply hope so?</p>
+<p>No.</p>
+<p>We continue to use more reliable methods of code comprehension. Let us restate the definition of <code>reverse</code>, however, we will include Scala source code. All expressions must return <code>true</code> regardless of the value of any of their arguments:</p>
+<ul>
+<li>Reversing the empty list produces the empty list
+<ul>
+<li><code>reverse(Nil) == Nil</code></li>
+</ul></li>
+<li>Reversing a single-element list produces that same list
+<ul>
+<li><code>element =&gt; reverse(List(element)) == List(element)</code></li>
+</ul></li>
+<li>Taking two lists, <code>l1</code> and <code>l2</code>, appending them then reversing, produces the same list as reversing each, then appending the reverse of <code>l1</code> to the reverse of <code>l2</code>.
+<ul>
+<li><code>(l1, l2) =&gt; reverse(l1 ::: l2) == (reverse(l2) ::: reverse(l1))</code></li>
+</ul></li>
+</ul>
+<p>If we can be confident that these properties hold, then we can also be confident that our <code>reverse</code> function does in fact, reverse the list. In fact, there is no other possible function that satisfies the type and these properties, besides the one that reverses a list. Again, we have not resorted to the function name for code comprehension — we have inspected <em>algebraic properties about the code</em>.</p>
+<p>So how do we increase confidence that these properties hold?</p>
+<p>Unfortunately, an implication of the halting problem is that we cannot prove these program properties, for the general case. This is not the end of the world though — we can still attempt to <em>disprove</em> these program properties. That is to say, we can go to efforts to determine if the function is <em>not</em> one which reverses the list. We can express our algebraic properties, which give away the full specification of the function, then automate the assertion that there exist values for which the property does not hold. This automation is precisely what <a href="http://code.google.com/p/scalacheck/">ScalaCheck</a> does, however, the expression itself is enough to rigorously specify the function behaviour without degenerating to faith in function names.</p>
+<p>The next time you see a function named <code>&lt;-:</code> and you think to yourself, “OMG, how unreadable, what am I going to do now!?”, ask yourself if there are other tools — perhaps more robust than those familiar — to comprehend the code. What is its type? What are its algebraic properties? Are there parametric properties to exploit?</p>
+<p>What if it has this type?</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">def</span> &lt;-:[A, B](f: A =&gt; B): List[A] =&gt; List[B]</code></pre>
+<p>Does it map the function across the list elements? Maybe. However, we definitely know that the elements in the resulting list came from running the given function on an element from the input list. You see? Parametricity, just like that, was 73 fuck-loads more reliable than looking at the function name to comprehend how this code works, and this is only the start of answering the question. We have many more tools at our disposal. Importantly, they are <em>reliable</em>. I like reliable, because I also like things that are true. Hopefully you do too!</p>
+<hr />
+<p>So what about these allegations of utility of identifier names? Do they have any merit at all?</p>
+<p>No. Insistence on the value of identifier names for code comprehension has some glaring holes in it. Let us put aside that there are far more robust methods of comprehension. Let us also put aside that the claims are probably motivated by a lack of familiarity with superior tools.</p>
+<p>Here is why this allegation is not just bullshit, but very obviously bullshit. Anyone who names a data type, <code>AbstractAdvisorAutoProxyCreator</code> is just as committed to not using identifier names for meaning as anyone else. However, there is another level again — the staunch belief that this identifer name is conveying meaning exposes just how confused that belief is. Any query such as, “What exactly does <code>AbstractAdvisorAutoProxyCreator</code> mean?” is met with handwaving. This is because <strong>nobody knows what <code>AbstractAdvisorAutoProxyCreator</code> means</strong> and the only practical implication here, in the world in which we all find ourselves, is one or more scatterbrains holding a belief otherwise.</p>
+<p>From a näive perspective, this situation appears to be a ripe learning opportunity. There appears to be a lot to be gained simply by sharing knowledge with a beginner — a trivial investment of effort. So why not take it? That question is fraught with complexity, but often, it is more constructive to have a giggle, a little lament, then dismiss the confused allegations.</p>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Due to the halting problem, there are some additional premises required to further increase confidence in this conclusion.<a href="#fnref1">↩</a></p></li>
+<li id="fn2"><p>Wadler, Philip. “Theorems for free!.” Proceedings of the fourth international conference on Functional programming languages and computer architecture. ACM, 1989.<a href="#fnref2">↩</a></p></li>
+</ol>
+</div>]]></summary>
+</entry>
+
+</feed>

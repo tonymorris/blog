@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>λ Tony's blog λ - Java 7</title>
+  <link rel="stylesheet" type="text/css" href="../../css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/syntax.css" />
+  <link rel="alternate" type="application/atom+xml" href="http://blog.tmorris.net/atom.xml" title="Atom feed" />
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/javascript" src="https://raw.github.com/Mathapedia/LaTeX2HTML5/master/latex2html5.min.js"></script>
+</head>
+<body>
+<div id="title">
+  λ Tony's blog λ
+  <div id="subtitle">
+    The weblog of Tony Morris
+  </div>
+</div>
+<div id="header">
+  <div id="navigation">
+    <a href="../../index.html">Home</a>
+    <a href="../../posts/">All Posts</a>
+    <a href="../../contact/">Contact</a>
+    <a href="http://cv.tmorris.net/">CV</a>
+    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+  </div>
+</div>
+<h1>Java 7</h1>
+<div class="info">Posted on August 18, 2011, in <a href="../../tags/Programming/index.html">Programming</a></div>
+
+<p>Java 7 has proposed syntax for what Scala calls two methods:</p>
+<p>1. <code class="sourceCode scala">Option.<span class="fu">flatMap</span></code> In Scala where we would normally write:</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala">(a, b, c, d) =&gt; <span class="kw">for</span> {
+  aa &lt;- <span class="fu">a</span>(argsa)
+  bb &lt;- <span class="fu">b</span>(argsb)
+  cc &lt;- <span class="fu">c</span>(argsc)
+  dd &lt;- <span class="fu">d</span>(argsd)
+} <span class="kw">yield</span> <span class="fu">f</span>(aa, bb, cc, dd)</code></pre>
+<p>While in Java we write:</p>
+<pre class="sourceCode Java"><code class="sourceCode java"><span class="co">// ceremony in the absence of closures</span>
+<span class="co">// has been omitted (and altered slightly) for brevity</span>
+<span class="fu">a</span>(argsa)?.<span class="fu">b</span>(argsb)?.<span class="fu">c</span>(argsc)?.<span class="fu">d</span>(argsd).<span class="fu">f</span>();</code></pre>
+<p>This syntax denotes the bind operation of <code>Option</code> monad, while Scala’s for-comprehension works for <em>any</em> monad. A pedantic point of note is that, from a particular perspective, Java’s syntax is slightly weaker than monad syntax, in that it is in fact, an applicative functor comprehension (not monad), since subsequent computations do not have access to previously computed values along the chain (if this is confuzzling, never mind – it’s important point otherwise, but not so much here). Scala’s for-comprehensions allow this, but it hasn’t been demonstrated above.</p>
+<ol start="2" style="list-style-type: decimal">
+<li><code class="sourceCode scala">Option.<span class="fu">getOrElse</span></code></li>
+</ol>
+<p>Java calls this <code>?:</code>, so while in Scala we might write <code>value getOrElse k</code>, or if you prefer Scalaz, <code>value | k</code>, in Java we’d write <code>value ?: k</code>. The Java version maintains the usual lack of safety of <code>null</code>, while Scala uses an algebraic data type.</p>
+<p>Among many differences between Scala and Java here, one is that Scala does not introduce syntax for these two specific functions – after all, why would you? Further, what about the zillions of other useful functions? Java has no user-defined call-by-need unification, which means it is not possible to write <code>?:</code> yourself (even with a different valid Java identifier as a name). <a href="http://blog.tmorris.net/a-fling-with-lazy-evaluation/">I wrote about this once before</a>. I expect this is the reason for introduction of syntax for representing individual functions.</p>
+<p>Scala’s representation is also safer, in that it uses a data structure to denote <em>a list with a maximum length of one</em>, rather than <em>a value with type T, oh wait, just kidding, it might be null!</em></p>
+<p>My favourite part of Java’s proposed introduction of syntax for two very specific functions (among hundreds of others), watered down to be not-quite-as-useful, is the assurance that I am still going to hear about how Scala is complex, while Java is not. Fun times.</p>
+<p><em>Edit: Proposed Java syntax.</em></p>
+
+
+<hr />
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'tonys--blog';
+  var discus_identifier = '/posts/java-7/index.html';
+  var disqus_url = 'http://blog.tmorris.net/posts/java-7/index.html';
+  var discus_title = 'Java 7';
+  (function () {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript><p>The comments use <a href="http://disqus.com/?ref_noscript">Disqus</a>,
+  which requires Javascript.</p></noscript>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-3405112-1']);
+  _gaq.push(['_trackPageview']);
+  (function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+</html>

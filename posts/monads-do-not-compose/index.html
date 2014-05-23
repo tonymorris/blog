@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>λ Tony's blog λ - Monads do not compose</title>
+  <link rel="stylesheet" type="text/css" href="../../css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/syntax.css" />
+  <link rel="alternate" type="application/atom+xml" href="http://blog.tmorris.net/atom.xml" title="Atom feed" />
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/javascript" src="https://raw.github.com/Mathapedia/LaTeX2HTML5/master/latex2html5.min.js"></script>
+</head>
+<body>
+<div id="title">
+  λ Tony's blog λ
+  <div id="subtitle">
+    The weblog of Tony Morris
+  </div>
+</div>
+<div id="header">
+  <div id="navigation">
+    <a href="../../index.html">Home</a>
+    <a href="../../posts/">All Posts</a>
+    <a href="../../contact/">Contact</a>
+    <a href="http://cv.tmorris.net/">CV</a>
+    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+  </div>
+</div>
+<h1>Monads do not compose</h1>
+<div class="info">Posted on February 24, 2011, in <a href="../../tags/Programming/index.html">Programming</a></div>
+
+<p>On the Scala mailing list, I said “monads do not compose.” What does this mean exactly? Hopefully the following answers it.</p>
+<p>Let us first state the <code>Functor</code>, <code>Applicative</code> and <code>Monad</code> interfaces:</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">trait</span> Functor[F[_]] {
+  <span class="kw">def</span> fmap[A, B](f: A =&gt; B, a: F[A]): F[B]
+}
+
+<span class="kw">trait</span> Applicative[F[_]] <span class="kw">extends</span> Functor[F] {
+  <span class="kw">def</span> ap[A, B](f: F[A =&gt; B], a: F[A]): F[B]
+  <span class="kw">def</span> point[A](a: A): F[A]
+  <span class="kw">override</span> <span class="kw">final</span> <span class="kw">def</span> fmap[A, B](f: A =&gt; B, a: F[A]) =
+    <span class="fu">ap</span>(<span class="fu">point</span>(f), a)
+}
+
+<span class="kw">trait</span> Monad[F[_]] <span class="kw">extends</span> Applicative[F] {
+  <span class="kw">def</span> flatMap[A, B](f: A =&gt; F[B], a: F[A]): F[B]
+  <span class="kw">override</span> <span class="kw">final</span> <span class="kw">def</span> ap[A, B](f: F[A =&gt; B], a: F[A]) =
+    <span class="fu">flatMap</span>((ff: A =&gt; B) =&gt; <span class="fu">fmap</span>((aa: A) =&gt; <span class="fu">ff</span>(aa), a), f)
+}</code></pre>
+<p>Let’s now restate our claims:</p>
+<ol style="list-style-type: decimal">
+<li><p>Functors compose</p></li>
+<li><p>Applicatives compose</p></li>
+<li><p>Monads do not compose</p></li>
+</ol>
+<p>I will now address points 1) and 2). What does it mean for X to compose in this context? Let us now answer that question more succinctly:</p>
+<p>It means that we can write a function with this signature (for some X):</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">def</span> XCompose[M[_], N[_]](<span class="kw">implicit</span> mx: X[M], nx: X[N]):
+  X[({<span class="kw">type</span> λ[α]=M[N[α]]})#λ]</code></pre>
+<p>This return type may look like gobbledy, but it’s just a fancy way of doing partial type constructor application in Scala. It is essentially the X type constructor applied to the composition of M and N and followed by a type variable just like M and N itself (kind * -&gt; *). Let us now test our claims.</p>
+<p>Functors compose. That is to say, we can write:</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">def</span> FunctorCompose[M[_], N[_]]
+    (<span class="kw">implicit</span> mx: Functor[M], nx: Functor[N]):
+       Functor[({<span class="kw">type</span> λ[α]=M[N[α]]})#λ]</code></pre>
+<p>Let’s do it!</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">new</span> Functor[({<span class="kw">type</span> λ[α]=M[N[α]]})#λ] {
+  <span class="kw">def</span> fmap[A, B](f: A =&gt; B, a: M[N[A]]) =
+      mx.<span class="fu">fmap</span>((na: N[A]) =&gt; nx.<span class="fu">fmap</span>(f, na), a)
+}</code></pre>
+<p>Here we are composing two Functors. Claim 1) is demonstrated. What about claim 2)? Here we go. Hold your breath!</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">def</span> ApplicativeCompose[M[_], N[_]]
+    (<span class="kw">implicit</span> ma: Applicative[M], na: Applicative[N]):
+        Applicative[({<span class="kw">type</span> λ[α]=M[N[α]]})#λ] =
+  <span class="kw">new</span> Applicative[({<span class="kw">type</span> λ[α]=M[N[α]]})#λ] {
+  <span class="kw">def</span> ap[A, B](f: M[N[A =&gt; B]], a: M[N[A]]) = {
+    <span class="kw">def</span> liftA2[X, Y, Z](f: X =&gt; Y =&gt; Z, a: M[X], b: M[Y]): M[Z] =
+      ma.<span class="fu">ap</span>(ma.<span class="fu">fmap</span>(f, a), b)
+    <span class="fu">liftA2</span>((ff: N[A =&gt; B]) =&gt; (aa: N[A]) =&gt; na.<span class="fu">ap</span>(ff, aa), f, a)
+  }
+  <span class="kw">def</span> point[A](a: A) =
+    ma <span class="fu">point</span> (na point a)
+}</code></pre>
+<p>Have fun untangling that! It’s a bit noisy but this is mostly because Scala requires a lot of boilerplate. Hopefully you can get to the essence of what it means to compose two Applicative functors.</p>
+<p>Now let’s move to Monad. Essentially, I am saying that you won’t be able to write such a function for Monad. I really encourage you to try to write it so you can see the twist that you will get into.</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">def</span> MonadCompose[M[_], N[_]](<span class="kw">implicit</span> ma: Monad[M], na: Monad[N]):
+    Monad[({<span class="kw">type</span> λ[α]=M[N[α]]})#λ]</code></pre>
+<p>Here is a compilable version <a href="http://paste.pocoo.org/show/343606/">http://paste.pocoo.org/show/343606/</a></p>
+<p>Hope that helps!</p>
+
+
+<hr />
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'tonys--blog';
+  var discus_identifier = '/posts/monads-do-not-compose/index.html';
+  var disqus_url = 'http://blog.tmorris.net/posts/monads-do-not-compose/index.html';
+  var discus_title = 'Monads do not compose';
+  (function () {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript><p>The comments use <a href="http://disqus.com/?ref_noscript">Disqus</a>,
+  which requires Javascript.</p></noscript>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-3405112-1']);
+  _gaq.push(['_trackPageview']);
+  (function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+</html>

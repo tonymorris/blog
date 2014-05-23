@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>λ Tony's blog λ - Maybe Monad in Java</title>
+  <link rel="stylesheet" type="text/css" href="../../css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/syntax.css" />
+  <link rel="alternate" type="application/atom+xml" href="http://blog.tmorris.net/atom.xml" title="Atom feed" />
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/javascript" src="https://raw.github.com/Mathapedia/LaTeX2HTML5/master/latex2html5.min.js"></script>
+</head>
+<body>
+<div id="title">
+  λ Tony's blog λ
+  <div id="subtitle">
+    The weblog of Tony Morris
+  </div>
+</div>
+<div id="header">
+  <div id="navigation">
+    <a href="../../index.html">Home</a>
+    <a href="../../posts/">All Posts</a>
+    <a href="../../contact/">Contact</a>
+    <a href="http://cv.tmorris.net/">CV</a>
+    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+  </div>
+</div>
+<h1>Maybe Monad in Java</h1>
+<div class="info">Posted on December 18, 2006, in <a href="../../tags/Programming/index.html">Programming</a></div>
+
+<p>As <a href="http://blog.tmorris.net/maybe-in-java">I have shown previously</a>, the problem of partial function in Java is not easily solved. The solution of the Maybe algebraic data type, while definitely superior to existing options, is cumbersome to implement and requires some functions defined over the type (isJust, isNothing, etc.) in order to be complete. As some point out, there is a preference for continuation passing to prevent the need for a cast (even though this cast would be hidden). This prompted me to provide a <em><a href="http://blog.tmorris.net/revisiting-maybe-in-java">more complete, yet still incomplete</a></em> solution.</p>
+<p>It is also worth noting that the solution with continuation passing <a href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=4726340">will not work on the Sun VM due to its lack of tail call elimination</a>. i.e. some concessions must be made somewhere - manual compiler optimisations if you will :) There were also some observers who <a href="http://programming.reddit.com/info/qt96/comments/cqx5q">didn’t quite get it</a>. Nevertheless, many of us will go on using null/exceptions in Java or their own implementation of Maybe in Java (feel free to steal mine if you like), while others will use Haskell’s Data.Maybe, Scala’s Some/None, Nice’s option types or whatever.</p>
+<p>All this aside, I am writing this post to introduce the Maybe Monad in Java, not to demonstrate anything meaningful or clever. Rather, I wish to simply point out to Java programmers what this abstract and apparently mystical notion of a monad - taken from the mathematical branch of category theory - really is. We now know that exceptions are <strong>only ever</strong> used for representing a partial function (even for I/O!) and we know that the Java programming language has built-in language and API support for exceptions. Let’s just revisit what the concept of a ‘partial function’ means exactly. It means that “there exists”[<em>see note 1</em>] some x take from our <em>universe of discourse</em> (U) such that f(x) is undefined.</p>
+<p>Sound scary? It’s not really. Suppose we have a data type, <code>int</code>. The size of our universe of discourse is finite; it is 2^32. We can represent this as |U| = 2^32. The notation f(x) represents some function with x applied. Having a universe of discourse of finite size implies that we can do an exhaustive proof for behaviour of the function, though not necessarily in a reasonable amount of time.</p>
+<p>Let’s call a function ‘divide’ and x can be two ints, a and b. The size of our universe of discourse of our arguments is 2^32 * 2^32 (i.e. 2 ^ 64) because that is the total number of combinations for the values of its arguments that are available. We can say that for our function, divide, it holds that for all[<em>see note 2</em>] a and for b = 0, the function is undefined. That is, regardless of the value of a, if the value of b is 0, the function is undefined:</p>
+<pre class="sourceCode Java"><code class="sourceCode java"><span class="dt">int</span> a = <span class="kw">... </span><span class="co">// anything</span>
+<span class="dt">int</span> b = <span class="dv">0</span>;
+<span class="fu">divide</span>(a, b); <span class="co">// undefined</span></code></pre>
+<p>If we try to use this function with b = 0, we will observe an exception (ArithmeticException). If we were using reference types, we could write our own divide function that instead returns <code>null</code> or returns <code>Maybe&lt;Integer&gt;</code> and Nothing for the case of an undefined function application.</p>
+<p>Have we got it? Great! :) The Maybe Monad is used for defining a partial function that might call 2 or more partial functions; if any of those functions called are undefined, then our function that we are writing is undefined. This might be called, “<em>threading partial function through a computation</em>”. We could write it in pseudo-code:</p>
+<pre class="sourceCode Haskell"><code class="sourceCode haskell">f x <span class="fu">=</span> <span class="kw">if</span> isNothing (g x)
+            <span class="kw">then</span> return <span class="dt">Nothing</span>
+            <span class="kw">else</span> <span class="kw">if</span> isNothing (h (g x))
+              <span class="kw">then</span> return <span class="dt">Nothing</span>
+              <span class="kw">else</span> return maybeToJust (h (g x))</code></pre>
+<p>Very cumbersome to write and I sure hope that the function f doesn’t need to use more than 2 partial functions (g and h) in order to define! It would be great if you could write something similar to this instead…</p>
+<pre class="sourceCode Haskell"><code class="sourceCode haskell">f x <span class="fu">=</span> h (g x)</code></pre>
+<p>…and not have to worry about “<em>threading partial function through the computation</em>”. Those familiar with Haskell, or those who are trying to understand monads in a Haskell context, should hopefully recognise the latter syntax as <em>do-notation</em>. Those who are not familiar with do-notation can just know that Haskell provides language support for this notion of threading computation, represented by the more familiar term, monads. This support is provided with a language keyword called <code>do</code> (<strong>very</strong> different to do/while in an imperative language!).</p>
+<p>Anyway, this post is getting a bit long and I still haven’t introduced Java’s monad for threading partial function through a computation. Luckily, it is not very long to write so without further ado, I introduce it as follows:</p>
+<pre><code>throws</code></pre>
+<p>“WTF!!? You mean I have been using monads all along!!? How can that be!?” Well, it has been stated more than once, that many people <a href="http://sigfpe.blogspot.com/2006/08/you-could-have-invented-monads-and.html">have already used monads</a>, even if they didn’t call it that. In recent years, fundamental computer programming concepts have often been confused with euphemisms like “design patterns” or some such, so rather than speculate at an analogy that might be familiar, I will instead turn focus on the Java <code>throws</code> keyword.</p>
+<p>Consider the following rough Java code:</p>
+<pre class="sourceCode Java"><code class="sourceCode java">T <span class="fu">foo</span>() <span class="kw">throws</span> IOException {
+  H handle = <span class="fu">openFile</span>(); <span class="co">// this method declares throws IOException</span>
+
+  <span class="kw">try</span> {
+    <span class="fu">maybeDoSomeStuff</span>(handle); <span class="co">// this method declares throws IOException</span>
+    <span class="co">// then</span>
+    <span class="kw">return</span> <span class="fu">someFunction</span>(handle); <span class="co">// this method declares throws IOException</span>
+  } <span class="kw">finally</span> {
+    <span class="fu">close</span>(handle); <span class="co">// this method declares throws IOException</span>
+  }
+}</code></pre>
+<p>We see quite clearly that if any of the invoked methods are undefined then our entire method (<code>foo</code>) is also undefined - by returning with an exception instead of a type T. Sound familiar yet? Since we know that exceptions are only ever used to represent partial function, then we can infer that the <code>throws</code> keyword is indeed a (poor man’s) Maybe Monad in disguise. I note at this point that the Maybe Monad is one of a possible squillion monads that are used in every day programming; <em>even</em> in the weakest of programming languages. Here are a couple that are used very often though not necessarily with built-in language support:</p>
+<ul>
+<li><p>The list monad - building up a list or threading a list through a computation</p></li>
+<li><p>The state monad - passing “state” through a computation</p></li>
+</ul>
+<p>The lesson from this somewhat lossy representation of a monad - that is hopefully familiar to most people - is that monads are not anything overly complicated or abstruse despite initial appearances. It requires very little brain power to digest the concept coming from a nil set of knowledge, but unfortunately, it appears to take a considerable effort if the subject has been “tainted” with ill-conceived presuppositions such as imperative programming languages.</p>
+<p>Be assured, the lesson is brief. Be warned, the lesson is very self-confrontational.</p>
+<p>[1] This is called existential quantification and is often denoted by the symbol ∃ [2] This is called universal quantification and is often denoted by the symbol ∀</p>
+
+
+<hr />
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'tonys--blog';
+  var discus_identifier = '/posts/maybe-monad-in-java/index.html';
+  var disqus_url = 'http://blog.tmorris.net/posts/maybe-monad-in-java/index.html';
+  var discus_title = 'Maybe Monad in Java';
+  (function () {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript><p>The comments use <a href="http://disqus.com/?ref_noscript">Disqus</a>,
+  which requires Javascript.</p></noscript>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-3405112-1']);
+  _gaq.push(['_trackPageview']);
+  (function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+</html>

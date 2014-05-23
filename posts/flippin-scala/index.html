@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>λ Tony's blog λ - Flippin' Scala</title>
+  <link rel="stylesheet" type="text/css" href="../../css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/syntax.css" />
+  <link rel="alternate" type="application/atom+xml" href="http://blog.tmorris.net/atom.xml" title="Atom feed" />
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/javascript" src="https://raw.github.com/Mathapedia/LaTeX2HTML5/master/latex2html5.min.js"></script>
+</head>
+<body>
+<div id="title">
+  λ Tony's blog λ
+  <div id="subtitle">
+    The weblog of Tony Morris
+  </div>
+</div>
+<div id="header">
+  <div id="navigation">
+    <a href="../../index.html">Home</a>
+    <a href="../../posts/">All Posts</a>
+    <a href="../../contact/">Contact</a>
+    <a href="http://cv.tmorris.net/">CV</a>
+    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+  </div>
+</div>
+<h1>Flippin' Scala</h1>
+<div class="info">Posted on August 22, 2008, in <a href="../../tags/Programming/index.html">Programming</a></div>
+
+<p>Once upon a time, I tried to write some Scala 2.7.1 for <a href="http://functionaljava.org/">Functional Java</a> and <a href="http://reductiotest.org/">Reductio</a>, but the compiler broke. So I filed <a href="https://lampsvn.epfl.ch/trac/scala/ticket/765">the bug</a> and waited for a fix. Thanks to Odersky et. al., the fix came promptly, so I started using one of the Scala 2.7.1-&gt;2.7.2 nightly builds and then I could compile my Scala code, yay! But that didn’t stop <a href="https://issues.workingmouse.com/view.php?id=49">users complaining about crashes</a> when using Scala 2.7.1 due its bad class file parser. Some users even <a href="http://groups.google.com/group/reductio/browse_thread/thread/289340b14deecdaf">stopped using Reductio because they don’t trust non-release builds</a>. Oh well.</p>
+<p>So I try out this new code snippet, nothing complicated:</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">class</span> Foo[F[_]]
+
+<span class="kw">object</span> Foo {
+  <span class="kw">def</span> <span class="fu">foo</span>(n: Int)(<span class="kw">implicit</span> f: Foo[IN] <span class="kw">forSome</span> { <span class="kw">type</span> IN[_] }) = <span class="st">&quot;foo&quot;</span>
+
+  <span class="kw">implicit</span> <span class="kw">val</span> z: Foo[List] = <span class="kw">new</span> Foo[List]
+
+  <span class="kw">val</span> t = <span class="fu">foo</span>(<span class="dv">7</span>)
+}</code></pre>
+<p>But Scala 2.7.1 falls over. So does the 2.7.1-&gt;2.7.2 nightly build that I was using. Ugh! So I try out Scala 2.7.2-RC1, yay it compiles my legitimate source file. But does it compile all my other source?</p>
+<p>Er no, <a href="http://lampsvn.epfl.ch/trac/scala/ticket/1270">Scala 2.7.2-RC1 produces bad class files</a> when compiling code that is otherwise fine with previous Scala versions. In an attempt to obtain one bug fix I have also had to adopt another – one that makes its use non-viable. I am stuck with dealing with the former bug, which is also somewhat non-viable but only slightly more so than the latter. Give me a friggin’ break!</p>
+<p>Ugh, this is not the first occurrence of this silliness. Flippin’ Scala, does this shit ever stop?</p>
+
+
+<hr />
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'tonys--blog';
+  var discus_identifier = '/posts/flippin-scala/index.html';
+  var disqus_url = 'http://blog.tmorris.net/posts/flippin-scala/index.html';
+  var discus_title = 'Flippin' Scala';
+  (function () {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript><p>The comments use <a href="http://disqus.com/?ref_noscript">Disqus</a>,
+  which requires Javascript.</p></noscript>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-3405112-1']);
+  _gaq.push(['_trackPageview']);
+  (function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>λ Tony's blog λ - Java/Ruby does not generalise to static/dynamic</title>
+  <link rel="stylesheet" type="text/css" href="../../css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/syntax.css" />
+  <link rel="alternate" type="application/atom+xml" href="http://blog.tmorris.net/atom.xml" title="Atom feed" />
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/javascript" src="https://raw.github.com/Mathapedia/LaTeX2HTML5/master/latex2html5.min.js"></script>
+</head>
+<body>
+<div id="title">
+  λ Tony's blog λ
+  <div id="subtitle">
+    The weblog of Tony Morris
+  </div>
+</div>
+<div id="header">
+  <div id="navigation">
+    <a href="../../index.html">Home</a>
+    <a href="../../posts/">All Posts</a>
+    <a href="../../contact/">Contact</a>
+    <a href="http://cv.tmorris.net/">CV</a>
+    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+  </div>
+</div>
+<h1>Java/Ruby does not generalise to static/dynamic</h1>
+<div class="info">Posted on October 16, 2008, in <a href="../../tags/Programming/index.html">Programming</a></div>
+
+<p>So you were once a Java fanboy and now you’ve apostatised to the Ruby cult. Now you believe you hold veritable opinions about “statically typed languages” and “dynamically typed languages”. How wrong you are.</p>
+<p>Java is not representative of static type systems, not even a bit. It lacks some of the most basic features of a static type system. It might even be said that its static type system imposes some of the most impractical insanity that could possibly be conceived. Why do I think this? <a href="http://functionaljava.org/">Because I have pushed Java’s static type system to its limits</a> and relative to its peers, it fails miserably. I’ve seen the language inside-out. I used to work on the JDK implementation for a certain corporation (of questionable ethical standards). I even have the spanky Sun Java Programmer/Developer certifications. Yes I have been drowned in Java Jolly Junkie bullshit and revived.</p>
+<p>So you use Ruby eh? It allows you to express things that Java was too rigid to allow, right? That doesn’t mean a thing about static type systems, right? RIGHT?</p>
+<p>When you use Java and Ruby as the example for static and dynamic type systems, I am reminded of my children who compare the flight of their scrunched up pieces of paper… er highly aerodynamic, radar-resistant aircraft (sorry boys). Hopefully some day they will learn what a wind tunnel is and what it takes to engineer a fighter-aircraft. Will you?</p>
+<p>This kind of enthusiasm is to be encouraged – if you are 6 years old – but you are not, so you just look like you are in an adult’s body. No really, you do. This might be fine with you (who am I to judge?), but if it is not, it might help to know <a href="http://www.pphsg.org/cdsmith/types.html">What to Know Before Debating Type Systems</a>. Just a thought – there is plenty of other information available should you desire to seek it, just drop me a line.</p>
+<p>Here are some tips to get started; static typing and explicit type annotating are two very different things. Don’t use the two notions interchangeably – not even loosely. Dynamically-typed languages do not produce shorter code, this is a myth. In fact, what constitutes shorter code is often misunderstood – certainly by Ruby (and Python, Groovy for that matter) advocates that I have encountered. I’m tempted to dispense with this myth with a challenge, but I’m not sure if I can be bothered (I have a life outside of whinging on my blog you know). It would also fail to do the topic justice. An entire discussion on what constitutes shorter code is in order.</p>
+<p>For the love of GADTs, in the meantime, please stop talking nonsense about static and dynamic type systems. It only serves to hurt other potential learners by perpetuating misinformation. Myths spread by repetition – be honest and break the cycle.</p>
+
+
+<hr />
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'tonys--blog';
+  var discus_identifier = '/posts/javaruby-does-not-generalise-to-staticdynamic/index.html';
+  var disqus_url = 'http://blog.tmorris.net/posts/javaruby-does-not-generalise-to-staticdynamic/index.html';
+  var discus_title = 'Java/Ruby does not generalise to static/dynamic';
+  (function () {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript><p>The comments use <a href="http://disqus.com/?ref_noscript">Disqus</a>,
+  which requires Javascript.</p></noscript>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-3405112-1']);
+  _gaq.push(['_trackPageview']);
+  (function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+</html>

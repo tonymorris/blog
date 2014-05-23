@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>λ Tony's blog λ - Dear Java library guy</title>
+  <link rel="stylesheet" type="text/css" href="../../css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/syntax.css" />
+  <link rel="alternate" type="application/atom+xml" href="http://blog.tmorris.net/atom.xml" title="Atom feed" />
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/javascript" src="https://raw.github.com/Mathapedia/LaTeX2HTML5/master/latex2html5.min.js"></script>
+</head>
+<body>
+<div id="title">
+  λ Tony's blog λ
+  <div id="subtitle">
+    The weblog of Tony Morris
+  </div>
+</div>
+<div id="header">
+  <div id="navigation">
+    <a href="../../index.html">Home</a>
+    <a href="../../posts/">All Posts</a>
+    <a href="../../contact/">Contact</a>
+    <a href="http://cv.tmorris.net/">CV</a>
+    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+  </div>
+</div>
+<h1>Dear Java library guy</h1>
+<div class="info">Posted on November 24, 2010, in <a href="../../tags/Programming/index.html">Programming</a></div>
+
+<pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">import java.io.File;</span>
+<span class="kw">import java.util.Calendar;</span>
+
+<span class="kw">import static java.util.Calendar.DAY_OF_WEEK;</span>
+<span class="kw">import static java.util.Calendar.THURSDAY;</span>
+<span class="kw">import static java.util.Calendar.TUESDAY;</span>
+<span class="kw">import static java.util.Calendar.WEDNESDAY;</span>
+
+<span class="kw">public</span> <span class="kw">class</span> ThreeAdder {
+  <span class="co">// Convenience method to add the two given numbers, then adds 3.</span>
+  <span class="co">// It's really convenient, promise.</span>
+  <span class="co">// It even has tests and they passed! See below.</span>
+  <span class="kw">public</span> <span class="dt">static</span> <span class="dt">int</span> <span class="fu">addThen3</span>(<span class="dt">int</span> a, <span class="dt">int</span> b) {
+    <span class="kw">if</span>(<span class="kw">new</span> File(<span class="st">&quot;/etc/passwd&quot;</span>).<span class="fu">exists</span>() &amp;&amp; a &lt; <span class="dv">100</span>) {
+      <span class="kw">return</span> a + b + <span class="dv">3</span>;
+    } <span class="kw">else</span> <span class="kw">if</span> (b == <span class="dv">2</span>) {
+      <span class="dt">int</span> day = Calendar.<span class="fu">getInstance</span>().<span class="fu">get</span>(DAY_OF_WEEK);
+      <span class="kw">if</span> (day == TUESDAY || day == WEDNESDAY || day == THURSDAY)
+        <span class="kw">return</span> <span class="dv">5</span> + a;
+      <span class="kw">else</span>
+        <span class="kw">return</span> <span class="dv">9</span>;
+    } <span class="kw">else</span> <span class="kw">if</span>(a == <span class="dv">0</span>) {
+      <span class="kw">return</span> b + <span class="dv">3</span>;
+    } <span class="kw">else</span> <span class="kw">if</span>(b == <span class="dv">0</span>) {
+      <span class="kw">return</span> a + <span class="dv">3</span>;
+    } <span class="kw">else</span> {
+      <span class="kw">return</span> <span class="dv">8</span>;
+    }
+  }
+
+  <span class="kw">public</span> <span class="dt">static</span> &lt;a&gt; String <span class="fu">assertEq</span>(String name, A x, A y) {
+    <span class="kw">return</span> name + (x.<span class="fu">equals</span>(y) ?
+      <span class="st">&quot; [PASSED]&quot;</span> :
+      <span class="st">&quot; [FAILED] {&quot;</span> + x + <span class="st">&quot;}  {&quot;</span> + y + '}');
+  }
+
+  <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(String[] args) {
+    String[] out = {
+        <span class="fu">assertEq</span>(<span class="st">&quot;adding to zero&quot;</span>, <span class="fu">addThen3</span>(<span class="dv">0</span>, <span class="dv">0</span>), <span class="dv">3</span>)
+    ,   <span class="fu">assertEq</span>(<span class="st">&quot;adding to zero&quot;</span>, <span class="fu">addThen3</span>(<span class="dv">0</span>, <span class="dv">4</span>), <span class="dv">7</span>)
+    ,   <span class="fu">assertEq</span>(<span class="st">&quot;adding to zero&quot;</span>, <span class="fu">addThen3</span>(<span class="dv">4</span>, <span class="dv">0</span>), <span class="dv">7</span>)
+    ,   <span class="fu">assertEq</span>(<span class="st">&quot;adding to zero&quot;</span>, <span class="fu">addThen3</span>(<span class="dv">1</span>, <span class="dv">0</span>), <span class="dv">4</span>)
+    ,   <span class="fu">assertEq</span>(<span class="st">&quot;adding to zero&quot;</span>, <span class="fu">addThen3</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="dv">4</span>)
+    ,   <span class="fu">assertEq</span>(<span class="st">&quot;adding to zero&quot;</span>, <span class="fu">addThen3</span>(<span class="dv">0</span>, <span class="dv">1</span>), <span class="dv">4</span>)
+    ,   <span class="fu">assertEq</span>(<span class="st">&quot;small numbers&quot;</span>,  <span class="fu">addThen3</span>(<span class="dv">2</span>, <span class="dv">4</span>), <span class="dv">9</span>)
+    ,   <span class="fu">assertEq</span>(<span class="st">&quot;small numbers&quot;</span>,  <span class="fu">addThen3</span>(<span class="dv">2</span>, <span class="dv">3</span>), <span class="dv">8</span>)
+    ,   <span class="fu">assertEq</span>(<span class="st">&quot;small numbers&quot;</span>,  <span class="fu">addThen3</span>(<span class="dv">3</span>, <span class="dv">3</span>), <span class="dv">9</span>)
+    ,   <span class="fu">assertEq</span>(<span class="st">&quot;small numbers&quot;</span>,  <span class="fu">addThen3</span>(<span class="dv">3</span>, <span class="dv">2</span>), <span class="dv">8</span>)
+    };
+
+    <span class="kw">for</span>(String o : out) {
+      System.<span class="fu">out</span>.<span class="fu">println</span>(o);
+    }
+  }
+}</code></pre>
+<p>No.</p>
+
+
+<hr />
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'tonys--blog';
+  var discus_identifier = '/posts/dear-java-library-guy/index.html';
+  var disqus_url = 'http://blog.tmorris.net/posts/dear-java-library-guy/index.html';
+  var discus_title = 'Dear Java library guy';
+  (function () {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript><p>The comments use <a href="http://disqus.com/?ref_noscript">Disqus</a>,
+  which requires Javascript.</p></noscript>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-3405112-1']);
+  _gaq.push(['_trackPageview']);
+  (function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+</html>

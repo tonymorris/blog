@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>λ Tony's blog λ - The Writer Monad using Scala (example)</title>
+  <link rel="stylesheet" type="text/css" href="../../css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/syntax.css" />
+  <link rel="alternate" type="application/atom+xml" href="http://blog.tmorris.net/atom.xml" title="Atom feed" />
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/javascript" src="https://raw.github.com/Mathapedia/LaTeX2HTML5/master/latex2html5.min.js"></script>
+</head>
+<body>
+<div id="title">
+  λ Tony's blog λ
+  <div id="subtitle">
+    The weblog of Tony Morris
+  </div>
+</div>
+<div id="header">
+  <div id="navigation">
+    <a href="../../index.html">Home</a>
+    <a href="../../posts/">All Posts</a>
+    <a href="../../contact/">Contact</a>
+    <a href="http://cv.tmorris.net/">CV</a>
+    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+  </div>
+</div>
+<h1>The Writer Monad using Scala (example)</h1>
+<div class="info">Posted on December 12, 2010, in <a href="../../tags/Programming/index.html">Programming</a></div>
+
+<p>Prompted by <a href="http://permalink.gmane.org/gmane.comp.lang.scala.user/34094">a question on the scala mailing list</a>, I have produced below a minimal library representing a data type called <code>Logger</code> and its monad implementation (see the <code>map</code> and <code>flatMap</code> methods).</p>
+<p>This data type represents logging in a pure functional environment where you maintain compositionality of your code (i.e. no side-effects) and also, brevity of code – see the example usage below using a for-comprehension demonstrating this.</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">trait</span> Monoid[A] {
+  <span class="kw">def</span> <span class="fu">append</span>(a1: A, a2: A): A
+  <span class="kw">def</span> empty: A
+}
+
+<span class="kw">object</span> Monoid {
+  <span class="kw">implicit</span> <span class="kw">def</span> ListMonoid[A]: Monoid[List[A]] = <span class="kw">new</span> Monoid[List[A]] {
+    <span class="kw">def</span> <span class="fu">append</span>(a1: List[A], a2: List[A]) = a1 ::: a2
+    <span class="kw">def</span> empty = Nil
+  }
+}
+
+<span class="kw">case</span> <span class="kw">class</span> Logger[LOG, A](log: LOG, value: A) {
+  <span class="kw">def</span> map[B](f: A =&gt; B) =
+    Logger(log, <span class="fu">f</span>(value))
+
+  <span class="kw">def</span> flatMap[B](f: A =&gt; Logger[LOG, B])(<span class="kw">implicit</span> m: Monoid[LOG]) = {
+    <span class="kw">val</span> x = <span class="fu">f</span>(value)
+    Logger(m.<span class="fu">append</span>(log, x.<span class="fu">log</span>), x.<span class="fu">value</span>)
+  }
+
+  <span class="co">// insert much more</span>
+}
+
+<span class="kw">object</span> Logger {
+  <span class="kw">def</span> unital[LOG, A](value: A)(<span class="kw">implicit</span> m: Monoid[LOG]) =
+    Logger(m.<span class="fu">empty</span>, value)
+
+  <span class="co">// insert much more</span>
+}
+
+<span class="kw">object</span> Util {
+  <span class="co">// utility</span>
+  <span class="kw">implicit</span> <span class="kw">def</span> ListLogUtil[A](a: A) = <span class="kw">new</span> {
+    <span class="kw">def</span> ~&gt;[B](b: B) = Logger(List(a), b)
+
+    <span class="kw">def</span> &lt;|~[B](k: A =&gt; B) = Logger(List(<span class="fu">k</span>(a)), a)
+  }
+
+  <span class="kw">def</span> noLog[A](a: A) =
+    Logger.<span class="fu">unital</span>[List[String], A](a)
+}
+
+<span class="co">// begin example</span>
+
+<span class="co">/*</span>
+<span class="co">$ scala Main 456</span>
+<span class="co">RESULT: 7000</span>
+
+<span class="co">LOG</span>
+<span class="co">---</span>
+<span class="co">adding one to 456</span>
+<span class="co">converting int to string 457</span>
+<span class="co">checking length of 457 for evenness</span>
+<span class="co">multiplying 1000 by 7 to produce 7000</span>
+<span class="co">*/</span>
+<span class="kw">object</span> Main {
+  <span class="kw">import</span> Util.<span class="fu">_</span>
+
+  <span class="kw">def</span> <span class="fu">main</span>(args: Array[String]) {
+    <span class="kw">val</span> x = <span class="fu">args</span>(<span class="dv">0</span>).<span class="fu">toInt</span> <span class="co">// parse int from command line</span>
+
+    <span class="kw">val</span> r =
+      <span class="kw">for</span>(a &lt;- <span class="fu">addOne</span>(x);
+          b &lt;- <span class="fu">intString</span>(a);
+          c &lt;- <span class="fu">lengthIsEven</span>(b);
+          d &lt;- <span class="fu">noLog</span>(<span class="fu">hundredOrThousand</span>(c));
+          e &lt;- <span class="fu">times7</span>(d)
+         ) <span class="kw">yield</span> e
+
+    <span class="fu">println</span>(<span class="st">&quot;RESULT: &quot;</span> + r.<span class="fu">value</span>)
+    println
+    <span class="fu">println</span>(<span class="st">&quot;LOG&quot;</span>)
+    <span class="fu">println</span>(<span class="st">&quot;---&quot;</span>)
+    r.<span class="fu">log</span> foreach println
+  }
+
+  <span class="kw">def</span> <span class="fu">addOne</span>(n: Int) =
+    (<span class="st">&quot;adding one to &quot;</span> + n) ~&gt; (n + <span class="dv">1</span>)
+
+  <span class="kw">def</span> <span class="fu">intString</span>(n: Int) =
+    (<span class="st">&quot;converting int to string &quot;</span> + n) ~&gt; n.<span class="fu">toString</span>
+
+  <span class="kw">def</span> <span class="fu">lengthIsEven</span>(s: String) =
+    (<span class="st">&quot;checking length of &quot;</span> + s + <span class="st">&quot; for evenness&quot;</span>) ~&gt; (s.<span class="fu">length</span> % <span class="dv">2</span> == <span class="dv">0</span>)
+
+  <span class="kw">def</span> <span class="fu">hundredOrThousand</span>(b: Boolean) = <span class="co">// no logging</span>
+    <span class="kw">if</span>(b) <span class="dv">100</span> <span class="kw">else</span> <span class="dv">1000</span>
+
+  <span class="kw">def</span> <span class="fu">times7</span>(n: Int) =
+    (n * <span class="dv">7</span>) &lt;|~ (<span class="st">&quot;multiplying &quot;</span> + n + <span class="st">&quot; by 7 to produce &quot;</span> + _)
+}</code></pre>
+
+
+<hr />
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'tonys--blog';
+  var discus_identifier = '/posts/the-writer-monad-using-scala-example/index.html';
+  var disqus_url = 'http://blog.tmorris.net/posts/the-writer-monad-using-scala-example/index.html';
+  var discus_title = 'The Writer Monad using Scala (example)';
+  (function () {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript><p>The comments use <a href="http://disqus.com/?ref_noscript">Disqus</a>,
+  which requires Javascript.</p></noscript>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-3405112-1']);
+  _gaq.push(['_trackPageview']);
+  (function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+</html>

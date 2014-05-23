@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>λ Tony's blog λ - Software requirements do not change</title>
+  <link rel="stylesheet" type="text/css" href="../../css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/syntax.css" />
+  <link rel="alternate" type="application/atom+xml" href="http://blog.tmorris.net/atom.xml" title="Atom feed" />
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/javascript" src="https://raw.github.com/Mathapedia/LaTeX2HTML5/master/latex2html5.min.js"></script>
+</head>
+<body>
+<div id="title">
+  λ Tony's blog λ
+  <div id="subtitle">
+    The weblog of Tony Morris
+  </div>
+</div>
+<div id="header">
+  <div id="navigation">
+    <a href="../../index.html">Home</a>
+    <a href="../../posts/">All Posts</a>
+    <a href="../../contact/">Contact</a>
+    <a href="http://cv.tmorris.net/">CV</a>
+    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+  </div>
+</div>
+<h1>Software requirements do not change</h1>
+<div class="info">Posted on December 10, 2006, in <a href="../../tags/Programming/index.html">Programming</a></div>
+
+<p>There is quite a prolific myth that seems to have a grip on the collective software development industry. Often in communication with another software developer, the notion of a “change in requirement” will surface and I am forced to remind that developer that no such thing ever occurs - that the internalisation of this logical fallacy is in fact, quite detrimental to the purpose of creating software, fulfilling software requirements and should be abandoned. Since no such thing as a software requirement change ever occurs, the remainder of the conversation is invalidated making communication very difficult. Who’s responsibility is it to establish a sound knowledge in the fundamental concepts of their selected profession? Not mine - I am forced to cease the conversation. After all, I don’t explain to my doctor what my problem is - only my symptoms - hence, I am not a doctor. But I’ll bet doctors speak in a “language” that is beyond my capability of comprehending (though I have picked up a term or two having lived with a midwife for years :)). We software developers should be doing the same, but it does not seem to be the case.</p>
+<p>Software is a function from some given inputs to some given outputs (a lambda if you will) and importantly, given some inputs, the same output should always result, <strong>always</strong>. It should not return some other result; it should not format your hard disk every second time and it shouldn’t cause the universe to implode or anything crazy like that - just consistently return the same value for its given inputs. This property is called <em>referential transparency</em>. Let’s look at a specific piece of software called ‘touch’. It takes as input:</p>
+<ol style="list-style-type: decimal">
+<li><p>a file system</p></li>
+<li><p>a list of characters</p></li>
+</ol>
+<p>It provides one output - a new file system. If a file of the given name exists on the given file system, return the new file system with that file having an updated modified time stamp, otherwise, return the new file system with an additional empty file of the given name. That’s it - nothing more to it. We might even express this software more formally as follows:</p>
+<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="co">-- &quot;Given a FileSystem,</span>
+<span class="co">--   then a list of characters (Char),</span>
+<span class="co">--   return a new FileSystem.&quot;</span>
+<span class="co">-- :: means 'is of type'</span>
+<span class="ot">touch ::</span> <span class="dt">FileSystem</span> <span class="ot">-&gt;</span> [<span class="dt">Char</span>] <span class="ot">-&gt;</span> <span class="dt">FileSystem</span>
+touch fs filename <span class="fu">=</span> <span class="kw">if</span> fs <span class="ot">`contains`</span> filename
+  <span class="kw">then</span> fs <span class="ot">`updateTimestamp`</span> filename
+    <span class="kw">else</span> fs <span class="ot">`addEmptyFile`</span> filename</code></pre>
+<p>The ‘touch’ software is so fundamental, that most reasonable operating systems provide it without any explicit user intervention - try running it and see.</p>
+<p>While you are free to come up with all sorts of wild and complex examples of software, I’m going to simplify a little with a new example. Suppose a client approaches you, a software developer, on Monday, with the following requirement; “given two integers, sum them, multiply by 4 and give me the result.” Here is the software written in Java:</p>
+<pre class="sourceCode Java"><code class="sourceCode java"><span class="dt">int</span> <span class="fu">software</span>(<span class="dt">int</span> a, <span class="dt">int</span> b) {
+    <span class="kw">return</span> (a + b) * <span class="dv">4</span>;
+}</code></pre>
+<p>Easy peasey! On a side note, write it in Haskell, then play ‘spot the difference’ with the client problem statement and the code. Fun hey? :)</p>
+<p>If the client approaches you on Tuesday with the following, “given two integers, subtract the first from the last. multiply by 4 and give me the result.”, then it is <strong>imperative</strong> to understand that this is <strong>a new requirement</strong>. A software requirement holds from inception until the collapse of the universe. You might argue, “but the old one and the same one look almost the same”, in which case, feel free to write the second one by applying your favourite delta compression algorithm, but by no means should the former be <em>replaced</em> by the latter. You might also argue, “but the client said it is a change”. Well I hope my doctor doesn’t follow any advice that I give him on my condition at the time since I am not well versed in medical practice. I do not say, “I have a headache, I need to fix it with these drugs” or if I did, the doctor, being aware of my naivety, would ignore my advice and only consider the symptom (I would hope!). Likewise, clients do not project their false view of software into their final product and instead, trust the better judgment of a more trained practitioner (ideally).</p>
+<p>If we take the common (not that I accept its legitimacy in this form) approach of unit testing and I write <code>assert(software(42, 43) == 340)</code>, then this statement should hold forever. If it does not, then you have broken your contract to all clients of your software. The typical refutation to this assertion involves the developer ascertaining that no software clients have ever existed and so it is safe to continue. For example, if there is even a slight suspicion of a client, that developer might first deduce that if there is, then those client(s) are in the room. Then that developer asks all people in the room to commit their code so that she can search for occurrences of its use. If none are found, the software is removed, code committed and all persons in the room are instructed to update. Otherwise, if it is found that one or more clients exist, manual contingency measures are engaged.</p>
+<p>The regularity of the occurrence of no clients bound to your software is often over-estimated. Just take a look at <a href="http://www.drizzle.com/~lettvin/2006/11/windows-shutdown-crapfest.html">the mess that Microsoft has itself in with an attempt to ‘separate out the components of Windows’</a> or any of the other countless examples that surround us. You might say, “but I am a consultant with only one client”. This is not true; in fact, the client/provider relationship can often be self-referential. It is <em>entirely coincidental</em> that no clients have bound to your software, but rarely is it so.</p>
+
+
+<hr />
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'tonys--blog';
+  var discus_identifier = '/posts/software-requirements-do-not-change/index.html';
+  var disqus_url = 'http://blog.tmorris.net/posts/software-requirements-do-not-change/index.html';
+  var discus_title = 'Software requirements do not change';
+  (function () {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript><p>The comments use <a href="http://disqus.com/?ref_noscript">Disqus</a>,
+  which requires Javascript.</p></noscript>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-3405112-1']);
+  _gaq.push(['_trackPageview']);
+  (function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+</html>

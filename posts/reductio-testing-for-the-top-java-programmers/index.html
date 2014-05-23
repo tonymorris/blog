@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>λ Tony's blog λ - 'Reductio: Testing for the Top Java Programmers'</title>
+  <link rel="stylesheet" type="text/css" href="../../css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/syntax.css" />
+  <link rel="alternate" type="application/atom+xml" href="http://blog.tmorris.net/atom.xml" title="Atom feed" />
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/javascript" src="https://raw.github.com/Mathapedia/LaTeX2HTML5/master/latex2html5.min.js"></script>
+</head>
+<body>
+<div id="title">
+  λ Tony's blog λ
+  <div id="subtitle">
+    The weblog of Tony Morris
+  </div>
+</div>
+<div id="header">
+  <div id="navigation">
+    <a href="../../index.html">Home</a>
+    <a href="../../posts/">All Posts</a>
+    <a href="../../contact/">Contact</a>
+    <a href="http://cv.tmorris.net/">CV</a>
+    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+  </div>
+</div>
+<h1>'Reductio: Testing for the Top Java Programmers'</h1>
+<div class="info">Posted on May 24, 2008, in <a href="../../tags/Programming/index.html">Programming</a></div>
+
+<p><a href="http://reductiotest.org/">Reductio</a> is open source (BSD) software that provides some very clever ideas adapted from QuickCheck. In particular, Reductio allows you to write algebraic properties about your software and the software then attempts to falsify these properties using automation of function domain value generation. Reductio can run 1000 unit tests in 4 or 5 lines of code, and that is Java code! (No, I am not kidding; really take a look at some of the <a href="http://reductiotest.org/examples">code examples</a>)</p>
+<p>Reductio also provides shrinking of counter-examples in the event of proving a property false; for example, <code>a + b == a - b</code> is not always going to be true (for all values of ‘a’ and ‘b’), but would you like Reductio to provide the counter-example <code>a = 1934, b = 4571</code>? I think you’d prefer a smaller counter-example such as <code>a = 1, b = 1</code> right? I would too :) By providing the smallest reasonable counter-example, Reductio makes it easier to debug your code in the event of finding fault.</p>
+<p>Another extremely useful feature of Reductio is <em>automated mocking</em>. That is to say, Reductio can generate implementations of an interface for you so long as you provide the mapping from one or more transformations (this exploits a programming pattern called a Functor) to your type. Doing so is guaranteed to be a straight-forward task for the user (so straight-forward that you could automate it with reflection; an add-on feature perhaps?). This allows you to quantify across interface types. For example, you might state a property about your software using some interface, but you assert that the property holds regardless of the implementation of the interface. Reductio will generate hundreds of implementations if you like! All automated of course ;)</p>
+<p>Reductio makes it trivial to write generators for user-defined types (again, another potentially automated task that requires Java’s meta-programming facility ala reflection), however, Reductio also provides many existing implementations. Following is a <em>non-exhaustive</em> list.</p>
+<p>If you’re into robustness in the verification of the correctness of your Java software, take a look at Reductio. <a href="http://reductiotest.org/">http://reductiotest.org/</a></p>
+<hr />
+<h5 id="java.lang">java.lang</h5>
+<ul>
+<li><p>Boolean</p></li>
+<li><p>Byte</p></li>
+<li><p>Character</p></li>
+<li><p>Double</p></li>
+<li><p>Float</p></li>
+<li><p>Integer</p></li>
+<li><p>Long</p></li>
+<li><p>Short</p></li>
+<li><p>String</p></li>
+<li><p>StringBuffer</p></li>
+<li><p>StringBuilder</p></li>
+</ul>
+<h5 id="java.util">java.util</h5>
+<ul>
+<li><p>ArrayList</p></li>
+<li><p>BitSet</p></li>
+<li><p>Calendar</p></li>
+<li><p>Date</p></li>
+<li><p>EnumMap</p></li>
+<li><p>EnumSet</p></li>
+<li><p>GregorianCalendar</p></li>
+<li><p>HashMap</p></li>
+<li><p>HashSet</p></li>
+<li><p>Hashtable</p></li>
+<li><p>IdentityHashMap</p></li>
+<li><p>LinkedHashMap</p></li>
+<li><p>LinkedHashSet</p></li>
+<li><p>LinkedList</p></li>
+<li><p>PriorityQueue</p></li>
+<li><p>Properties</p></li>
+<li><p>Stack</p></li>
+<li><p>TreeMap</p></li>
+<li><p>TreeSet</p></li>
+<li><p>Vector</p></li>
+<li><p>WeakHashMap</p></li>
+</ul>
+<h5 id="java.util.concurrency">java.util.concurrency</h5>
+<ul>
+<li><p>ArrayBlockingQueue</p></li>
+<li><p>ConcurrentHashMap</p></li>
+<li><p>ConcurrentLinkedQueue</p></li>
+<li><p>CopyOnWriteArrayList</p></li>
+<li><p>CopyOnWriteArraySet</p></li>
+<li><p>DelayQueue</p></li>
+<li><p>LinkedBlockingQueue</p></li>
+<li><p>PriorityQueue</p></li>
+<li><p>SynchronousQueue</p></li>
+</ul>
+<h5 id="java.sql">java.sql</h5>
+<ul>
+<li><p>Date</p></li>
+<li><p>Time</p></li>
+<li><p>Timestamp</p></li>
+</ul>
+<h5 id="java.math">java.math</h5>
+<ul>
+<li><p>BigDecimal</p></li>
+<li><p>BigInteger</p></li>
+</ul>
+
+
+<hr />
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'tonys--blog';
+  var discus_identifier = '/posts/reductio-testing-for-the-top-java-programmers/index.html';
+  var disqus_url = 'http://blog.tmorris.net/posts/reductio-testing-for-the-top-java-programmers/index.html';
+  var discus_title = ''Reductio: Testing for the Top Java Programmers'';
+  (function () {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript><p>The comments use <a href="http://disqus.com/?ref_noscript">Disqus</a>,
+  which requires Javascript.</p></noscript>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-3405112-1']);
+  _gaq.push(['_trackPageview']);
+  (function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+</html>

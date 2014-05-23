@@ -1,0 +1,328 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>λ Tony's blog λ - Further understanding scala.Option</title>
+  <link rel="stylesheet" type="text/css" href="../../css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/syntax.css" />
+  <link rel="alternate" type="application/atom+xml" href="http://blog.tmorris.net/atom.xml" title="Atom feed" />
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/javascript" src="https://raw.github.com/Mathapedia/LaTeX2HTML5/master/latex2html5.min.js"></script>
+</head>
+<body>
+<div id="title">
+  λ Tony's blog λ
+  <div id="subtitle">
+    The weblog of Tony Morris
+  </div>
+</div>
+<div id="header">
+  <div id="navigation">
+    <a href="../../index.html">Home</a>
+    <a href="../../posts/">All Posts</a>
+    <a href="../../contact/">Contact</a>
+    <a href="http://cv.tmorris.net/">CV</a>
+    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+  </div>
+</div>
+<h1>Further understanding scala.Option</h1>
+<div class="info">Posted on August 23, 2010, in <a href="../../tags/Programming/index.html">Programming</a></div>
+
+<p>Below are 15 (probably fun) exercises for anyone interested in obtaining a deeper understanding of <code>scala.Option</code> and algebraic data types in general. I could write the same in Haskell but this will require either type-classes or rank-n types (GHC extension), so I thought I’d give that a miss.</p>
+<p>Instructions are in the comments. Let me know if there are any questions.</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// Scala version 2.8.0.final</span>
+<span class="co">// http://scalacheck.googlecode.com/files/scalacheck_2.8.0-1.8-SNAPSHOT.jar</span>
+
+
+<span class="co">/*</span>
+
+<span class="co">  Below are 15 exercises. The task is to emulate the scala.Option API</span>
+<span class="co">  without using Some/None subtypes, but instead using a fold (called a</span>
+<span class="co">  catamorphism).</span>
+
+<span class="co">  A couple of functions are already done (map, get)</span>
+<span class="co">  to be used as an example. ScalaCheck tests are given below to</span>
+<span class="co">  verify the work. The desired result is to have all tests passing.</span>
+
+<span class="co">  The 15th exercise is not available in the existing Scala API so</span>
+<span class="co">  instructions are given in the comments.</span>
+
+<span class="co">  Revision History</span>
+<span class="co">  ================</span>
+
+<span class="co">  23/08/2010</span>
+<span class="co">  Initial revision</span>
+
+<span class="co">  ----------------</span>
+
+<span class="co">  23/08/2010</span>
+<span class="co">  Fixed prop_getOrElse. Thanks Michael Bayne.</span>
+
+<span class="co">  ----------------</span>
+
+<span class="co">  26/08/2010</span>
+<span class="co">  Add lazy annotation to orElse method.</span>
+
+<span class="co">*/</span>
+
+
+<span class="kw">trait</span> Optional[A] {
+  <span class="co">// single abstract method</span>
+  <span class="kw">def</span> fold[X](some: A =&gt; X, none: =&gt; X): X
+
+  <span class="kw">import</span> Optional.<span class="fu">_</span>
+
+  <span class="co">// Done for you.</span>
+  <span class="kw">def</span> map[B](f: A =&gt; B): Optional[B] =
+    <span class="fu">fold</span>(f andThen some, none[B])
+
+  <span class="co">// Done for you.</span>
+  <span class="co">// WARNING: undefined for None</span>
+  <span class="kw">def</span> get: A =
+    <span class="fu">fold</span>(a =&gt; a, <span class="fu">error</span>(<span class="st">&quot;None.get&quot;</span>))
+
+  <span class="co">// Exercise 1</span>
+  <span class="kw">def</span> flatMap[B](f: A =&gt; Optional[B]): Optional[B] =
+    <span class="fu">error</span>(<span class="st">&quot;todo&quot;</span>)
+
+  <span class="co">// Exercise 2</span>
+  <span class="co">// Rewrite map but use flatMap, not fold.</span>
+  <span class="kw">def</span> mapAgain[B](f: A =&gt; B): Optional[B] =
+    <span class="fu">error</span>(<span class="st">&quot;todo&quot;</span>)
+
+  <span class="co">// Exercise 3</span>
+  <span class="kw">def</span> <span class="fu">getOrElse</span>(e: =&gt; A): A =
+    <span class="fu">error</span>(<span class="st">&quot;todo&quot;</span>)
+
+  <span class="co">// Exercise 4</span>
+  <span class="kw">def</span> <span class="fu">filter</span>(p: A =&gt; Boolean): Optional[A] =
+    <span class="fu">error</span>(<span class="st">&quot;todo&quot;</span>)
+
+  <span class="co">// Exercise 5</span>
+  <span class="kw">def</span> <span class="fu">exists</span>(p: A =&gt; Boolean): Boolean =
+    <span class="fu">error</span>(<span class="st">&quot;todo&quot;</span>)
+
+  <span class="co">// Exercise 6</span>
+  <span class="kw">def</span> <span class="fu">forall</span>(p: A =&gt; Boolean): Boolean =
+    <span class="fu">error</span>(<span class="st">&quot;todo&quot;</span>)
+
+  <span class="co">// Exercise 7</span>
+  <span class="kw">def</span> <span class="fu">foreach</span>(f: A =&gt; Unit): Unit =
+    <span class="fu">error</span>(<span class="st">&quot;todo&quot;</span>)
+
+  <span class="co">// Exercise 8</span>
+  <span class="kw">def</span> isDefined: Boolean =
+    <span class="fu">error</span>(<span class="st">&quot;todo&quot;</span>)
+
+  <span class="co">// Exercise 9</span>
+  <span class="kw">def</span> isEmpty: Boolean =
+    <span class="fu">error</span>(<span class="st">&quot;todo&quot;</span>)
+
+  <span class="co">// Exercise 10</span>
+  <span class="kw">def</span> <span class="fu">orElse</span>(o: =&gt; Optional[A]): Optional[A] =
+    <span class="fu">error</span>(<span class="st">&quot;todo&quot;</span>)
+
+  <span class="co">// Exercise 11</span>
+  <span class="kw">def</span> toLeft[X](right: =&gt; X): Either[A, X] =
+    <span class="fu">error</span>(<span class="st">&quot;todo&quot;</span>)
+
+  <span class="co">// Exercise 12</span>
+  <span class="kw">def</span> toRight[X](left: =&gt; X): Either[X, A] =
+    <span class="fu">error</span>(<span class="st">&quot;todo&quot;</span>)
+
+  <span class="co">// Exercise 13</span>
+  <span class="kw">def</span> toList: List[A] =
+    <span class="fu">error</span>(<span class="st">&quot;todo&quot;</span>)
+
+  <span class="co">// Exercise 14</span>
+  <span class="kw">def</span> iterator: Iterator[A] =
+    <span class="fu">error</span>(<span class="st">&quot;todo&quot;</span>)
+
+  <span class="co">// Exercise 15 The Clincher!</span>
+  <span class="co">// Return a none value if either this or the argument is none.</span>
+  <span class="co">// Otherwise apply the function to the argument in some.</span>
+  <span class="co">// Don't be afraid to use functions you have written.</span>
+  <span class="co">// Better style, more points!</span>
+  <span class="kw">def</span> applic[B](f: Optional[A =&gt; B]): Optional[B] =
+    <span class="fu">error</span>(<span class="st">&quot;todo&quot;</span>)
+
+  <span class="co">// Utility</span>
+  <span class="kw">def</span> toOption: Option[A] = <span class="fu">fold</span>(Some(_), None)
+}
+
+<span class="kw">object</span> Optional {
+  <span class="co">// Done for you</span>
+  <span class="kw">def</span> none[A]: Optional[A] = <span class="kw">new</span> Optional[A] {
+    <span class="kw">def</span> fold[X](some: A =&gt; X, none: =&gt; X) = none
+  }
+
+  <span class="co">// Done for you</span>
+  <span class="kw">def</span> some[A](a: A): Optional[A] = <span class="kw">new</span> Optional[A] {
+    <span class="kw">def</span> fold[X](some: A =&gt; X, none: =&gt; X) = <span class="fu">some</span>(a)
+  }
+
+  <span class="co">// Utility</span>
+  <span class="kw">def</span> fromOption[A](o: Option[A]): Optional[A] = o <span class="kw">match</span> {
+    <span class="kw">case</span> None    =&gt; none
+    <span class="kw">case</span> Some(a) =&gt; <span class="fu">some</span>(a)
+  }
+}
+
+<span class="kw">import</span> org.<span class="fu">scalacheck</span>.<span class="fu">_</span>
+<span class="kw">import</span> Arbitrary.<span class="fu">arbitrary</span>
+<span class="kw">import</span> Prop.<span class="fu">_</span>
+
+<span class="kw">object</span> TestOptional {
+  <span class="kw">import</span> Optional.<span class="fu">_</span>
+
+  <span class="kw">implicit</span> <span class="kw">def</span> ArbitraryOptional[A](<span class="kw">implicit</span> a: Arbitrary[A]): Arbitrary[Optional[A]] =
+    <span class="fu">Arbitrary</span>(arbitrary[Option[A]] map fromOption)
+
+  <span class="kw">val</span> prop_map = <span class="fu">forAll</span> ((o: Optional[Int], f: Int =&gt; String) =&gt;
+    (o map f).<span class="fu">toOption</span> == (o.<span class="fu">toOption</span> map f))
+
+  <span class="kw">val</span> prop_get = <span class="fu">forAll</span>((o: Optional[Int]) =&gt;
+    o.<span class="fu">isDefined</span> ==&gt;
+      (o.<span class="fu">get</span> == o.<span class="fu">toOption</span>.<span class="fu">get</span>))
+
+  <span class="kw">val</span> prop_flatMap = <span class="fu">forAll</span>((o: Optional[Int], f: Int =&gt; Optional[String]) =&gt;
+    (o flatMap f).<span class="fu">toOption</span> == (o.<span class="fu">toOption</span> <span class="fu">flatMap</span> (<span class="fu">f</span>(_).<span class="fu">toOption</span>)))
+
+  <span class="kw">val</span> prop_mapAgain = <span class="fu">forAll</span> ((o: Optional[Int], f: Int =&gt; String) =&gt;
+    (o mapAgain f).<span class="fu">toOption</span> == (o map f).<span class="fu">toOption</span>)
+
+  <span class="kw">val</span> prop_getOrElse = <span class="fu">forAll</span> ((o: Optional[Int], n: Int) =&gt;
+    (o getOrElse n) == (o.<span class="fu">toOption</span> getOrElse n))
+
+  <span class="kw">val</span> prop_filter = <span class="fu">forAll</span> ((o: Optional[Int], f: Int =&gt; Boolean) =&gt;
+    (o filter f).<span class="fu">toOption</span> == (o.<span class="fu">toOption</span> filter f))
+
+  <span class="kw">val</span> prop_exists = <span class="fu">forAll</span> ((o: Optional[Int], f: Int =&gt; Boolean) =&gt;
+    (o exists f) == (o.<span class="fu">toOption</span> exists f))
+
+  <span class="kw">val</span> prop_forall = <span class="fu">forAll</span> ((o: Optional[Int], f: Int =&gt; Boolean) =&gt;
+    (o forall f) == (o.<span class="fu">toOption</span> forall f))
+
+  <span class="kw">val</span> prop_foreach = <span class="fu">forAll</span> ((o: Optional[Int], f: Int =&gt; Unit, n: Int) =&gt; {
+    <span class="kw">var</span> x: Int = n
+    <span class="kw">var</span> y: Int = x
+
+    o <span class="fu">foreach</span> (t =&gt; x = x + t)
+    o.<span class="fu">toOption</span> <span class="fu">foreach</span> (t =&gt; y = y + t)
+
+    x == y
+  })
+
+  <span class="kw">val</span> prop_isDefined = <span class="fu">forAll</span> ((o: Optional[Int]) =&gt;
+    (o.<span class="fu">isDefined</span>) == (o.<span class="fu">toOption</span>.<span class="fu">isDefined</span>))
+
+  <span class="kw">val</span> prop_isEmpty = <span class="fu">forAll</span> ((o: Optional[Int]) =&gt;
+    o.<span class="fu">isEmpty</span> == o.<span class="fu">toOption</span>.<span class="fu">isEmpty</span>)
+
+  <span class="kw">val</span> prop_orElse = <span class="fu">forAll</span> ((o: Optional[Int], p: Optional[Int]) =&gt;
+    (o orElse p).<span class="fu">toOption</span> == (o.<span class="fu">toOption</span> orElse p.<span class="fu">toOption</span>))
+
+  <span class="kw">val</span> prop_toLeft = <span class="fu">forAll</span> ((o: Optional[Int], n: Int) =&gt;
+    (o toLeft n) == (o.<span class="fu">toOption</span> toLeft n))
+
+  <span class="kw">val</span> prop_toRight = <span class="fu">forAll</span> ((o: Optional[Int], n: Int) =&gt;
+    (o toRight n) == (o.<span class="fu">toOption</span> toRight n))
+
+  <span class="kw">val</span> prop_toList = <span class="fu">forAll</span> ((o: Optional[Int]) =&gt;
+    o.<span class="fu">toList</span> == o.<span class="fu">toOption</span>.<span class="fu">toList</span>)
+
+  <span class="kw">val</span> prop_iterator = <span class="fu">forAll</span> ((o: Optional[Int]) =&gt;
+    o.<span class="fu">iterator</span> sameElements o.<span class="fu">toOption</span>.<span class="fu">iterator</span>)
+
+  <span class="co">// *** READ THIS COMMENT FIRST ***</span>
+  <span class="co">// Note that scala.Option has no such equivalent to this method</span>
+  <span class="co">// Therefore, reading this test may give away clues to how it might be solved.</span>
+  <span class="co">// If you do not wish to spoil it, look away now and follow the</span>
+  <span class="co">// instruction in the Exercise comment.</span>
+  <span class="kw">val</span> prop_applic = <span class="fu">forAll</span> ((o: Optional[Int =&gt; String], p: Optional[Int]) =&gt;
+    (p applic o).<span class="fu">toOption</span> ==
+    (<span class="kw">for</span>(f &lt;- o.<span class="fu">toOption</span>;
+        n &lt;- p.<span class="fu">toOption</span>)
+    <span class="kw">yield</span> <span class="fu">f</span>(n)))
+
+  <span class="kw">val</span> props =
+    List(
+      prop_map,
+      prop_get,
+      prop_flatMap,
+      prop_mapAgain,
+      prop_getOrElse,
+      prop_filter,
+      prop_exists,
+      prop_forall,
+      prop_foreach,
+      prop_isDefined,
+      prop_isEmpty,
+      prop_orElse,
+      prop_toLeft,
+      prop_toRight,
+      prop_toList,
+      prop_iterator,
+      prop_applic
+    )
+
+  <span class="co">/*</span>
+<span class="co">  $ scala -classpath .:scalacheck_2.8.0-1.8-SNAPSHOT.jar TestOptional</span>
+<span class="co">  + OK, passed 100 tests.</span>
+<span class="co">  + OK, passed 100 tests.</span>
+<span class="co">  + OK, passed 100 tests.</span>
+<span class="co">  + OK, passed 100 tests.</span>
+<span class="co">  + OK, passed 100 tests.</span>
+<span class="co">  + OK, passed 100 tests.</span>
+<span class="co">  + OK, passed 100 tests.</span>
+<span class="co">  + OK, passed 100 tests.</span>
+<span class="co">  + OK, passed 100 tests.</span>
+<span class="co">  + OK, passed 100 tests.</span>
+<span class="co">  + OK, passed 100 tests.</span>
+<span class="co">  + OK, passed 100 tests.</span>
+<span class="co">  + OK, passed 100 tests.</span>
+<span class="co">  + OK, passed 100 tests.</span>
+<span class="co">  + OK, passed 100 tests.</span>
+<span class="co">  + OK, passed 100 tests.</span>
+<span class="co">  + OK, passed 100 tests.</span>
+<span class="co">  */</span>
+  <span class="kw">def</span> <span class="fu">main</span>(args: Array[String]) {
+    props <span class="fu">foreach</span> (_.<span class="fu">check</span>)
+  }
+}</code></pre>
+
+
+<hr />
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'tonys--blog';
+  var discus_identifier = '/posts/further-understanding-scalaoption/index.html';
+  var disqus_url = 'http://blog.tmorris.net/posts/further-understanding-scalaoption/index.html';
+  var discus_title = 'Further understanding scala.Option';
+  (function () {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript><p>The comments use <a href="http://disqus.com/?ref_noscript">Disqus</a>,
+  which requires Javascript.</p></noscript>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-3405112-1']);
+  _gaq.push(['_trackPageview']);
+  (function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+</html>

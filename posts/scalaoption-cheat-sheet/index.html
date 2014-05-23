@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>λ Tony's blog λ - scala.Option Cheat Sheet</title>
+  <link rel="stylesheet" type="text/css" href="../../css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/syntax.css" />
+  <link rel="alternate" type="application/atom+xml" href="http://blog.tmorris.net/atom.xml" title="Atom feed" />
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/javascript" src="https://raw.github.com/Mathapedia/LaTeX2HTML5/master/latex2html5.min.js"></script>
+</head>
+<body>
+<div id="title">
+  λ Tony's blog λ
+  <div id="subtitle">
+    The weblog of Tony Morris
+  </div>
+</div>
+<div id="header">
+  <div id="navigation">
+    <a href="../../index.html">Home</a>
+    <a href="../../posts/">All Posts</a>
+    <a href="../../contact/">Contact</a>
+    <a href="http://cv.tmorris.net/">CV</a>
+    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+  </div>
+</div>
+<h1>scala.Option Cheat Sheet</h1>
+<div class="info">Posted on January 16, 2008, in <a href="../../tags/Programming/index.html">Programming</a></div>
+
+<p>Many people who are coming in to Scala first encounter the <a href="http://www.scala-lang.org/docu/files/api/scala/Option.html">Option</a> type, which may be thought of (among other things) as a type-safe <code>null</code>. They also encounter pattern matching as both a new and (relatively) powerful concept, but also one that is easy to understand. This leads to quite a lot of use of pattern matching and often excessively so in what I have observed.</p>
+<p>Particularly with a type as trivial as <code>Option</code>, it is almost always possible to do away with pattern matching by using a higher-order function. Use of this function is typically preferred over pattern matching as tighter code. In fact, it is important to observe that it is possible to encapsulate all forms of pattern matching over <code>Option</code> with one simple higher-order function:</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">def</span> option[A, X](o: Option[A])(none: =&gt; X, some: =&gt; A =&gt; X): X = ...</code></pre>
+<p>Then, all functions can be written in terms of this one and needn’t pattern match at all. For example, consider <code>Option.map</code>:</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">def</span> map[A, B](o: Option[A], f: A =&gt; B) =
+  <span class="fu">option</span>(o, None, a =&gt; Some(<span class="fu">f</span>(a)))</code></pre>
+<p>In this post, I am going to give some common uses of pattern matching, which many developers might find themselves performing, followed by the use of a function that already exists on <code>Option</code> that encapsulates that given form of pattern matching. If you find yourself using pattern matching in a form not listed below, but feel it could be abstracted, then chances are that such a function exists in the <a href="http://code.google.com/p/scalaz/">Scalaz extension to scala.Option</a>.</p>
+<p>I will use the identifier <code>foo</code> below to denote any particular function, including many functions composed, for example, <code>foo(x)</code> may represent the composition of two functions f and g: <code>f(g(x))</code>. I also use the identifier <code>option</code> to denote any value of the type <code>scala.Option</code>.</p>
+<p>I hope this helps :)</p>
+<hr />
+<p><strong><code>flatMap</code></strong></p>
+<pre class="sourceCode Scala"><code class="sourceCode scala">option <span class="kw">match</span> {
+  <span class="kw">case</span> None =&gt; None
+  <span class="kw">case</span> Some(x) =&gt; <span class="fu">foo</span>(x)
+}</code></pre>
+<p>This code is equivalent to:</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala">option.<span class="fu">flatMap</span>(<span class="fu">foo</span>(_))</code></pre>
+<hr />
+<p><strong><code>flatten</code></strong></p>
+<pre class="sourceCode Scala"><code class="sourceCode scala">option <span class="kw">match</span> {
+  <span class="kw">case</span> None =&gt; None
+  <span class="kw">case</span> Some(x) =&gt; x
+}</code></pre>
+<p>This code is equivalent to:</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala">option.<span class="fu">flatten</span></code></pre>
+<hr />
+<p><strong><code>map</code></strong></p>
+<pre class="sourceCode Scala"><code class="sourceCode scala">option <span class="kw">match</span> {
+  <span class="kw">case</span> None =&gt; None
+  <span class="kw">case</span> Some(x) =&gt; Some(<span class="fu">foo</span>(x))
+}</code></pre>
+<p>This code is equivalent to:</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala">option.<span class="fu">map</span>(<span class="fu">foo</span>(_))</code></pre>
+<hr />
+<p><strong><code>foreach</code></strong></p>
+<pre class="sourceCode Scala"><code class="sourceCode scala">option <span class="kw">match</span> {
+  <span class="kw">case</span> None =&gt; {}
+  <span class="kw">case</span> Some(x) =&gt; <span class="fu">foo</span>(x)
+}</code></pre>
+<p>This code is equivalent to:</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala">option.<span class="fu">foreach</span>(<span class="fu">foo</span>(_))</code></pre>
+<hr />
+<p><strong><code>isDefined</code></strong></p>
+<pre class="sourceCode Scala"><code class="sourceCode scala">option <span class="kw">match</span> {
+  <span class="kw">case</span> None =&gt; <span class="kw">false</span>
+  <span class="kw">case</span> Some(_) =&gt; <span class="kw">true</span>
+}</code></pre>
+<p>This code is equivalent to:</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala">option.<span class="fu">isDefined</span></code></pre>
+<hr />
+<p><strong><code>isEmpty</code></strong></p>
+<pre class="sourceCode Scala"><code class="sourceCode scala">option <span class="kw">match</span> {
+  <span class="kw">case</span> None =&gt; <span class="kw">true</span>
+  <span class="kw">case</span> Some(_) =&gt; <span class="kw">false</span>
+}</code></pre>
+<p>This code is equivalent to:</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala">option.<span class="fu">isEmpty</span></code></pre>
+<hr />
+<p><strong><code>forall</code></strong></p>
+<pre class="sourceCode Scala"><code class="sourceCode scala">option <span class="kw">match</span> {
+  <span class="kw">case</span> None =&gt; <span class="kw">true</span>
+  <span class="kw">case</span> Some(x) =&gt; <span class="fu">foo</span>(x)
+}</code></pre>
+<p>This code is equivalent to:</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala">option.<span class="fu">forall</span>(<span class="fu">foo</span>(_))</code></pre>
+<hr />
+<p><strong><code>exists</code></strong></p>
+<pre class="sourceCode Scala"><code class="sourceCode scala">option <span class="kw">match</span> {
+  <span class="kw">case</span> None =&gt; <span class="kw">false</span>
+  <span class="kw">case</span> Some(x) =&gt; <span class="fu">foo</span>(x)
+}</code></pre>
+<p>This code is equivalent to:</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala">option.<span class="fu">exists</span>(<span class="fu">foo</span>(_))</code></pre>
+<hr />
+<p><strong><code>orElse</code></strong></p>
+<pre class="sourceCode Scala"><code class="sourceCode scala">option <span class="kw">match</span> {
+  <span class="kw">case</span> None =&gt; foo
+  <span class="kw">case</span> Some(x) =&gt; Some(x)
+}</code></pre>
+<p>This code is equivalent to:</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala">option.<span class="fu">orElse</span>(foo)</code></pre>
+<hr />
+<p><strong><code>getOrElse</code></strong></p>
+<pre class="sourceCode Scala"><code class="sourceCode scala">option <span class="kw">match</span> {
+  <span class="kw">case</span> None =&gt; foo
+  <span class="kw">case</span> Some(x) =&gt; x
+}</code></pre>
+<p>This code is equivalent to:</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala">option.<span class="fu">getOrElse</span>(foo)</code></pre>
+<hr />
+<p><strong><code>toList</code></strong></p>
+<pre class="sourceCode Scala"><code class="sourceCode scala">option <span class="kw">match</span> {
+  <span class="kw">case</span> None =&gt; Nil
+  <span class="kw">case</span> Some(x) =&gt; x :: Nil
+}</code></pre>
+<p>This code is equivalent to:</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala">option.<span class="fu">toList</span></code></pre>
+<hr />
+<p><strong><code>coflatMap</code></strong><sup><a href="#fn1" class="footnoteRef" id="fnref1">1</a></sup></p>
+<pre class="sourceCode Scala"><code class="sourceCode scala">option <span class="kw">match</span> {
+  <span class="kw">case</span> None =&gt; None
+  <span class="kw">case</span> Some(_) =&gt; Some(<span class="fu">foo</span>(option))
+}</code></pre>
+<p>This code is equivalent to:</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala">option.<span class="fu">coflatMap</span>(<span class="fu">foo</span>(_))</code></pre>
+<hr />
+<p><strong><code>duplicate</code></strong><sup><a href="#fn2" class="footnoteRef" id="fnref2">2</a></sup></p>
+<pre class="sourceCode Scala"><code class="sourceCode scala">option <span class="kw">match</span> {
+  <span class="kw">case</span> None =&gt; None
+  <span class="kw">case</span> Some(_) =&gt; Some(option)
+}</code></pre>
+<p>This code is equivalent to:</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala">option.<span class="fu">duplicate</span></code></pre>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Unfortunately <code>coflatMap</code> is not part of the standard library. You will need to write it yourself or use Scalaz.<a href="#fnref1">↩</a></p></li>
+<li id="fn2"><p>Unfortunately, <code>duplicate</code> is not part of the standard library. You will need to write it yourself or use Scalaz.<a href="#fnref2">↩</a></p></li>
+</ol>
+</div>
+
+
+<hr />
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'tonys--blog';
+  var discus_identifier = '/posts/scalaoption-cheat-sheet/index.html';
+  var disqus_url = 'http://blog.tmorris.net/posts/scalaoption-cheat-sheet/index.html';
+  var discus_title = 'scala.Option Cheat Sheet';
+  (function () {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript><p>The comments use <a href="http://disqus.com/?ref_noscript">Disqus</a>,
+  which requires Javascript.</p></noscript>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-3405112-1']);
+  _gaq.push(['_trackPageview']);
+  (function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+</html>

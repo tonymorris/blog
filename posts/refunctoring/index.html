@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>λ Tony's blog λ - Refunctoring</title>
+  <link rel="stylesheet" type="text/css" href="../../css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/syntax.css" />
+  <link rel="alternate" type="application/atom+xml" href="http://blog.tmorris.net/atom.xml" title="Atom feed" />
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/javascript" src="https://raw.github.com/Mathapedia/LaTeX2HTML5/master/latex2html5.min.js"></script>
+</head>
+<body>
+<div id="title">
+  λ Tony's blog λ
+  <div id="subtitle">
+    The weblog of Tony Morris
+  </div>
+</div>
+<div id="header">
+  <div id="navigation">
+    <a href="../../index.html">Home</a>
+    <a href="../../posts/">All Posts</a>
+    <a href="../../contact/">Contact</a>
+    <a href="http://cv.tmorris.net/">CV</a>
+    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+  </div>
+</div>
+<h1>Refunctoring</h1>
+<div class="info">Posted on February 15, 2007, in <a href="../../tags/Programming/index.html">Programming</a></div>
+
+<p>Ask your average Java (or C#) programmer to ‘write a method that takes a list of integers, adds 10 to each element, converts the result to a String, prepends <em>*</em> to it and returns the resulting list’. It’s quite easy and you can certainly postulate what kind of start would be made on this. Here is how I suspect most Java programmers would solve this problem:</p>
+<pre class="sourceCode Java"><code class="sourceCode java">...
+<span class="dt">static</span> List&lt;string&gt; <span class="fu">addTenAndConvert</span>(List&lt;integer&gt; list) {
+  List&lt;string&gt; result = <span class="kw">new</span> LinkedList&lt;string&gt;();
+
+  <span class="kw">for</span>(Integer i : list) {
+    String s = <span class="st">&quot;***&quot;</span> + String.<span class="fu">valueOf</span>(i + <span class="dv">10</span>);
+    result.<span class="fu">add</span>(s);
+  }
+
+  <span class="kw">return</span> result;
+}</code></pre>
+<p>Simple enough. Many people would also write so-called ‘unit tests’ to assist in verifying that the method meets the specified requirement. It is interesting to note at this point that ‘for all’ (<a href="http://en.wikipedia.org/wiki/Universal_quantification">hint</a>) list arguments, the length of the return value will always be equal. So for the argument, {1,2,3} with a length of 3, the result is {“<strong>*11“,”</strong><em>12“,”</em>**13”} also with a length of 3 and this property holds across all lists.</p>
+<p>But then, I ask for another method that does all the same, but this time, prepends “AAA” instead of “<em>*</em>”. Whatchya gunna do? Copy/paste/change? No, you’re going to refunctor (to be defined in time to come), that’s what. You might pass an additional argument of type String and prepend that. Sounds fair enough. But then I will ask instead that you append “BBB” instead of prepending “AAA”. Pass an additional argument of type boolean?</p>
+<p>Let’s take a look at what we’ve got:</p>
+<pre class="sourceCode Java"><code class="sourceCode java">...
+<span class="dt">static</span> List&lt;string&gt; <span class="fu">addTenAndConvert</span>(
+  List&lt;integer&gt; list, String s, <span class="dt">boolean</span> prepend) {
+  List&lt;string&gt; result = <span class="kw">new</span> LinkedList&lt;string&gt;();
+
+  <span class="kw">for</span>(Integer i : list) {
+    String ss = prepend ? s + String.<span class="fu">valueOf</span>(i + <span class="dv">10</span>) :
+        i.<span class="fu">toString</span>() + s;
+    result.<span class="fu">add</span>(ss);
+  }
+
+  <span class="kw">return</span> result;
+}</code></pre>
+<p>But then, I ask you for another requirement – this time devastating. I ask instead that it is not a List argument, but a List argument and a List return type. Going to copy/paste this time, right? The conversion from each String element to the new Integer element is left unspecified for now, but feel free to dream something up. In fact, feel free to ‘refactor’ it out:</p>
+<pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">interface</span> Convert {
+  Integer <span class="fu">convert</span>(String s);
+}</code></pre>
+<p>…then change the method like so:</p>
+<pre class="sourceCode Java"><code class="sourceCode java">...
+<span class="dt">static</span> List&lt;integer&gt; <span class="fu">stringListToIntegerList</span>(
+    Convert c, List&lt;string&gt; list) {
+  List&lt;integer&gt; result = <span class="kw">new</span> LinkedList&lt;integer&gt;();
+
+  <span class="kw">for</span>(String s : list) {
+    Integer i = c.<span class="fu">convert</span>(s);
+    result.<span class="fu">add</span>(i);
+  }
+
+  <span class="kw">return</span> result;
+}</code></pre>
+<p>Notice that our method’s name is becoming less specific as it is refactored and becoming more abstract in behaviour. Further, we cannot write our method <code>addTenAndConvert</code> in terms of our method <code>stringListToIntegerList</code> by passing a different implementation of <code>Convert</code> because our types do not match. However, notice that the transformation on each list has nothing to do with specific types – these types are actually <em>unbounded polymorphic</em> types. Let’s try again.</p>
+<pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">interface</span> Convert&lt;T, U&gt; {
+  U <span class="fu">convert</span>(T t);
+}
+
+<span class="dt">static</span> &lt;T, U&gt; List&lt;u&gt; <span class="fu">fooForNow</span>(Convert&lt;T, U&gt; c, List&lt;t&gt; list) {
+  List&lt;u&gt; result = <span class="kw">new</span> LinkedList&lt;u&gt;();
+
+  <span class="kw">for</span>(T t : list) {
+    U u = c.<span class="fu">convert</span>(t);
+    result.<span class="fu">add</span>(u);
+  }
+
+  <span class="kw">return</span> result;
+}</code></pre>
+<p>How’s that look!!? What shall we call this method? I have called it <code>fooForNow</code>, but if you’ll just let me call it <code>map</code> instead, just because. We can now write our method <code>addTenAndConvert</code> with our newly found abstraction – the <code>map</code> function:</p>
+<pre class="sourceCode Java"><code class="sourceCode java"><span class="dt">static</span> List&lt;string&gt; <span class="fu">addTenAndConvert</span>(List&lt;integer&gt; list) {
+  Convert&lt;Integer, String&gt; c = <span class="kw">new</span> Convert&lt;Integer, String&gt;() {
+    <span class="kw">public</span> String <span class="fu">convert</span>(Integer i) {
+      <span class="kw">return</span> <span class="st">&quot;***&quot;</span> + String.<span class="fu">valueOf</span>(i + <span class="dv">10</span>);
+    }
+  };
+
+  <span class="kw">return</span> <span class="fu">map</span>(c, list);
+}</code></pre>
+<p>How funky is that? Funky enough for you to start looking at funktional programming? I’ll let you in on a little secret. This relatively high euphoric point of using Java/C# (et. al.) is the very basis and starting point of most functional programming languages. In fact, the <code>map</code> function is typically included in the standard libraries! Functional programming is Java version 42, seriously. It is a natural extension to what it is that most Java/C# programmers are already doing. It is not some esoteric, orthogonal, unrelated paradigm that has nothing to do with anything except the point of singularity.</p>
+<p>If we consider our <code>Convert</code> type to actually represent ‘anything that can convert a T to a U’, we call <code>map</code> a higher-order function, since it takes a function (from T to U) as an argument. Whether or not to name this function argument (to <code>Convert</code> in our example) and hide the behaviour of this conversion behind some implementation sets the premise for the ‘DD (Dynamic Dispatch) versus HOF (Higher-Order Function) issue’.</p>
+<p>If we look at the type for the Haskell <code>map</code> function, we see it like this:</p>
+<pre class="sourceCode Haskell"><code class="sourceCode haskell">map<span class="ot"> ::</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> [a] <span class="ot">-&gt;</span> [b]</code></pre>
+<p>That is, as the first argument, it takes a function from a type ‘a’ to a type ‘b’ (we called these T and U, but Haskell type parameters must be lower-case). The second argument is a list of the type ‘a’ and the return type is a list of the type ‘b’. That’s exactly what we just wrote in 43 trillion lines of Java code! OK, maybe I am exaggerabating a bit there.</p>
+<p>And in case you’re wondering, here is how <code>addTenAndConvert</code> looks in Haskell:</p>
+<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">let</span> addTenAndConvert <span class="fu">=</span> map ((<span class="st">&quot;***&quot;</span> <span class="fu">++</span>) <span class="fu">.</span> show <span class="fu">.</span> (<span class="fu">+</span><span class="dv">10</span>)) <span class="co">-- tidy eh?</span></code></pre>
+<p>Why ‘Refunctoring’? First, I refuse to reuse euphemistic terms that have served only to denigrate the standard of the software development industry, therefore, I cannot use ‘Refactoring’ (oooh! did I just say that!!?). To show this, consider the fact that the entire notion of ‘Refactoring’ is done away with one simple phrase ‘Functional Programming’ in the case shown and hundreds more. Of course, you might decide to redefine Refactoring to a different context, but then, redefining terms often leads to confusion (the term ‘function’ is itself a perfect example). To further demonstrate this point, open <a href="http://www.amazon.com/Refactoring-Improving-Design-Existing-Code/dp/0201485672">the book</a> or <a href="http://www.refactoring.com/catalog/index.html">catalog</a> on Refactoring and turn to the section titled, ‘Replace Parameter with Method’. Then say out loud, ‘partial application’ – if you don’t know why you’re saying that, learn what partial application is, then perhaps it might dawn on you. A useful exercise is to apply this technique to all so-called ‘Refactorings’ and see how many are eliminated by existing programming techniques that don’t get very much air time in advertising material (though, this might be changing thankfully). More useful might be to see how many are left standing (want to know my conjecture?).</p>
+<p>Anyway, Refunctoring is what most people <strong>really are doing</strong>. They are converting their code that is written in not-too-powerful programming languages to mimic the power that is already available in functional programming languages. They are representing higher-order functions with (<em>importantly, co-variant</em>) polymorphic type parameters, refactoring out what partial application already provides and much more. This is being done, despite having been invented many, many years ago, but the fact that it <em>is</em> being done mandates a name, albeit how absurd it might be. I use the term Refunctoring, for no other reason than it was suggested to me by a bemused colleague (you know who you are :)) one day and upon reflection, I have decided that it is entirely appropriate.</p>
+<p>You don’t think the <code>map</code> function is a special case do you?</p>
+
+
+<hr />
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'tonys--blog';
+  var discus_identifier = '/posts/refunctoring/index.html';
+  var disqus_url = 'http://blog.tmorris.net/posts/refunctoring/index.html';
+  var discus_title = 'Refunctoring';
+  (function () {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript><p>The comments use <a href="http://disqus.com/?ref_noscript">Disqus</a>,
+  which requires Javascript.</p></noscript>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-3405112-1']);
+  _gaq.push(['_trackPageview']);
+  (function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+</html>

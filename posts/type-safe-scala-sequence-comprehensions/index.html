@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>λ Tony's blog λ - Type-safe Scala sequence comprehensions</title>
+  <link rel="stylesheet" type="text/css" href="../../css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/syntax.css" />
+  <link rel="alternate" type="application/atom+xml" href="http://blog.tmorris.net/atom.xml" title="Atom feed" />
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/javascript" src="https://raw.github.com/Mathapedia/LaTeX2HTML5/master/latex2html5.min.js"></script>
+</head>
+<body>
+<div id="title">
+  λ Tony's blog λ
+  <div id="subtitle">
+    The weblog of Tony Morris
+  </div>
+</div>
+<div id="header">
+  <div id="navigation">
+    <a href="../../index.html">Home</a>
+    <a href="../../posts/">All Posts</a>
+    <a href="../../contact/">Contact</a>
+    <a href="http://cv.tmorris.net/">CV</a>
+    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+  </div>
+</div>
+<h1>Type-safe Scala sequence comprehensions</h1>
+<div class="info">Posted on September 13, 2007, in <a href="../../tags/Programming/index.html">Programming</a></div>
+
+<p>On page 85 of <a href="http://www.scala-lang.org/docu/index.html">Scala By Example</a>, the last paragraph states the following in reference to generalising sequence (aka for) comprehensions:</p>
+<blockquote>
+<p>It would be attractive to enforce these types statically in the Scala compiler, for instance by requiring that any type supporting for-comprehensions implements a standard trait with these methods 1 . The problem is that such a standard trait would have to abstract over the identity of the class C, for instance by taking C as a type parameter. Note that this parameter would be a type constructor, which gets applied to several different types in the signatures of methods map and flatMap. Unfortunately, the Scala type system is too weak to express this construct, since it can handle only type parameters which are fully applied types.</p>
+</blockquote>
+<p>This type system feature being described is called <em>higher-kinded types</em>. Sadly, none of the mainstream, statically-typed languages offer this feature, which leads to enormous amounts of repetition.</p>
+<p>In fact, many of the arguments in favour of dynamic languages that I have seen, are refuted simply with the introduction of this very key, but relatively simple (to other type system features) feature. In other words, I only have to batter an eyelid before I have refuted those arguments, which brings me great suspicion of any underlying plausibility. Perhaps there are other arguments that are more plausible, but I have yet to hear any. I digress…</p>
+<p>Higher-kinded types would be available in Java/C# if you could write something like this:</p>
+<pre class="sourceCode Java"><code class="sourceCode java"><span class="dt">static</span> &lt;C&lt;_&gt;, A, B&gt; C&lt;B&gt; <span class="fu">map</span>(Convert&lt;A, B&gt; c, C&lt;A&gt; container) {
+  ...</code></pre>
+<p>Again, sadly, you cannot. But in Scala you can! In other words, the paragraph quoted above is, at least from how I interpret it, false. However, do understand that at the time the paragraph was written, it may have been true (I can neither confirm nor deny this), but my reckoning is that this piece of documentation needs updating at the least.</p>
+<p>Without further ado, I introduce the my refutation:</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">trait</span> Functor[f[_], a] {
+  <span class="kw">def</span> map[b](f: a =&gt; b)(ft: =&gt; f[a]): f[b]
+}
+
+<span class="kw">trait</span> Monad[m[_], a] {
+  <span class="kw">def</span> flatMap[b](ma: =&gt; m[a])(f: a =&gt; m[b]): m[b]
+}
+
+<span class="kw">trait</span> Filter[c[_], a] {
+  <span class="kw">def</span> <span class="fu">filter</span>(f: a =&gt; Boolean)(c: =&gt; c[a]): c[a]
+}</code></pre>
+<p>My assertion now, is that a Scala sequence comprehension could indeed be written to be type-safe if it only accepted types that adhered to the above interfaces. Am I wrong and if so, what have I misunderstood?</p>
+<p>Here are some example (incomplete) implementations of <code>foreach</code>:</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">object</span> Comprehension {
+  <span class="kw">type</span> Comprehension[c[_], a] = Functor[c[a], a] <span class="kw">with</span> Monad[c[a], a] <span class="kw">with</span> Filter[c[a], a]
+  <span class="kw">def</span> foreach[c[_], a](c: c[a], e: a =&gt; Unit, p: a =&gt; Boolean)(<span class="kw">implicit</span> ca: Comprehension[c[a], a]): Unit = ca.<span class="fu">map</span>(a =&gt; <span class="kw">if</span>(<span class="fu">p</span>(a)) <span class="fu">e</span>(a))(c)
+  <span class="kw">def</span> foreach[c[_], a](c: c[a], e: a =&gt; Unit)(<span class="kw">implicit</span> ca: Comprehension[c[a], a]): Unit = foreach[c[a], a](c, e, (a: a) =&gt; <span class="kw">true</span>)
+  <span class="kw">def</span> foreach[c[_], a, b](c: c[a], f: a =&gt; b, p: a =&gt; Boolean)(<span class="kw">implicit</span> ca: Comprehension[c[a], a]): c[b] = ca.<span class="fu">map</span>(a =&gt; <span class="fu">f</span>(a))(ca.<span class="fu">filter</span>(p)(c))
+  <span class="kw">def</span> foreach[c[_], a, b](c: c[a], f: a =&gt; b)(<span class="kw">implicit</span> ca: Comprehension[c[a], a]): c[b] = ca.<span class="fu">map</span>(a =&gt; <span class="fu">f</span>(a))(c)
+}</code></pre>
+<p>I await an explanation for what I think is the unwarranted undermining of Scala’s value by Scala’s own documentation!</p>
+
+
+<hr />
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'tonys--blog';
+  var discus_identifier = '/posts/type-safe-scala-sequence-comprehensions/index.html';
+  var disqus_url = 'http://blog.tmorris.net/posts/type-safe-scala-sequence-comprehensions/index.html';
+  var discus_title = 'Type-safe Scala sequence comprehensions';
+  (function () {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript><p>The comments use <a href="http://disqus.com/?ref_noscript">Disqus</a>,
+  which requires Javascript.</p></noscript>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-3405112-1']);
+  _gaq.push(['_trackPageview']);
+  (function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+</html>

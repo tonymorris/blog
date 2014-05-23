@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>λ Tony's blog λ - Imperative programming is a special type of functional programming</title>
+  <link rel="stylesheet" type="text/css" href="../../css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/syntax.css" />
+  <link rel="alternate" type="application/atom+xml" href="http://blog.tmorris.net/atom.xml" title="Atom feed" />
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/javascript" src="https://raw.github.com/Mathapedia/LaTeX2HTML5/master/latex2html5.min.js"></script>
+</head>
+<body>
+<div id="title">
+  λ Tony's blog λ
+  <div id="subtitle">
+    The weblog of Tony Morris
+  </div>
+</div>
+<div id="header">
+  <div id="navigation">
+    <a href="../../index.html">Home</a>
+    <a href="../../posts/">All Posts</a>
+    <a href="../../contact/">Contact</a>
+    <a href="http://cv.tmorris.net/">CV</a>
+    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+  </div>
+</div>
+<h1>Imperative programming is a special type of functional programming</h1>
+<div class="info">Posted on August  7, 2007, in <a href="../../tags/Programming/index.html">Programming</a></div>
+
+<p>There are a lot of things that, upon initial investigation, turn out to be false after some deeper analysis. There are a striking number of these propositions that not not only turn out to be false, but it is the inverse that turns out to be true!</p>
+<p>One of these is many common descriptions of pure functional programming against imperative programming. Here are some that I have seen:</p>
+<p>* functional programming <em>is on the other side of the fence of</em> (or some such) imperative programming. That is, there are two (or more) very distinct, non-unifiable methods or disciplines of programming.</p>
+<p>* Functional programming is more restrictive than imperative programming.</p>
+<p>I hope to address the first point another time and on the second point, for now, I will assert that:</p>
+<blockquote>
+<p>Not only is functional programming not more restrictive than imperative programming, but quite the opposite is true! Imperative programming is one specific type of functional programming that is relatively seldom worth using.</p>
+</blockquote>
+<p>In the relatively rare (though inevitable) case of performing I/O, only <em>then</em> will I resort to the imperative programming technique within pure functional programming. I will reason about my imperative code as if it were pure anyway, but I also understand that there are many destructive updates that must be appealed to – for example, the many common file system types that are used.</p>
+<p>I don’t wish to elaborate on this statement right now, since I am still deciding how I will do it and I also know how this fact can fail to be recognised by many so I want to get it right. Importantly, it sets (one of) a premise for another issue that I’d like to write about some time.</p>
+<p>In the meantime, I want to refer to <a href="http://blip.tv/file/325646">Part 2 of Simon Peyton-Jones’, “A Taste of Haskell”</a>where he says at 1:06:42:</p>
+<blockquote>
+<p>[Referring to the IO data type] This is imperative programming, embedded within Haskell [pure functional programming].</p>
+</blockquote>
+<p>There it is, right there, in one sentence ;)</p>
+
+
+<hr />
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'tonys--blog';
+  var discus_identifier = '/posts/imperative-programming-is-a-special-type-of-functional-programming/index.html';
+  var disqus_url = 'http://blog.tmorris.net/posts/imperative-programming-is-a-special-type-of-functional-programming/index.html';
+  var discus_title = 'Imperative programming is a special type of functional programming';
+  (function () {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript><p>The comments use <a href="http://disqus.com/?ref_noscript">Disqus</a>,
+  which requires Javascript.</p></noscript>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-3405112-1']);
+  _gaq.push(['_trackPageview']);
+  (function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+</html>

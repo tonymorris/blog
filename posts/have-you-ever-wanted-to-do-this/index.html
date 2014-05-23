@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>λ Tony's blog λ - Have you ever wanted to do this?</title>
+  <link rel="stylesheet" type="text/css" href="../../css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/syntax.css" />
+  <link rel="alternate" type="application/atom+xml" href="http://blog.tmorris.net/atom.xml" title="Atom feed" />
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/javascript" src="https://raw.github.com/Mathapedia/LaTeX2HTML5/master/latex2html5.min.js"></script>
+</head>
+<body>
+<div id="title">
+  λ Tony's blog λ
+  <div id="subtitle">
+    The weblog of Tony Morris
+  </div>
+</div>
+<div id="header">
+  <div id="navigation">
+    <a href="../../index.html">Home</a>
+    <a href="../../posts/">All Posts</a>
+    <a href="../../contact/">Contact</a>
+    <a href="http://cv.tmorris.net/">CV</a>
+    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+  </div>
+</div>
+<h1>Have you ever wanted to do this?</h1>
+<div class="info">Posted on November  7, 2006, in <a href="../../tags/Programming/index.html">Programming</a></div>
+
+<p>You’re working away on your Java (or .NET for that matter) project and you want to redefine the equality for some type; let’s say, for a String. The new requirement mandates that two Strings are “equal” as per usual except that if they have a length greater than or equal to 3, then it is only the first 3 characters that need to be equal for the Strings to be equal. For example:</p>
+<ul>
+<li><p>“abcdef” and “abcxyz” are equal</p></li>
+<li><p>“abc” and “abcdef” are equal</p></li>
+<li><p>“ab” and “abc” are <strong>not</strong> equal</p></li>
+<li><p>“ab” and “ab” are equal</p></li>
+<li><p>“” and “a” are <strong>not</strong> equal</p></li>
+<li><p>“” and “” are equal</p></li>
+</ul>
+<p>Make sense so far? Good! :) If our problem was related to the ordering of instances of our type, we already have <code>Comparator</code> in the core API to cater for this scenario and best of all, the collections supports the use of our <em>comparing strategy</em> e.g. we can pass an instance to the constructor of <code>TreeSet</code>. However, our problem is related to testing for equality, not ordering. How would the analogous Comparator interface look for equality? How about this:</p>
+<pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">interface</span> Equalable&lt;t&gt; {
+    <span class="dt">boolean</span> <span class="fu">isEqual</span>(T t1, T t2);
+}</code></pre>
+<p>It’s too bad the collections don’t support this type, ain’t it? We can’t plug in our own <em>strategy for testing for equality</em> like we can for comparing for order if we intend on using collections. Instead, the only way we can meet our requirement and still use collections (or anything that uses the inherent <code>equals</code> method) is by declaring a new type:</p>
+<pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">public</span> <span class="dt">final</span> <span class="kw">class</span> XString
+{
+  <span class="kw">private</span> <span class="dt">final</span> String str;
+
+  <span class="kw">public</span> <span class="fu">XString</span>(<span class="dt">final</span> String str) {
+    <span class="kw">this</span>.<span class="fu">str</span> = str;
+  }
+
+  <span class="kw">public</span> String <span class="fu">getStr</span>() {
+    <span class="kw">return</span> str;
+  }
+
+  <span class="kw">public</span> <span class="dt">boolean</span> <span class="fu">equals</span>(<span class="dt">final</span> Object o) {
+    ...
+  }
+}</code></pre>
+<p>Now we can have collections of this type as it defines its own equality test strategy in accordance with our original requirement. What if the collection types allowed you to pass an instance of <code>Equalable</code> instead? Much easier than having to write our <code>XString</code> type!? Instead of having to create the <code>XString type</code>, we might be creating <code>HashSet</code> instances like so <code>new HashSet(new MyEqualable());</code> and be done.</p>
+<p>Let’s take a look at how this would look in another programming language - with <a href="http://haskell.org/">Haskell</a> - a <em>purely functional</em> programming language. In Haskell, we have the same two choices, we might implement the type-class <a href="http://haskell.org/ghc/docs/latest/html/libraries/base/Prelude.html#t%3AEq">Eq</a> or we might pass a <em>first-class function</em> of type a -&gt; a -&gt; Bool</p>
+<pre><code>newtype XString = XString String
+
+instance Eq XString where
+  ...</code></pre>
+<p>Now, if we had a function of type <code>a -&gt; b</code> <em>[see note 1]</em> and that function needed a strategy for equality over the type <code>a</code> to evaluate, we have two choices:</p>
+<ol style="list-style-type: decimal">
+<li><p>we could bound the parameter by the <code>Eq</code> type-class, which would look like so as a function definition <code>Eq a =&gt; a -&gt; b</code> and reads as “takes an argument of type a, where a is bound by the type-class Eq, and evaluates to an unbound type b”</p></li>
+<li><p>we could leave the parameter <code>a</code> unbound and pass a function as an argument. This function would be of type <code>(a -&gt; a -&gt; Bool)</code> and would define the strategy for determining if two <em>a’s</em> are equal. Thus our entire function definition would look like so <code>(a -&gt; a -&gt; Bool) -&gt; a -&gt; b</code> where we see that <code>a</code> is not bound by any type-class i.e. it is unbound.</p></li>
+</ol>
+<p>Back into Java land… these two options in Haskell can be likened to <code>java.lang.Comparable</code> and <code>java.util.Comparator</code>. Suppose now you have a reference of type <code>Set</code> and you wish to call an existing method of type <code>m(Set)</code>. It is only sensible that you are able to call this method, since (let’s assume) it has nothing at all to do with the only differentiator between the two types - the strategy for determining equality. Gotta write a new type right?</p>
+<p>Now, since this is my first blog post ever, I reserve the right to throw out some incredibly bold and apparently absurd postulations :). Since such a simple requirement mandates the creation of so much code to fulfill accurately, I postulate, with more formal reasons forthcoming, that approximately 99.9999% of the content of the J2SE API Specification [see note 2] is a result of this problem that is inherent in a language such as Java with a substandard type system. I might name this problem, “Gotta write a new type, right?” for future reference and just to take the piss out of the dominant programming language(s) of our evolving <em>[see note 3]</em> industry. So that’s its name, OK? Great.</p>
+<p>I do not envy you oh Senior J2EE Architect/.NET Super-duper Spanky Star (what do they call those anyway?).</p>
+<p>[1] This can be read as “takes an argument of type a and evaluates to a type b where a and b are both polymorphic and unbound”. The analogous Java is:</p>
+<pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">interface</span> I&lt;a, b&gt; {
+  b <span class="fu">f</span>(a arg);
+}</code></pre>
+<p>[2] The “thing” (monolithic abominable creature?) that I used to laboriously implement for IBM <a href="http://java.sun.com/j2se/1.5.0/docs/api/">http://java.sun.com/j2se/1.5.0/docs/api/</a></p>
+<p>[3] I must have backspaced 50 or so times before finally settling on the conservative adjective, “evolving” :)</p>
+
+
+<hr />
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'tonys--blog';
+  var discus_identifier = '/posts/have-you-ever-wanted-to-do-this/index.html';
+  var disqus_url = 'http://blog.tmorris.net/posts/have-you-ever-wanted-to-do-this/index.html';
+  var discus_title = 'Have you ever wanted to do this?';
+  (function () {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript><p>The comments use <a href="http://disqus.com/?ref_noscript">Disqus</a>,
+  which requires Javascript.</p></noscript>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-3405112-1']);
+  _gaq.push(['_trackPageview']);
+  (function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+</html>

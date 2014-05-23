@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>λ Tony's blog λ - Doomsday in Scala</title>
+  <link rel="stylesheet" type="text/css" href="../../css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/syntax.css" />
+  <link rel="alternate" type="application/atom+xml" href="http://blog.tmorris.net/atom.xml" title="Atom feed" />
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/javascript" src="https://raw.github.com/Mathapedia/LaTeX2HTML5/master/latex2html5.min.js"></script>
+</head>
+<body>
+<div id="title">
+  λ Tony's blog λ
+  <div id="subtitle">
+    The weblog of Tony Morris
+  </div>
+</div>
+<div id="header">
+  <div id="navigation">
+    <a href="../../index.html">Home</a>
+    <a href="../../posts/">All Posts</a>
+    <a href="../../contact/">Contact</a>
+    <a href="http://cv.tmorris.net/">CV</a>
+    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+  </div>
+</div>
+<h1>Doomsday in Scala</h1>
+<div class="info">Posted on January  1, 2008, in <a href="../../tags/Programming/index.html">Programming</a></div>
+
+<p>Just for kicks, from <a href="http://en.wikipedia.org/wiki/Doomsday_algorithm">http://en.wikipedia.org/wiki/Doomsday_algorithm</a></p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">sealed</span> <span class="kw">trait</span> Day {
+  <span class="kw">def</span> +(n: Int): Day
+}
+<span class="kw">final</span> <span class="kw">case</span> <span class="kw">object</span> Sunday <span class="kw">extends</span> Day {
+  <span class="kw">override</span> <span class="kw">def</span> +(n: Int) = n % <span class="dv">7</span> <span class="kw">match</span> {
+    <span class="kw">case</span> <span class="dv">0</span> =&gt; Sunday
+    <span class="kw">case</span> <span class="dv">1</span> =&gt; Monday
+    <span class="kw">case</span> <span class="dv">2</span> =&gt; Tuesday
+    <span class="kw">case</span> <span class="dv">3</span> =&gt; Wednesday
+    <span class="kw">case</span> <span class="dv">4</span> =&gt; Thursday
+    <span class="kw">case</span> <span class="dv">5</span> =&gt; Friday
+    <span class="kw">case</span> <span class="dv">6</span> =&gt; Saturday
+  }
+}
+<span class="kw">final</span> <span class="kw">case</span> <span class="kw">object</span> Monday <span class="kw">extends</span> Day {
+  <span class="kw">override</span> <span class="kw">def</span> +(n: Int) = n % <span class="dv">7</span> <span class="kw">match</span> {
+    <span class="kw">case</span> <span class="dv">6</span> =&gt; Sunday
+    <span class="kw">case</span> <span class="dv">0</span> =&gt; Monday
+    <span class="kw">case</span> <span class="dv">1</span> =&gt; Tuesday
+    <span class="kw">case</span> <span class="dv">2</span> =&gt; Wednesday
+    <span class="kw">case</span> <span class="dv">3</span> =&gt; Thursday
+    <span class="kw">case</span> <span class="dv">4</span> =&gt; Friday
+    <span class="kw">case</span> <span class="dv">5</span> =&gt; Saturday
+  }
+}
+<span class="kw">final</span> <span class="kw">case</span> <span class="kw">object</span> Tuesday <span class="kw">extends</span> Day {
+  <span class="kw">override</span> <span class="kw">def</span> +(n: Int) = n % <span class="dv">7</span> <span class="kw">match</span> {
+    <span class="kw">case</span> <span class="dv">5</span> =&gt; Sunday
+    <span class="kw">case</span> <span class="dv">6</span> =&gt; Monday
+    <span class="kw">case</span> <span class="dv">0</span> =&gt; Tuesday
+    <span class="kw">case</span> <span class="dv">1</span> =&gt; Wednesday
+    <span class="kw">case</span> <span class="dv">2</span> =&gt; Thursday
+    <span class="kw">case</span> <span class="dv">3</span> =&gt; Friday
+    <span class="kw">case</span> <span class="dv">4</span> =&gt; Saturday
+  }
+}
+<span class="kw">final</span> <span class="kw">case</span> <span class="kw">object</span> Wednesday <span class="kw">extends</span> Day {
+  <span class="kw">override</span> <span class="kw">def</span> +(n: Int) = n % <span class="dv">7</span> <span class="kw">match</span> {
+    <span class="kw">case</span> <span class="dv">4</span> =&gt; Sunday
+    <span class="kw">case</span> <span class="dv">5</span> =&gt; Monday
+    <span class="kw">case</span> <span class="dv">6</span> =&gt; Tuesday
+    <span class="kw">case</span> <span class="dv">0</span> =&gt; Wednesday
+    <span class="kw">case</span> <span class="dv">1</span> =&gt; Thursday
+    <span class="kw">case</span> <span class="dv">2</span> =&gt; Friday
+    <span class="kw">case</span> <span class="dv">3</span> =&gt; Saturday
+  }
+}
+<span class="kw">final</span> <span class="kw">case</span> <span class="kw">object</span> Thursday <span class="kw">extends</span> Day {
+  <span class="kw">override</span> <span class="kw">def</span> +(n: Int) = n % <span class="dv">7</span> <span class="kw">match</span> {
+    <span class="kw">case</span> <span class="dv">3</span> =&gt; Sunday
+    <span class="kw">case</span> <span class="dv">4</span> =&gt; Monday
+    <span class="kw">case</span> <span class="dv">5</span> =&gt; Tuesday
+    <span class="kw">case</span> <span class="dv">6</span> =&gt; Wednesday
+    <span class="kw">case</span> <span class="dv">0</span> =&gt; Thursday
+    <span class="kw">case</span> <span class="dv">1</span> =&gt; Friday
+    <span class="kw">case</span> <span class="dv">2</span> =&gt; Saturday
+  }
+}
+<span class="kw">final</span> <span class="kw">case</span> <span class="kw">object</span> Friday <span class="kw">extends</span> Day {
+  <span class="kw">override</span> <span class="kw">def</span> +(n: Int) = n % <span class="dv">7</span> <span class="kw">match</span> {
+    <span class="kw">case</span> <span class="dv">2</span> =&gt; Sunday
+    <span class="kw">case</span> <span class="dv">3</span> =&gt; Monday
+    <span class="kw">case</span> <span class="dv">4</span> =&gt; Tuesday
+    <span class="kw">case</span> <span class="dv">5</span> =&gt; Wednesday
+    <span class="kw">case</span> <span class="dv">6</span> =&gt; Thursday
+    <span class="kw">case</span> <span class="dv">0</span> =&gt; Friday
+    <span class="kw">case</span> <span class="dv">1</span> =&gt; Saturday
+  }
+}
+<span class="kw">final</span> <span class="kw">case</span> <span class="kw">object</span> Saturday <span class="kw">extends</span> Day {
+  <span class="kw">override</span> <span class="kw">def</span> +(n: Int) = n % <span class="dv">7</span> <span class="kw">match</span> {
+    <span class="kw">case</span> <span class="dv">1</span> =&gt; Sunday
+    <span class="kw">case</span> <span class="dv">2</span> =&gt; Monday
+    <span class="kw">case</span> <span class="dv">3</span> =&gt; Tuesday
+    <span class="kw">case</span> <span class="dv">4</span> =&gt; Wednesday
+    <span class="kw">case</span> <span class="dv">5</span> =&gt; Thursday
+    <span class="kw">case</span> <span class="dv">6</span> =&gt; Friday
+    <span class="kw">case</span> <span class="dv">7</span> =&gt; Saturday
+  }
+}
+
+<span class="co">// From http://en.wikipedia.org/wiki/Doomsday_algorithm</span>
+<span class="kw">object</span> Doomsday {
+  <span class="kw">def</span> <span class="fu">anchor</span>(y: Int) = y / <span class="dv">100</span> % <span class="dv">4</span> <span class="kw">match</span> {
+    <span class="kw">case</span> <span class="dv">0</span> =&gt; Tuesday
+    <span class="kw">case</span> <span class="dv">1</span> =&gt; Sunday
+    <span class="kw">case</span> <span class="dv">2</span> =&gt; Friday
+    <span class="kw">case</span> <span class="dv">3</span> =&gt; Wednesday
+  }
+
+  <span class="kw">def</span> <span class="fu">doomsday</span>(y: Int) = {
+    <span class="kw">val</span> a = y % <span class="dv">100</span> / <span class="dv">12</span>
+    <span class="kw">val</span> b = y % <span class="dv">100</span> % <span class="dv">12</span>
+    <span class="kw">val</span> c = b / <span class="dv">4</span>
+    <span class="kw">val</span> d = a + b + c
+    <span class="fu">anchor</span>(y) + d
+  }
+}</code></pre>
+<blockquote>
+<p>scala&gt; import Doomsday._ import Doomsday._</p>
+</blockquote>
+<p>scala&gt; doomsday(1966) res0: Day = Monday</p>
+<p>scala&gt; doomsday(2008) res1: Day = Friday</p>
+
+
+<hr />
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'tonys--blog';
+  var discus_identifier = '/posts/doomsday-in-scala/index.html';
+  var disqus_url = 'http://blog.tmorris.net/posts/doomsday-in-scala/index.html';
+  var discus_title = 'Doomsday in Scala';
+  (function () {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript><p>The comments use <a href="http://disqus.com/?ref_noscript">Disqus</a>,
+  which requires Javascript.</p></noscript>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-3405112-1']);
+  _gaq.push(['_trackPageview']);
+  (function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+</html>

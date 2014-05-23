@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>λ Tony's blog λ - Revisiting Maybe in Java</title>
+  <link rel="stylesheet" type="text/css" href="../../css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/syntax.css" />
+  <link rel="alternate" type="application/atom+xml" href="http://blog.tmorris.net/atom.xml" title="Atom feed" />
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/javascript" src="https://raw.github.com/Mathapedia/LaTeX2HTML5/master/latex2html5.min.js"></script>
+</head>
+<body>
+<div id="title">
+  λ Tony's blog λ
+  <div id="subtitle">
+    The weblog of Tony Morris
+  </div>
+</div>
+<div id="header">
+  <div id="navigation">
+    <a href="../../index.html">Home</a>
+    <a href="../../posts/">All Posts</a>
+    <a href="../../contact/">Contact</a>
+    <a href="http://cv.tmorris.net/">CV</a>
+    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+  </div>
+</div>
+<h1>Revisiting Maybe in Java</h1>
+<div class="info">Posted on November 16, 2006, in <a href="../../tags/Programming/index.html">Programming</a></div>
+
+<p>I posted the link to <a href="http://blog.tmorris.net/maybe-in-java">Maybe in Java</a> to programming.reddit.com and waited a good… hour or so, before giving up and going to bed. Actually, I happened to lose interest in posting it and by-chance, noticed my web browser still hadn’t completed the request on the way to bed. Nevertheless, it seems my HTTP request managed to make it there and when I woke up the next morning, there were all sorts of comments floating around. A few in particular asking something along the lines of, “what exactly has been achieved?”.</p>
+<p>I will answer this question with “I have pointed out to Java programmers the concept of a very basic <em>algebraic data type</em> and importantly, in their language”. No mathematics, no type theory, nothing that will scare away your average J2EE Joey Jumper. I have also made a subliminal point of “hey! there are languages that already do this, only better!”. In particular, I have not provided anything that you should all go out and start using on your next WebSphere-fronted, RDBMS-backed, one-trillion-gazillion LOC web application. It seems the following points were missed in my original writing:</p>
+<ul>
+<li><p>Throwing an exception is one of our possible options for evaluation of a partial function in Java. Here are all our options available in Java: … Emulate continuation passing style (CPS)</p></li>
+<li><p><code>data Maybe a = Just a | Nothing</code> (the Haskell equivalent i.e. omitting instances)</p></li>
+<li><p>I’ll let your imagination run wild with possibilities from here :)</p></li>
+</ul>
+<p>To remedy this situation, I have added further to the original Maybe type <em>which was intentionally left incomplete</em>, and it is <strong>still not complete</strong>. I hope this will help those who haven’t made the leap to do so and those who have made the leap, to understand my objective in this writing.</p>
+<pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">abstract</span> <span class="kw">class</span> Maybe&lt;t&gt; {
+  <span class="kw">private</span> <span class="fu">Maybe</span>() {
+  }
+
+  <span class="kw">public</span> <span class="kw">abstract</span> &lt;q&gt; Q <span class="fu">maybe</span>(JustC&lt;Q, T&gt; jc, NothingC&lt;q&gt; nc);
+
+  <span class="kw">public</span> <span class="dt">static</span> <span class="kw">abstract</span> <span class="kw">class</span> Nothing&lt;t&gt; <span class="kw">extends</span> Maybe&lt;t&gt; {
+    <span class="kw">private</span> <span class="fu">Nothing</span>() {
+    }
+  }
+
+  <span class="kw">public</span> <span class="dt">static</span> <span class="kw">abstract</span> <span class="kw">class</span> Just&lt;t&gt; <span class="kw">extends</span> Maybe&lt;t&gt; {
+    <span class="kw">private</span> <span class="fu">Just</span>() {
+    }
+
+    <span class="kw">public</span> <span class="kw">abstract</span> T <span class="fu">just</span>();
+  }
+
+  <span class="kw">public</span> <span class="dt">static</span> &lt;r&gt; Maybe&lt;r&gt; <span class="fu">_just</span>(<span class="dt">final</span> R r) {
+    <span class="kw">return</span> <span class="kw">new</span> Just&lt;r&gt;() {
+      <span class="fu">@Override</span>
+      <span class="kw">public</span> R <span class="fu">just</span>() {
+        <span class="kw">return</span> r;
+      }
+
+      <span class="fu">@Override</span>
+      <span class="kw">public</span> &lt;q&gt; Q <span class="fu">maybe</span>(<span class="dt">final</span> JustC&lt;Q, R&gt; jc, <span class="dt">final</span> NothingC&lt;q&gt; nc) {
+        <span class="kw">return</span> jc.<span class="fu">c</span>(r);
+      }
+    };
+  }
+
+  <span class="kw">public</span> <span class="dt">static</span> &lt;r&gt; Maybe&lt;r&gt; <span class="fu">_nothing</span>() {
+    <span class="kw">return</span> <span class="kw">new</span> Nothing&lt;r&gt;() {
+      <span class="fu">@Override</span>
+      <span class="kw">public</span> &lt;q&gt; Q <span class="fu">maybe</span>(<span class="dt">final</span> JustC&lt;Q, R&gt; jc, <span class="dt">final</span> NothingC&lt;q&gt; nc) {
+        <span class="kw">return</span> nc.<span class="fu">c</span>();
+      }
+    };
+  }
+}
+
+<span class="kw">public</span> <span class="kw">interface</span> JustC&lt;Q, R&gt; {
+  Q <span class="fu">c</span>(R r);
+}
+
+<span class="kw">public</span> <span class="kw">interface</span> NothingC&lt;q&gt; {
+  Q <span class="fu">c</span>();
+}</code></pre>
+<p>Those of you familiar with the Visitor Design Pattern (or any other GoF design euphemism) will immediately recognise the modification - hence the title of the post :). Please feel free to replace identifiers with your preferred view of the world; continuation, quasi-continuation, visitor, whatever.</p>
+<p>For those who <em>insist</em> on returning <code>null</code> or throwing an exception/error, or more so, insist on failing to recognise the distinction, I have yielded to your pressure:</p>
+<pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">public</span> <span class="dt">final</span> <span class="kw">class</span> NullNothingC&lt;t&gt; <span class="kw">implements</span> NothingC&lt;t&gt; {
+  <span class="kw">public</span> T <span class="fu">c</span>() {
+    <span class="kw">return</span> <span class="kw">null</span>;
+  }
+}
+
+<span class="kw">public</span> <span class="dt">final</span> <span class="kw">class</span> ErrorNothingC&lt;t&gt; <span class="kw">implements</span> NothingC&lt;t&gt; {
+  <span class="kw">public</span> T <span class="fu">c</span>() {
+    <span class="kw">throw</span> <span class="kw">new</span> Error();
+  }
+}</code></pre>
+
+
+<hr />
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'tonys--blog';
+  var discus_identifier = '/posts/revisiting-maybe-in-java/index.html';
+  var disqus_url = 'http://blog.tmorris.net/posts/revisiting-maybe-in-java/index.html';
+  var discus_title = 'Revisiting Maybe in Java';
+  (function () {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript><p>The comments use <a href="http://disqus.com/?ref_noscript">Disqus</a>,
+  which requires Javascript.</p></noscript>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-3405112-1']);
+  _gaq.push(['_trackPageview']);
+  (function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <title>λ Tony's blog λ — Posts tagged Yowie</title>
+    <link href="http://blog.tmorris.net/tags/Yowie.xml" rel="self" />
+    <link href="http://blog.tmorris.net" />
+    <id>http://blog.tmorris.net/tags/Yowie.xml</id>
+    <author>
+        <name>Tony Morris</name>
+        <email>blog@tmorris.net</email>
+    </author>
+    <updated>2013-12-24T20:00:00Z</updated>
+    <entry>
+    <title>Ride Report, Conondale NP. "Mubbip woo!"</title>
+    <link href="http://blog.tmorris.net/posts/ride-report-mubbip-woo/index.html" />
+    <id>http://blog.tmorris.net/posts/ride-report-mubbip-woo/index.html</id>
+    <published>2013-12-24T20:00:00Z</published>
+    <updated>2013-12-24T20:00:00Z</updated>
+    <summary type="html"><![CDATA[<script src="http://www.openlayers.org/api/OpenLayers.js" type="text/javascript"></script>
+
+<p>I have never written a ride report before so please forgive any oversights. However, this ride was notable, so I thought best to write it up.</p>
+<p>I left Buderim at around 1030 on the morning of 23 December, with the intention of heading west toward Conondale. I only had a rough idea of my planned route.</p>
+<h4 id="nobles-road">Nobles Road</h4>
+<p>My first change of plan was the belief that I could take <a href="http://www.openstreetmap.org/?mlat=-26.734755&amp;mlon=152.980079%20&amp;zoom=16#map=16/-26.734755/152.980079">Nobles Road</a> so as to bypass Eudlo. Being a gazetted road, I thought it should be no problem. Alas, it was was one of many “private access” roads with a barrier part way along the trail. I could have gone around it, but I was too early in the ride to consider any dramas. So backtrack I did, back up on to Ilkley Road and through Eudlo.</p>
+<a href="http://www.openstreetmap.org/?mlat=-26.734755&mlon=152.980079%20&zoom=19#map=19/-26.734755/152.980079">
+<div id="map.noblesroad" style="width: 100%; height: 300px;"></div>
+<p></a></p>
+<script type="text/javascript">
+map = new OpenLayers.Map("map.noblesroad");
+map.addLayer(new OpenLayers.Layer.OSM());
+
+var lonLat = new OpenLayers.LonLat(152.980079, -26.734755).transform(
+  new OpenLayers.Projection("EPSG:4326")
+, map.getProjectionObject() 
+);
+
+var zoom=14;
+
+var markers = new OpenLayers.Layer.Markers( "Markers" );
+map.addLayer(markers);
+
+markers.addMarker(new OpenLayers.Marker(lonLat));
+
+map.setCenter (lonLat, zoom);
+</script>
+
+<h4 id="brandenburg-road">Brandenburg Road</h4>
+<p>After heading south to Mooloolah, I turned west toward Maleny. This is when I found the super fun <a href="http://www.openstreetmap.org/?mlat=-26.765144&amp;mlon=152.957474%20&amp;zoom=17#map=17/-26.765144/152.957474">Brandenburg Road</a>. A hard-packed, cement road with a loose gravel surface, this was going to be bliss on the TE510. Hootin’ along, I came to a steep, narrow hill with a couple of cars and a rigid (no articulations) truck in front.</p>
+<p>The truck struggled up the hill at walking pace and, for safety reasons, I chose to stop and wait for it to complete the ascent. I caught up again and in front of us, another fun hill (going to waste!) but with a wider road permitting a pass. This was when the truck’s buddy behind him in a ute decided to overtake. So I wait for the overtake and my first feeling of disbelief sets in. The ute driver slows to the truck’s pace so as to have a discussion with the driver. FFS are you serious mate?! On a narrow ascending hill at about 8kph, this assclown thought it best to block all possible traffic to talk about his plans that night <em>to the driver above and beside him</em>. I was a bit gobsmacked at the stupidity unfolding in front of my eyes. That initial feeling is moving. Using voice signals over the top of the struggling diesel engine, I let these idiots know that I was unhappy with the dangerous situation they’d just created. Get a UHF ya twits. However, I am sure it was all lost in translation and stupidity. Like internet mailing lists I guess. Moving on.</p>
+<p>Soon after, I was able to overtake and left the circus show behind to enjoy the remainder of Brandenburg Road and onto Maleny-Kenilworth Road.</p>
+<a href="http://www.openstreetmap.org/?mlat=-26.765144&mlon=152.957474%20&zoom=17#map=17/-26.765144/152.957474">
+<div id="map.brandenburgroad" style="width: 100%; height: 300px;"></div>
+<p></a></p>
+<script type="text/javascript">
+map = new OpenLayers.Map("map.brandenburgroad");
+map.addLayer(new OpenLayers.Layer.OSM());
+
+var lonLat = new OpenLayers.LonLat(152.957474, -26.765144).transform(
+  new OpenLayers.Projection("EPSG:4326")
+, map.getProjectionObject() 
+);
+
+var zoom=14;
+
+var markers = new OpenLayers.Layer.Markers( "Markers" );
+map.addLayer(markers);
+
+markers.addMarker(new OpenLayers.Marker(lonLat));
+
+map.setCenter (lonLat, zoom);
+</script>
+
+<h4 id="cox-road">Cox Road</h4>
+<p>My next plan was to try cutting across Maleny-Kenilworth Road via <a href="http://www.openstreetmap.org/?mlat=-26.727266&amp;mlon=152.81675%20&amp;zoom=17#map=17/-26.727266/152.81675">Cox Road</a>. After turning into a narrow, gravel Cox Road, I came across car bodies littered all along – mostly old Toyota Landcruisers. A kilometre or so along, there were construction vehicles and I was unsure where the main track was. I headed along one of many narrow tracks and soon found myself in a cow paddock. Looking around, I found an even narrower, foliage-covered steep uphill track. “Looks fun, but I am probably going to turn around”, I thought. Up the hill I went and it became very steep and rocky with a drop to the side. I considered the consequences of going over out here on my own and decided to head on out.</p>
+<p>As I left Cox Road, I came upon a closed gate. “That wasn’t there before!” Well it was, but it had been left open and I didn’t notice it. Someone clearly didn’t want general vehicle access along this road – another “private access” road.</p>
+<a href="http://www.openstreetmap.org/?mlat=-26.727266&mlon=152.81675%20&zoom=17#map=17/-26.727266/152.81675">
+<div id="map.coxroad" style="width: 100%; height: 300px;"></div>
+<p></a></p>
+<script type="text/javascript">
+map = new OpenLayers.Map("map.coxroad");
+map.addLayer(new OpenLayers.Layer.OSM());
+
+var lonLat = new OpenLayers.LonLat(152.81675, -26.727266).transform(
+  new OpenLayers.Projection("EPSG:4326")
+, map.getProjectionObject() 
+);
+
+var zoom=14;
+
+var markers = new OpenLayers.Layer.Markers( "Markers" );
+map.addLayer(markers);
+
+markers.addMarker(new OpenLayers.Marker(lonLat));
+
+map.setCenter (lonLat, zoom);
+</script>
+
+<h4 id="maleny-kenilworth-road">Maleny-Kenilworth Road</h4>
+<p>The scenery along the 15 or so kilometres of Maleny-Kenilworth Road was amazing. The temperature had dropped a little from the dry, hot summer sun to a cool breeze. I’d clearly put on some altitude. I didn’t check my altimeter but I guessed around 600m asl. It had run out of batteries around there anyway – as you can tell by the track log. I came into <a href="http://www.openstreetmap.org/?mlat=-26.729532&amp;mlon=152.717631%20&amp;zoom=17#map=17/-26.729532/152.717631">Conondale</a> and thought it best to fuel up.</p>
+<a href="http://www.openstreetmap.org/?mlat=-26.729532&mlon=152.717631%20&zoom=17#map=17/-26.729532/152.717631">
+<div id="map.conondale" style="width: 100%; height: 300px;"></div>
+<p></a></p>
+<script type="text/javascript">
+map = new OpenLayers.Map("map.conondale");
+map.addLayer(new OpenLayers.Layer.OSM());
+
+var lonLat = new OpenLayers.LonLat(152.717631, -26.729532).transform(
+  new OpenLayers.Projection("EPSG:4326")
+, map.getProjectionObject() 
+);
+
+var zoom=14;
+
+var markers = new OpenLayers.Layer.Markers( "Markers" );
+map.addLayer(markers);
+
+markers.addMarker(new OpenLayers.Marker(lonLat));
+
+map.setCenter (lonLat, zoom);
+</script>
+
+<h4 id="conondale">Conondale</h4>
+<p>I filled up on 91 RON fuel again, knowing that the Husky won’t be happy about that – there was no 95 RON available. This causes some pinging when the engine is under load, but I’m sure she will forgive me.</p>
+<p>Filling up on sugars myself, a local struck up a conversation. I told him my plan to head down <a href="http://www.openstreetmap.org/?mlat=-26.703964&amp;mlon=152.684487%20&amp;zoom=17#map=17/-26.703964/152.684487">Grigor Road</a> and see what happens after that. He told me about a huge log that he’d hit a couple of years earlier, knocking himself out of consciousness and into hospital. I didn’t know it at the time, but I was about to pay a visit to that log myself. He also mentioned that “turning right” off the track will take me to (what I now know is) Booloumba – I had trouble interpreting the pronunciation at the time.</p>
+<h4 id="grigor-road">Grigor Road</h4>
+<p>Grigor Road was a welcome sight. I’d ridden down this road two days earlier in the opposing direction. Back on the gravel again and eventually, red, fertile clay. Dodging cows, I ploughed through the mud pit that I’d earlier roosted Jason with. Over the crest of a hill at medium pace and immediately in front of me, a 2 metre wide log across the track – a much bigger surprise in the opposite direction. It was easily avoided, but I could imagine having some trouble if I was off line and at full pace. Yep, that’d hurt.</p>
+<p>Grigor Road soon turned narrow and full of ruts. Much fun to be had! I passed a right turn but it was signed “No vehicle access.” Oh well, maybe this wasn’t the one that the local was referring to anyway.</p>
+<a href="http://www.openstreetmap.org/?mlat=-26.703964&mlon=152.684487%20&zoom=17#map=17/-26.703964/152.684487">
+<div id="map.grigorroad" style="width: 100%; height: 300px;"></div>
+<p></a></p>
+<script type="text/javascript">
+map = new OpenLayers.Map("map.grigorroad");
+map.addLayer(new OpenLayers.Layer.OSM());
+
+var lonLat = new OpenLayers.LonLat(152.684487, -26.703964).transform(
+  new OpenLayers.Projection("EPSG:4326")
+, map.getProjectionObject() 
+);
+
+var zoom=15;
+
+var markers = new OpenLayers.Layer.Markers( "Markers" );
+map.addLayer(markers);
+
+markers.addMarker(new OpenLayers.Marker(lonLat));
+
+map.setCenter (lonLat, zoom);
+</script>
+
+<h4 id="mubbip-woo">Mubbip woo!</h4>
+<p>I took <a href="http://www.openstreetmap.org/?mlat=-26.736464/152.619499&amp;mlon=152.619499%20&amp;zoom=17#map=17/-26.736464/152.619499">a right turn off Grigor Road</a> and entered a steady ascent. I was obviously putting on even more altitude as I entered lush rainforest. I could hear Eastern Whipbirds over the sound of the Husqvarna’s engine. Insects and birds flittered about through the narrow track and I was having fun on the loose twisty corners. Soon I decided to pull up to properly take in the scenery. I was feeling a bit parched anyway.</p>
+<p>I found <a href="http://www.openstreetmap.org/?mlat=-26.70909&amp;mlon=152.56792%20&amp;zoom=17#map=17/-26.70909/152.56792">a nice straight</a> to avoid any disasters with other potential traffic and pulled the bike to a stop.</p>
+<hr />
+<p><a href="http://i.imgur.com/IFmLWkN.jpg"><img height="580" width="1032" src="http://i.imgur.com/IFmLWkN.jpg" alt="-26.70909,152.56792"></a></p>
+<hr />
+<p><a href="http://i.imgur.com/p3ikg5K.jpg"><img height="580" width="1032" src="http://i.imgur.com/p3ikg5K.jpg" alt="-26.70909,152.56792"></a></p>
+<hr />
+<p>I’d rehydrated and eaten a couple of supplies I’d bought at Conondale.</p>
+<p>It must have been 4 or 5 minutes when I heard it. I couldn’t believe my ears. There was not another human within 10km of my position, so I thought.</p>
+<p><em>“Mubbip woo!”</em> came from the trees to the side. Did I just hear that, seriously? Had I inadvertently ingested some funny flowers as I hurtled through these tracks, narrowly avoiding the overhanging foliage as it competed for space? Then it came again, loud and clear, “mubbip woo!”</p>
+<p>I knew this noise. It was Jason &amp; Jason, the yowie searchers I’d met in D’Aguilar National Park a few months ago. Again, at that time, I thought I was alone in the twilight forest. However, I stopped to say hello where they enthusiastically told me about their yowie adventures. They had advised me to install a rear-facing camera on the Husqvarna to film yowies because “they are always behind you” after which, they had given me their business card.</p>
+<p><a href="http://i.imgur.com/qwTJ8y9.jpg"><img height="816" width="612" src="http://i.imgur.com/qwTJ8y9.jpgg" alt="J&J Yowie Search"></a></p>
+<p>When I got home after this ride, in August 2013, I decided to take a look at the youtube channel. This is where I learned how to correctly call for yowies. A short, sharp call of “mubbip woo!” will attract and help identify the presence of yowies in the national parks of south-east Queensland. Here is a demonstration, starting at 3:17.</p>
+<hr />
+<iframe width="560" height="315" src="//www.youtube.com/embed/hScEb3r37K4?start=197" frameborder="0" allowfullscreen></iframe>
+
+<hr />
+<p>Yep, sure enough, <a href="http://www.openstreetmap.org/?mlat=-26.70909&amp;mlon=152.56792%20&amp;zoom=17#map=17/-26.70909/152.56792">in the middle of absolutely nowhere</a>, I’d found them again. They must have been just 100 metres away, somewhere in the trees, calling for yowies.</p>
+<p>I spun out. This truly was happening. I was completely stunned by the coincidence and immediately started hunting for alternative explanations. Yep, I am as lucid as can possibly be – this is real. I was in the middle of the forest. I was completely lost.</p>
+<p>Awestruck, I was able to gather myself enough to begin recording on my phone. The “mubbip woo” calls are very distinct but since they are distant, you will probably need earphones. Also, sorry about my squeaky boots.</p>
+<hr />
+<iframe width="540" height="350" src="//www.youtube.com/embed/HJY0ZyddM-U" frameborder="0" allowfullscreen></iframe>
+
+<hr />
+<p>I suspect the yowie searchers didn’t realise I was there in Conondale NP. They’d heard the bike coming, then heard it stop, believing me to have passed. The “mubbip woo” calls had started a few minutes after I’d stopped. As you can see, I made an attempt to say hi for a second meeting by approaching their location, but it was not to be. Not to be disturbing the yowies (and yowie searchers) in their habitat, I decided to move on. It’s an enormous forest and we can all share. The only other species willing to socialise with me here were the horse-flies. Bye yowie searchers, it was fun again. Mubbip wooooooooooo!</p>
+<h4 id="exploring">Exploring</h4>
+<p>I followed the track north until eventually I exited the forest. I had passed an extraordinary number of track turn-offs – several to Jimna, one or two to Kenilworth and Kilcoy. I was now on Gigher Creek Road, heading north. There were tracks everywhere. I reached <a href="http://www.openstreetmap.org/?mlat=-26.673211&amp;mlon=152.514170%20&amp;zoom=17#map=17/-26.673211/152.514170">Yeilo Homestead</a>, which I only knew about because it had a road named after it.</p>
+<a href="http://www.openstreetmap.org/?mlat=-26.673211&mlon=152.514170%20&zoom=17#map=17/-26.673211/152.514170">
+<div id="map.yielohomestead" style="width: 100%; height: 300px;"></div>
+<p></a></p>
+<script type="text/javascript">
+map = new OpenLayers.Map("map.yielohomestead");
+map.addLayer(new OpenLayers.Layer.OSM());
+
+var lonLat = new OpenLayers.LonLat(152.514170, -26.673211).transform(
+  new OpenLayers.Projection("EPSG:4326")
+, map.getProjectionObject()
+);
+
+var zoom=15;
+
+var markers = new OpenLayers.Layer.Markers( "Markers" );
+map.addLayer(markers);
+
+markers.addMarker(new OpenLayers.Marker(lonLat));
+
+map.setCenter (lonLat, zoom);
+</script>
+
+<p>From here, I turned around and immediately saw that there was an alternative track back into the forest. A steady ascent, I assumed it would come to an end – a service road of some sort. Nope, I was on <a href="http://www.openstreetmap.org/?mlat=-26.674703&amp;mlon=152.514804%20&amp;zoom=17#map=17/-26.674703/152.514804">Langston Road</a> heading south.</p>
+<p>Exploring now, I traversed Buffalo Road, Middle Road and I passed the <a href="http://www.openstreetmap.org/?mlat=-26.707681&amp;mlon=152.534779%20&amp;zoom=17#map=17/-26.707681/152.534779">Sunday Creek Environmental Education Centre</a>.</p>
+<p>I turned right down Cockalorum Road. This road is probably up there as the most fun in the forest. A very narrow, winding track full of surprises, such as a rutted-out, mud-filled trench after lifting both wheels off a small crest. A lush rainforest road, I wondered if vehicular traffic really were permitted, but I hadn’t seen any signage to indicate otherwise.</p>
+<p>Cockalorum Road popped out again on Middle Road and by now it was getting late. I was heading back in the general direction of the yowies, hoping to say hi just one more time, the trippers. However, <a href="http://www.openstreetmap.org/?mlat=-26.694135&amp;mlon=152.561194%20&amp;zoom=17#map=17/-26.694135/152.561194">Sunday Creek Road</a> had me hooked. A wide, sweeping road I expected to come upon 4x4 traffic, but alas, I saw only one car who kindly allowed me to pass.</p>
+<h4 id="leaving">Leaving</h4>
+<p>Making my way to Kenilworth, I passed <a href="http://www.openstreetmap.org/?mlat=-26.680448&amp;mlon=152.606385%20&amp;zoom=19#map=19/-26.680448/152.606385">Peters Creek Lookout</a> on the left. I didn’t have time to stop. I needed to get back to Buderim before dark – the headlight on this bike isn’t the brightest and with dusk wildlife soon to make an appearance, I kept the pace up.</p>
+<p>I passed the <a href="http://www.openstreetmap.org/?mlat=-26.676427&amp;mlon=152.620923%20&amp;zoom=19#map=19/-26.676427/152.620923">Booloumba Falls</a> turn off (it was signed), then <a href="http://www.openstreetmap.org/?mlat=-26.655751&amp;mlon=152.645472%20&amp;zoom=19#map=19/-26.655751/152.645472">Booloumba Lookout</a> and continued on to <a href="http://www.openstreetmap.org/?mlat=-26.646357&amp;mlon=152.646916%20&amp;zoom=19#map=19/-26.646357/152.646916">Booloumba campgrounds</a>.</p>
+<a href="http://www.openstreetmap.org/?mlat=-26.646357&mlon=152.646916%20&zoom=17#map=17/-26.646357/152.646916">
+<div id="map.booloumba" style="width: 100%; height: 300px;"></div>
+<p></a></p>
+<script type="text/javascript">
+map = new OpenLayers.Map("map.booloumba");
+map.addLayer(new OpenLayers.Layer.OSM());
+
+var lonLat = new OpenLayers.LonLat(152.646916, -26.646357).transform(
+  new OpenLayers.Projection("EPSG:4326")
+, map.getProjectionObject()
+);
+
+var zoom=15;
+
+var markers = new OpenLayers.Layer.Markers( "Markers" );
+map.addLayer(markers);
+
+markers.addMarker(new OpenLayers.Marker(lonLat));
+
+map.setCenter (lonLat, zoom);
+</script>
+
+<p>Just after Booloumba campgrounds, I came around a corner to find a <a href="http://www.openstreetmap.org/?mlat=-26.634651&amp;mlon=152.650420%20&amp;zoom=19#map=19/-26.634651/152.650420">creek crossing</a> in front of me. Booloumba Creek must have been 40 metres wide but it was not flowing very fast. Given the width, I became a bit concerned with the possible depth. Had there been rain out here that I didn’t know about? If so, why wasn’t it flowing so fast? Then a Toyota Prado came from the left traversing the creek itself (not the road, the <em>creek</em>). It was only about 30cm deep. A little boy hung out the back window, clearly more excited by my presence than his own in the middle of a creek.</p>
+<p>I double-checked that I didn’t leave any vulnerable (non-waterproof) equipment on the bike and I punched first then second. I love putting on a show for children and I could see my bow wave in my peripheral and water well above my head :) The creek became a bit deeper on the other side, but I had a lot of momentum. This only increased the water displacement as I held the throttle on. When I got to the other side, I threw the front wheel skyward, hoping that that little boy will spend his youth aspiring to ride the adventure, like I used to do.</p>
+<a href="http://www.openstreetmap.org/?mlat=-26.634651&mlon=152.650420%20&zoom=17#map=17/-26.634651/152.650420">
+<div id="map.booloumbacreek" style="width: 100%; height: 300px;"></div>
+<p></a></p>
+<script type="text/javascript">
+map = new OpenLayers.Map("map.booloumbacreek");
+map.addLayer(new OpenLayers.Layer.OSM());
+
+var lonLat = new OpenLayers.LonLat(152.650420, -26.634651).transform(
+  new OpenLayers.Projection("EPSG:4326")
+, map.getProjectionObject()
+);
+
+var zoom=15;
+
+var markers = new OpenLayers.Layer.Markers( "Markers" );
+map.addLayer(markers);
+
+markers.addMarker(new OpenLayers.Marker(lonLat));
+
+map.setCenter (lonLat, zoom);
+</script>
+
+<hr />
+<h4 id="track-log"><a href="https://gist.github.com/tonymorris/8105985/raw/c092b91bbfa92916385da8e1001f700df65e6ea3/20131223-Ride.gpx">Track log</a></h4>
+<iframe width="800" height="600" src="//latlon.org/show_gpx?gpx_url=https%3A%2F%2Fgist.github.com%2Ftonymorris%2F8105985%2Fraw%2Fc092b91bbfa92916385da8e1001f700df65e6ea3%2F20131223-Ride.gpx" frameborder="0" allowfullscreen></iframe>
+
+<hr />
+<h5 id="elevation">Elevation</h5>
+<p><a href="http://i.imgur.com/kAVm17V.png"><img height="546" width="688" src="http://i.imgur.com/kAVm17V.png" alt="Elevation"></a></p>
+<p><strong>Minimum elevation:</strong> 6 m.s.l.</p>
+<p><strong>Maximum elevation:</strong> 823 m.s.l.</p>
+<p><strong>Average elevation:</strong> 366.8 m.s.l.</p>
+<p><strong>Maximum difference:</strong> 817 m</p>
+<p><strong>Total climbing:</strong> 6019 m</p>
+<p><strong>Total descent:</strong> 6011 m</p>
+<p><strong>Start elevation:</strong> 17.4 m.s.l.</p>
+<p><strong>End elevation:</strong> 25 m.s.l.</p>
+<p><strong>Final balance:</strong> 7.6 m</p>
+<hr />
+<h5 id="speed">Speed</h5>
+<p><a href="http://i.imgur.com/KGhcvsq.png"><img height="550" width="684" src="http://i.imgur.com/KGhcvsq.png" alt="Speed"></a></p>
+<p><strong>Minimum speed:</strong> 7.8 km/h</p>
+<p><strong>Maximum speed:</strong> 182.5 km/h</p>
+<p><strong>Average climbing speed:</strong> 57.7 km/h</p>
+<p><strong>Average descent speed:</strong> 57.8 km/h</p>
+<p><strong>Average flat speed:</strong> 55.4 km/h</p>
+<p><strong>Average speed:</strong> 57 km/h</p>
+<hr />
+<h5 id="time">Time</h5>
+<p><strong>Date of track:</strong> 23.12.2013</p>
+<p><strong>Start time:</strong> 01:40:37</p>
+<p><strong>End time:</strong> 07:28:38</p>
+<p><strong>Total track time:</strong> 5h 48m 01s</p>
+<p><strong>Climbing time:</strong> 2h 08m 41s</p>
+<p><strong>Descent time:</strong> 2h 18m 06s</p>
+<p><strong>Flat time:</strong> 1h 21m 14s</p>
+<hr />
+<h5 id="distance">Distance</h5>
+<p><a href="http://i.imgur.com/tzgOj7A.png"><img height="263" width="683" src="http://i.imgur.com/tzgOj7A.png" alt="Distance"></a></p>
+<p><strong>Total flat distance:</strong> 215.6 km</p>
+<p><strong>Total real distance:</strong> 216.5 km</p>
+<p><strong>Climbing distance:</strong> 69.9 km</p>
+<p><strong>Descent distance:</strong> 78.6 km</p>
+<p><strong>Flat distance:</strong> 68 km</p>]]></summary>
+</entry>
+
+</feed>

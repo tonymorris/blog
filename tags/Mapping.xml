@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <title>λ Tony's blog λ — Posts tagged Mapping</title>
+    <link href="http://blog.tmorris.net/tags/Mapping.xml" rel="self" />
+    <link href="http://blog.tmorris.net" />
+    <id>http://blog.tmorris.net/tags/Mapping.xml</id>
+    <author>
+        <name>Tony Morris</name>
+        <email>blog@tmorris.net</email>
+    </author>
+    <updated>2011-01-14T23:46:08Z</updated>
+    <entry>
+    <title>Today's ride following natural disaster</title>
+    <link href="http://blog.tmorris.net/posts/todays-ride-following-natural-disaster/index.html" />
+    <id>http://blog.tmorris.net/posts/todays-ride-following-natural-disaster/index.html</id>
+    <published>2011-01-14T23:46:08Z</published>
+    <updated>2011-01-14T23:46:08Z</updated>
+    <summary type="html"><![CDATA[<p>I went looking for my grandmother today, who lives on the bank of the Brisbane River in Wivenhoe Pocket. I didn’t find her, but I’ve been assured she is safe.</p>
+<p>* <a href="http://www.vimeo.com/18780944">Video</a></p>
+<p>Fernvale bridge 32 hours after peaking during major flood. The edge of the water is 830 metres from the bridge which is typically used to traverse the river. The width of the river is estimated to be over 1.5km.</p>
+<p>The dried mud on the bitumen road indicates the peak height that was reached.</p>
+<p>Note the street sign indicating a side street ahead. Coominya State School lies completely submerged in the water ahead.</p>
+<p><a href="http://www.openstreetmap.org/?mlat=-27.43818&amp;mlon=152.63681&amp;zoom=14&amp;layers=M">Map location</a> The marker denotes the edge of the water as seen in the video to within a few metres.</p>
+<p>* <a href="http://www.vimeo.com/18782012">Video</a></p>
+<p>Alice Street and Queen Street, Goodna, Brisbane 32 hours after Brisbane River peaks in major flood disaster.</p>
+<p>The peak height of the river can be seen at 0:01 when the road changes to a dirty colour.</p>
+<p><a href="http://www.openstreetmap.org/?lat=-27.6139&amp;lon=152.90214&amp;zoom=17&amp;layers=">Map location</a></p>
+<p>* <a href="http://www.vimeo.com/18782516">Video</a></p>
+<p>Schmidt Road, Fernvale 32 hours after Brisbane River peaks in major flood disaster.</p>
+<p>The peak height of the river can be seen in the debris that hangs in the fences.</p>
+<p><a href="http://www.openstreetmap.org/?mlat=-27.44542&amp;mlon=152.65106&amp;zoom=15&amp;layers=M">Map location</a></p>]]></summary>
+</entry>
+<entry>
+    <title>Parsing map data using a lazy language</title>
+    <link href="http://blog.tmorris.net/posts/parsing-map-data-using-a-lazy-language/index.html" />
+    <id>http://blog.tmorris.net/posts/parsing-map-data-using-a-lazy-language/index.html</id>
+    <published>2010-01-10T10:25:25Z</published>
+    <updated>2010-01-10T10:25:25Z</updated>
+    <summary type="html"><![CDATA[<p>Haskell is a pure lazy programming language. The laziness of Haskell allows certain performance improvements without sacrificing compositional program properties. I have recently written parsers for XML map data formats that allow a user to “read a data file into a collection of immutable objects.” If I told you I used the parser library to “read in” a 140GB map data file and you’re not familiar with a lazy language, you might have asked how I did this within the constraints of memory requirements. Easy of course; I used a lazy language. The implications of a lazy (and therefore, pure) language are widely misunderstood, so I say “easy” wishing it really was easy for all people, but I know it isn’t (keep practicing!).</p>
+<p><a href="http://www.haskell.org/haskellwiki/HXT">HXT</a> is a parsing library for XML that is based on <a href="http://www.cs.chalmers.se/~rjmh/afp-arrows.pdf">Hughes’ arrows</a> and allows a user to piece together their own specific XML parser. I used it to parse the <a href="http://www.topografix.com/GPX/1/1/">GPS Exchange (GPX)</a> and <a href="http://wiki.openstreetmap.org/wiki/API_v0.6/DTD">OpenStreetMap (OSM)</a> data formats.</p>
+<p><a href="http://code.google.com/p/geo-gpx/">Here</a> are some example uses of parsing GPX files and <a href="http://code.google.com/p/geo-osm/">here</a> are examples parsing OSM files. My favourite is a very simple example (there are more complex ones) that removes waypoints from a GPX file. <a href="http://lists.openstreetmap.org/pipermail/newbies/2009-May/003131.html">This question (how to remove waypoints from gpx?)</a> was asked on the OSM mailing list quite a while ago; questions like these partially inspired me to write these libraries.</p>
+<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">import</span> Data.Geo.GPX
+
+<span class="ot">removeWpts ::</span> FilePath <span class="ot">-&gt;</span> FilePath <span class="ot">-&gt;</span> <span class="dt">IO</span> ()
+removeWpts <span class="fu">=</span> flip interactGpx (usingWpts (const []))</code></pre>
+<p>The implementation is very simple. The <code>interactGpx</code> function takes two file names and a function that transforms a <code>Gpx</code> data structure to a new <code>Gpx</code>. The <code>interactGpx</code> function reads in the first given file name to a <code>Gpx</code>, executes the given function to produce a new <code>Gpx</code>, then writes the result to the other given file name.</p>
+<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="ot">interactGpx ::</span> FilePath <span class="ot">-&gt;</span> (<span class="dt">Gpx</span> <span class="ot">-&gt;</span> <span class="dt">Gpx</span>) <span class="ot">-&gt;</span> FilePath <span class="ot">-&gt;</span> <span class="dt">IO</span> ()</code></pre>
+<p>The <code>usingWpts</code> function takes a function that transforms a list of waypoints to a new list of waypoints and a <code>Gpx</code> value and returns a new <code>Gpx</code> value with the waypoints transformed.</p>
+<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="ot">usingWpts ::</span> ([<span class="dt">WptType</span>] <span class="ot">-&gt;</span> [<span class="dt">WptType</span>]) <span class="ot">-&gt;</span> <span class="dt">Gpx</span> <span class="ot">-&gt;</span> <span class="dt">Gpx</span></code></pre>
+<p>Of course, since we want to remove all waypoints, we ignore the given list of waypoints and return an empty list (<code>const []</code>). Pretty neat I reckon!</p>
+<p>You can get either of these libraries from <a href="http://hackage.haskell.org/">hackage</a>:</p>
+<ul>
+<li><p><a href="http://hackage.haskell.org/package/GPX">GPX</a></p></li>
+<li><p><a href="http://hackage.haskell.org/package/OSM">OSM</a></p></li>
+</ul>
+<p>Here is each of their home page:</p>
+<ul>
+<li><p><a href="http://code.google.com/p/geo-gpx/">GPX</a></p></li>
+<li><p><a href="http://code.google.com/p/geo-osm/">OSM</a></p></li>
+</ul>]]></summary>
+</entry>
+<entry>
+    <title>Mount Mee State Forest</title>
+    <link href="http://blog.tmorris.net/posts/mount-mee-state-forest/index.html" />
+    <id>http://blog.tmorris.net/posts/mount-mee-state-forest/index.html</id>
+    <published>2009-03-24T20:19:52Z</published>
+    <updated>2009-03-24T20:19:52Z</updated>
+    <summary type="html"><![CDATA[<p>I <a href="http://blog.tmorris.net/category/mapping/">once wrote about</a> the mapping of tracks, campgrounds and points of interest in <a href="http://www.epa.qld.gov.au/projects/park/index.cgi?parkid=63">Mount Mee State Forest</a>. Since I have been trapped in my house for many months due to injury, I have entered all my mapping data into <a href="http://openstreetmap.org/">OpenStreetMap</a> including Mount Mee State Forest.</p>
+<p><a href="http://openstreetmap.org/export?lat=-27.0981&amp;lon=152.6837&amp;zoom=13&amp;layers=B000FTF">Here is a link to the PotLatch map of Mount Mee</a>, however, I much prefer <a href="http://josm.openstreetmap.de/">JOSM</a> for entering map data – a surprisingly usable and relatively bug-free Java application (no really!).</p>
+<p>If you have track logs – particularly in GPX format – and you’re willing to donate them, I’d be happy to enter them in or use them to tighten up some of the tracks already entered.</p>]]></summary>
+</entry>
+<entry>
+    <title>Mount Mee State Forest Campgrounds</title>
+    <link href="http://blog.tmorris.net/posts/mount-mee-state-forest-campgrounds/index.html" />
+    <id>http://blog.tmorris.net/posts/mount-mee-state-forest-campgrounds/index.html</id>
+    <published>2008-11-29T20:52:51Z</published>
+    <updated>2008-11-29T20:52:51Z</updated>
+    <summary type="html"><![CDATA[<p>I am an avid GPS user and I visit <a href="http://www.epa.qld.gov.au/projects/park/index.cgi?parkid=63">Mount Mee State Forest</a> regularly on my dirt bike (Husqvarna TE450). I encounter queries on forums for the locations of <a href="http://www.epa.qld.gov.au/parks_and_forests/find_a_park_or_forest/mount_mee_state_forest_and_forest_reserve__camping_information/">the campgrounds in this forest</a>, so here they are:</p>
+<p>Neurum Creek Campground -27.061853° 152.696228° _-27°03’42.67&quot; 152°41’46.42“_</p>
+<p>Archer Campground -27.016317° 152.697767° _-27°00’58.74&quot; 152°41’51.96“_</p>
+<p>You can get to Neurum Creek Campground by taking <a href="http://maps.google.com/maps?f=q&amp;hl=en&amp;geocode=&amp;q=sellin+road+dayboro+queensland&amp;sll=35.338111,-81.860311&amp;sspn=0.013181,0.027874&amp;ie=UTF8&amp;ll=-27.182835,152.815747&amp;spn=0.007187,0.013937&amp;z=17">Sellin Road</a> then turning onto Neurum Creek Road and following it north. Archer Campground can be found by taking Sellin Road then Lovedays Road, however, it is easier to approach from the north side of the forest and head south. Both of these campgrounds require a permit through the Environmental Protection Agency (EPA) or you can <a href="https://www.epa.qld.gov.au/parks/iaparks/gds/IAGDS050.jsp?quickParkId=3">book online</a>.</p>
+<p>There is another campground called <a href="http://www.ncbr.com.au/">Neurum Creek Bush Retreat</a> but this is a <strong>different</strong> campground to those two mentioned. It is privately owned and I have personally stayed a weekend there and recommend it, especially if you have children or want a weekend of dirt bike riding (though the operators are understandably strict about noise control) since you can head south into Mount Mee State Forest or head over to <a href="http://www.epa.qld.gov.au/projects/park/index.cgi?parkid=7">Beerburrum State Forest</a>. This campground is even further north of the state forest than the other two (which are situated in the forest boundaries), but is a short ride on gravel to the forest entrance.</p>
+<p><a href="http://projects.tmorris.net/public/maps/gpx/Mount%20Mee%20State%20Forest.gpx">Here</a> is a reasonably comprehensive GPX file of Mount Mee State Forest including the two campgrounds and many dirt trails. I’d upload it to OpenStreetMap but I have yet to figure that out.</p>
+<p>I use a <a href="https://buy.garmin.com/shop/shop.do?pID=309#gpsmap60cx">Garmin 60Cx</a> unit.</p>
+<p>I hope this helps ;)</p>
+<p><em>Update: I have uploaded all tracks to OSM <a href="http://blog.tmorris.net/mount-mee-state-forest/">See here</a></em></p>]]></summary>
+</entry>
+
+</feed>

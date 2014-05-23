@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <title>λ Tony's blog λ — Posts tagged foldr</title>
+    <link href="http://blog.tmorris.net/tags/foldr.xml" rel="self" />
+    <link href="http://blog.tmorris.net" />
+    <id>http://blog.tmorris.net/tags/foldr.xml</id>
+    <author>
+        <name>Tony Morris</name>
+        <email>blog@tmorris.net</email>
+    </author>
+    <updated>2013-04-24T15:00:00Z</updated>
+    <entry>
+    <title>List Folds at BFPG</title>
+    <link href="http://blog.tmorris.net/posts/list-folds-bfpg/index.html" />
+    <id>http://blog.tmorris.net/posts/list-folds-bfpg/index.html</id>
+    <published>2013-04-24T15:00:00Z</published>
+    <updated>2013-04-24T15:00:00Z</updated>
+    <summary type="html"><![CDATA[<p>A talk on the list fold functions (fold left and fold right), delivered to <a href="http://www.bfpg.org/events/96368322/?eventId=96368322&amp;action=detail">Brisbane Functional Programming Group on Tuesday 23 April 2013</a>.</p>
+<ul>
+<li><p><a href="http://dl.dropbox.com/u/7810909/media/doc/list-folds.pdf">Slides</a> <em>(pdf)</em></p></li>
+<li><p><a href="https://vimeo.com/64673035">Video</a> <em>(vimeo)</em></p></li>
+</ul>
+<div class="embed-vimeo">
+  <iframe src="http://player.vimeo.com/video/64673035" width="688" height="387" frameborder="0" webkitAllowFullScreen="true" mozallowfullscreen="true" allowFullScreen="true">
+  </iframe>
+</div>
+
+]]></summary>
+</entry>
+
+</feed>

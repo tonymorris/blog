@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>λ Tony's blog λ - Applicative Functor laws using Reductio (Scala)</title>
+  <link rel="stylesheet" type="text/css" href="../../css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/syntax.css" />
+  <link rel="alternate" type="application/atom+xml" href="http://blog.tmorris.net/atom.xml" title="Atom feed" />
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/javascript" src="https://raw.github.com/Mathapedia/LaTeX2HTML5/master/latex2html5.min.js"></script>
+</head>
+<body>
+<div id="title">
+  λ Tony's blog λ
+  <div id="subtitle">
+    The weblog of Tony Morris
+  </div>
+</div>
+<div id="header">
+  <div id="navigation">
+    <a href="../../index.html">Home</a>
+    <a href="../../posts/">All Posts</a>
+    <a href="../../contact/">Contact</a>
+    <a href="http://cv.tmorris.net/">CV</a>
+    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+  </div>
+</div>
+<h1>Applicative Functor laws using Reductio (Scala)</h1>
+<div class="info">Posted on July  3, 2008, in <a href="../../tags/Programming/index.html">Programming</a></div>
+
+<p>Here is the <code>Applicative</code> functor type-class (<em>see <a href="http://www.soi.city.ac.uk/~ross/papers/Applicative.html">Applicative Programming with Effects</a>, Conor McBride, Ross Paterson</em>):</p>
+<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">class</span> <span class="dt">Applicative</span> f <span class="kw">where</span>
+<span class="ot">  pure ::</span> a <span class="ot">-&gt;</span> f a
+<span class="ot">  (&lt;*&gt;) ::</span> f (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> f a <span class="ot">-&gt;</span> f b</code></pre>
+<p>Here are the laws for the Applicative functor type-class:</p>
+<ul>
+<li><p>identity<br /><code>pure id &lt;*&gt; u == u</code></p></li>
+<li><p>composition<br /><code>pure (.) &lt;*&gt; u &lt;*&gt; v &lt;*&gt; w == u &lt;*&gt; (v &lt;*&gt; w)</code></p></li>
+<li><p>homomorphism<br /><code>pure f &lt;*&gt; pure x == pure (f x)</code></p></li>
+<li><p>interchange<br /><code>u &lt;*&gt; pure x == pure (\f -&gt; f x) &lt;*&gt; u</code></p></li>
+</ul>
+<p>Here are those laws stated using <a href="http://reductiotest.org/">Reductio</a>. I have changed <code>pure</code> to <code>unit</code> and the language is Scala:</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">object</span> ApplicativeLaws {
+  <span class="kw">def</span> identity[A[_], X](<span class="kw">implicit</span> a: Applicative[A],
+                                 aax: Arbitrary[A[X]],
+                                 e: Equal[A[X]]) =
+    <span class="fu">prop</span>((apx: A[X]) =&gt; apx === <span class="fu">a</span>(a.<span class="fu">unit</span>((x: X) =&gt; x), apx))
+
+  <span class="kw">def</span> composition[A[_], X, Y, Z](<span class="kw">implicit</span> a: Applicative[A],
+                                aayz: Arbitrary[A[Y =&gt; Z]],
+                                aaxy: Arbitrary[A[X =&gt; Y]],
+                                aax: Arbitrary[A[X]],
+                                e: Equal[A[Z]]) =
+    <span class="fu">prop</span>((apyz: A[Y =&gt; Z], apxy: A[X =&gt; Y], apx: A[X]) =&gt;
+            <span class="fu">a</span>(apyz, <span class="fu">a</span>(apxy, apx)) ===
+            <span class="fu">a</span>(<span class="fu">a</span>(<span class="fu">a</span>(a.<span class="fu">unit</span>((f: Y =&gt; Z) =&gt; (g: X =&gt; Y) =&gt; f compose g), apyz), apxy), apx))
+
+  <span class="kw">def</span> homomorphism[A[_], X, Y](<span class="kw">implicit</span> a: Applicative[A],
+                                        ax: Arbitrary[X],
+                                        axy: Arbitrary[X =&gt; Y],
+                                        e: Equal[A[Y]]) =
+    <span class="fu">prop</span>((f: X =&gt; Y, x: X) =&gt; <span class="fu">a</span>(a.<span class="fu">unit</span>(f), a.<span class="fu">unit</span>(x)) === a.<span class="fu">unit</span>(<span class="fu">f</span>(x)))
+
+  <span class="kw">def</span> interchange[A[_], X, Y](<span class="kw">implicit</span> a: Applicative[A],
+                                       ax: Arbitrary[X],
+                                       apxy: Arbitrary[A[X =&gt; Y]],
+                                       e: Equal[A[Y]]) =
+    <span class="fu">prop</span>((f: A[X =&gt; Y], x: X) =&gt;
+      <span class="fu">a</span>(f, a.<span class="fu">unit</span>(x)) === <span class="fu">a</span>(a.<span class="fu">unit</span>((f: X =&gt; Y) =&gt; <span class="fu">f</span>(x)), f))
+}</code></pre>
+<p>Pretty neat eh? :) Let’s test the <code>Applicative</code> instance for <code>List</code>:</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala">List(identity[List, Int],
+     composition[List, Int, Long, String],
+     homomorphism[List, Int, String],
+     interchange[List, Int, String]).
+  <span class="fu">foreach</span>(p =&gt; summary println p)</code></pre>
+<p>This runs 100 unit tests per property, so 400 unit tests altogether. Here is the output:</p>
+<pre><code>OK, passed 100 tests.
+OK, passed 100 tests.
+OK, passed 100 tests.
+OK, passed 100 tests.</code></pre>
+<p>Woot woot!</p>
+
+
+<hr />
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'tonys--blog';
+  var discus_identifier = '/posts/applicative-functor-laws-using-reductio-scala/index.html';
+  var disqus_url = 'http://blog.tmorris.net/posts/applicative-functor-laws-using-reductio-scala/index.html';
+  var discus_title = 'Applicative Functor laws using Reductio (Scala)';
+  (function () {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript><p>The comments use <a href="http://disqus.com/?ref_noscript">Disqus</a>,
+  which requires Javascript.</p></noscript>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-3405112-1']);
+  _gaq.push(['_trackPageview']);
+  (function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+</html>

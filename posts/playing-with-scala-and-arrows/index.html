@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>λ Tony's blog λ - Playing with Scala and Arrows</title>
+  <link rel="stylesheet" type="text/css" href="../../css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/syntax.css" />
+  <link rel="alternate" type="application/atom+xml" href="http://blog.tmorris.net/atom.xml" title="Atom feed" />
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/javascript" src="https://raw.github.com/Mathapedia/LaTeX2HTML5/master/latex2html5.min.js"></script>
+</head>
+<body>
+<div id="title">
+  λ Tony's blog λ
+  <div id="subtitle">
+    The weblog of Tony Morris
+  </div>
+</div>
+<div id="header">
+  <div id="navigation">
+    <a href="../../index.html">Home</a>
+    <a href="../../posts/">All Posts</a>
+    <a href="../../contact/">Contact</a>
+    <a href="http://cv.tmorris.net/">CV</a>
+    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+  </div>
+</div>
+<h1>Playing with Scala and Arrows</h1>
+<div class="info">Posted on January 25, 2009, in <a href="../../tags/Programming/index.html">Programming</a></div>
+
+<p>I decided to play around with <a href="http://www.cs.chalmers.se/~rjmh/pubs.htm">arrows</a> and Scala to see how far I could get. I remember vividly the effort required to get a Monad abstraction for <a href="http://code.google.com/p/scalaz/">Scalaz</a> to work and be useful all at once with so many competing tensions (e.g. type inferencer, composability, repetition).</p>
+<p>I didn’t go so far as to test the usefulness, but I was able to express the Kleisli arrow without too much effort. I wonder if it is a viable addition for Scalaz.</p>
+<p>Here it is.</p>
+<p>The typical Functor/Monad abstraction. These are required for the Kleisli arrow.</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">trait</span> Functor[F[+_]] {
+  <span class="kw">def</span> fmap[A, B](fa: F[A], f: A =&gt; B): F[B]
+}
+
+<span class="kw">trait</span> Monad[M[+_]] <span class="kw">extends</span> Functor[M] {
+  <span class="kw">def</span> pure[A](a: A): M[A]
+  <span class="kw">def</span> bind[A, B](ma: M[A], f: A =&gt; M[B]): M[B]
+
+  <span class="kw">final</span> <span class="kw">def</span> fmap[A, B](fa: M[A], f: A =&gt; B) =
+    <span class="fu">bind</span>(fa, (a: A) =&gt; <span class="fu">pure</span>(<span class="fu">f</span>(a)))
+}</code></pre>
+<p>The Kleisli data type and a convenient constructor.</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">trait</span> Kleisli[M[+_], -A, +B] {
+  <span class="kw">def</span> <span class="fu">apply</span>(a: A): M[B]
+}
+
+<span class="kw">object</span> Kleisli {
+  <span class="kw">def</span> kleisli[M[+_], A, B](f: A =&gt; M[B]) = <span class="kw">new</span> Kleisli[M, A, B] {
+    <span class="kw">def</span> <span class="fu">apply</span>(a: A) = <span class="fu">f</span>(a)
+  }
+}</code></pre>
+<p>The arrow abstraction.</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">trait</span> Arrow[A[-_, +_]] {
+  <span class="kw">def</span> arrow[B, C](f: B =&gt; C): A[B, C]
+
+  <span class="kw">def</span> compose[B, C, D](a1: A[B, C], a2: A[C, D]): A[B, D]
+
+  <span class="kw">def</span> first[B, C, D](a: A[B, C]): A[(B, D), (C, D)]
+
+  <span class="kw">def</span> second[B, C, D](a: A[B, C]): A[(D, B), (D, C)]
+}</code></pre>
+<p>and the clincher…</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">object</span> Arrow {
+  <span class="kw">val</span> Function1Arrow = <span class="kw">new</span> Arrow[Function1] {
+    <span class="kw">def</span> arrow[B, C](f: B =&gt; C) = f
+
+    <span class="kw">def</span> compose[B, C, D](a1: B =&gt; C, a2: C =&gt; D) =
+      a2 compose a1
+
+    <span class="kw">def</span> first[B, C, D](a: B =&gt; C) =
+      (bd: (B, D)) =&gt; (<span class="fu">a</span>(bd.<span class="fu">_1</span>), bd.<span class="fu">_2</span>)
+
+    <span class="kw">def</span> second[B, C, D](a: B =&gt; C) =
+      (db: (D, B)) =&gt; (db.<span class="fu">_1</span>, <span class="fu">a</span>(db.<span class="fu">_2</span>))
+  }
+
+  <span class="kw">def</span> KleisliArrow[M[+_]](<span class="kw">implicit</span> m: Monad[M]) =
+        <span class="kw">new</span> Arrow[PartialType[Kleisli, M]#Apply] {
+    <span class="kw">import</span> Kleisli.<span class="fu">kleisli</span>
+
+    <span class="kw">def</span> arrow[B, C](f: B =&gt; C) =
+      kleisli[M, B, C](b =&gt; m.<span class="fu">pure</span>(<span class="fu">f</span>(b)))
+
+    <span class="kw">def</span> compose[B, C, D](a1: Kleisli[M, B, C], a2: Kleisli[M, C, D]) =
+      kleisli[M, B, D](b =&gt; m.<span class="fu">bind</span>(<span class="fu">a1</span>(b), (c: C) =&gt; <span class="fu">a2</span>(c)))
+
+    <span class="kw">def</span> first[B, C, D](a: Kleisli[M, B, C]) =
+      kleisli[M, (B, D), (C, D)] { <span class="kw">case</span> (b, d) =&gt; m.<span class="fu">fmap</span>(<span class="fu">a</span>(b), (c: C) =&gt; (c, d)) }
+
+    <span class="kw">def</span> second[B, C, D](a: Kleisli[M, B, C]) =
+      kleisli[M, (D, B), (D, C)]{ <span class="kw">case</span> (d, b) =&gt; m.<span class="fu">fmap</span>(<span class="fu">a</span>(b), (c: C) =&gt; (d, c)) }
+  }
+}</code></pre>
+<p>TODO</p>
+<ol style="list-style-type: decimal">
+<li><p>Write functions across arrows.</p></li>
+<li><p>Can arrows be made useful within the constraints of Scala?</p></li>
+</ol>
+
+
+<hr />
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'tonys--blog';
+  var discus_identifier = '/posts/playing-with-scala-and-arrows/index.html';
+  var disqus_url = 'http://blog.tmorris.net/posts/playing-with-scala-and-arrows/index.html';
+  var discus_title = 'Playing with Scala and Arrows';
+  (function () {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript><p>The comments use <a href="http://disqus.com/?ref_noscript">Disqus</a>,
+  which requires Javascript.</p></noscript>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-3405112-1']);
+  _gaq.push(['_trackPageview']);
+  (function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+</html>

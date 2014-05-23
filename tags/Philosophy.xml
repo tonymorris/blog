@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <title>λ Tony's blog λ — Posts tagged Philosophy</title>
+    <link href="http://blog.tmorris.net/tags/Philosophy.xml" rel="self" />
+    <link href="http://blog.tmorris.net" />
+    <id>http://blog.tmorris.net/tags/Philosophy.xml</id>
+    <author>
+        <name>Tony Morris</name>
+        <email>blog@tmorris.net</email>
+    </author>
+    <updated>2008-12-13T19:30:00Z</updated>
+    <entry>
+    <title>= ≠ ⇒</title>
+    <link href="http://blog.tmorris.net/posts/e289a0-e28792/index.html" />
+    <id>http://blog.tmorris.net/posts/e289a0-e28792/index.html</id>
+    <published>2008-12-13T19:30:00Z</published>
+    <updated>2008-12-13T19:30:00Z</updated>
+    <summary type="html"><![CDATA[<p>If you say “Microsoft Windows = bad” you are almost certainly making a false claim within your own beliefs. Not because Windows is not bad necessarily and not because I might think it is good, but because Windows = bad is likely to give rise to an absurdity within your own beliefs should I interrogate you on the matter. There is a difference. Consider also “Hitler = bad”. If you think that “Windows = bad” and “Hitler = bad” then you also think “Windows = Hitler”. I will expect you don’t believe “Windows = Hitler”.</p>
+<p>What you likely intend instead is “Windows ⇒ bad”. You could read this as “Windows implies bad”. Now you are free to believe the following three statements without giving rise to an inconsistency in your belief:</p>
+<ol style="list-style-type: decimal">
+<li><p>Windows ⇒ bad</p></li>
+<li><p>Hitler ⇒ bad</p></li>
+<li><p>Windows ≠ Hitler</p></li>
+</ol>
+<p>Here is the truth table for implication:</p>
+<blockquote>
+<p>P Q P⇒Q 0 0 1 0 1 1 1 0 0 1 1 1</p>
+</blockquote>
+<p>Notice how ⇒ does not commute? Specifically, if you swap the propositions around you might get a different result. Bad ⇒ Windows is not the same as Windows ⇒ Bad – of course. This cannot be said for =. Bad = Windows is the same as Windows = bad.</p>
+<p>You might wonder why I care so much. After all, if you said “Windows = bad” I’d know what you meant. But did you know what you meant and is this understanding universal each time you relax your discourse like this?</p>
+<p>I have often observed a confusion between equivalence (also often called bi-implication) and implication in general discussion. Indeed, I hypothesise that this tendency to subvert a proposition in this manner is responsible for many failings in humanity’s general faculty of reason. I think we as a species would be better for it if we repair this failure of intellectual discipline (for what gain anyway?).</p>
+<p>Therefore, I think that not only is this trivial correction important, but very much so. Thanks for listening.</p>]]></summary>
+</entry>
+<entry>
+    <title>Agile is falling, like religions do</title>
+    <link href="http://blog.tmorris.net/posts/agile-is-falling-like-religions-do/index.html" />
+    <id>http://blog.tmorris.net/posts/agile-is-falling-like-religions-do/index.html</id>
+    <published>2008-11-16T07:32:02Z</published>
+    <updated>2008-11-16T07:32:02Z</updated>
+    <summary type="html"><![CDATA[<p>Re: Comments on <a href="http://jamesshore.com/Blog/The-Decline-and-Fall-of-Agile.html">http://jamesshore.com/Blog/The-Decline-and-Fall-of-Agile.html</a></p>
+<p>For example</p>
+<blockquote>
+<p>Well, okay, but Agile is starting to sound a lot more like religious rhetoric than an engineering practice.</p>
+</blockquote>
+<p>and</p>
+<blockquote>
+<p><em>Insert compelling argument here.</em> It is a religion.</p>
+</blockquote>
+<p>Agile is not a religion, however, both Agile and religions are non-ideas. Also referred to as the third value of the propositional truth trichotomy, “not even false”, non-terminating computation, the bottom value, unfalsifiable, or if you prefer, outright nonsense. All religions and Agile (and Scrum and REST and SOA and… need I go on?) fall into this broader category. It might be healthy to call this category “religion”, but many observers - at least in my dealings - won’t understand why you have shifted to this consistent definition.</p>
+<p>Hitherto Agile and religions exhibit common traits; ill-definition (you know the <strong>real</strong> Agile or are you a real Muslim?), sub-cultures in conflict (religion implies war), extreme absurdity in contrast to a mild absurdity (an invisible sky daddy watching everything we do, whose son died for sins…), cult leaders able to alter the course of the flock and cognitive dissonance - holding two otherwise immediately apparent logically contradicting positions at once.</p>
+<p>I’m happy to hear this pseudo-science is falling - its absence is an improvement for the industry and the quality of software development. However, the concern is that it will be replaced by another non-concept for the scientific-illiterates to sustain their well-intentioned misguidance.</p>
+<p>History tells us that its downfall is not an improvement. After all, what was immediately before the current Abrahamic false ideas? The creation of the universe and therefore, the first religions? No, I don’t think so either - I don’t think anybody does :)</p>]]></summary>
+</entry>
+<entry>
+    <title>One of your best Pat</title>
+    <link href="http://blog.tmorris.net/posts/one-of-your-best-pat/index.html" />
+    <id>http://blog.tmorris.net/posts/one-of-your-best-pat/index.html</id>
+    <published>2008-11-01T07:41:12Z</published>
+    <updated>2008-11-01T07:41:12Z</updated>
+    <summary type="html"><![CDATA[<p>Well done. Keep it up.</p>]]></summary>
+</entry>
+<entry>
+    <title>Tony’s Wager</title>
+    <link href="http://blog.tmorris.net/posts/tonys-wager/index.html" />
+    <id>http://blog.tmorris.net/posts/tonys-wager/index.html</id>
+    <published>2008-07-29T08:41:22Z</published>
+    <updated>2008-07-29T08:41:22Z</updated>
+    <summary type="html"><![CDATA[<blockquote>
+<p>It is better not to believe in God, since if he does not exist, you lose nothing, but if he does exist, you are going to hell, where it is nice and warm. Winter sucks.</p>
+</blockquote>]]></summary>
+</entry>
+<entry>
+    <title>Another Call to Genocide</title>
+    <link href="http://blog.tmorris.net/posts/another-call-to-genocide/index.html" />
+    <id>http://blog.tmorris.net/posts/another-call-to-genocide/index.html</id>
+    <published>2008-04-12T06:55:30Z</published>
+    <updated>2008-04-12T06:55:30Z</updated>
+    <summary type="html"><![CDATA[<p><em>Rabbi Yisrael Rosen, director of the Tsomet Institute</em> <a href="http://www.uruknet.de/?p=m42961&amp;hd=&amp;size=1&amp;l=e">says</a>:</p>
+<blockquote>
+<p>All of the Palestinians must be killed; men, women, infants, and even their beasts.</p>
+</blockquote>
+<p>Oh really? I didn’t know that! Thanks for letting me in on it.</p>
+<blockquote>
+<p>Rosen asserted that there is evidence in the Torah to justify this stand.</p>
+</blockquote>
+<p>Uh oh, an hallucinabating Rabbi.</p>
+<blockquote>
+<p>Rosen, an authority able to issue religious opinions for Jews…</p>
+</blockquote>
+<p>You mean, people who do not possess the ability to think independently? I had a few of those commenting on my blog recently!</p>
+<blockquote>
+<p>… wrote that Palestinians are like the nation of Amalekites that attacked the Israelite tribes on their way to Jerusalem after they had fled from Egypt under the leadership of Moses.</p>
+</blockquote>
+<p>Did you learn that at a nativity scene when you were being indoctrinated as a child?</p>
+<blockquote>
+<p>He wrote that the Lord sent down in the Torah a ruling that allowed the Jews to kill the Amalekites,…</p>
+</blockquote>
+<p>Oh the <strong>Lord</strong> did that? That’s OK then.</p>
+<blockquote>
+<p>The true outrage is that most of those authorised to issue Jewish religious opinions support the view of Rabbi Rosen, as confirmed by Haaretz newspaper.</p>
+</blockquote>
+<p><a href="http://en.wikipedia.org/wiki/Argumentum_ad_populum">Well it has to be right then!</a> I bet the aforementioned commenters agree too, so it’s super spectacularly right! Oh wait, the truth value of the proposition was never open for analysis. Sorry Authority.</p>
+<blockquote>
+<p>The danger of these religious opinions lies in the fact that the religious authorities issuing them have wide respect among religious Jewish youth.</p>
+</blockquote>
+<p>You mean, your children subscribe to views of self-appointed authority without question? Hey, we have children that do that too! Does your indoctrination scheme masquerade as an education system like ours?</p>
+<blockquote>
+<p>Wasil Taha, Arab Knesset member from the Tajammu Party led by Azmi Bishara, says that these religious opinions lead to the committal of crimes… Taha holds that the sectors of the Palestinian population most likely to be harmed by these religious opinions are those living in the various cities populated by both Jews and Palestinians, such as Haifa, Jaffa, Lod, Ramleh and Jerusalem.</p>
+</blockquote>
+<p>I feel sick, but not as much as the hallucstibating Rabbi appears to be.</p>
+<p>Burning question: Do Atheists have cause to be angry, despite not bearing arms to express this anger (due to a more grounded sense of morality?)?</p>]]></summary>
+</entry>
+<entry>
+    <title>Pseudo-Science</title>
+    <link href="http://blog.tmorris.net/posts/pseudo-science/index.html" />
+    <id>http://blog.tmorris.net/posts/pseudo-science/index.html</id>
+    <published>2008-03-24T07:56:38Z</published>
+    <updated>2008-03-24T07:56:38Z</updated>
+    <summary type="html"><![CDATA[<p>When I encounter pseudo-science, it is usually from the computer programming community perverting the mathematical discourse of computing science or the religious fraternity attempting to keep their logical absurdities propped up. I started reading about some of the amusing wonders of Homeopathy a few years ago and I recently came across this gem – a pure demonstration of utter stupidity and ignorance that will leave you flabbergasted. I don’t think this person is consciously lying, do you? Enjoy :)</p>
+<p>P.S. It is Stephen <strong>Hawking</strong> (no ‘s’)</p>]]></summary>
+</entry>
+<entry>
+    <title>Religiosity is a neurological disorder.</title>
+    <link href="http://blog.tmorris.net/posts/religiosity-is-a-neurological-disorder/index.html" />
+    <id>http://blog.tmorris.net/posts/religiosity-is-a-neurological-disorder/index.html</id>
+    <published>2008-03-16T13:55:37Z</published>
+    <updated>2008-03-16T13:55:37Z</updated>
+    <summary type="html"><![CDATA[<div class="figure">
+<img src="http://i30.photobucket.com/albums/c342/zvoncic/SickChristian.jpg" alt="Religiosity is a neurological disorder" /><p class="caption">Religiosity is a neurological disorder</p>
+</div>]]></summary>
+</entry>
+<entry>
+    <title>'Christopher Hitchens: The Moral Necessity of Atheism'</title>
+    <link href="http://blog.tmorris.net/posts/christopher-hitchens-the-moral-necessity-of-atheism/index.html" />
+    <id>http://blog.tmorris.net/posts/christopher-hitchens-the-moral-necessity-of-atheism/index.html</id>
+    <published>2008-02-27T19:27:17Z</published>
+    <updated>2008-02-27T19:27:17Z</updated>
+    <summary type="html"><![CDATA[<p>Part 1 of 8</p>
+<p>Part 2 of 8</p>
+<p>Part 3 of 8</p>
+<p>Part 4 of 8</p>
+<p>Part 5 of 8</p>
+<p>Part 6 of 8</p>
+<p>Part 7 of 8</p>
+<p>Part 8 of 8</p>]]></summary>
+</entry>
+<entry>
+    <title>So I don’t lose it</title>
+    <link href="http://blog.tmorris.net/posts/so-i-dont-lose-it/index.html" />
+    <id>http://blog.tmorris.net/posts/so-i-dont-lose-it/index.html</id>
+    <published>2008-02-18T12:14:38Z</published>
+    <updated>2008-02-18T12:14:38Z</updated>
+    <summary type="html"><![CDATA[<p>Took me a while to recall the right keywords to come up with this excellent interview between a representative of the Canadian Government and Ezra Levant.</p>]]></summary>
+</entry>
+<entry>
+    <title>The argument from oranges</title>
+    <link href="http://blog.tmorris.net/posts/the-argument-from-oranges/index.html" />
+    <id>http://blog.tmorris.net/posts/the-argument-from-oranges/index.html</id>
+    <published>2008-02-17T15:34:38Z</published>
+    <updated>2008-02-17T15:34:38Z</updated>
+    <summary type="html"><![CDATA[<p>There are few things more amusing than listening to a theist coming to terms with the Theory of Evolution. As is often the case, there is either complete ignorance (and if honest, an admission to this extent) or an attempt to unify the fact with the dogma.</p>
+<p>But this one is in a category of its own and had me laughing hours afterward:</p>]]></summary>
+</entry>
+
+</feed>

@@ -1,0 +1,219 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>λ Tony's blog λ - Beginner Java Exercise with Data Types</title>
+  <link rel="stylesheet" type="text/css" href="../../css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/syntax.css" />
+  <link rel="alternate" type="application/atom+xml" href="http://blog.tmorris.net/atom.xml" title="Atom feed" />
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/javascript" src="https://raw.github.com/Mathapedia/LaTeX2HTML5/master/latex2html5.min.js"></script>
+</head>
+<body>
+<div id="title">
+  λ Tony's blog λ
+  <div id="subtitle">
+    The weblog of Tony Morris
+  </div>
+</div>
+<div id="header">
+  <div id="navigation">
+    <a href="../../index.html">Home</a>
+    <a href="../../posts/">All Posts</a>
+    <a href="../../contact/">Contact</a>
+    <a href="http://cv.tmorris.net/">CV</a>
+    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+  </div>
+</div>
+<h1>Beginner Java Exercise with Data Types</h1>
+<div class="info">Posted on May 12, 2010, in <a href="../../tags/Programming/index.html">Programming</a></div>
+
+<p>Below is a data type that represents a list that has a maximum length of one. It is often useful in cases where <code>null</code> would otherwise be used.</p>
+<p>Consider for example, <a href="http://java.sun.com/products/servlet/2.2/javadoc/javax/servlet/http/HttpServletRequest.html#getHeader%28java.lang.String%29">the <code>getHeaders</code> method</a> on <code>HttpServletRequest</code> which returns a <code>String</code> but might return <code>null</code> if there is no such header. Instead, a new API might return <code>NoneOrOne&lt;String&gt;</code> and do away with the use of <code>null</code>.</p>
+<p>The idea of this exercise is to fill out the method bodies (remove the thrown <code>Error</code>) according to the comments without altering the method type. It is not permitted to use <code>null</code> or throw any exception. The tests at the bottom (see <code>main</code> method) should produce the specified results. At the moment, the code compiles, but will not execute successfully.</p>
+<p>There are nine methods that need filling out. The tests are not exhaustive (use some intuition). Have fun! Questions are welcome.</p>
+<pre class="sourceCode Java"><code class="sourceCode java"><span class="co">// A list that is either empty or has one element.</span>
+<span class="kw">public</span> <span class="kw">abstract</span> <span class="kw">class</span> NoneOrOne&lt;a&gt; {
+  <span class="co">// The key abstract method (catamorphism).</span>
+  <span class="kw">public</span> <span class="kw">abstract</span> &lt;x&gt; X <span class="fu">fold</span>(Thunk&lt;x&gt; none, Func&lt;A, X&gt; one);
+
+  <span class="co">// Produces an empty list.</span>
+  <span class="kw">public</span> <span class="dt">static</span> &lt;a&gt; NoneOrOne&lt;a&gt; <span class="fu">none</span>() {
+    <span class="kw">throw</span> <span class="kw">new</span> Error(<span class="st">&quot;todo&quot;</span>);
+  }
+
+  <span class="co">// Produces a list with the given element.</span>
+  <span class="kw">public</span> <span class="dt">static</span> &lt;a&gt; NoneOrOne&lt;a&gt; <span class="fu">one</span>(<span class="dt">final</span> A a) {
+    <span class="kw">throw</span> <span class="kw">new</span> Error(<span class="st">&quot;todo&quot;</span>);
+  }
+
+  <span class="co">// Returns true if this list is empty.</span>
+  <span class="kw">public</span> <span class="dt">boolean</span> <span class="fu">isEmpty</span>() {
+    <span class="kw">throw</span> <span class="kw">new</span> Error(<span class="st">&quot;todo&quot;</span>);
+  }
+
+  <span class="co">// Maps the given function on each element of this list.</span>
+  <span class="kw">public</span> &lt;b&gt; NoneOrOne&lt;b&gt; <span class="fu">map</span>(<span class="dt">final</span> Func&lt;A, B&gt; f) {
+    <span class="kw">throw</span> <span class="kw">new</span> Error(<span class="st">&quot;todo&quot;</span>);
+  }
+
+  <span class="co">// Filters the list on the given predicate.</span>
+  <span class="co">// The element is retained if the predicate satisfies.</span>
+  <span class="kw">public</span> NoneOrOne&lt;a&gt; <span class="fu">filter</span>(<span class="dt">final</span> Func&lt;A, Boolean&gt; p) {
+    <span class="kw">throw</span> <span class="kw">new</span> Error(<span class="st">&quot;todo&quot;</span>);
+  }
+
+  <span class="co">// Applies the possible function on this list.</span>
+  <span class="kw">public</span> &lt;b&gt; NoneOrOne&lt;b&gt; <span class="fu">app</span>(<span class="dt">final</span> NoneOrOne&lt;Func&lt;A, B&gt;&gt; f) {
+    <span class="kw">throw</span> <span class="kw">new</span> Error(<span class="st">&quot;todo&quot;</span>);
+  }
+
+  <span class="co">// Binds the given function on this list.</span>
+  <span class="kw">public</span> &lt;b&gt; NoneOrOne&lt;b&gt; <span class="fu">bind</span>(<span class="dt">final</span> Func&lt;A, NoneOrOne&lt;b&gt;&gt; f) {
+    <span class="kw">throw</span> <span class="kw">new</span> Error(<span class="st">&quot;todo&quot;</span>);
+  }
+
+  <span class="co">// Returns the value held in this list.</span>
+  <span class="co">// However, if it is empty, return the given default value.</span>
+  <span class="kw">public</span> A <span class="fu">get</span>(<span class="dt">final</span> Thunk&lt;a&gt; def) {
+    <span class="kw">throw</span> <span class="kw">new</span> Error(<span class="st">&quot;todo&quot;</span>);
+  }
+
+  <span class="co">// If this list is empty, return the given one.</span>
+  <span class="co">// Otherwise, return this list.</span>
+  <span class="kw">public</span> NoneOrOne&lt;a&gt; <span class="fu">orElse</span>(<span class="dt">final</span> NoneOrOne&lt;a&gt; els) {
+    <span class="kw">throw</span> <span class="kw">new</span> Error(<span class="st">&quot;todo&quot;</span>);
+  }
+
+  <span class="co">// For debugging</span>
+  <span class="kw">public</span> String <span class="fu">toString</span>() {
+    <span class="dt">final</span> StringBuilder s = <span class="kw">new</span> StringBuilder();
+    s.<span class="fu">append</span>('[');
+    <span class="fu">fold</span>(<span class="kw">new</span> Thunk&lt;object&gt;() {
+      <span class="kw">public</span> Object <span class="fu">value</span>() {
+        <span class="kw">return</span> <span class="kw">null</span>; <span class="co">// Java has no suitable unit type.</span>
+      }
+    }, <span class="kw">new</span> Func&lt;A, Object&gt;() {
+      <span class="kw">public</span> Object <span class="fu">apply</span>(<span class="dt">final</span> A a) {
+        s.<span class="fu">append</span>(a);
+        <span class="kw">return</span> <span class="kw">null</span>; <span class="co">// Java has no suitable unit type.</span>
+      }
+    });
+    <span class="kw">return</span> s.<span class="fu">append</span>(']').<span class="fu">toString</span>();
+  }
+
+  <span class="co">// TEST</span>
+  <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="dt">final</span> String[] args) {
+    <span class="dt">final</span> NoneOrOne&lt;integer&gt; s = NoneOrOne.<span class="fu">one</span>(Integer.<span class="fu">parseInt</span>(args[<span class="dv">0</span>]));
+
+    <span class="dt">final</span> NoneOrOne&lt;string&gt; t = s.<span class="fu">map</span>(<span class="kw">new</span> Func&lt;Integer, String&gt;() {
+      <span class="kw">public</span> String <span class="fu">apply</span>(<span class="dt">final</span> Integer i) {
+        <span class="kw">return</span> <span class="kw">new</span> StringBuilder(Integer.<span class="fu">valueOf</span>(i * <span class="dv">123</span>).<span class="fu">toString</span>()).<span class="fu">reverse</span>().<span class="fu">toString</span>();
+      }
+    });
+
+    <span class="dt">final</span> NoneOrOne&lt;integer&gt; u = s.<span class="fu">filter</span>(<span class="kw">new</span> Func&lt;Integer, Boolean&gt;() {
+      <span class="kw">public</span> Boolean <span class="fu">apply</span>(<span class="dt">final</span> Integer i) {
+        <span class="kw">return</span> i &lt; <span class="dv">100</span>;
+      }
+    });
+
+    <span class="dt">final</span> NoneOrOne&lt;string&gt; v = s.<span class="fu">app</span>(NoneOrOne.&lt;Func&lt;Integer, String&gt;&gt;<span class="fu">one</span>(
+      <span class="kw">new</span> Func&lt;Integer, String&gt;() {
+      <span class="kw">public</span> String <span class="fu">apply</span>(<span class="dt">final</span> Integer i) {
+        <span class="kw">return</span> String.<span class="fu">valueOf</span>(Math.<span class="fu">pow</span>(i, i));
+      }
+    }));
+
+    <span class="dt">final</span> NoneOrOne&lt;string&gt; w = s.<span class="fu">bind</span>(<span class="kw">new</span> Func&lt;Integer, NoneOrOne&lt;string&gt;&gt;() {
+      <span class="kw">public</span> NoneOrOne&lt;string&gt; <span class="fu">apply</span>(<span class="dt">final</span> Integer i) {
+        <span class="kw">return</span> i % <span class="dv">2</span> == <span class="dv">0</span> ?
+          <span class="fu">one</span>(<span class="st">&quot;it's even&quot;</span>) :
+          i % <span class="dv">3</span> == <span class="dv">0</span> ?
+            <span class="fu">one</span>(<span class="st">&quot;it's divisible by 3 but not 6&quot;</span>) :
+            NoneOrOne.&lt;string&gt;<span class="fu">none</span>();
+      }
+    });
+
+    <span class="dt">final</span> Integer x = s.<span class="fu">get</span>(<span class="kw">new</span> Thunk&lt;integer&gt;() {
+      <span class="kw">public</span> Integer <span class="fu">value</span>() {
+        <span class="kw">return</span> <span class="dv">42</span>;
+      }
+    });
+
+    <span class="dt">final</span> NoneOrOne&lt;integer&gt; y = NoneOrOne.&lt;integer&gt;<span class="fu">none</span>().<span class="fu">orElse</span>(s);
+
+    <span class="co">/*</span>
+<span class="co">    $ java NoneOrOne 122</span>
+<span class="co">    [122]</span>
+<span class="co">    [60051]</span>
+<span class="co">    []</span>
+<span class="co">    [3.4347832971354663E254]</span>
+<span class="co">    [it's even]</span>
+<span class="co">    122</span>
+<span class="co">    [122]</span>
+
+<span class="co">    $ java -classpath /tmp/ NoneOrOne 12</span>
+<span class="co">    [12]</span>
+<span class="co">    [6741]</span>
+<span class="co">    [12]</span>
+<span class="co">    [8.916100448256E12]</span>
+<span class="co">    [it's even]</span>
+<span class="co">    12</span>
+<span class="co">    [12]</span>
+<span class="co">    */</span>
+    System.<span class="fu">out</span>.<span class="fu">println</span>(s);
+    System.<span class="fu">out</span>.<span class="fu">println</span>(t);
+    System.<span class="fu">out</span>.<span class="fu">println</span>(u);
+    System.<span class="fu">out</span>.<span class="fu">println</span>(v);
+    System.<span class="fu">out</span>.<span class="fu">println</span>(w);
+    System.<span class="fu">out</span>.<span class="fu">println</span>(x);
+    System.<span class="fu">out</span>.<span class="fu">println</span>(y);
+  }
+}
+
+<span class="co">// Laziness</span>
+<span class="kw">interface</span> Thunk&lt;t&gt; {
+  T <span class="fu">value</span>();
+}
+
+<span class="co">// Takes an A and produces a B</span>
+<span class="kw">interface</span> Func&lt;A, B&gt; {
+  B <span class="fu">apply</span>(A a);
+}</code></pre>
+
+
+<hr />
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'tonys--blog';
+  var discus_identifier = '/posts/beginner-java-exercise-with-data-types/index.html';
+  var disqus_url = 'http://blog.tmorris.net/posts/beginner-java-exercise-with-data-types/index.html';
+  var discus_title = 'Beginner Java Exercise with Data Types';
+  (function () {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript><p>The comments use <a href="http://disqus.com/?ref_noscript">Disqus</a>,
+  which requires Javascript.</p></noscript>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-3405112-1']);
+  _gaq.push(['_trackPageview']);
+  (function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+</html>

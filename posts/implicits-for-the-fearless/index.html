@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>λ Tony's blog λ - Implicits for the Fearless</title>
+  <link rel="stylesheet" type="text/css" href="../../css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/syntax.css" />
+  <link rel="alternate" type="application/atom+xml" href="http://blog.tmorris.net/atom.xml" title="Atom feed" />
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/javascript" src="https://raw.github.com/Mathapedia/LaTeX2HTML5/master/latex2html5.min.js"></script>
+</head>
+<body>
+<div id="title">
+  λ Tony's blog λ
+  <div id="subtitle">
+    The weblog of Tony Morris
+  </div>
+</div>
+<div id="header">
+  <div id="navigation">
+    <a href="../../index.html">Home</a>
+    <a href="../../posts/">All Posts</a>
+    <a href="../../contact/">Contact</a>
+    <a href="http://cv.tmorris.net/">CV</a>
+    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+  </div>
+</div>
+<h1>Implicits for the Fearless</h1>
+<div class="info">Posted on July  5, 2008, in <a href="../../tags/Programming/index.html">Programming</a></div>
+
+<p>Some programmers are married to the imperative, side-effecting mindset. This makes them fearful of Scala’s <code>implicit</code> keyword (among many other high-level programming constructs and abstractions). You can read all sorts of amateurish criticism of this language construct on various websites, but I plan to show why they are a necessity to the language being useful (in the intellectually true and meaningful sense – not in a “Java” “pragmatist” sense (I know I’m treading on thin ice here, but the point is worthwhile)).</p>
+<p>I also do not plan to address the amateurish claims specifically, since if you are like me, you simply acknowledge their existence, feel a bit sad, then get over it and move on. I mention these cases so that they can be contrasted to my plan to address a discussion I had with someone (who shall remain nameless for now and leave it up to them if they wish to reveal themselves) who put forward an <em>intellectually constructed</em> argument about why they can/should be eliminated. These kind of discussions are very purposeful. While my opponent’s argument was well thought-out (in contrast to the aforementioned), I still think it is wrong. Here is why.</p>
+<p>You can do away with <code>implicit</code> definitions in favour of named functions with partial application. This is true, but is it <em>useful</em>? Furthermore, Scala is not exactly friendly to partially applying function arguments, requiring varying levels of awkwardness in certain contexts. I will assume, since I am a nice guy, that this is not the case. I will now alter the argument to what I consider to be equivalent, “Haskell can do away with type-classes”. I altered the argument simply for the sake of brevity in discussion – I will tie it back to Scala code examples at the end.</p>
+<p>Let us assume we get rid of just one Haskell type-class, <code>Monad</code>. A monad is a <em>useful</em> abstraction, so we would certainly have to represent it (if you don’t believe this, then it is almost certain that <a href="http://sigfpe.blogspot.com/2006/08/you-could-have-invented-monads-and.html">you have reinvented monads inadvertently</a>). We might do this as follows:</p>
+<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="ot">{-# LANGUAGE RankNTypes #-}</span>
+
+<span class="kw">data</span> <span class="dt">Monad'</span> m <span class="fu">=</span> <span class="dt">Monad'</span> {
+<span class="ot">  unit ::</span> (forall a<span class="fu">.</span> a <span class="ot">-&gt;</span> m a),
+<span class="ot">  bind ::</span> (forall a b<span class="fu">.</span> m a <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> m b) <span class="ot">-&gt;</span> m b)
+}</code></pre>
+<p>Then, when it comes to instances, we would write:</p>
+<pre class="sourceCode Haskell"><code class="sourceCode haskell">listMonad <span class="fu">=</span> <span class="dt">Monad'</span> (return<span class="ot"> ::</span> a <span class="ot">-&gt;</span> [a]) (<span class="fu">&gt;&gt;=</span>)
+maybeMonad <span class="fu">=</span> <span class="dt">Monad'</span> (return<span class="ot"> ::</span> a <span class="ot">-&gt;</span> <span class="dt">Maybe</span> a) (<span class="fu">&gt;&gt;=</span>)</code></pre>
+<p>Now when we wish to write the all-important functions over monads, we have to do the following:</p>
+<pre class="sourceCode Haskell"><code class="sourceCode haskell">sequence' monad [] <span class="fu">=</span> unit monad []
+sequence' monad (x<span class="fu">:</span>xs) <span class="fu">=</span> <span class="kw">let</span> (<span class="fu">&gt;&gt;&gt;=</span>) <span class="fu">=</span> bind monad <span class="kw">in</span> x <span class="fu">&gt;&gt;&gt;=</span> \y <span class="ot">-&gt;</span> sequence' monad xs <span class="fu">&gt;&gt;&gt;=</span> \ys <span class="ot">-&gt;</span> unit monad (y<span class="fu">:</span>ys)
+
+mapM' monad f as <span class="fu">=</span> <span class="fu">...</span> etc<span class="fu">.</span> etc<span class="fu">.</span></code></pre>
+<p>The proposal by my opponent in the discussion is that we now write a version of each monad function for each instance by partially applying the monad instance. This is very cumbersome and importantly, <em>less useful</em>.</p>
+<pre class="sourceCode Haskell"><code class="sourceCode haskell">listSequence <span class="fu">=</span> sequence' listMonad
+maybeSequence <span class="fu">=</span> sequence' maybeMonad
+
+listMapM <span class="fu">=</span> mapM' listMonad</code></pre>
+<pre><code>... and so on.</code></pre>
+<p>This creates what would otherwise be code in the order of O(1) to turn into O(n) code! This is not good. Do we get any benefit? No, there is no benefit, other than, in the case of Scala, appeasement of ‘the irrational squad’ i.e. those fervently offended by the suggestion to divorce imperative programming. Let us just address this irrationality, even if just briefly, so we can move on.</p>
+<p>Unlike Scala, Haskell’s side-effects are controlled, so the mind-shift is <em>forced</em> by the compiler (a successful form of counselling?). A Scala implicit function <em>can</em> perform side-effects. This would be very bad; if they were controlled, would these irrational objections be raised? The answer is no and it is quite easy to expose.</p>
+<p>A claim to the contrary is often a case of <a href="http://en.wikipedia.org/wiki/Doublethink">doublethink</a>. Java is a programming language that deliberately encourages side-effects and by implication (also, by its poor type system), makes abstraction and composition extremely difficult to the point of impossibility very early on (see <a href="http://functionaljava.org/">Functional Java</a> for evidence). Yet even in this language – perhaps the most contrived available – we find implicit conversions that attract no objections whatsoever!</p>
+<p>Imagine this Java signature <code>int toInt(char c)</code>. Such a user-defined function could indeed perform side-effects and any language feature permitting implicit use of this function is likely to attract criticism. Yet, this is one example of such a function built right-in to the Java language, which is <em>guaranteed by the language specification</em> to perform no side-effects. It is the fact that it is internalised by the user to perform no side-effects that makes it acceptable.</p>
+<p>This is valid Java:</p>
+<pre class="sourceCode Java"><code class="sourceCode java"><span class="dt">int</span> i = c; <span class="co">// where c is of type char</span></code></pre>
+<p>I don’t wish to labour this point, other than to make it clear how easy it is to crush these irrationalities (it continues on in a usual uninteresting fashion).</p>
+<p>Requiring code to blow out to O(n) from O(1) is itself not bad, but to further observe that there is no gain from it is conclusive. Interestingly, this is similar to a complaint by David MacIver (and myself – I am just less vocal about it) that Scala lacks default function argument lists in preference for overloading. This also creates unnecessary code-bloat (O(1) -&gt; O(n)) for no benefit. (I hope I am not misrepresenting David here – I have lost the reference to his complaint).</p>
+<p>Here is the equivalent Scala code to the above, however, Scala’s type system lacks the ability to pass the <code>unit</code> and <code>bind</code> functions – instead requiring the use of traits.</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">trait</span> Unit[U[_]] {
+  <span class="kw">def</span> <span class="dt">unit</span>[A](a: A): U[A]
+}
+
+<span class="kw">trait</span> Bind[M[_]] {
+  <span class="kw">def</span> bind[A, B](ma: M[A], f: A =&gt; M[B]): M[B]
+}
+
+<span class="kw">case</span> <span class="kw">class</span> Monad[M[_]](u: Unit[M], b: Bind[M])
+
+<span class="kw">object</span> Monad {
+  <span class="kw">val</span> listMonad = Monad[List](<span class="kw">new</span> Unit[List] {
+    <span class="kw">def</span> <span class="dt">unit</span>[A](a: A) = List(a) }, <span class="kw">new</span> Bind[List] {
+    <span class="kw">def</span> bind[A, B](ma: List[A], f: A =&gt; List[B]) = ma flatMap f
+  })
+
+  <span class="kw">def</span> sequence[M[_], A](m: Monad[M], as: List[M[A]]): M[List[A]] = as <span class="kw">match</span> {
+    <span class="kw">case</span> Nil =&gt; m.<span class="fu">u</span>.<span class="fu">unit</span>(Nil)
+    <span class="kw">case</span> x :: xs =&gt; m.<span class="fu">b</span>.<span class="fu">bind</span>(x, (y: A) =&gt; m.<span class="fu">b</span>.<span class="fu">bind</span>(sequence[M, A](m, xs), (ys: List[A]) =&gt; m.<span class="fu">u</span>.<span class="fu">unit</span>(y::ys)))
+  }
+
+  <span class="kw">def</span> listSequence[A](as: List[List[A]]) = sequence[List, A](listMonad, as)
+  <span class="kw">def</span> optionSequence[A](as: List[List[A]]) = sequence[Option, A](optionMonad, as)
+  <span class="co">// etc. etc. O(n)!</span>
+}</code></pre>
+<p>As you can see, I was being <em>very</em> nice when I converted the argument to Haskell. The argument against such a proposal becomes even stronger in the context of Scala.</p>
+<p>To my opponent, thanks for the discussion; it was fun and the intellectual maturity is admirable :)</p>
+
+
+<hr />
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'tonys--blog';
+  var discus_identifier = '/posts/implicits-for-the-fearless/index.html';
+  var disqus_url = 'http://blog.tmorris.net/posts/implicits-for-the-fearless/index.html';
+  var discus_title = 'Implicits for the Fearless';
+  (function () {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript><p>The comments use <a href="http://disqus.com/?ref_noscript">Disqus</a>,
+  which requires Javascript.</p></noscript>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-3405112-1']);
+  _gaq.push(['_trackPageview']);
+  (function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+</html>

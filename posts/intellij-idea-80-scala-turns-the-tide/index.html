@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>λ Tony's blog λ - IntelliJ IDEA 8.0 + Scala turns the tide</title>
+  <link rel="stylesheet" type="text/css" href="../../css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/syntax.css" />
+  <link rel="alternate" type="application/atom+xml" href="http://blog.tmorris.net/atom.xml" title="Atom feed" />
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/javascript" src="https://raw.github.com/Mathapedia/LaTeX2HTML5/master/latex2html5.min.js"></script>
+</head>
+<body>
+<div id="title">
+  λ Tony's blog λ
+  <div id="subtitle">
+    The weblog of Tony Morris
+  </div>
+</div>
+<div id="header">
+  <div id="navigation">
+    <a href="../../index.html">Home</a>
+    <a href="../../posts/">All Posts</a>
+    <a href="../../contact/">Contact</a>
+    <a href="http://cv.tmorris.net/">CV</a>
+    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+  </div>
+</div>
+<h1>IntelliJ IDEA 8.0 + Scala turns the tide</h1>
+<div class="info">Posted on November  7, 2008, in <a href="../../tags/Programming/index.html">Programming</a></div>
+
+<p>I have a couple of whining rants on here about the ineptitude of the IntelliJ IDEA Early Access Program releases and the Scala plugin. It was, at that time, quite unusable, which is fine on its own, but I was concerned by the fact that the number and magnitude of the workarounds was increasing over time.</p>
+<p>I am pleased to report that my preliminary use of the recently released IntelliJ IDEA 8.0 and the Scala plugin appears to require significantly less workarounds to the degree that it is now usable. In fact, it is more usable than it has been in a long time.</p>
+<p>Myself and at least one other person were initially tricked into believing that there was no Scala plugin available because it was not listed in the Available plugins. There was however, a “Scala Application runner” plugin available. Installing this also installs the Scala plugin.</p>
+<p>Unless I am making a judgment too early, I consider IntelliJ IDEA to have redeemed itself from my earlier complaints and I am thankful to the JetBrains team for making it so (with little/no effort on my part).</p>
+<p>Interestingly, I note that JetBrains are considering adding automated specification testing and make a reference to ScalaCheck in <a href="http://plugins.intellij.net/plugin/?id=1347">this discussion</a>. I wonder if they are aware of <a href="http://functionaljava.org/">this alternative (Functional Java)</a> that does the same with a more comprehensive library and also able to be used from standard Java.</p>
+<p>Thanks for listening to my whining earlier and thanks to JetBrains for making smooth development with Scala possible :)</p>
+<p>Edit: Except this same old bug is still there (it has been there for months) when expanding some source trees (I know I’m not the only one to experience this):</p>
+<pre><code>Error during dispatching of java.awt.event.MouseEvent[MOUSE_PRESSED,(118,350),absolute(114,375),button=1,modifiers=Button1,extModifiers=Button1,clickCount=1] on frame0
+java.lang.StackOverflowError
+	at com.intellij.psi.impl.CachedValueImpl.a(CachedValueImpl.java:1)
+	at com.intellij.psi.impl.CachedValueImpl.a(CachedValueImpl.java:70)
+	at com.intellij.psi.impl.CachedValueImpl.a(CachedValueImpl.java:3)
+	at com.intellij.psi.impl.CachedValueImpl.a(CachedValueImpl.java:104)
+	at com.intellij.psi.impl.CachedValueImpl.getValue(CachedValueImpl.java:41)</code></pre>
+
+
+<hr />
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'tonys--blog';
+  var discus_identifier = '/posts/intellij-idea-80-scala-turns-the-tide/index.html';
+  var disqus_url = 'http://blog.tmorris.net/posts/intellij-idea-80-scala-turns-the-tide/index.html';
+  var discus_title = 'IntelliJ IDEA 8.0 + Scala turns the tide';
+  (function () {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript><p>The comments use <a href="http://disqus.com/?ref_noscript">Disqus</a>,
+  which requires Javascript.</p></noscript>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-3405112-1']);
+  _gaq.push(['_trackPageview']);
+  (function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+</html>

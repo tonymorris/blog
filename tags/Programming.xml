@@ -1,0 +1,1015 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+    <title>λ Tony's blog λ — Posts tagged Programming</title>
+    <link href="http://blog.tmorris.net/tags/Programming.xml" rel="self" />
+    <link href="http://blog.tmorris.net" />
+    <id>http://blog.tmorris.net/tags/Programming.xml</id>
+    <author>
+        <name>Tony Morris</name>
+        <email>blog@tmorris.net</email>
+    </author>
+    <updated>2014-03-04T08:00:00Z</updated>
+    <entry>
+    <title>Haskell Functions Take One Argument</title>
+    <link href="http://blog.tmorris.net/posts/haskell-functions-take-one-argument/index.html" />
+    <id>http://blog.tmorris.net/posts/haskell-functions-take-one-argument/index.html</id>
+    <published>2014-03-04T08:00:00Z</published>
+    <updated>2014-03-04T08:00:00Z</updated>
+    <summary type="html"><![CDATA[<p>I teach functional programming. It is a significant part of my job. I enjoy it a lot and it is extremely challenging; in my opinion, much more so than learning functional programming itself.</p>
+<p>I use the Haskell programming language for teaching functional programming. I like to emphasise the learning and construction of <em>concepts</em> over learning the details of any specific programming language. I am not into teaching programming languages; I really find that boring, uneventful and unhelpful for all involved. However, learning some of the intricacies of Haskell itself is inevitable. It doesn’t take long though and is very much worth the investment of effort if you aspire to learning concepts.</p>
+<p>That is to say, using (almost all) other programming languages for this objective is a false economy that is not even a close call. One could spent many weeks or even years demanding to articulate concepts in a specific programming language, only to struggle precisely because that language resists an accurate expression and formation of that concept. I have seen this an overwhelming number of times. It is often supported by the fallacy of false compromise, “but all languages are Turing-complete, so I am going to use JavaScript, which even has first-class functions, in order to come to understand what monad means.”</p>
+<p>No, you won’t, I absolutely insist and promise.</p>
+<p>This is all somewhat beside the point of this post though. The point is that there is a fact, which often comes up in teaching, that can be expressed briefly and concisely. It requires no exceptions, apologies or approximations. I would like to state this fact and explain some of the nomenclature that surrounds this fact.</p>
+<blockquote>
+<p>All functions in the Haskell programming language take exactly one argument.</p>
+</blockquote>
+<p>This fact is certain to come up early on in teaching. If a student comes to trust then follow this fact, then progress will be unhindered. That is because it is an absolute fact. However, even though a student may initially convince themselves of this fact, it has been my experience that they will renege on it at some time in the future.</p>
+<p>The use of casual terminology such as the following surely helps to set this trap:</p>
+<blockquote>
+<p>Examining the signature to the <code>map</code> function, we see that it takes <em>two arguments</em>:</p>
+</blockquote>
+<pre class="sourceCode Haskell"><code class="sourceCode haskell">map<span class="ot"> ::</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> <span class="dt">List</span> a <span class="ot">-&gt;</span> <span class="dt">List</span> b</code></pre>
+<p>We will then talk about the <em>first argument</em> and the <em>second argument</em> as if there even is such a thing.</p>
+<p>However, the truth of the original fact has not changed. Look at it, just sitting there, saying nothing, being all shiny and true. So how could all functions take one argument, while we simultaneously and casually talk about a “second argument”? Are we just telling great big lies? Have we made a mistake?</p>
+<p>The problem is our vocabulary. In our spoken words, we are using an <strong>approximation</strong> of fact and superficially, it looks like a blatant contradiction. Let us expand our approximation to more obviously coincide with our statement of fact. I have added some annotation in [brackets].</p>
+<blockquote>
+<p>Examining the signature to the <code>map</code> function, we see that it is a function [therefore, it definitely takes one argument]. That argument is of the type <code>(a -&gt; b)</code> [which is also a function]. The return type of the <code>map</code> function is <code>(List a -&gt; List b)</code> which is a function and [since it is a function] takes one argument. That argument is of the type <code>(List a)</code> and it returns a value [not a function]. That value is of the type <code>List b</code>.</p>
+</blockquote>
+<p>When we say out loud “the <code>map</code> function takes two arguments”, we are approximating for the above expansion. It is important to understand what we really mean here.</p>
+<p>During my teaching, I will often make a deal with students; I will use the terser vocabulary with you and I will even let you use it, however, if at any moment you violate our understanding of its proper meaning, I will rip it out from under you and demand that you use the full expansion. Almost always, the student will agree to this deal.</p>
+<p>Some time after having made this deal, I will hear the following question. Given, for example, this solution to an exercise:</p>
+<pre class="sourceCode Haskell"><code class="sourceCode haskell">flatten <span class="ot">::</span>
+  <span class="dt">List</span> (<span class="dt">List</span> a)
+  <span class="ot">-&gt;</span> <span class="dt">List</span> a
+flatten <span class="fu">=</span>
+  foldRight (<span class="fu">++</span>) <span class="dt">Nil</span></code></pre>
+<p>I will hear this question:</p>
+<blockquote>
+<p>Wait a minute, you only passed two arguments to <code>foldRight</code>, however, we have seen that it takes three. How could this possibly work!?</p>
+</blockquote>
+<p>Here is another example of the question. Given this solution:</p>
+<pre class="sourceCode Haskell"><code class="sourceCode haskell">filter <span class="ot">::</span>
+  (a <span class="ot">-&gt;</span> <span class="dt">Bool</span>)
+  <span class="ot">-&gt;</span> <span class="dt">List</span> a
+  <span class="ot">-&gt;</span> <span class="dt">List</span> a
+filter f <span class="fu">=</span>
+  foldRight (\a <span class="ot">-&gt;</span> <span class="kw">if</span> f a <span class="kw">then</span> (a<span class="fu">:.</span>) <span class="kw">else</span> id) <span class="dt">Nil</span></code></pre>
+<p>I will hear this question:</p>
+<blockquote>
+<p>The argument to <code>foldRight</code> (which is itself a function) takes two arguments, however, the function you passed to <code>foldRight</code> has been specified to take only one (which you have called <code>a</code>). How could this even work?</p>
+</blockquote>
+<p>It is at this moment that I hand out an infringement notice under our agreed penal code for the offence of:</p>
+<pre><code>Section 1.1
+Failure to Accept that All Haskell Functions Take One Argument
+
+Penalty
+Temporary Incarceration at Square One with release at the discretion of an
+appointed Probation Officer</code></pre>
+<p>I understand that in a learning environment, it may be easy to demonstrate and subsequently accept this fact, then later fall afoul when previously learned facts interfere with this most recent one. The purpose of going back to square one and starting again is to properly internalise this fact. It is an important one, not just for the Haskell programming language, but for Functional Programming in general.</p>
+<p>Joking aside, the purpose of this post is to help reconcile these observations. There is a recipe to disentanglement. If you find yourself in this situation, follow these steps:</p>
+<ol style="list-style-type: decimal">
+<li>Revert back to the fact of matter; all Haskell functions always take one argument. There is never an exception to this rule (so you cannot possibly be observing one!).</li>
+<li>From this starting position, reason about your observations with this fact in mind, even if it is a little clumsy at first. After some repetitions, this clumsiness will disappear. Persevere with it for now.</li>
+<li>Introspect on the thought process that led you into that trap to begin with. This will help you in the future as you begin to trust that principled thinking will resolve these kinds of conflicts. It can be initially clumsy, even to the point of resisting on that basis, but that is a one-time penalty which quickly speeds up.</li>
+</ol>
+<p>Hope this helps.</p>]]></summary>
+</entry>
+<entry>
+    <title>Improving Applicative do-notation</title>
+    <link href="http://blog.tmorris.net/posts/applicative-do/index.html" />
+    <id>http://blog.tmorris.net/posts/applicative-do/index.html</id>
+    <published>2013-10-18T20:00:00Z</published>
+    <updated>2013-10-18T20:00:00Z</updated>
+    <summary type="html"><![CDATA[<h3 id="monad-and-functor">Monad and Functor</h3>
+<p>The <a href="http://haskell.org/">Haskell programming language</a> has a <code>Monad</code> type-class as well as a <code>Functor</code> type-class. It is possible to derive the <code>Functor</code> primitive (<code>fmap</code>) from the <code>Monad</code> primitives:</p>
+<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="co">-- derive fmap from the Monad primitives, (&gt;&gt;=) and return</span>
+fmap f x <span class="fu">=</span>
+  x <span class="fu">&gt;&gt;=</span> return <span class="fu">.</span> f</code></pre>
+<p>Therefore, it is reasonably argued that <code>Monad</code> should extend <code>Functor</code> so as to provide this default definition of <code>fmap</code>. Due to history, this is not the case, which leads to some awkward situations.</p>
+<p>For example, since not all <code>Functor</code> instances are <code>Monad</code> instances, a given operation may wish to restrict itself (if possible) to <code>Functor</code> so that it can be used against those data types. In short, use <code>fmap</code> instead of <code>liftM</code> to prevent an unnecessary constraint on the type of the operation.</p>
+<pre class="sourceCode Haskell"><code class="sourceCode haskell">fFlip <span class="ot">::</span>
+  <span class="dt">Functor</span> f <span class="ot">=&gt;</span>
+  f (a <span class="ot">-&gt;</span> b)
+  <span class="ot">-&gt;</span> a
+  <span class="ot">-&gt;</span> f b
+fFlip f a <span class="fu">=</span>
+  fmap (<span class="fu">$</span>a) f
+
+mFlip <span class="ot">::</span>
+  <span class="dt">Monad</span> f <span class="ot">=&gt;</span>
+  f (a <span class="ot">-&gt;</span> b)
+  <span class="ot">-&gt;</span> a
+  <span class="ot">-&gt;</span> f b
+mFlip f a <span class="fu">=</span>
+  liftM (<span class="fu">$</span>a) f</code></pre>
+<p>The <code>fFlip</code> is available to use to a strict superset of the data types that <code>mFlip</code> is available to, yet they are both equivalent in power. It is desirable to implement <code>fFlip</code>. However, when we combine a usage of <code>fFlip</code> with a monad operation, our type constraint becomes <code>(Monad f, Functor f) =&gt;</code>, which is undesirable boilerplate because <code>Monad</code> implies <code>Functor</code>!</p>
+<h3 id="monad-applicative-and-functor">Monad, Applicative and Functor</h3>
+<p>A <a href="http://www.haskell.org/haskellwiki/Functor-Applicative-Monad_Proposal">proposal to amend this introduces the <code>Applicative</code> type-class</a>, which sits between <code>Monad</code> and <code>Functor</code>. In other words, <code>Monad</code> extends <code>Applicative</code> and <code>Applicative</code> extends <code>Functor</code>. This is again, because the primitives of each superclass can be derived:</p>
+<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="co">-- derive fmap from the Applicative primitives, (&lt;*&gt;) and pure</span>
+fmap <span class="ot">::</span>
+  <span class="dt">Applicative</span> f <span class="ot">=&gt;</span>
+  (a <span class="ot">-&gt;</span> b)
+  <span class="ot">-&gt;</span> f a
+  <span class="ot">-&gt;</span> f b
+fmap <span class="fu">=</span>
+  (<span class="fu">&lt;*&gt;</span>) <span class="fu">.</span> pure
+
+<span class="co">-- derive (&lt;*&gt;) and pure from the Monad primitives, (&gt;&gt;=) and return</span>
+(<span class="fu">&lt;*&gt;</span>) <span class="ot">::</span>
+  <span class="dt">Monad</span> f <span class="ot">=&gt;</span>
+  f (a <span class="ot">-&gt;</span> b)
+  <span class="ot">-&gt;</span> f a
+  <span class="ot">-&gt;</span> f b
+f <span class="fu">&lt;*&gt;</span> a <span class="fu">=</span>
+  <span class="kw">do</span> f&#39; <span class="ot">&lt;-</span> f
+     a&#39; <span class="ot">&lt;-</span> a
+     return (f&#39; a&#39;)
+
+pure <span class="ot">::</span>
+  <span class="dt">Monad</span> f <span class="ot">=&gt;</span>
+  a
+  <span class="ot">-&gt;</span> f a
+pure <span class="fu">=</span>
+  return</code></pre>
+<h3 id="applicative-do-notation">Applicative do-notation</h3>
+<p>With this proposal, there is <a href="http://ghc.haskell.org/trac/ghc/wiki/ApplicativeDo">another proposal to extend do-notation</a> to take advantage of this improved flexibility. Currently, do-notation translates to the code that uses the <code>Monad</code> primitives, <code>(&gt;&gt;=)</code> and <code>return</code><sup><a href="#fn1" class="footnoteRef" id="fnref1">1</a></sup>.</p>
+<p>There are some arguments against this proposal, because this extension is not always desirable. In particular, the degree to which values are shared may be affected. Consider:</p>
+<pre class="sourceCode Haskell"><code class="sourceCode haskell">result <span class="fu">=</span>
+  <span class="kw">do</span> a <span class="ot">&lt;-</span> expr
+     b <span class="ot">&lt;-</span> spaceyExpr
+     return (f a b)
+
+<span class="co">-- monad desugaring (current)</span>
+result <span class="fu">=</span>
+  expr <span class="fu">&gt;&gt;=</span> \a <span class="ot">-&gt;</span>
+  spaceyExpr <span class="fu">&gt;&gt;=</span> \b <span class="ot">-&gt;</span>
+  return (f a b)
+
+<span class="co">-- applicative desugaring (proposed)</span>
+result <span class="fu">=</span>
+  fmap f expr <span class="fu">&lt;*&gt;</span> spaceyExpr</code></pre>
+<p>Since <code>spaceyExpr</code>appears inside a lambda for the current desugaring, it will not be retained and so computed on each invocation of <code>a</code>. However, in the proposed desugaring, the value is retained and shared when the expression is evaluated. This could, of course, lead to surprises in space usage.</p>
+<p>It might be argued that do-notation should maintain its current desugaring using <code>Monad</code> and introduce another means by which to perform <code>Applicative</code> desugaring.</p>
+<p>Whatever the outcome, all of this distracts from the otherwise glaring oversight.</p>
+<h3 id="no">No</h3>
+<p>The Functor, Monad, Applicative proposal opens with the following paragraph:</p>
+<pre><code>Haskell calls a couple of historical accidents its own. While some of them,
+such as the &quot;number classes&quot; hierarchy, can be justified by pragmatism or
+lack of a strictly better suggestion, there is one thing that stands out as,
+well, not that: Applicative not being a superclass of Monad.</code></pre>
+<p>It is my opinion that this proposal is about to commit <em>exactly the same historical mistake</em> that is attempting to be eschewed. Furthermore, by properly eliminating this mistake, the syntax proposal would be improved as a consequence.</p>
+<p>Being a strong proponent of progress, and that Haskell is often pushing the front of progress, this makes me a bit sad :(</p>
+<p>Fact: not all semigroups are monoids.</p>
+<p>No desugaring, current or proposed, utilises the identity value. In the <code>Monad</code> case, this is <code>return</code> and in the <code>Applicative</code> case, this is <code>pure</code>. However, it is a requirement of users to implement these functions. There exist structures that can utilise the full power of this desugaring, but cannot provide the identity value. Therefore, we can eliminate the identity value and still exploit the full advantage of desugaring. Not only this, but it then makes operations available to a strict superset of data types.</p>
+<p>Consider the following amendment to the proposal:</p>
+<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">class</span> <span class="dt">Functor</span> f <span class="ot">=&gt;</span> <span class="dt">Apply</span> f <span class="kw">where</span>
+  (<span class="fu">&lt;*&gt;</span>) <span class="ot">::</span>
+    f (a <span class="ot">-&gt;</span> b)
+    <span class="ot">-&gt;</span> f a
+    <span class="ot">-&gt;</span> f b
+
+<span class="kw">class</span> <span class="dt">Apply</span> f <span class="ot">=&gt;</span> <span class="dt">Applicative</span> f <span class="kw">where</span>
+  pure <span class="ot">::</span>
+    a
+    <span class="ot">-&gt;</span> f a</code></pre>
+<p>We may still derive many of the ubiquitous functions, without the full power of <code>Applicative</code>.</p>
+<pre class="sourceCode Haskell"><code class="sourceCode haskell">liftA2 <span class="ot">::</span>
+  <span class="dt">Apply</span> f <span class="ot">=&gt;</span>
+  (a <span class="ot">-&gt;</span> b <span class="ot">-&gt;</span> c)
+  <span class="ot">-&gt;</span> f a
+  <span class="ot">-&gt;</span> f b
+  <span class="ot">-&gt;</span> f c
+liftA2 f a b <span class="fu">=</span>
+  fmap f a <span class="fu">&lt;*&gt;</span> b</code></pre>
+<p>We may still exploit our do-notation:</p>
+<pre class="sourceCode Haskell"><code class="sourceCode haskell">result <span class="fu">=</span>
+  <span class="kw">do</span> a <span class="ot">&lt;-</span> expr1
+     b <span class="ot">&lt;-</span> expr2
+     return (f a b)
+
+<span class="co">-- apply desugaring</span>
+result <span class="fu">=</span>
+  fmap f expr1 <span class="fu">&lt;*&gt;</span> expr2</code></pre>
+<p>However, more to the point, there are now data structures for which these operations (e.g. <code>liftA2</code>) and do-notation become available, that otherwise would not have been.</p>
+<p>Here are some examples of those:</p>
+<h5 id="also">Also</h5>
+<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">NonEmptyList</span> a <span class="fu">=</span> <span class="dt">NEL</span> a [a]
+<span class="kw">data</span> <span class="dt">Also</span> a x <span class="fu">=</span> <span class="dt">Also</span> (<span class="dt">NonEmptyList</span> a) x
+<span class="kw">instance</span> <span class="dt">Functor</span> (<span class="dt">Also</span> a) <span class="kw">where</span>
+<span class="kw">instance</span> <span class="dt">Apply</span> (<span class="dt">Also</span> a) <span class="kw">where</span>
+  <span class="dt">Also</span> (<span class="dt">NEL</span> h t) f <span class="fu">&lt;*&gt;</span> <span class="dt">Also</span> (<span class="dt">NEL</span> h&#39; t&#39;) x <span class="fu">=</span>
+    <span class="dt">Also</span> (<span class="dt">NEL</span> h (t <span class="fu">++</span> h&#39; <span class="fu">:</span> t&#39;)) (f x)</code></pre>
+<p>The <code>Also</code> data type has no possible <code>Applicative</code> instance, yet it has a very usable <code>Apply</code>. This means we can use (amended) <code>liftA2</code> and do-notation on <code>Also</code> values, without losing any power.</p>
+<p>This data type generalises in fact, while still maintaining an <code>Apply</code> instance.</p>
+<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">Also</span> s x <span class="fu">=</span> <span class="dt">Also</span> s x</code></pre>
+<p>There is an <code>Apply</code> instance for <code>(Also s)</code> for as long as there is a <code>Semigroup</code> instance for <code>s</code>, however, if your semigroup is not a monoid, then there is no <code>Monoid</code> instance. I have used <code>(NonEmptyList a)</code> as an example of a data type with a semigroup, but not a monoid.</p>
+<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">class</span> <span class="dt">Semigroup</span> a <span class="kw">where</span>
+<span class="ot">  (&lt;&gt;) ::</span> <span class="co">-- associative</span>
+    a
+    <span class="ot">-&gt;</span> a
+    <span class="ot">-&gt;</span> a
+
+<span class="kw">instance</span> <span class="dt">Semigroup</span> s <span class="ot">=&gt;</span> <span class="dt">Apply</span> (<span class="dt">Also</span> s) <span class="kw">where</span>
+  <span class="dt">Also</span> s1 f <span class="fu">&lt;*&gt;</span> <span class="dt">Also</span> s2 x <span class="fu">=</span>
+    <span class="dt">Also</span> (s1 <span class="fu">&lt;&gt;</span> s2) (f x)</code></pre>
+<h5 id="ornot">OrNot</h5>
+<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">OrNot</span> a <span class="fu">=</span> <span class="co">-- Maybe (NonEmptyList a)</span>
+  <span class="dt">Not</span>
+  <span class="fu">|</span> <span class="dt">Or</span> (<span class="dt">NonEmptyList</span> a)
+
+<span class="kw">instance</span> <span class="dt">Functor</span> <span class="dt">OrNot</span> <span class="kw">where</span>
+
+<span class="kw">instance</span> <span class="dt">Apply</span> <span class="dt">OrNot</span> <span class="kw">where</span>
+  <span class="dt">Not</span> <span class="fu">&lt;*&gt;</span> _ <span class="fu">=</span>
+    <span class="dt">Not</span>
+  <span class="dt">Or</span> _ <span class="fu">&lt;*&gt;</span> <span class="dt">Not</span> <span class="fu">=</span>
+    <span class="dt">Not</span>
+  <span class="dt">Or</span> (<span class="dt">NEL</span> h t) <span class="fu">&lt;*&gt;</span> <span class="dt">Or</span> (<span class="dt">NEL</span> h&#39; t&#39;) <span class="fu">=</span>
+    <span class="dt">Or</span> (<span class="dt">NEL</span> (h h&#39;) (t <span class="fu">&lt;*&gt;</span> t&#39;))</code></pre>
+<p>The <code>OrNot</code> data is isomorphic to <code>Maybe (NonEmptyList a)</code> and has an <code>Apply</code> instance that is similar to the <code>Applicative</code> for <code>Maybe</code>. However, since this data type holds a non-empty list, there is no possibility for an <code>Applicative</code> instance.</p>
+<p>Again, with an amended do-notation and library functions, we could use <code>OrNot</code> values.</p>
+<h5 id="but-it-doesnt-stop-there">But it doesn’t stop there…</h5>
+<p>Your regular old <code>Data.Map#Map</code> can provide an <code>Apply</code> instance, but not an <code>Applicative</code>.</p>
+<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">instance</span> <span class="dt">Ord</span> k <span class="ot">=&gt;</span> <span class="dt">Apply</span> (<span class="dt">Map</span> k) <span class="kw">where</span>
+  (<span class="fu">&lt;*&gt;</span>) <span class="fu">=</span>
+    Map.intersectionWith (<span class="fu">$</span>)</code></pre>
+<p>There is no corresponding <code>Applicative</code> instance for this <code>Apply</code> instance. This is the same story for <code>Data.IntMap#IntMap</code>.</p>
+<p>I want to use <code>liftA2</code> and many other generalised functions on <code>(Map k)</code> values and no, I am not sorry!</p>
+<h3 id="apply-not-applicative">Apply not Applicative</h3>
+<p>I could go on and on with useful data types that have <code>Apply</code> instances, but no corresponding <code>Applicative</code>. However, I hope this is enough to illustrate the point.</p>
+<p>If we are going to amend the type-class hierarchy, taking on all the compatibility issues of doing so, then let us provide a kick-arse solution. It is especially compelling in that this amendment to the proposal subsumes the existing error. Let us move on from yet another historical mistake that <a href="http://hackage.haskell.org/package/semigroupoids">has already been acknowledged</a>.</p>
+<h3 id="bind-not-monad">Bind not Monad</h3>
+<p>This story is not just about <code>Apply</code> and <code>Applicative</code>. All of the same reasoning applies to semi-monads or the <code>Bind</code> type-class. The <code>return</code> operation is not essential to do-notation or even many monad functions, so it is an unnecessary, imposed requirement for implementers of the <code>Monad</code> type-class.</p>
+<p>Similarly, there are structures for which there is a <code>Bind</code> instance, but not a <code>Monad</code> instance.</p>
+<h3 id="type-class-hierarchy-proper">Type-class Hierarchy Proper</h3>
+<p>In order to take full advantage of a type-class amendment, I submit the following proposed type-class hierarchy. I contend that it subsumes the existing proposal by providing additional flexibility for zero additional loss.</p>
+<p>Library functions, such as <code>liftA2</code>, could slowly adopt an amendment to their type signature so as to open up to more data types.</p>
+<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">class</span> <span class="dt">Functor</span> f <span class="kw">where</span>
+  fmap <span class="ot">::</span>
+    (a <span class="ot">-&gt;</span> b)
+    <span class="ot">-&gt;</span> f a
+    <span class="ot">-&gt;</span> f b
+
+<span class="kw">class</span> <span class="dt">Functor</span> f <span class="ot">=&gt;</span> <span class="dt">Apply</span> f <span class="kw">where</span>
+  (<span class="fu">&lt;*&gt;</span>) <span class="ot">::</span>
+    f (a <span class="ot">-&gt;</span> b)
+    <span class="ot">-&gt;</span> f a
+    <span class="ot">-&gt;</span> f b
+
+<span class="kw">class</span> <span class="dt">Apply</span> f <span class="ot">=&gt;</span> <span class="dt">Applicative</span> f <span class="kw">where</span>
+  pure <span class="ot">::</span>
+    a
+    <span class="ot">-&gt;</span> f a
+
+<span class="kw">class</span> <span class="dt">Apply</span> f <span class="ot">=&gt;</span> <span class="dt">Bind</span> f <span class="kw">where</span>
+  (<span class="fu">&gt;&gt;=</span>) <span class="ot">::</span>
+    (a <span class="ot">-&gt;</span> f b)
+    <span class="ot">-&gt;</span> f a
+    <span class="ot">-&gt;</span> f b
+
+<span class="kw">class</span> (<span class="dt">Applicative</span> f, <span class="dt">Bind</span> f) <span class="ot">=&gt;</span> <span class="dt">Monad</span> f <span class="kw">where</span></code></pre>
+<p>and while we’re at it…</p>
+<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">class</span> <span class="dt">Semigroup</span> a <span class="kw">where</span>
+<span class="ot">  (&lt;&gt;) ::</span> <span class="co">-- mappend</span>
+    a
+    <span class="ot">-&gt;</span> a
+    <span class="ot">-&gt;</span> a
+
+<span class="kw">class</span> <span class="dt">Semigroup</span> a <span class="ot">=&gt;</span> <span class="dt">Monoid</span> a <span class="kw">where</span>
+  mempty <span class="ot">::</span>
+    a</code></pre>
+<p>but maybe I am biting off a bit too much there :)</p>
+<h3 id="addendum-on-pointed">Addendum on Pointed</h3>
+<p>I have not mentioned the <code>Pointed</code> experiment, because it is not worth mentioning anymore. It was an experiment, executed in both Scala and Haskell, and the result is conclusive.</p>
+<p>However, here is the type-class:</p>
+<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">class</span> <span class="dt">Functor</span> f <span class="ot">=&gt;</span> <span class="dt">Pointed</span> f <span class="kw">where</span>
+  pure <span class="ot">::</span>
+    a
+    <span class="ot">-&gt;</span> f a</code></pre>
+<p>It was once proposed to slot in between <code>Applicative</code> and <code>Functor</code>. The <code>Pointed</code> type-class is not at all useful and there is no value in continuing discussion in this context, but instead about the result of the failed experiment. This is for another day.</p>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>There are other functions on <code>Monad</code>, but these are either derivable (e.g. <code>(&gt;&gt;)</code>) or a mistake and hindrance to discussion (e.g. <code>fail</code>).<a href="#fnref1">↩</a></p></li>
+</ol>
+</div>]]></summary>
+</entry>
+<entry>
+    <title>Monad Transformers at BFPG</title>
+    <link href="http://blog.tmorris.net/posts/monad-transformers/index.html" />
+    <id>http://blog.tmorris.net/posts/monad-transformers/index.html</id>
+    <published>2013-09-03T12:00:00Z</published>
+    <updated>2013-09-03T12:00:00Z</updated>
+    <summary type="html"><![CDATA[<p>A talk on monad transformers , delivered to <a href="http://www.meetup.com/Brisbane-Functional-Programming-Group/events/104664162/">Brisbane Functional Programming Group on Tuesday 27 August 2013</a>.</p>
+<ul>
+<li><p><a href="http://dl.dropbox.com/u/7810909/media/doc/monad-transformers.pdf">Slides</a> <em>(pdf)</em></p></li>
+<li><p><a href="https://vimeo.com/73648150">Video</a> <em>(vimeo)</em></p></li>
+</ul>
+<div class="embed-vimeo">
+  <iframe src="http://player.vimeo.com/video/73648150" width="688" height="387" frameborder="0" webkitAllowFullScreen="true" mozallowfullscreen="true" allowFullScreen="true">
+  </iframe>
+</div>
+
+]]></summary>
+</entry>
+<entry>
+    <title>Sticks, stones, but names are not useful to me</title>
+    <link href="http://blog.tmorris.net/posts/identifier-names/index.html" />
+    <id>http://blog.tmorris.net/posts/identifier-names/index.html</id>
+    <published>2013-07-18T20:00:00Z</published>
+    <updated>2013-07-18T20:00:00Z</updated>
+    <summary type="html"><![CDATA[<p>There are various tools for comprehending code. It is often alleged to me that identifier names are one such tool — an important one even. In order to be a useful tool for comprehension, it must have a degree of efficacy above an arbitrary hypothesis. For example, suppose the following code:</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">def</span> reverse: List[Banana] =&gt; List[Banana]</code></pre>
+<p>Without viewing the body of the code, one might infer that this code “reverses the list.” What does it mean to reverse a list? Let us try to rigorously define reversing a list:</p>
+<ul>
+<li>Reversing the empty list produces the empty list.</li>
+<li>Reversing a single-element list produces that same list.</li>
+<li>Taking two lists, appending them then reversing, produces the same list as reversing each, then appending the latter to the former.</li>
+</ul>
+<p>We infer all these things, even if informally, when we conclude that this function reverses the list. We might have some degree of confidence in concluding that all these properties hold purely from the function name, however, as part of this conclusion, we also conclude that the function does not peel the first <code>Banana</code>. We have no evidence of these facts, except for the function name, alleged to be useful to infer some confidence about these facts.</p>
+<p>In order for this method of comprehension to be efficacious, it must produce a result better than guessing. That is to say, the degree of confidence invoked by inferring that “this function reverses the list” from the premise, “because the function is named <code>reverse</code>”, must be higher than inferring that the function does not reverse the list, from the same premise. In my experience, with which some will certainly disagree, this is not the case, rendering this comprehension method useless. That is to say, the identifier name persuades confidence of the inference by nil, not even a bit.</p>
+<p>Thankfully, this is unimportant. It is unimportant because there exist methods of code comprehension that are <em>significantly more effective</em>, so you can abandon the question of whether or not there is efficacy of using identifier names for inferring properties of code.</p>
+<hr />
+<p>Suppose the following code:</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">def</span> reverse[A]: List[A] =&gt; List[A]</code></pre>
+<p>At first glance, it might appear that we must take a leap of confidence in inferring that the function reverses the list. However, we can infer the following fact — <em>this function definitely does not peel the first <code>Banana</code> in the list</em>. I can infer this because if the function attempted to do this, it <em>would not compile</em><sup><a href="#fn1" class="footnoteRef" id="fnref1">1</a></sup>. In fact, I can infer lots of things here, such as:</p>
+<ul>
+<li>The <code>reverse</code> function did not add <code>10</code> to every second list element.</li>
+<li>All elements in the list returned by <code>reverse</code> are contained in the input list.</li>
+</ul>
+<p>We are able to infer these things simply by making the <code>reverse</code> function <em>parametric</em>. We are no longer reversing a list of bananas — although that might be our use-case — we are reversing a list of <code>A</code> for all values of <code>A</code>. One virtue of this <em>parametricity</em> is that we can infer a significant number of things that <em>do not occur</em>. This theme of learning what does not occur is ubiquitous when deploying these programming techniques and is described in more detail by Wadler<sup><a href="#fn2" class="footnoteRef" id="fnref2">2</a></sup>.</p>
+<p>Here is another example, using a programming language called SafeHaskell (very similar to Haskell):</p>
+<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="ot">add10 ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span></code></pre>
+<p>By the name of the function, we might unreliably infer (OK, let’s be honest, we are making a bold guess) that the function adds <code>10</code> to its argument. However, looking at the type, we know for sure that the function <em>did not print its argument to the standard output stream</em>. We know this because had the library provider attempted it, the code would not have compiled. To be clear, it would not be a valid SafeHaskell program, so our assumption that we are looking at SafeHaskell fails, forcing us to unify by selecting one of the following:</p>
+<ul>
+<li>The function does not print its argument to the standard output stream.</li>
+<li>We are not looking at SafeHaskell source code.</li>
+<li>We are using an escape hatch, implied by the halting problem.</li>
+</ul>
+<p>There are simply no other options. What other things can we reliably conclude this function does not do?</p>
+<p>Here is yet another example:</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">def</span> constant[A, B]: A =&gt; B =&gt; A</code></pre>
+<p>In this case, we can reliably infer that this function does one single thing. It ignores its second argument and returns its first. This might be protested:</p>
+<ul>
+<li>It might perform a side-effect first!
+<ul>
+<li>This is true, but assuming a pure subset of the language is useful for reasons other than this one.</li>
+</ul></li>
+<li>It might type-cast or type-case (<code>asInstanceOf</code> or <code>isInstanceOf</code>).
+<ul>
+<li>This is another unfortunate escape hatch in the Scala type system that conveniently permits unsafe code.</li>
+</ul></li>
+<li>It might recurse forever, return <code>null</code> or throw an exception.
+<ul>
+<li>This is yet another escape hatch.</li>
+</ul></li>
+</ul>
+<p>So why dismiss these protests? They are inescapable implications of the halting problem. The more practical question is, “how convenient does Scala make these escape hatches available?” and the answer is an unfortunate one — it can often appear to be easier to exploit these escape hatches, but it won’t be too long before the penalty is paid. Although in practice, it is easier both short and long term to avoid these escape hatches, the illusion of convenience persists in some cases.</p>
+<p>If we are to concede these abilities, it is simply up to our own discipline to enforce that we have not attempted to take the illusory easy way out. This includes using a pure-functional subset of Scala, which is a lot easier than is often made out. For example, the <code>scalaz.effects.STRef</code> data type permits a pure-functional <code>var</code> that has all the capabilities of <code>var</code> while also maintaining all the aforementioned abilities (unlike <code>var</code> itself). This is a win-win. <a href="https://qconnewyork.com/sites/default/files/QConNY2013_RunarBjarnesson_PurelyFunctionalIO.pdf">Rúnar Bjarnason goes into detail on this at QCon 2013.</a></p>
+<p>By these methods of exploiting the type system, we are able to very reliably infer things that did not occur and occasionally, infer and conclude the only thing that did occur. However, what about narrowing it down further? We know that the (parametric) <code>reverse</code> function doesn’t manipulate the list elements, but how do we know it reverses the list? Do we fall back to relying on the function name and simply hope so?</p>
+<p>No.</p>
+<p>We continue to use more reliable methods of code comprehension. Let us restate the definition of <code>reverse</code>, however, we will include Scala source code. All expressions must return <code>true</code> regardless of the value of any of their arguments:</p>
+<ul>
+<li>Reversing the empty list produces the empty list
+<ul>
+<li><code>reverse(Nil) == Nil</code></li>
+</ul></li>
+<li>Reversing a single-element list produces that same list
+<ul>
+<li><code>element =&gt; reverse(List(element)) == List(element)</code></li>
+</ul></li>
+<li>Taking two lists, <code>l1</code> and <code>l2</code>, appending them then reversing, produces the same list as reversing each, then appending the reverse of <code>l1</code> to the reverse of <code>l2</code>.
+<ul>
+<li><code>(l1, l2) =&gt; reverse(l1 ::: l2) == (reverse(l2) ::: reverse(l1))</code></li>
+</ul></li>
+</ul>
+<p>If we can be confident that these properties hold, then we can also be confident that our <code>reverse</code> function does in fact, reverse the list. In fact, there is no other possible function that satisfies the type and these properties, besides the one that reverses a list. Again, we have not resorted to the function name for code comprehension — we have inspected <em>algebraic properties about the code</em>.</p>
+<p>So how do we increase confidence that these properties hold?</p>
+<p>Unfortunately, an implication of the halting problem is that we cannot prove these program properties, for the general case. This is not the end of the world though — we can still attempt to <em>disprove</em> these program properties. That is to say, we can go to efforts to determine if the function is <em>not</em> one which reverses the list. We can express our algebraic properties, which give away the full specification of the function, then automate the assertion that there exist values for which the property does not hold. This automation is precisely what <a href="http://code.google.com/p/scalacheck/">ScalaCheck</a> does, however, the expression itself is enough to rigorously specify the function behaviour without degenerating to faith in function names.</p>
+<p>The next time you see a function named <code>&lt;-:</code> and you think to yourself, “OMG, how unreadable, what am I going to do now!?”, ask yourself if there are other tools — perhaps more robust than those familiar — to comprehend the code. What is its type? What are its algebraic properties? Are there parametric properties to exploit?</p>
+<p>What if it has this type?</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">def</span> &lt;-:[A, B](f: A =&gt; B): List[A] =&gt; List[B]</code></pre>
+<p>Does it map the function across the list elements? Maybe. However, we definitely know that the elements in the resulting list came from running the given function on an element from the input list. You see? Parametricity, just like that, was 73 fuck-loads more reliable than looking at the function name to comprehend how this code works, and this is only the start of answering the question. We have many more tools at our disposal. Importantly, they are <em>reliable</em>. I like reliable, because I also like things that are true. Hopefully you do too!</p>
+<hr />
+<p>So what about these allegations of utility of identifier names? Do they have any merit at all?</p>
+<p>No. Insistence on the value of identifier names for code comprehension has some glaring holes in it. Let us put aside that there are far more robust methods of comprehension. Let us also put aside that the claims are probably motivated by a lack of familiarity with superior tools.</p>
+<p>Here is why this allegation is not just bullshit, but very obviously bullshit. Anyone who names a data type, <code>AbstractAdvisorAutoProxyCreator</code> is just as committed to not using identifier names for meaning as anyone else. However, there is another level again — the staunch belief that this identifer name is conveying meaning exposes just how confused that belief is. Any query such as, “What exactly does <code>AbstractAdvisorAutoProxyCreator</code> mean?” is met with handwaving. This is because <strong>nobody knows what <code>AbstractAdvisorAutoProxyCreator</code> means</strong> and the only practical implication here, in the world in which we all find ourselves, is one or more scatterbrains holding a belief otherwise.</p>
+<p>From a näive perspective, this situation appears to be a ripe learning opportunity. There appears to be a lot to be gained simply by sharing knowledge with a beginner — a trivial investment of effort. So why not take it? That question is fraught with complexity, but often, it is more constructive to have a giggle, a little lament, then dismiss the confused allegations.</p>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>Due to the halting problem, there are some additional premises required to further increase confidence in this conclusion.<a href="#fnref1">↩</a></p></li>
+<li id="fn2"><p>Wadler, Philip. “Theorems for free!.” Proceedings of the fourth international conference on Functional programming languages and computer architecture. ACM, 1989.<a href="#fnref2">↩</a></p></li>
+</ol>
+</div>]]></summary>
+</entry>
+<entry>
+    <title>Scala Type-class Hierarchy</title>
+    <link href="http://blog.tmorris.net/posts/scala-type-class-hierarchy/index.html" />
+    <id>http://blog.tmorris.net/posts/scala-type-class-hierarchy/index.html</id>
+    <published>2013-06-22T20:00:00Z</published>
+    <updated>2013-06-22T20:00:00Z</updated>
+    <summary type="html"><![CDATA[<p>Below is a proposed type-class hierarchy demonstrated using the Scala programming language. The goal of the hierarchy is to demonstrate one an arrangement that is useful and makes the appropriate trade-offs for general-purpose programming. It is therefore independent of a specific programming language, however some (many) programming-language type systems do not have the expressive power to witness the hierarchy.</p>
+<p>This proposal is in the spirit of <a href="http://www.haskell.org/haskellwiki/Typeclassopedia">the typeclassopedia</a> with the following differences:</p>
+<ol style="list-style-type: decimal">
+<li><p>Use the Scala programming language for demonstration for those who prefer it.</p></li>
+<li><p>Discussion need not concern itself with any kind of backward compatibility with existing libraries.</p></li>
+</ol>
+<p>You will find a similar type-class hierarchy in <a href="http://github.com/scalaz/scalaz">the Scalaz library</a>. That implementation is far more comprehensive and is aimed primarily for production use. A secondary goal here is to help document the Scalaz hierarchy in terse form, however, note that you will find some minor differences (improvements?) in the arrangement.</p>
+<p>Discussion about addition or rearrangement of the proposed hierarchy is welcome.</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">trait</span> ~&gt;[F[_], G[_]] {
+  <span class="kw">def</span> apply[A]: F[A] =&gt; G[A]
+}
+
+<span class="kw">case</span> <span class="kw">class</span> Id[A](x: A)
+
+<span class="kw">trait</span> Semigroup[M] {
+  <span class="kw">def</span> op: M =&gt; M =&gt; M
+}
+
+<span class="kw">trait</span> Monoid[M] <span class="kw">extends</span> Semigroup[M] {
+  <span class="kw">val</span> id: M
+}
+
+<span class="kw">trait</span> Functor[F[_]] {
+  <span class="kw">def</span> fmap[A, B](f: A =&gt; B): F[A] =&gt; F[B]
+}
+
+<span class="kw">trait</span> Apply[F[_]] <span class="kw">extends</span> Functor[F] {
+  <span class="kw">def</span> ap[A, B](f: F[A =&gt; B]): F[A] =&gt; F[B]
+}
+
+<span class="kw">trait</span> Bind[F[_]] <span class="kw">extends</span> Apply[F] {
+  <span class="kw">def</span> bind[A, B](f: A =&gt; F[B]): F[A] =&gt; F[B]
+}
+
+<span class="kw">trait</span> Applicative[F[_]] <span class="kw">extends</span> Apply[F] {
+  <span class="kw">def</span> insert[A]: A =&gt; F[A]
+}
+
+<span class="kw">trait</span> Monad[F[_]] <span class="kw">extends</span> Applicative[F] <span class="kw">with</span> Bind[F]
+
+<span class="kw">trait</span> Extend[F[_]] <span class="kw">extends</span> Functor[F] {
+  <span class="kw">def</span> extend[A, B](f: F[A] =&gt; B): F[A] =&gt; F[B]
+}
+
+<span class="kw">trait</span> Comonad[F[_]] <span class="kw">extends</span> Extend[F] {
+  <span class="kw">def</span> extract[A]: F[A] =&gt; A
+}
+
+<span class="kw">trait</span> Contravariant[F[_]] {
+  <span class="kw">def</span> contramap[A, B](f: B =&gt; A): F[A] =&gt; F[B]
+}
+
+<span class="kw">trait</span> Distributive[T[_]] <span class="kw">extends</span> Functor[T] {
+  <span class="kw">def</span> distribute[F[_]: Functor, A, B](f: A =&gt; T[B]): F[A] =&gt; T[F[B]]
+}
+
+<span class="kw">trait</span> Foldable[T[_]] {
+  <span class="kw">def</span> foldMap[A, M: Monoid](f: A =&gt; M): T[A] =&gt; M
+}
+
+<span class="kw">trait</span> Foldable1[T[_]] <span class="kw">extends</span> Foldable[T] {
+  <span class="kw">def</span> foldMap1[A, M: Semigroup](f: A =&gt; M): T[A] =&gt; M
+}
+
+<span class="kw">trait</span> Traversable[T[_]] <span class="kw">extends</span> Functor[T] <span class="kw">with</span> Foldable[T] {
+  <span class="kw">def</span> traverse[F[_]: Applicative, A, B](f: A =&gt; F[B]): T[A] =&gt; F[T[B]]
+}
+
+<span class="kw">trait</span> Traversable1[T[_]] <span class="kw">extends</span> Traversable[T] <span class="kw">with</span> Foldable1[T] {
+  <span class="kw">def</span> traverse1[F[_]: Apply, A, B](f: A =&gt; F[B]): T[A] =&gt; F[T[B]]
+}
+
+<span class="kw">trait</span> MonadTransformer[T[_[_], _]] {
+  <span class="kw">def</span> lift[M[_]: Monad, A]: M[A] =&gt; T[M, A]
+}
+
+<span class="kw">trait</span> BindTransformer[T[_[_], _]] <span class="kw">extends</span> MonadTransformer[T] {
+  <span class="kw">def</span> liftB[M[_]: Bind, A]: M[A] =&gt; T[M, A]
+}
+
+<span class="kw">trait</span> MonadTransform[T[_[_], _]] {
+  <span class="kw">def</span> transform[F[_]: Monad, G[_]: Monad, A](f: F ~&gt; G): T[F, A] =&gt; T[G, A]
+}
+
+<span class="kw">trait</span> BindTransform[T[_[_], _]] <span class="kw">extends</span> MonadTransform[T] {
+  <span class="kw">def</span> transformB[F[_]: Bind, G[_]: Monad, A](f: F ~&gt; G): T[F, A] =&gt; T[G, A]
+}
+
+<span class="kw">trait</span> ComonadTransformer[T[_[_], _]] {
+  <span class="kw">def</span> lower[M[_]: Comonad, A]: T[M, A] =&gt; M[A]
+}
+
+<span class="kw">trait</span> ExtendTransformer[T[_[_], _]] <span class="kw">extends</span> ComonadTransformer[T] {
+  <span class="kw">def</span> lowerE[M[_]: Extend, A]: T[M, A] =&gt; M[A]
+}
+
+<span class="kw">trait</span> ComonadHoist[T[_[_], _]] {
+  <span class="kw">def</span> cohoist[M[_]: Comonad, A]: T[M, A] =&gt; T[Id, A]
+}
+
+<span class="kw">trait</span> ExtendHoist[T[_[_], _]] <span class="kw">extends</span> ComonadHoist[T] {
+  <span class="kw">def</span> cohoistE[M[_]: Extend, A]: T[M, A] =&gt; T[Id, A]
+}
+
+<span class="kw">trait</span> Semigroupoid[~&gt;[_, _]] {
+  <span class="kw">def</span> compose[A, B, C]: (B ~&gt; C) =&gt; (A ~&gt; B) =&gt; (A ~&gt; C)
+}
+
+<span class="kw">trait</span> Category[~&gt;[_, _]] <span class="kw">extends</span> Semigroupoid[~&gt;] {
+  <span class="kw">def</span> id[A]: A ~&gt; A
+}
+
+<span class="kw">trait</span> First[~&gt;[_, _]] <span class="kw">extends</span> Semigroupoid[~&gt;] {
+  <span class="kw">def</span> first[A, B, C]: (A ~&gt; B) =&gt; ((A, C) ~&gt; (B, C))
+}
+
+<span class="kw">trait</span> Arrow[~&gt;[_, _]] <span class="kw">extends</span> Category[~&gt;] <span class="kw">with</span> First[~&gt;] {
+  <span class="kw">def</span> idA[A, B]: (A =&gt; B) =&gt; (A ~&gt; B)
+}</code></pre>]]></summary>
+</entry>
+<entry>
+    <title>Refactoring Puzzle</title>
+    <link href="http://blog.tmorris.net/posts/refactoring-puzzle/index.html" />
+    <id>http://blog.tmorris.net/posts/refactoring-puzzle/index.html</id>
+    <published>2013-06-05T20:00:00Z</published>
+    <updated>2013-06-05T20:00:00Z</updated>
+    <summary type="html"><![CDATA[<p>The following programming puzzle is about code duplication. The goal is to identify and remove the code duplication. The exercise is given in a number of programming languages and the means by which the problem is solved may depend on the specific programming language. It might even be the case that the best solution is “do nothing”, since the programming language does not provide the support for alleviating the code duplication. Therefore, a complete solution to this puzzle is a solution for each of the programming languages.</p>
+<p>The two functions <code>runOptions</code> and <code>runIntRdrs</code> implement a specific function with a small difference between each. The duplication in their code bodies is noted in the comments and is denoted by asterisks.</p>
+<p><strong>How might the problem of code duplication be solved for this case?</strong></p>
+<p>The puzzle is designed to compile as-is, which means for some languages, support data structures need to be provided. For example, the C# programming language does not provide an immutable (cons) list data structure, so the bare minimum is supplied here. This makes the puzzle appear quite noisy for that specific programming language, however be assured it is the same code.</p>
+<h1 id="scala">Scala</h1>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">object</span> RefactorPuzzle {
+  <span class="kw">case</span> <span class="kw">class</span> IntRdr[+A](read: Int =&gt; A) {
+    <span class="kw">def</span> map[B](f: A =&gt; B): IntRdr[B] =
+      <span class="fu">IntRdr</span>(f compose read)
+
+    <span class="kw">def</span> flatMap[B](f: A =&gt; IntRdr[B]): IntRdr[B] =
+      <span class="fu">IntRdr</span>(n =&gt; <span class="fu">f</span>(<span class="fu">read</span>(n)).<span class="fu">read</span>(n))
+  }
+
+  <span class="kw">object</span> IntRdr {
+    <span class="kw">def</span> apply[A](a: A): IntRdr[A] =
+      <span class="fu">IntRdr</span>(_ =&gt; a)
+  }
+
+  <span class="co">// Return all the Some values, or None if not all are Some.</span>
+  <span class="kw">def</span> runOptions[A](x: List[Option[A]]): Option[List[A]] =
+    x.<span class="fu">foldRight</span>[Option[List[A]]](Option(Nil))((a, b) =&gt; a.<span class="fu">flatMap</span>(aa =&gt; b.<span class="fu">map</span>(aa :: _)))
+
+  <span class="co">// Apply an Int to a list of int readers and return the list of return values.</span>
+  <span class="kw">def</span> runIntRdrs[A](x: List[IntRdr[A]]): IntRdr[List[A]] =
+    x.<span class="fu">foldRight</span>[IntRdr[List[A]]](<span class="fu">IntRdr</span>(Nil))((a, b) =&gt; a.<span class="fu">flatMap</span>(aa =&gt; b.<span class="fu">map</span>(aa :: _)))
+
+<span class="co">// Code Duplication</span>
+
+<span class="co">// *******      *************      *******      ***********</span>
+<span class="co">// def runOptions[A](x: List[Option[A]]): Option[List[A]] =</span>
+<span class="co">// def runIntRdrs[A](x: List[IntRdr[A]]): IntRdr[List[A]] =</span>
+
+<span class="co">// ************      ***********      *************************************************</span>
+<span class="co">// x.foldRight[Option[List[A]]](Option(Nil))((a, b) =&gt; a.flatMap(aa =&gt; b.map(aa :: _)))</span>
+<span class="co">// x.foldRight[IntRdr[List[A]]](IntRdr(Nil))((a, b) =&gt; a.flatMap(aa =&gt; b.map(aa :: _)))</span>
+
+}</code></pre>
+<h1 id="haskell">Haskell</h1>
+<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">module</span> <span class="dt">RefactoringPuzzle</span> <span class="kw">where</span>
+
+<span class="kw">newtype</span> <span class="dt">IntRdr</span> a <span class="fu">=</span>
+  <span class="dt">IntRdr</span> {
+<span class="ot">    readIntRdr ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> a
+  }
+
+mapIntRdr <span class="ot">::</span>
+  <span class="dt">IntRdr</span> a
+  <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> b)
+  <span class="ot">-&gt;</span> <span class="dt">IntRdr</span> b
+mapIntRdr (<span class="dt">IntRdr</span> g) f <span class="fu">=</span>
+  <span class="dt">IntRdr</span> (f <span class="fu">.</span> g)
+
+bindIntRdr <span class="ot">::</span>
+  <span class="dt">IntRdr</span> a
+  <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> <span class="dt">IntRdr</span> b)
+  <span class="ot">-&gt;</span> <span class="dt">IntRdr</span> b
+bindIntRdr (<span class="dt">IntRdr</span> g) f <span class="fu">=</span>
+  <span class="dt">IntRdr</span> (\n <span class="ot">-&gt;</span> readIntRdr (f (g n)) n)
+
+applyIntRdr <span class="ot">::</span>
+  a
+  <span class="ot">-&gt;</span> <span class="dt">IntRdr</span> a
+applyIntRdr <span class="fu">=</span>
+  <span class="dt">IntRdr</span> <span class="fu">.</span> const
+
+<span class="kw">type</span> <span class="dt">Option</span> <span class="fu">=</span> <span class="dt">Maybe</span>
+
+mapOption <span class="ot">::</span>
+  <span class="dt">Option</span> a
+  <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> b)
+  <span class="ot">-&gt;</span> <span class="dt">Option</span> b
+mapOption <span class="dt">Nothing</span> _ <span class="fu">=</span>
+  <span class="dt">Nothing</span>
+mapOption (<span class="dt">Just</span> a) f <span class="fu">=</span>
+  <span class="dt">Just</span> (f a)
+
+bindOption <span class="ot">::</span>
+  <span class="dt">Option</span> a
+  <span class="ot">-&gt;</span> (a <span class="ot">-&gt;</span> <span class="dt">Option</span> b)
+  <span class="ot">-&gt;</span> <span class="dt">Option</span> b
+bindOption <span class="dt">Nothing</span> _ <span class="fu">=</span>
+  <span class="dt">Nothing</span>
+bindOption (<span class="dt">Just</span> a) f <span class="fu">=</span>
+  f a
+
+applyOption <span class="ot">::</span>
+  a
+  <span class="ot">-&gt;</span> <span class="dt">Option</span> a
+applyOption a <span class="fu">=</span>
+  <span class="dt">Just</span> a
+
+<span class="co">-- Return all the Some values, or None if not all are Some.</span>
+<span class="ot">runOptions ::</span> [<span class="dt">Option</span> a] <span class="ot">-&gt;</span> <span class="dt">Option</span> [a]
+runOptions <span class="fu">=</span> foldr (\a b <span class="ot">-&gt;</span> bindOption a (\aa <span class="ot">-&gt;</span> mapOption b (aa<span class="fu">:</span>))) (applyOption [])
+
+<span class="co">-- Apply an Int to a list of int readers and return the list of return values.</span>
+<span class="ot">runIntRdrs ::</span> [<span class="dt">IntRdr</span> a] <span class="ot">-&gt;</span> <span class="dt">IntRdr</span> [a]
+runIntRdrs <span class="fu">=</span> foldr (\a b <span class="ot">-&gt;</span> bindIntRdr a (\aa <span class="ot">-&gt;</span> mapIntRdr b (aa<span class="fu">:</span>))) (applyIntRdr [])
+
+<span class="co">-- Code Duplication</span>
+
+<span class="co">-- ***      ******      *******      ****</span>
+<span class="co">-- runOptions :: [Option a] -&gt; Option [a]</span>
+<span class="co">-- runIntRdrs :: [IntRdr a] -&gt; IntRdr [a]</span>
+
+<span class="co">-- ***      ***********************      **************      ************           ****</span>
+<span class="co">-- runOptions = foldr (\a b -&gt; bindOption a (\aa -&gt; mapOption b (aa:))) (applyOption [])</span>
+<span class="co">-- runIntRdrs = foldr (\a b -&gt; bindIntRdr a (\aa -&gt; mapIntRdr b (aa:))) (applyIntRdr [])</span></code></pre>
+<h1 id="c">C#</h1>
+<pre class="sourceCode cs"><code class="sourceCode cs"><span class="kw">using</span> System;
+
+<span class="kw">namespace</span> RefactoringPuzzle {
+<span class="kw">class</span> IntRdr&lt;A&gt; {
+  <span class="kw">public</span> <span class="kw">readonly</span> Func&lt;<span class="dt">int</span>, A&gt; read;
+
+  <span class="fu">IntRdr</span>(Func&lt;<span class="dt">int</span>, A&gt; read) {
+    <span class="kw">this</span>.<span class="fu">read</span> = read;
+  }
+
+  <span class="kw">public</span> IntRdr&lt;B&gt; Select&lt;B&gt;(Func&lt;A, B&gt; f) {
+    <span class="kw">return</span> <span class="kw">new</span> IntRdr&lt;B&gt;(n =&gt; <span class="fu">f</span>(<span class="fu">read</span>(n)));
+  }
+
+  <span class="kw">public</span> IntRdr&lt;B&gt; SelectMany&lt;B&gt;(Func&lt;A, IntRdr&lt;B&gt;&gt; f) {
+    <span class="kw">return</span> <span class="kw">new</span> IntRdr&lt;B&gt;(n =&gt; <span class="fu">f</span>(<span class="fu">read</span>(n)).<span class="fu">read</span>(n));
+  }
+
+  <span class="kw">public</span> <span class="kw">static</span> IntRdr&lt;A&gt; <span class="fu">apply</span>(A a) {
+    <span class="kw">return</span> <span class="kw">new</span> IntRdr&lt;A&gt;(_ =&gt; a);
+  }
+}
+
+<span class="kw">abstract</span> <span class="kw">class</span> Option&lt;A&gt; {
+  <span class="kw">public</span> <span class="kw">abstract</span> X Fold&lt;X&gt;(Func&lt;A, X&gt; some, X none);
+
+  <span class="kw">public</span> Option&lt;B&gt; Select&lt;B&gt;(Func&lt;A, B&gt; f) {
+    <span class="kw">return</span> Fold&lt;Option&lt;B&gt;&gt;(a =&gt; <span class="kw">new</span> Option&lt;B&gt;.<span class="fu">Some</span>(<span class="fu">f</span>(a)), <span class="kw">new</span> Option&lt;B&gt;.<span class="fu">None</span>());
+  }
+
+  <span class="kw">public</span> Option&lt;B&gt; SelectMany&lt;B&gt;(Func&lt;A, Option&lt;B&gt;&gt; f) {
+    <span class="kw">return</span> <span class="fu">Fold</span>(f, <span class="kw">new</span> Option&lt;B&gt;.<span class="fu">None</span>());
+  }
+
+  <span class="kw">public</span> <span class="kw">static</span> Option&lt;A&gt; <span class="fu">apply</span>(A a) {
+    <span class="kw">return</span> <span class="kw">new</span> <span class="fu">Some</span>(a);
+  }
+
+  <span class="kw">public</span> <span class="kw">class</span> Some : Option&lt;A&gt; {
+    <span class="kw">readonly</span> A a;
+
+    <span class="kw">public</span> <span class="fu">Some</span>(A a) {
+      <span class="kw">this</span>.<span class="fu">a</span> = a;
+    }
+
+    <span class="kw">public</span> <span class="kw">override</span> X Fold&lt;X&gt;(Func&lt;A, X&gt; some, X none) {
+      <span class="kw">return</span> <span class="fu">some</span>(a);
+    }
+  }
+
+  <span class="kw">public</span> <span class="kw">class</span> None : Option&lt;A&gt; {
+    <span class="kw">public</span> <span class="kw">override</span> X Fold&lt;X&gt;(Func&lt;A, X&gt; some, X none) {
+      <span class="kw">return</span> none;
+    }
+  }
+}
+
+<span class="kw">abstract</span> <span class="kw">class</span> List&lt;A&gt; {
+  <span class="kw">public</span> <span class="kw">abstract</span> X FoldRight&lt;X&gt;(Func&lt;A, X, X&gt; f, X x);
+
+  <span class="co">// Return all the Some values, or None if not all are Some.</span>
+  Option&lt;List&lt;A&gt;&gt; <span class="fu">runOptions</span>(List&lt;Option&lt;A&gt;&gt; x) {
+    <span class="kw">return</span> x.<span class="fu">FoldRight</span>((a, b) =&gt; a.<span class="fu">SelectMany</span>(aa =&gt;
+      b.<span class="fu">Select</span>(bb =&gt; bb.<span class="fu">Prepend</span>(aa))), Option&lt;List&lt;A&gt;&gt;.<span class="fu">apply</span>(<span class="kw">new</span> <span class="fu">Nil</span>()));
+  }
+
+  <span class="co">// Apply an Int to a list of int readers and return the list of return values.</span>
+  IntRdr&lt;List&lt;A&gt;&gt; <span class="fu">runIntRdrs</span>(List&lt;IntRdr&lt;A&gt;&gt; x) {
+    <span class="kw">return</span> x.<span class="fu">FoldRight</span>((a, b) =&gt; a.<span class="fu">SelectMany</span>(aa =&gt;
+      b.<span class="fu">Select</span>(bb =&gt; bb.<span class="fu">Prepend</span>(aa))), IntRdr&lt;List&lt;A&gt;&gt;.<span class="fu">apply</span>(<span class="kw">new</span> <span class="fu">Nil</span>()));
+  }
+
+  <span class="kw">public</span> List&lt;A&gt; <span class="fu">Prepend</span>(A a) {
+    <span class="kw">return</span> <span class="kw">new</span> <span class="fu">Cons</span>(a, <span class="kw">this</span>);
+  }
+
+  <span class="kw">public</span> <span class="kw">class</span> Nil : List&lt;A&gt; {
+    <span class="kw">public</span> <span class="kw">override</span> X FoldRight&lt;X&gt;(Func&lt;A, X, X&gt; f, X x) {
+      <span class="kw">return</span> x;
+    }
+  }
+
+  <span class="kw">public</span> <span class="kw">class</span> Cons : List&lt;A&gt; {
+    <span class="kw">readonly</span> A head;
+    <span class="kw">readonly</span> List&lt;A&gt; tail;
+
+    <span class="kw">public</span> <span class="fu">Cons</span>(A head, List&lt;A&gt; tail) {
+      <span class="kw">this</span>.<span class="fu">head</span> = head;
+      <span class="kw">this</span>.<span class="fu">tail</span> = tail;
+    }
+
+    <span class="kw">public</span> <span class="kw">override</span> X FoldRight&lt;X&gt;(Func&lt;A, X, X&gt; f, X x) {
+      <span class="kw">return</span> <span class="fu">f</span>(head, tail.<span class="fu">FoldRight</span>(f, x));
+    }
+  }
+}
+
+<span class="co">// Code Duplication</span>
+
+<span class="co">//       *************      *******      *********</span>
+<span class="co">// Option&lt;List&lt;A&gt;&gt; runOptions(List&lt;Option&lt;A&gt;&gt; x) {</span>
+<span class="co">// IntRdr&lt;List&lt;A&gt;&gt; runIntRdrs(List&lt;IntRdr&lt;A&gt;&gt; x) {</span>
+
+<span class="co">// ***********************************************</span>
+<span class="co">// return x.FoldRight((a, b) =&gt; a.SelectMany(aa =&gt;</span>
+<span class="co">// return x.FoldRight((a, b) =&gt; a.SelectMany(aa =&gt;</span>
+
+<span class="co">// *********************************      ****************************</span>
+<span class="co">// b.Select(bb =&gt; bb.Prepend(aa))), Option&lt;List&lt;A&gt;&gt;.apply(new Nil()));</span>
+<span class="co">// b.Select(bb =&gt; bb.Prepend(aa))), IntRdr&lt;List&lt;A&gt;&gt;.apply(new Nil()));</span>
+
+}</code></pre>
+<h1 id="java">Java</h1>
+<pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">package RefactoringPuzzle;</span>
+
+<span class="kw">abstract</span> <span class="kw">class</span> Func&lt;T, U&gt; {
+  <span class="kw">abstract</span> U <span class="fu">apply</span>(T t);
+}
+
+<span class="kw">abstract</span> <span class="kw">class</span> IntRdr&lt;A&gt; {
+  <span class="kw">abstract</span> A <span class="fu">read</span>(<span class="dt">int</span> i);
+
+  &lt;B&gt; IntRdr&lt;B&gt; <span class="fu">map</span>(<span class="dt">final</span> Func&lt;A, B&gt; f) {
+    <span class="kw">return</span> <span class="kw">new</span> IntRdr&lt;B&gt;() {
+      B <span class="fu">read</span>(<span class="dt">int</span> i) {
+        <span class="kw">return</span> f.<span class="fu">apply</span>(IntRdr.<span class="fu">this</span>.<span class="fu">read</span>(i));
+      }
+    };
+  }
+
+  &lt;B&gt; IntRdr&lt;B&gt; <span class="fu">bind</span>(<span class="dt">final</span> Func&lt;A, IntRdr&lt;B&gt;&gt; f) {
+    <span class="kw">return</span> <span class="kw">new</span> IntRdr&lt;B&gt;() {
+      B <span class="fu">read</span>(<span class="dt">int</span> i) {
+        <span class="kw">return</span> f.<span class="fu">apply</span>(IntRdr.<span class="fu">this</span>.<span class="fu">read</span>(i)).<span class="fu">read</span>(i);
+      }
+    };
+  }
+
+  <span class="dt">static</span> &lt;A&gt; IntRdr&lt;A&gt; <span class="fu">apply</span>(<span class="dt">final</span> A a) {
+    <span class="kw">return</span> <span class="kw">new</span> IntRdr&lt;A&gt;() {
+      A <span class="fu">read</span>(<span class="dt">int</span> _) {
+        <span class="kw">return</span> a;
+      }
+    };
+  }
+}
+
+<span class="kw">abstract</span> <span class="kw">class</span> Option&lt;A&gt; {
+  <span class="kw">abstract</span> &lt;X&gt; X <span class="fu">fold</span>(Func&lt;A, X&gt; some, X none);
+
+  &lt;B&gt; Option&lt;B&gt; <span class="fu">map</span>(<span class="dt">final</span> Func&lt;A, B&gt; f) {
+    <span class="kw">return</span> <span class="kw">new</span> Option&lt;B&gt;() {
+      &lt;X&gt; X <span class="fu">fold</span>(<span class="dt">final</span> Func&lt;B, X&gt; some, X none) {
+        <span class="kw">return</span> Option.<span class="fu">this</span>.<span class="fu">fold</span>(<span class="kw">new</span> Func&lt;A, X&gt;(){
+          X <span class="fu">apply</span>(A a) {
+            <span class="kw">return</span> some.<span class="fu">apply</span>(f.<span class="fu">apply</span>(a));
+          }
+        }, none);
+      }
+    };
+  }
+
+  &lt;B&gt; Option&lt;B&gt; <span class="fu">bind</span>(<span class="dt">final</span> Func&lt;A, Option&lt;B&gt;&gt; f) {
+    <span class="kw">return</span> <span class="kw">new</span> Option&lt;B&gt;() {
+      &lt;X&gt; X <span class="fu">fold</span>(<span class="dt">final</span> Func&lt;B, X&gt; some, <span class="dt">final</span> X none) {
+        <span class="kw">return</span> Option.<span class="fu">this</span>.<span class="fu">fold</span>(<span class="kw">new</span> Func&lt;A, X&gt;(){
+          X <span class="fu">apply</span>(A a) {
+            <span class="kw">return</span> f.<span class="fu">apply</span>(a).<span class="fu">fold</span>(some, none);
+          }
+        }, none);
+      }
+    };
+  }
+
+  <span class="dt">static</span> &lt;A&gt; Option&lt;A&gt; <span class="fu">apply</span>(<span class="dt">final</span> A a) {
+    <span class="kw">return</span> <span class="kw">new</span> Option&lt;A&gt;() {
+      &lt;X&gt; X <span class="fu">fold</span>(Func&lt;A, X&gt; some, X none) {
+        <span class="kw">return</span> some.<span class="fu">apply</span>(a);
+      }
+    };
+  }
+}
+
+<span class="kw">abstract</span> <span class="kw">class</span> List&lt;A&gt; {
+  <span class="kw">abstract</span> &lt;X&gt; X <span class="fu">foldRight</span>(Func&lt;A, Func&lt;X, X&gt;&gt; f, X x);
+
+  <span class="co">// Return all the Some values, or None if not all are Some.</span>
+  <span class="dt">static</span> &lt;A&gt; Option&lt;List&lt;A&gt;&gt; <span class="fu">runOptions</span>(List&lt;Option&lt;A&gt;&gt; x) {
+    <span class="kw">return</span> x.<span class="fu">foldRight</span>(<span class="kw">new</span> Func&lt;Option&lt;A&gt;, Func&lt;Option&lt;List&lt;A&gt;&gt;, Option&lt;List&lt;A&gt;&gt;&gt;&gt;(){
+      Func&lt;Option&lt;List&lt;A&gt;&gt;, Option&lt;List&lt;A&gt;&gt;&gt; <span class="fu">apply</span>(<span class="dt">final</span> Option&lt;A&gt; a) {
+        <span class="kw">return</span> <span class="kw">new</span> Func&lt;Option&lt;List&lt;A&gt;&gt;, Option&lt;List&lt;A&gt;&gt;&gt;() {
+          Option&lt;List&lt;A&gt;&gt; <span class="fu">apply</span>(<span class="dt">final</span> Option&lt;List&lt;A&gt;&gt; b) {
+            <span class="kw">return</span> a.<span class="fu">bind</span>(<span class="kw">new</span> Func&lt;A, Option&lt;List&lt;A&gt;&gt;&gt;(){
+              Option&lt;List&lt;A&gt;&gt; <span class="fu">apply</span>(<span class="dt">final</span> A aa) {
+                <span class="kw">return</span> b.<span class="fu">map</span>(<span class="kw">new</span> Func&lt;List&lt;A&gt;, List&lt;A&gt;&gt;(){
+                  List&lt;A&gt; <span class="fu">apply</span>(List&lt;A&gt; bb) {
+                    <span class="kw">return</span> bb.<span class="fu">prepend</span>(aa);
+                  }
+                });
+              }
+            });
+          }
+        };
+      }
+    }, Option.<span class="fu">apply</span>(List.&lt;A&gt;<span class="fu">nil</span>()));
+  }
+
+  <span class="co">// Apply an Int to a list of int readers and return the list of return values.</span>
+  <span class="dt">static</span> &lt;A&gt; IntRdr&lt;List&lt;A&gt;&gt; <span class="fu">runIntRdrs</span>(List&lt;IntRdr&lt;A&gt;&gt; x) {
+    <span class="kw">return</span> x.<span class="fu">foldRight</span>(<span class="kw">new</span> Func&lt;IntRdr&lt;A&gt;, Func&lt;IntRdr&lt;List&lt;A&gt;&gt;, IntRdr&lt;List&lt;A&gt;&gt;&gt;&gt;(){
+      Func&lt;IntRdr&lt;List&lt;A&gt;&gt;, IntRdr&lt;List&lt;A&gt;&gt;&gt; <span class="fu">apply</span>(<span class="dt">final</span> IntRdr&lt;A&gt; a) {
+        <span class="kw">return</span> <span class="kw">new</span> Func&lt;IntRdr&lt;List&lt;A&gt;&gt;, IntRdr&lt;List&lt;A&gt;&gt;&gt;() {
+          IntRdr&lt;List&lt;A&gt;&gt; <span class="fu">apply</span>(<span class="dt">final</span> IntRdr&lt;List&lt;A&gt;&gt; b) {
+            <span class="kw">return</span> a.<span class="fu">bind</span>(<span class="kw">new</span> Func&lt;A, IntRdr&lt;List&lt;A&gt;&gt;&gt;(){
+              IntRdr&lt;List&lt;A&gt;&gt; <span class="fu">apply</span>(<span class="dt">final</span> A aa) {
+                <span class="kw">return</span> b.<span class="fu">map</span>(<span class="kw">new</span> Func&lt;List&lt;A&gt;, List&lt;A&gt;&gt;(){
+                  List&lt;A&gt; <span class="fu">apply</span>(List&lt;A&gt; bb) {
+                    <span class="kw">return</span> bb.<span class="fu">prepend</span>(aa);
+                  }
+                });
+              }
+            });
+          }
+        };
+      }
+    }, IntRdr.<span class="fu">apply</span>(List.&lt;A&gt;<span class="fu">nil</span>()));
+  }
+
+  List&lt;A&gt; <span class="fu">prepend</span>(<span class="dt">final</span> A a) {
+    <span class="kw">return</span> <span class="kw">new</span> List&lt;A&gt;() {
+      &lt;X&gt; X <span class="fu">foldRight</span>(Func&lt;A, Func&lt;X, X&gt;&gt; f, X x) {
+        <span class="kw">return</span> f.<span class="fu">apply</span>(a).<span class="fu">apply</span>(<span class="kw">this</span>.<span class="fu">foldRight</span>(f, x));
+      }
+    };
+  }
+
+  <span class="dt">static</span> &lt;A&gt; List&lt;A&gt; <span class="fu">nil</span>() {
+    <span class="kw">return</span> <span class="kw">new</span> List&lt;A&gt;() {
+      &lt;X&gt; X <span class="fu">foldRight</span>(Func&lt;A, Func&lt;X, X&gt;&gt; f, X x) {
+        <span class="kw">return</span> x;
+      }
+    };
+  }
+}
+
+<span class="co">// Code Duplication</span>
+
+<span class="co">// ***********      *************      *******      *********</span>
+<span class="co">// static &lt;A&gt; Option&lt;List&lt;A&gt;&gt; runOptions(List&lt;Option&lt;A&gt;&gt; x) {</span>
+<span class="co">// static &lt;A&gt; IntRdr&lt;List&lt;A&gt;&gt; runIntRdrs(List&lt;IntRdr&lt;A&gt;&gt; x) {</span>
+
+<span class="co">//   ****************************      **********      ***********      **************</span>
+<span class="co">//   return x.foldRight(new Func&lt;Option&lt;A&gt;, Func&lt;Option&lt;List&lt;A&gt;&gt;, Option&lt;List&lt;A&gt;&gt;&gt;&gt;(){</span>
+<span class="co">//   return x.foldRight(new Func&lt;IntRdr&lt;A&gt;, Func&lt;IntRdr&lt;List&lt;A&gt;&gt;, IntRdr&lt;List&lt;A&gt;&gt;&gt;&gt;(){</span>
+
+<span class="co">//     *****      ***********      ***********************      ********</span>
+<span class="co">//     Func&lt;Option&lt;List&lt;A&gt;&gt;, Option&lt;List&lt;A&gt;&gt;&gt; apply(final Option&lt;A&gt; a) {</span>
+<span class="co">//     Func&lt;IntRdr&lt;List&lt;A&gt;&gt;, IntRdr&lt;List&lt;A&gt;&gt;&gt; apply(final IntRdr&lt;A&gt; a) {</span>
+
+<span class="co">//       ****************      ***********      **************</span>
+<span class="co">//       return new Func&lt;Option&lt;List&lt;A&gt;&gt;, Option&lt;List&lt;A&gt;&gt;&gt;() {</span>
+<span class="co">//       return new Func&lt;IntRdr&lt;List&lt;A&gt;&gt;, IntRdr&lt;List&lt;A&gt;&gt;&gt;() {</span>
+
+<span class="co">//               **********************      **************</span>
+<span class="co">//         Option&lt;List&lt;A&gt;&gt; apply(final Option&lt;List&lt;A&gt;&gt; b) {</span>
+<span class="co">//         IntRdr&lt;List&lt;A&gt;&gt; apply(final IntRdr&lt;List&lt;A&gt;&gt; b) {</span>
+
+<span class="co">//           **************************      *************</span>
+<span class="co">//           return a.bind(new Func&lt;A, Option&lt;List&lt;A&gt;&gt;&gt;(){</span>
+<span class="co">//           return a.bind(new Func&lt;A, IntRdr&lt;List&lt;A&gt;&gt;&gt;(){</span>
+
+<span class="co">//                   *****************************</span>
+<span class="co">//             Option&lt;List&lt;A&gt;&gt; apply(final A aa) {</span>
+<span class="co">//             IntRdr&lt;List&lt;A&gt;&gt; apply(final A aa) {</span>
+
+<span class="co">//               ******************************************</span>
+<span class="co">//               return b.map(new Func&lt;List&lt;A&gt;, List&lt;A&gt;&gt;(){</span>
+<span class="co">//               return b.map(new Func&lt;List&lt;A&gt;, List&lt;A&gt;&gt;(){</span>
+
+<span class="co">//                 ***************************</span>
+<span class="co">//                 List&lt;A&gt; apply(List&lt;A&gt; bb) {</span>
+<span class="co">//                 List&lt;A&gt; apply(List&lt;A&gt; bb) {</span>
+
+<span class="co">//                   **********************</span>
+<span class="co">//                   return bb.prepend(aa);</span>
+<span class="co">//                   return bb.prepend(aa);</span>
+  …
+<span class="co">//   ***      ***********************</span>
+<span class="co">//   }, Option.apply(List.&lt;A&gt;nil()));</span>
+<span class="co">//   }, IntRdr.apply(List.&lt;A&gt;nil()));</span>
+  …</code></pre>]]></summary>
+</entry>
+<entry>
+    <title>Obturator Entrapment Neuropathy (update)</title>
+    <link href="http://blog.tmorris.net/posts/obturator-neuropathy-update/index.html" />
+    <id>http://blog.tmorris.net/posts/obturator-neuropathy-update/index.html</id>
+    <published>2013-04-24T20:00:00Z</published>
+    <updated>2013-04-24T20:00:00Z</updated>
+    <summary type="html"><![CDATA[<p>After a subsequent meeting with an specialist inter-state, the diagnosis of <a href="http://blog.tmorris.net/posts/obturator-neuropathy/">obturator neuropathy</a> has been revised. Obturator neuropathy rarely occasions in isolation[1]. The true diagnosis is more sinister, with the obturator neuropathy occurring as one of many symptoms.</p>
+<p>Reconstructive surgery is required.</p>
+<hr />
+<ol style="list-style-type: decimal">
+<li>Tipton, John Sison. “Obturator neuropathy.” <em>Current reviews in musculoskeletal medicine</em> 1.3-4 (2008): 234-237. <a href="$papers$/obturator-neuropathy-tipton.pdf?raw=true"><em>(link)</em></a></li>
+</ol>]]></summary>
+</entry>
+<entry>
+    <title>List Folds at BFPG</title>
+    <link href="http://blog.tmorris.net/posts/list-folds-bfpg/index.html" />
+    <id>http://blog.tmorris.net/posts/list-folds-bfpg/index.html</id>
+    <published>2013-04-24T15:00:00Z</published>
+    <updated>2013-04-24T15:00:00Z</updated>
+    <summary type="html"><![CDATA[<p>A talk on the list fold functions (fold left and fold right), delivered to <a href="http://www.bfpg.org/events/96368322/?eventId=96368322&amp;action=detail">Brisbane Functional Programming Group on Tuesday 23 April 2013</a>.</p>
+<ul>
+<li><p><a href="http://dl.dropbox.com/u/7810909/media/doc/list-folds.pdf">Slides</a> <em>(pdf)</em></p></li>
+<li><p><a href="https://vimeo.com/64673035">Video</a> <em>(vimeo)</em></p></li>
+</ul>
+<div class="embed-vimeo">
+  <iframe src="http://player.vimeo.com/video/64673035" width="688" height="387" frameborder="0" webkitAllowFullScreen="true" mozallowfullscreen="true" allowFullScreen="true">
+  </iframe>
+</div>
+
+]]></summary>
+</entry>
+<entry>
+    <title>Obturator Entrapment Neuropathy</title>
+    <link href="http://blog.tmorris.net/posts/obturator-neuropathy/index.html" />
+    <id>http://blog.tmorris.net/posts/obturator-neuropathy/index.html</id>
+    <published>2013-04-11T19:00:00Z</published>
+    <updated>2013-04-11T19:00:00Z</updated>
+    <summary type="html"><![CDATA[<p>After 19 surgeries<sup><a href="#fn1" class="footnoteRef" id="fnref1">1</a></sup> and 5 years of searching for the source of my chronic pain syndrome, which started with a sporting injury in 2007, I have been found to have a condition called Obturator Neuropathy — a source of chronic pain affecting athletes.</p>
+<p>Unfortunately, many specialists are unaware of this condition and so may not recognise the correct diagnosis, which has been my case. Obturator Neuropathy typically affects those engaged in kicking sports and especially, Australian Rules football. Although I was playing Australian Rules football at the time of my injury, I live in Brisbane, where the sport is less popular than in other cities such as Melbourne and Sydney, where the condition is more recognised. I have recently learned that many more specialists in these cities are aware of this insidious disease, while I have yet to find anyone in Brisbane who even know it exists — I suppose this set of circumstances came together to delay my correct diagnosis for many years.</p>
+<p>This article is the first of my writings on this condition, as at this time, it is still currently unresolved. I am planning to meet with many specialists in the next few days to discuss surgical management. Later, I intend to raise greater awareness of this condition in the hope that other athletes, professional or otherwise, needn’t go through the dramas that I have done in these last few years.</p>
+<p>My pain is now so severe that I am unable to perform my normal duties for my employer. Thankfully, my employer is awesome and understanding of my plight and I am committed to resolving this matter as soon as possible so that I can contribute back my highest level of performance. I am thankful to others in their understanding and I apologise to those who have sometimes been on “the wrong end of the stick” of my frustrations especially when I am having a “bad day” with pain. I am also usually taking narcotic medication during these times, so my recollection of the events is typically blurry to me.</p>
+<p>If you are ever inflicted with this condition, I highly recommend these publications, with most recommended appearing first:</p>
+<ol style="list-style-type: decimal">
+<li><p>Bradshaw, Chris, et al. “Obturator Nerve Entrapment A Cause of Groin Pain in Athletes.” <em>The American journal of sports medicine</em> 25.3 (1997): 402-408. <a href="$papers$/obturator-nerve-entrapment-a-cause-of-groin-pain.pdf?raw=true"><em>(link)</em></a></p></li>
+<li><p>Bradshaw, Chris, and Paul McCrory. “Obturator nerve entrapment.” <em>Clinical Journal of Sport Medicine</em> 7.3 (1997): 217-219. <a href="$papers$/obturator-nerve-entrapment.pdf?raw=true"><em>(link)</em></a></p></li>
+<li><p>Tipton, John Sison. “Obturator neuropathy.” <em>Current reviews in musculoskeletal medicine</em> 1.3-4 (2008): 234-237. <a href="$papers$/obturator-neuropathy-tipton.pdf?raw=true"><em>(link)</em></a></p></li>
+<li><p>Harvey, Gregory, and Simon Bell. “Obturator neuropathy: an anatomic perspective.” <em>Clinical orthopaedics and related research</em> 363 (1999): 203-211. <a href="$papers$/obturator-neuropathy-an-anatomic-perspective.pdf?raw=true"><em>(link)</em></a></p></li>
+<li><p>Busis, Neil A. “Femoral and obturator neuropathies.” <em>Neurologic clinics</em> 17.3 (1999): 633-653. <a href="$papers$/femoral-and-obturator-neuropathies.pdf?raw=true"><em>(link)</em></a></p></li>
+<li><p>Koulouris, George. “Imaging review of groin pain in elite athletes: an anatomic approach to imaging findings.” <em>American Journal of Roentgenology</em> 191.4 (2008): 962-972. <a href="$papers$/imaging-review-of-groin-pain.pdf?raw=true"><em>(link)</em></a></p></li>
+<li><p>Sorenson, Eric J., Joseph J. Chen, and Jasper R. Daube. “Obturator neuropathy: causes and outcome.” <em>Muscle &amp; nerve</em> 25.4 (2002): 605-607. <a href="$papers$/obturator-neuropathy-causes-and-outcome.pdf?raw=true"><em>(link)</em></a></p></li>
+<li><p>Kitagawa, Ryan, et al. “Surgical management of obturator nerve lesions.” <em>Neurosurgery</em> 65.4 (2009): A24-A28. <a href="$papers$/surgical-management-of-obturator-nerve-lesions.pdf?raw=true"><em>(link)</em></a></p></li>
+<li><p>Arnold, William David, and Bakri H. Elsheikh. “Entrapment Neuropathies.” <em>Neurologic Clinics</em> (2013). <a href="$papers$/entrapment-neuropathies.pdf?raw=true"><em>(link)</em></a></p></li>
+<li><p>Orchard, John, et al. “Pathophysiology of chronic groin pain in the athlete.” <em>Int J Sports Med</em> 1.1 (2000). <a href="$papers$/pathophysiology-of-chronic-groin-pain.pdf?raw=true"><em>(link)</em></a></p></li>
+<li><p>Anagnostopoulou, Sofia, et al. “Anatomic variations of the obturator nerve in the inguinal region: implications in conventional and ultrasound regional anesthesia techniques.” <em>Regional anesthesia and pain medicine</em> 34.1 (2009): 33-39. <a href="$papers$/anatomic-variations-of-the-obturator-nerve.pdf?raw=true"><em>(link)</em></a></p></li>
+<li><p>Falvey, Eanna Cian, Andrew Franklyn-Miller, and P. R. McCrory. “The groin triangle: a patho-anatomical approach to the diagnosis of chronic groin pain in athletes.” <em>British journal of sports medicine</em> 43.3 (2009): 213-220. <a href="$papers$/the-groin-triangle.pdf?raw=true"><em>(link)</em></a></p></li>
+</ol>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>21 surgeries under a strict definition of the term “surgery” but let’s stick with 19 :)<a href="#fnref1">↩</a></p></li>
+</ol>
+</div>]]></summary>
+</entry>
+<entry>
+    <title>Teaching a Man to Fish …and all that</title>
+    <link href="http://blog.tmorris.net/posts/teaching-a-man-to-fish/index.html" />
+    <id>http://blog.tmorris.net/posts/teaching-a-man-to-fish/index.html</id>
+    <published>2013-04-10T13:00:00Z</published>
+    <updated>2013-04-10T13:00:00Z</updated>
+    <summary type="html"><![CDATA[<p>One of the very nice properties of type-safe, functional source code or API is that “an example usage of that API …” can almost always be answered with “anything that type-checks.” Now for some people and for some libraries, this answer is unsatisfactory, offensive even — they demand an example dammit!</p>
+<p>But what they think I am going to do? Do they really think I have a library of examples in my head that I am holding hostage? Do they think that I am being spiteful toward them by withholding this library of knowledge that I possess and they do not? No, what I would do here is exactly what they are very capable of doing — they can find any type-checking program. In fact, this is the tool support that I aspire to so that I do not have to maintain a “library of examples” in my own head.</p>
+<p>By appeasing their demand for “example usages of …”, if I were to do such an unfortunate thing, I am disservicing them. I am taking away their opportunity to develop the skills to answer this question for themselves. I am not even giving a good answer to the specifics of the question. It is not “a good example” of anything at all. It is the <em>process</em> by which the example is derived that is useful and nothing else.</p>
+<p>So go on, try it. Create yourself a type-checking program. You may be a bit uncomfortable with the much higher degree of tool support in this environment. All I can say is, embrace it, cherish it even. Go.</p>]]></summary>
+</entry>
+
+</feed>

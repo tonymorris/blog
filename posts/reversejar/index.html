@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>λ Tony's blog λ - reverse.jar</title>
+  <link rel="stylesheet" type="text/css" href="../../css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/syntax.css" />
+  <link rel="alternate" type="application/atom+xml" href="http://blog.tmorris.net/atom.xml" title="Atom feed" />
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/javascript" src="https://raw.github.com/Mathapedia/LaTeX2HTML5/master/latex2html5.min.js"></script>
+</head>
+<body>
+<div id="title">
+  λ Tony's blog λ
+  <div id="subtitle">
+    The weblog of Tony Morris
+  </div>
+</div>
+<div id="header">
+  <div id="navigation">
+    <a href="../../index.html">Home</a>
+    <a href="../../posts/">All Posts</a>
+    <a href="../../contact/">Contact</a>
+    <a href="http://cv.tmorris.net/">CV</a>
+    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+  </div>
+</div>
+<h1>reverse.jar</h1>
+<div class="info">Posted on September 29, 2010, in <a href="../../tags/Programming/index.html">Programming</a></div>
+
+<p>There was once a programming language called Jolly. It was exactly like what would become Java, except for a couple of differences.</p>
+<ol style="list-style-type: decimal">
+<li><p>The language did not have parametric polymorphism of any kind. No generics, nadda. In fact, the inventors of Jolly had never even heard of it.</p></li>
+<li><p>The language did not have a common supertype. No <code>java.lang.Object</code></p></li>
+</ol>
+<p>The Jolly language was incredibly popular, especially among enterprise programmers. There were massive open source contributions written in Jolly, including one library, which was called <strong>list.reverse</strong>.</p>
+<p>The <strong>list.reverse</strong> library had about 140 developers (and getting stronger!) across the world all working away. You see, since Jolly had no parametric polymorphism, every time you wanted to reverse a list of say, <code>Banana</code>s, you had to check if reverse was already written for Bananas in the library, or if not, write it and commit to HEAD.</p>
+<p>An academic, Robin, was chuffing on a joint rolled in some bark on which he had scribbled the thesis for the pi-calculus, after having invented an advanced ML programming language (with generics), spent a few years launching a space probe with it, found the challenge uninteresting, then decided to take on the harder stuff, made the effort to let the Jolly developers in on a little secret, “Hey guys, parametric polymorphism – it was invented decades ago, has been formalised and shown to be useful in many domains, including this one.”</p>
+<p>“Who <em>was</em> this guy!? How dare he interrupt us on our pursuit to solve real-world list reversing with this academic nonsense!” was the first post to the mailing list. The Jolly contributors were <em>furious</em> at the careless remark of this Robin guy who, as far as they were concerned, had never written a line of industry-grade software in his life.</p>
+<p>“Guys, just saying. You don’t need to keep writing this library over and over. I thought you might like to know. Just introduce this language feature and you’re done. I’ve attached a patch.”</p>
+<p>Well now didn’t this get under the nose of the Jolly contributors. All that hard work had just been undermined in a short email by this person who had never written a single line of Jolly in his entire life. What would he know about list reversing anyway!? We have years of experience!</p>
+<p>The academic finished off his joint and visited his colleague down the hall, Hermann, who was about to publish a thesis on new findings in the Lie Algebra, “those guys really got upset eh?”, Hermann remarked. Robin, not giving much of a shit, made a noise through his nose then asked, “So what’s new?”</p>
+<p>It’s now a few years since that email. The patch to Jolly was never looked at. The list.reverse developers recently released a version 5.0 of their library, which implements reverse for lists of every single class in the Jolly library, and includes a plug-in for every type in the most popular ORM library for Jolly. The project was also forked to include reverse for both arrays and lists and is now more popular than list.reverse.</p>
+<p>Robin and Hermann have since forgotten that Jolly even exists. Their colleagues have advanced computational theory well beyond what will soon become Java.</p>
+
+
+<hr />
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'tonys--blog';
+  var discus_identifier = '/posts/reversejar/index.html';
+  var disqus_url = 'http://blog.tmorris.net/posts/reversejar/index.html';
+  var discus_title = 'reverse.jar';
+  (function () {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript><p>The comments use <a href="http://disqus.com/?ref_noscript">Disqus</a>,
+  which requires Javascript.</p></noscript>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-3405112-1']);
+  _gaq.push(['_trackPageview']);
+  (function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+</html>

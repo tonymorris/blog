@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>λ Tony's blog λ - Memoisation with State using Scala</title>
+  <link rel="stylesheet" type="text/css" href="../../css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/syntax.css" />
+  <link rel="alternate" type="application/atom+xml" href="http://blog.tmorris.net/atom.xml" title="Atom feed" />
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/javascript" src="https://raw.github.com/Mathapedia/LaTeX2HTML5/master/latex2html5.min.js"></script>
+</head>
+<body>
+<div id="title">
+  λ Tony's blog λ
+  <div id="subtitle">
+    The weblog of Tony Morris
+  </div>
+</div>
+<div id="header">
+  <div id="navigation">
+    <a href="../../index.html">Home</a>
+    <a href="../../posts/">All Posts</a>
+    <a href="../../contact/">Contact</a>
+    <a href="http://cv.tmorris.net/">CV</a>
+    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+  </div>
+</div>
+<h1>Memoisation with State using Scala</h1>
+<div class="info">Posted on February 22, 2013, in <a href="../../tags/Programming/index.html">Programming</a>, <a href="../../tags/Scala/index.html">Scala</a>, <a href="../../tags/State/index.html">State</a>, <a href="../../tags/Memoisation/index.html">Memoisation</a>, <a href="../../tags/Fibonacci/index.html">Fibonacci</a></div>
+
+<p>Everyone has seen a naïve fibonacci implementation</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">object</span> FibNaïve {
+  <span class="kw">def</span> fibnaïve(n: BigInt): BigInt =
+    <span class="kw">if</span>(n &lt;= <span class="dv">1</span>)
+      n
+    <span class="kw">else</span> {
+      <span class="kw">val</span> r = fibnaïve(n - <span class="dv">1</span>)
+      <span class="kw">val</span> s = fibnaïve(n - <span class="dv">2</span>)
+      r + s
+    }
+}</code></pre>
+<p>While this implementation is elegant, it is exponential in time with respect to <code>n</code>. For example, computing the result of <code>fibnaïve(4)</code> will result in the unnecessary re-computation of values less than <code>4</code>. If we unravel the recursion, computation occurs as follows:</p>
+<pre><code>  fibnaïve(4)
+= fibnaïve(3) + fibnaïve(2)
+= (fibnaïve(2) + fibnaïve(1)) + (fibnaïve(1) + fibnaïve(0))
+= ((fibnaïve(1) + fibnaïve(0)) + fibnaïve(1)) + (fibnaïve(1) + fibnaïve(0))</code></pre>
+<p>This algorithm calculates for <code>fibnaïve(2)</code> twice, which ultimately results in a lot of repeated calculations, especially as <code>n</code> grows. What we would like to do is trade some space to store previous stored values for a given <code>n</code>. We can achieve this by looking up the argument value in a table and if it has already been computed, we return it then carry on, but if it hasn’t, we compute the result by calling <code>fibnaïve</code>, store it in the table, then return it. This technique is called <em>memoisation</em>.</p>
+<p>As a first cut, let’s solve fibonacci with a helper function that passes a <code>Map[BigInt, BigInt]</code> around in the recursion. This map will serve at the memoisation table.</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">object</span> FibMemo1 {
+  <span class="kw">type</span> Memo = Map[BigInt, BigInt]
+
+  <span class="kw">def</span> <span class="fu">fibmemo1</span>(n: BigInt): BigInt = {
+    <span class="kw">def</span> <span class="fu">fibmemoR</span>(z: BigInt, memo: Memo): (BigInt, Memo) =
+      <span class="kw">if</span>(z &lt;= <span class="dv">1</span>)
+        (z, memo)
+      <span class="kw">else</span> memo get z <span class="kw">match</span> {
+        <span class="kw">case</span> None =&gt; {
+          <span class="kw">val</span> (r, memo0) = <span class="fu">fibmemoR</span>(z - <span class="dv">1</span>, memo)
+          <span class="kw">val</span> (s, memo1) = <span class="fu">fibmemoR</span>(z - <span class="dv">2</span>, memo0)
+          (r + s, memo1)
+        }
+        <span class="kw">case</span> Some(v) =&gt; (v, memo)
+      }
+
+    <span class="fu">fibmemoR</span>(n, Map()).<span class="fu">_1</span>
+  }
+}</code></pre>
+<p>We have traded space (the memoisation table) for speed; the algorithm is more efficient by not recomputing values. However, we have sacrificed the elegance of the code. How can we achieve both elegance and efficiency?</p>
+<h2 id="the-state-monad">The State Monad</h2>
+<p>The previous code (<code>fibmemo1</code>) has <em>passed state through the computation</em>. In other words, where we once returned a value of the type <code>A</code>, we are accepting an argument of the type <code>Memo</code> and returning the pair <code>(A, Memo)</code>. The state in this case is a value of the type <code>Memo</code>. We can represent this as a data structure:</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">case</span> <span class="kw">class</span> State[S, A](run: S =&gt; (A, S))</code></pre>
+<p>Our <code>fibmemoR</code> function which once had this type:</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">def</span> <span class="fu">fibmemoR</span>(z: BigInt, memo: Memo): (BigInt, Memo)</code></pre>
+<p>…can be transformed to this type:</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">def</span> <span class="fu">fibmemoR</span>(z: BigInt): State[Memo, BigInt]</code></pre>
+<p>Let’s write our new fibonacci function:</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">object</span> FibMemo2 {
+  <span class="kw">type</span> Memo = Map[BigInt, BigInt]
+
+  <span class="kw">def</span> <span class="fu">fibmemo2</span>(n: BigInt): BigInt = {
+    <span class="kw">def</span> <span class="fu">fibmemoR</span>(z: BigInt): State[Memo, BigInt] =
+      State(memo =&gt;
+        <span class="kw">if</span>(z &lt;= <span class="dv">1</span>)
+          (z, memo)
+        <span class="kw">else</span> memo get z <span class="kw">match</span> {
+          <span class="kw">case</span> None =&gt; {
+            <span class="kw">val</span> (r, memo0) = <span class="fu">fibmemoR</span>(z - <span class="dv">1</span>) run memo
+            <span class="kw">val</span> (s, memo1) = <span class="fu">fibmemoR</span>(z - <span class="dv">2</span>) run memo
+            (r + s, memo1)
+          }
+          <span class="kw">case</span> Some(v) =&gt; (v, memo)
+        })
+
+    <span class="fu">fibmemoR</span>(n).<span class="fu">run</span>(Map()).<span class="fu">_1</span>
+  }
+}</code></pre>
+<p>Ew! This code is still rather clumsy as it manually passes the memo table around. What can we do about it? This is where the state monad is going to help us out. The state monad is going to take care of passing the state value around for us. The monad itself is implemented by three functions:</p>
+<ol style="list-style-type: decimal">
+<li><p>The <code>map</code> method on <code>State[S, A]</code>.</p></li>
+<li><p>The <code>flatMap</code> method on <code>State[S, A]</code>.</p></li>
+<li><p>The <code>insert</code> function on the <code>object State</code> that <em>inserts a value while leaving the state unchanged</em>.</p></li>
+</ol>
+<p>I will also add three convenience functions:</p>
+<ol style="list-style-type: decimal">
+<li><p><code>eval</code> method for running the <code>State</code> value and dropping the resulting state value.</p></li>
+<li><p><code>get</code> function for taking the current state to a value. <code>(S =&gt; A) =&gt; State[S, A]</code></p></li>
+<li><p><code>mod</code> function for modifying the current state. <code>(S =&gt; S) =&gt; State[S, Unit]</code></p></li>
+</ol>
+<p>Here goes:</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">case</span> <span class="kw">class</span> State[S, A](run: S =&gt; (A, S)) {
+  <span class="co">// 1. the map method</span>
+  <span class="kw">def</span> map[B](f: A =&gt; B): State[S, B] =
+    State(s =&gt; {
+      <span class="kw">val</span> (a, t) = <span class="fu">run</span>(s)
+      (<span class="fu">f</span>(a), t)
+    })
+
+  <span class="co">// 2. the flatMap method</span>
+  <span class="kw">def</span> flatMap[B](f: A =&gt; State[S, B]): State[S, B] =
+    State(s =&gt; {
+      <span class="kw">val</span> (a, t) = <span class="fu">run</span>(s)
+      <span class="fu">f</span>(a) run t
+    })
+
+  <span class="co">// Convenience function to drop the resulting state value</span>
+  <span class="kw">def</span> <span class="fu">eval</span>(s: S): A =
+    <span class="fu">run</span>(s).<span class="fu">_1</span>
+}
+
+<span class="kw">object</span> State {
+  <span class="co">// 3. The insert function</span>
+  <span class="kw">def</span> insert[S, A](a: A): State[S, A] =
+    State(s =&gt; (a, s))
+
+  <span class="co">// Convenience function for taking the current state to a value</span>
+  <span class="kw">def</span> get[S, A](f: S =&gt; A): State[S, A] =
+    State(s =&gt; (<span class="fu">f</span>(s), s))
+
+  <span class="co">// Convenience function for modifying the current state</span>
+  <span class="kw">def</span> mod[S](f: S =&gt; S): State[S, Unit] =
+    State(s =&gt; ((), <span class="fu">f</span>(s)))
+}</code></pre>
+<p>We can see that the <code>flatMap</code> method takes care of passing the state value through a given function. This is the ultimate purpose of the state monad. Specifically, the state monad allows the programmer to pass a state (<code>S</code>) value through a computation (<code>A</code>) without us having to manually handle it. The <code>map</code> and <code>insert</code> methods complete the state monad.</p>
+<p>How does our fibonacci implementation look now?</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">object</span> FibMemo3 {
+  <span class="kw">type</span> Memo = Map[BigInt, BigInt]
+
+  <span class="kw">def</span> <span class="fu">fibmemo3</span>(n: BigInt): BigInt = {
+    <span class="kw">def</span> <span class="fu">fibmemoR</span>(z: BigInt): State[Memo, BigInt] =
+      <span class="kw">if</span>(z &lt;= <span class="dv">1</span>)
+        State.<span class="fu">insert</span>(z)
+      <span class="kw">else</span>
+        <span class="kw">for</span> {
+          u &lt;- State.<span class="fu">get</span>((m: Memo) =&gt; m get z)
+          v &lt;- u map State.<span class="fu">insert</span>[Memo, BigInt] getOrElse
+                 <span class="fu">fibmemoR</span>(z - <span class="dv">1</span>) <span class="fu">flatMap</span> (r =&gt;
+                 <span class="fu">fibmemoR</span>(z - <span class="dv">2</span>) <span class="fu">flatMap</span> (s =&gt; {
+                 <span class="kw">val</span> t = r + s
+                 State.<span class="fu">mod</span>((m: Memo) =&gt; m + ((z, t))) <span class="fu">map</span> (_ =&gt;
+                 t)
+                 }))
+        } <span class="kw">yield</span> v
+
+    <span class="fu">fibmemoR</span>(n) eval Map()
+  }
+}</code></pre>
+<p>Now we have used the three state monad methods to pass the memo table through the computation for us - no more manual handling of passing that memo table through to successive recursive calls.</p>
+<p>Scala provides syntax for the type of computation that chains calls to <code>flatMap</code> and <code>map</code>. It is implemented using the <code>for</code> and <code>yield</code> keywords in what is called a <em>for-comprehension</em>. The for-comprehension syntax will make the calls to <code>flatMap</code> and <code>map</code>, while allowing a more imperative-looking style. For example, where we once wrote code such as <code>x flatMap (r =&gt;</code>, we will now write <code>r &lt;- x</code> inside the for-comprehension.</p>
+<p>How does this look?</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">object</span> FibMemo4 {
+  <span class="kw">type</span> Memo = Map[BigInt, BigInt]
+
+  <span class="kw">def</span> <span class="fu">fibmemo4</span>(n: BigInt): BigInt = {
+    <span class="kw">def</span> <span class="fu">fibmemoR</span>(z: BigInt): State[Memo, BigInt] =
+      <span class="kw">if</span>(z &lt;= <span class="dv">1</span>)
+        State.<span class="fu">insert</span>(z)
+      <span class="kw">else</span>
+        <span class="kw">for</span> {
+          u &lt;- State.<span class="fu">get</span>((m: Memo) =&gt; m get z)
+          v &lt;- u map State.<span class="fu">insert</span>[Memo, BigInt] <span class="fu">getOrElse</span> (<span class="kw">for</span> {
+                 r &lt;- <span class="fu">fibmemoR</span>(z - <span class="dv">1</span>)
+                 s &lt;- <span class="fu">fibmemoR</span>(z - <span class="dv">2</span>)
+                 t = r + s
+                 _ &lt;- State.<span class="fu">mod</span>((m: Memo) =&gt; m + ((z, t)))
+               } <span class="kw">yield</span> t)
+        } <span class="kw">yield</span> v
+
+    <span class="fu">fibmemoR</span>(n) eval Map()
+  }
+}</code></pre>
+<p>This is a lot neater as the memoisation table is handled by the state monad. In fact, it is starting to look like the original naïve solution. We are no longer manually handling the state transitions, which allows us to express the essence of the problem and without the calculation speed blow-out.</p>
+<p>Where you once may have use <code>var</code>, consider if the state monad is instead more appropriate.</p>
+
+
+<hr />
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'tonys--blog';
+  var discus_identifier = '/posts/memoisation-with-state-using-scala/index.html';
+  var disqus_url = 'http://blog.tmorris.net/posts/memoisation-with-state-using-scala/index.html';
+  var discus_title = 'Memoisation with State using Scala';
+  (function () {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript><p>The comments use <a href="http://disqus.com/?ref_noscript">Disqus</a>,
+  which requires Javascript.</p></noscript>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-3405112-1']);
+  _gaq.push(['_trackPageview']);
+  (function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+</html>

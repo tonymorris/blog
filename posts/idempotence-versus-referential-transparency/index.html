@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>λ Tony's blog λ - Idempotence versus Referential Transparency</title>
+  <link rel="stylesheet" type="text/css" href="../../css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/syntax.css" />
+  <link rel="alternate" type="application/atom+xml" href="http://blog.tmorris.net/atom.xml" title="Atom feed" />
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/javascript" src="https://raw.github.com/Mathapedia/LaTeX2HTML5/master/latex2html5.min.js"></script>
+</head>
+<body>
+<div id="title">
+  λ Tony's blog λ
+  <div id="subtitle">
+    The weblog of Tony Morris
+  </div>
+</div>
+<div id="header">
+  <div id="navigation">
+    <a href="../../index.html">Home</a>
+    <a href="../../posts/">All Posts</a>
+    <a href="../../contact/">Contact</a>
+    <a href="http://cv.tmorris.net/">CV</a>
+    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+  </div>
+</div>
+<h1>Idempotence versus Referential Transparency</h1>
+<div class="info">Posted on July  5, 2007, in <a href="../../tags/Programming/index.html">Programming</a></div>
+
+<p>There is <a href="http://programming.reddit.com/info/124kj/comments/c127nc">a lot of misunderstanding about the difference between idempotence and referential transparency</a>. My plan here, is to explain the key differences without going into any specific detail about either concept. I plan to write something about referential transparency in the future and when I do, I will refer here to dispel any myths regarding idempotence.</p>
+<p>I will assume that my reader is roughly familiar with the concept of referential transparency, but not necessarily its implications (since there are many), even though some <a href="http://kawagner.blogspot.com/2007/01/real-functional-programming-or-why-io.html">clearly demonstrate a lack of understanding of this concept</a>, strangely accusing others of same (go figure?) and even trying to <a href="http://blog.tmorris.net/strong-type-systems/#comment-1851">proclaim that Java has higher-kinds while suggesting that others do not understand Java’s (mediocre) type system</a>. Ignorance is bliss and all that, anyway on with the story…</p>
+<p>Here is a fact; all idempotent functions are also referentially transparent, but not necessarily the other way around. Let us express this fact by other means; a referentially transparent function is <em>not necessarily</em> idempotent, because it is <em>(only) possibly</em> idempotent.</p>
+<p>Idempotence can be easily written as follows. A function (f) is idempotent if the following property holds:</p>
+<blockquote>
+<p>f o f = f</p>
+</blockquote>
+<p>That’s all there is to it. Since many of my audience are Java programmers, I will appeal to their potential misunderstanding here and elaborate. The o symbol means <em>function composition</em>. The statement can be read as “the function f composed with the function f is equivalent to (just) f”.</p>
+<p>Function composition comes about by… well composing functions. Suppose a function (f) that accepts a type Y and returns a type Z and another function (g) that accepts a type X and a type Y that returns another function that accepts a type X and returns a type Z. We express this as f o g.</p>
+<p>Here is an example in the favourite programming language of some:</p>
+<pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">class</span> Foo {
+  <span class="dt">static</span> String <span class="fu">f</span>(<span class="dt">int</span> i) {
+    <span class="kw">return</span> Integer.<span class="fu">toString</span>(i);
+  }
+
+  <span class="dt">static</span> <span class="dt">int</span> <span class="fu">g</span>(<span class="dt">char</span> c) {
+    <span class="kw">return</span> c + <span class="dv">7</span>;
+  }
+
+  <span class="dt">static</span> String <span class="fu">composeFG</span>(<span class="dt">char</span> c) {
+    <span class="kw">return</span> <span class="fu">f</span>(<span class="fu">g</span>(c));
+  }
+}</code></pre>
+<p>Easy Peasey right? In my statement above, the type X is <code>char</code>, Y is <code>int</code> and Z is <code>String</code>. Function composition is written in Java as <code>f(g(a))</code>. Back to the definition of idempotence, which states (in Java syntax), that f(f(a)) is equivalent to f(a). Clearly we see that f <strong>must</strong> at least have the same type in its argument and return type in order to satisfy idempotence. This means that our previous example has no idempotent functions, however, they were all referentially transparent. Furthermore, a function that is referentially transparent and having the same type in its argument and return type is <em>not necessarily</em> idempotent. A counter-example is easily produced:</p>
+<pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">class</span> Bar {
+  <span class="dt">static</span> <span class="dt">int</span> <span class="fu">add1</span>(<span class="dt">int</span> i) {
+    <span class="kw">return</span> i + <span class="dv">1</span>;
+  }
+}</code></pre>
+<p>Since there exists at least one (in fact, all in this case) arg for <code>add1(add1(arg))</code> such that it is not equivalent to <code>add1(arg)</code>, then <code>add1</code> is <strong>not</strong> idempotent. For example, <code>add1(add1(7))</code> is not equivalent to <code>add1(7)</code>, clearly.</p>
+<p>Here are some insights. Adhering with my naming convention, suppose the function <code>add0</code>. Guess what? It <strong>is</strong> idempotent. Also, <code>multiply1</code> is idempotent. Every single function on this web page is referentially transparent, but only the two aforementioned hypothetical functions are idempotent.</p>
+<p>We might write this using logic as follows for <code>add0</code></p>
+<blockquote>
+<p>∀ n | n ∈ Z. n + 0 = n</p>
+</blockquote>
+<p>For all n such that n is an element of the set of integers, n + 0 = n [is a true statement].</p>
+<p>…and for <code>multiply1</code></p>
+<blockquote>
+<p>∀ n | n ∈ Z. n * 1 = n</p>
+</blockquote>
+<p>For all n such that n is an element of the set of integers, n * 1 = n [is a true statement].</p>
+<p>For completeness, here is an actual idempotent function with the added twist of a polymorphic type parameter (generic parameter in Java speak):</p>
+<pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">class</span> Baz {
+  <span class="dt">static</span> &lt;t&gt; T <span class="fu">identity</span>(T t) {
+    <span class="kw">return</span> t;
+  }
+}</code></pre>
+<p>I hope this clears some things up :)</p>
+
+
+<hr />
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'tonys--blog';
+  var discus_identifier = '/posts/idempotence-versus-referential-transparency/index.html';
+  var disqus_url = 'http://blog.tmorris.net/posts/idempotence-versus-referential-transparency/index.html';
+  var discus_title = 'Idempotence versus Referential Transparency';
+  (function () {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript><p>The comments use <a href="http://disqus.com/?ref_noscript">Disqus</a>,
+  which requires Javascript.</p></noscript>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-3405112-1']);
+  _gaq.push(['_trackPageview']);
+  (function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>λ Tony's blog λ - Critique of Odersky's Scala levels</title>
+  <link rel="stylesheet" type="text/css" href="../../css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/syntax.css" />
+  <link rel="alternate" type="application/atom+xml" href="http://blog.tmorris.net/atom.xml" title="Atom feed" />
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/javascript" src="https://raw.github.com/Mathapedia/LaTeX2HTML5/master/latex2html5.min.js"></script>
+</head>
+<body>
+<div id="title">
+  λ Tony's blog λ
+  <div id="subtitle">
+    The weblog of Tony Morris
+  </div>
+</div>
+<div id="header">
+  <div id="navigation">
+    <a href="../../index.html">Home</a>
+    <a href="../../posts/">All Posts</a>
+    <a href="../../contact/">Contact</a>
+    <a href="http://cv.tmorris.net/">CV</a>
+    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+  </div>
+</div>
+<h1>Critique of Odersky's Scala levels</h1>
+<div class="info">Posted on January 17, 2011, in <a href="../../tags/Programming/index.html">Programming</a></div>
+
+<p>Martin Odersky, creator of the Scala programming language, recently wrote <a href="http://www.scala-lang.org/node/8610">a brief article describing levels of Scala expertise</a>. Martin labelled the levels in increasing order: [A1, A2, A3, L1, L2, L3].</p>
+<p>I wish to register a small objection here, with recognition of otherwise sound judgement. While the objection is small, I think the consequences of what I believe is an error, are quite detrimental.</p>
+<p>I will repost Martin’s specification for L3, the highest:</p>
+<blockquote>
+<p>Level L3: Expert library designer</p>
+</blockquote>
+<blockquote>
+
+</blockquote>
+<blockquote>
+<ul>
+<li>Early initializers</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>Abstract types</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>Implicit definitions</li>
+</ul>
+</blockquote>
+<blockquote>
+<ul>
+<li>Higher-kinded types</li>
+</ul>
+</blockquote>
+<p>First, I will get a couple of nitpicks out of the way. Martin’s L2 specifies that variance annotations will be used at this level. I (we: scalaz) propose that there is another level again, where you come to the realisation that variance annotations are not worth their use in the context of Scala’s limited type-inferencing abilities and other details. Instead, prefer a short-hand version of <code>fmap</code> and <code>contramap</code> functions. Scalaz calls these ∘ and ∙. The details of why this is more appropriate are beside the point here. Nevertheless, Edward Kmett has set out to prove this hypothesis wrong. Many of us have and failed. As far as I know, there is nothing compelling yet but I wish Ed luck with his unique insights.</p>
+<p>Second, the suggestion that L3 requires the use of early initializers boggles my mind a little. The idea that these details exist at all is a symptom of a lot of nasty language and interoperability issues. Ultimately, if you are relying on the language-specified initialization order in your library code, then you are doing something disastrously wrong. Long-time users of Scala will recall the number of changes this behaviour went through. There is a gremlin at every turn and (much) more disciplined approaches to library design.</p>
+<p>To the point.</p>
+<p>If L3 is the highest level attainable, where we are using higher-kinded values and implicits, then what about other levels that are <em>way higher</em> in the level of required understanding? Let’s be clear, the use of these features has been part of Scalaz for a few years now. I started Scalaz in 2007, when I learned that Scala had these two features (which are extremely important to library design). These features have enabled the encoding of much more advanced concepts – what about those?</p>
+<p>Some concepts that belong way higher than Martin’s L3 specification are:</p>
+<ul>
+<li><p>encoding type-level transformations</p></li>
+<li><p>advanced purely-functional data structures</p></li>
+<li><p>automated specification-based testing and associated library authoring requirements to effectively achieve it</p></li>
+<li><p>encoding algebraic structures of category theory and <em>ensuring these are available for practical use</em></p></li>
+<li><p>understanding type theory, its goals and (truly understanding, for real) the benefits and trade-offs of static program verification</p></li>
+<li><p>attempting a high (read: extremely high) degree of abstraction in the context of Scala’s limited laziness abilities.</p></li>
+</ul>
+<p>I take issue here because keen learners may be fooled into believing that as they are confident in understanding all concepts at L3, then they are qualified to be an “expert library designer.” I put it to you that there is an extraordinary leap from L3 to an API designer of any considerable merit. Indeed, in my opinion, L3 is just enough knowledge to even begin practical library design. Before I attract a charge of shooting too high or the usual anti-intellectual nonsense, I like to remind others that I like to aim high, very high. I encourage you to do so too. Nothing more.</p>
+<p>I recently gave <a href="http://blog.tmorris.net/scala-exercise-with-types-and-abstraction/">a beginner API design quiz</a>. I use it in programming classes that I teach, where many people struggle with it. When these students eventually break through, they are equipped with a reasonable fundamental understanding of writing practical libraries and APIs. However, note the triviality of the problem and the observation (if you’ll trust me), that many programmers have difficulty. This leaves open a huge opportunity for improvement in problem-solving skills – let’s take it!</p>
+<p>I’d hate to believe that L3 is “expert.” I’d be saddened to think others have been tricked into settling there too. Surely we can shoot higher than that Martin.</p>
+<h2 id="edit">Edit</h2>
+<p>A case in point, I was directed to <a href="http://www.reddit.com/r/programming/comments/f38z4/scala_levels_beginner_to_expert_application/c1cyp2j">this comment</a>:</p>
+<blockquote>
+<p>If it [scala] is a failure, why has the language - for exaple [sic] - the best collection library of all languages currently out there?</p>
+</blockquote>
+<p>Honestly and without any intention to exaggerate, it boggles my mind with fascination as to what could cause such a rapid and extreme departure from reality. Working with both Scala and Haskell in depth for many years, there is nothing more disheartening than putting Haskell aside and dealing with the underwhelming practicalities of Scala’s (and therefore, Java’s) libraries. Indeed, this Great Big Hole That Is Still Gaping Wide was one of the primary motivations for the creation of Scalaz when I was working on a commercial application yearning for useful libraries. That was many years ago. Nothing has changed.</p>
+<p>That’s just Haskell. There are other examples of programming environments that completely annihilate Scala/Java in terms of useful libraries.</p>
+<p>To believe the aforementioned statement is perhaps a symptom of shooting so disastrously low as purported by “L3, the highest level of expertise.” In other words, there are serious and observable consequences for having such low standards, to such an extent that one may even fall under the illusion presented in this statement. I hope you’ll agree that there are practical implications for believing these things.</p>
+<p>Then I witnessed <a href="http://www.reddit.com/r/programming/comments/f38z4/scala_levels_beginner_to_expert_application/c1czlg9">this comment</a>, which completely misses the point. Specifically, this commenter is not at what Odersky would call L3, since the comment demonstrates lack of understanding of higher-order polymorphism (aka higher-kinds). I don’t wish to pull apart every naive comment, but I do wish to point out that we can aim much higher than this.</p>
+<p><strong>MUCH MUCH HIGHER</strong></p>
+<p>I lament, but fight on, for the encouragement of setting a higher standard. Sorry guys, but you’re way off base. We can do a fuck-load better than this and we have done exactly that, elsewhere.</p>
+<p><em>– a former contributor to the Scala collection libraries with high hopes</em></p>
+
+
+<hr />
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'tonys--blog';
+  var discus_identifier = '/posts/critique-of-oderskys-scala-levels/index.html';
+  var disqus_url = 'http://blog.tmorris.net/posts/critique-of-oderskys-scala-levels/index.html';
+  var discus_title = 'Critique of Odersky's Scala levels';
+  (function () {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript><p>The comments use <a href="http://disqus.com/?ref_noscript">Disqus</a>,
+  which requires Javascript.</p></noscript>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-3405112-1']);
+  _gaq.push(['_trackPageview']);
+  (function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+</html>

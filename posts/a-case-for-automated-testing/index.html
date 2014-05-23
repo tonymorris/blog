@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>λ Tony's blog λ - A Case for Automated Testing</title>
+  <link rel="stylesheet" type="text/css" href="../../css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/syntax.css" />
+  <link rel="alternate" type="application/atom+xml" href="http://blog.tmorris.net/atom.xml" title="Atom feed" />
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/javascript" src="https://raw.github.com/Mathapedia/LaTeX2HTML5/master/latex2html5.min.js"></script>
+</head>
+<body>
+<div id="title">
+  λ Tony's blog λ
+  <div id="subtitle">
+    The weblog of Tony Morris
+  </div>
+</div>
+<div id="header">
+  <div id="navigation">
+    <a href="../../index.html">Home</a>
+    <a href="../../posts/">All Posts</a>
+    <a href="../../contact/">Contact</a>
+    <a href="http://cv.tmorris.net/">CV</a>
+    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+  </div>
+</div>
+<h1>A Case for Automated Testing</h1>
+<div class="info">Posted on June  6, 2008, in <a href="../../tags/Programming/index.html">Programming</a></div>
+
+<p><a href="http://wiki.workingmouse.com/index.php/A_Case_for_Automated_Testing"><em>(Copied from)</em></a></p>
+<h4 id="discipline-and-testing">Discipline and Testing</h4>
+<p>Disciplined programmers write tests while developing code. Some even refactor their tests when certain situations arise. Imagine this one. You have just written a method that takes two integer arguments, adds them and subtracts seven before returning the result.</p>
+<p>Your code might look like this:</p>
+<pre class="sourceCode Java"><code class="sourceCode java"><span class="dt">int</span> <span class="fu">addThenSubtract7</span>(<span class="dt">int</span> x, <span class="dt">int</span> y) {
+  <span class="kw">return</span> x + y - <span class="dv">7</span>;
+}</code></pre>
+<p>When you test this code – either before, during or after you write the method above – you will likely write tests that exhibit some property about the method under test. For example, when one argument is the negation of the other, you will always get back <code>-7</code>.</p>
+<pre class="sourceCode Java"><code class="sourceCode java"><span class="fu">assertEquals</span>(-<span class="dv">7</span>, <span class="fu">addThenSubtract7</span>(<span class="dv">0</span>, <span class="dv">0</span>));
+<span class="fu">assertEquals</span>(-<span class="dv">7</span>, <span class="fu">addThenSubtract7</span>(<span class="dv">1</span>, -<span class="dv">1</span>));
+<span class="fu">assertEquals</span>(-<span class="dv">7</span>, <span class="fu">addThenSubtract7</span>(<span class="dv">2</span>, -<span class="dv">2</span>));
+<span class="fu">assertEquals</span>(-<span class="dv">7</span>, <span class="fu">addThenSubtract7</span>(<span class="dv">3</span>, -<span class="dv">3</span>));
+<span class="fu">assertEquals</span>(-<span class="dv">7</span>, <span class="fu">addThenSubtract7</span>(<span class="dv">4</span>, -<span class="dv">4</span>));
+<span class="fu">assertEquals</span>(-<span class="dv">7</span>, <span class="fu">addThenSubtract7</span>(<span class="dv">5</span>, -<span class="dv">5</span>));</code></pre>
+<p>You might refactor in this scenario:</p>
+<pre class="sourceCode Java"><code class="sourceCode java"><span class="fu">assertTrue</span>(<span class="fu">negationBecomesNegative7</span>(<span class="dv">0</span>));
+<span class="fu">assertTrue</span>(<span class="fu">negationBecomesNegative7</span>(<span class="dv">1</span>));
+<span class="fu">assertTrue</span>(<span class="fu">negationBecomesNegative7</span>(<span class="dv">2</span>));
+...
+
+<span class="kw">public</span> <span class="dt">boolean</span> <span class="fu">negationBecomesNegative7</span>(<span class="dt">int</span> a) {
+  <span class="kw">return</span> <span class="fu">addThenSubtract</span>(a, -a) == -<span class="dv">7</span>;
+}</code></pre>
+<p>Indeed, you might use a loop for your input values:</p>
+<pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">for</span>(<span class="dt">int</span> i = <span class="dv">0</span>; i &lt; <span class="dv">100</span>; i++) {
+  <span class="fu">assertTrue</span>(<span class="fu">negationBecomesNegative7</span>(i));
+}
+...</code></pre>
+<h4 id="specifying-properties">Specifying Properties</h4>
+<p>There are other properties about the method <code>addThenSubtract7</code>. For example, if you switch the arguments, the result is unaffected. In fact, this property comes up a fair bit so it even has a name; <em>commutativity</em>. You could come up with a similar scenario as that described above through a process of repeating assertions with different values, refactoring a bit and generally trying to test as rigorously as possible with minimal effort and permitting future maintainability of both your code and your tests.</p>
+<p>Eventually, you will have written properties about your method such that there is no reason to write any more properties, since they would be implied by your existing properties. For example:</p>
+<ul>
+<li><p>You could write a test for <code>addThenSubtract7(0, anyValue)</code> results in <code>anyValue - 7</code>.</p></li>
+<li><p>Then you could write a test for commutativity; <code>addThenSubtract7(someX, someY)</code> results in the same value as <code>addThenSubtract7(someY, someX)</code>.</p></li>
+</ul>
+<p>Now, is there any point writing a test for <code>addThenSubtract7(anyValue, 0)</code> results in <code>anyValue - 7</code>? Isn’t this implied by the test for commutativity? Right, this test would be redundant.</p>
+<p>Ultimately, you could aim for an <em>unambiguous specification</em> of your method under test. However is there a nicer way to write all these tests?</p>
+<h4 id="lets-automate-it">Let’s Automate it!</h4>
+<p>Going back to the first property <code>negationBecomesNegative7</code>, don’t you really just want to say this and then let the rest be taken care of by clever automation?</p>
+<pre><code>for all int values named a. then addThenSubtract7(a, -a) == -7</code></pre>
+<p>This is the job of <em>Automated Specification-based Testing</em> such as that which is implemented by <a href="http://reductiotest.org/">Reductio for Java</a>. Reductio allows you to write the above expression using standard Java syntax:</p>
+<pre class="sourceCode Java"><code class="sourceCode java">Property p = <span class="fu">property</span>(arbInteger, <span class="kw">new</span> F&lt;integer, Property&gt;() {
+  <span class="kw">public</span> Property <span class="fu">f</span>(<span class="dt">final</span> Integer a) {
+    <span class="kw">return</span> <span class="fu">prop</span>(<span class="fu">addThenSubtract7</span>(a, -a) == -<span class="dv">7</span>);
+  }
+});</code></pre>
+<p>What is going on here? We are passing in our generator of arbitrary integer values (<code>arbInteger</code>), then an anonymous inner class that asserts our property for our <em>free variable</em> (the one called ‘a’).</p>
+<p>OK, it can’t be this easy can it? No, sorry, it can’t. There is an enormous of work to do next. Ready, here it is:</p>
+<pre><code>p.check();</code></pre>
+<p>With all that heavy lifting taken off you by the test automation, you should now have plenty of time and energy to get on with delivering your software to your client or maybe reading news blogs if that is what you prefer :)</p>
+<h4 id="shrinking">Shrinking</h4>
+<p>When you run the test automation, you receive a result of success after running 100 (by default – adjustable of course) tests or you receive a failed result with a counter-example. That is, you receive a value for your free variable (a) for which the property was not true.</p>
+<p>Does it stop here? I mean, this is great and everything, but surely there’s not more help that can be provided by clever test automation software? There are a couple more clever things that can be done.</p>
+<p>First is the <em>shrinking of a counter-example</em>. Imagine there was a bug in the <code>addThenSubtract7</code> method and you received a counter-example of <code>1789234</code>. What’s so special about this number? Well, that depends on the bug, however, maybe this is just the first counter-example that was found. Imagine, however, that the bug also exhibited itself (i.e. the property fails) with a counter-example of <code>2</code>. Isn’t this a more useful counter-example? Wouldn’t you prefer that this one was reported and not that big, insignificant number?</p>
+<p>So that’s another great feature of test automation; it can report back to you <em>useful counter-examples</em> in the event of a bug. When you perform manual testing as above, you might remove a couple of your assert methods to help narrow down the bug. This is the hard way! This very act can be automated.</p>
+<p>Imagine you wrote this property (<code>a + b == a - b</code>):</p>
+<pre class="sourceCode Java"><code class="sourceCode java"><span class="dt">final</span> Property p = <span class="fu">property</span>(arbInteger, arbInteger, <span class="kw">new</span> F2&lt;integer, Integer, Property&gt;() {
+  <span class="kw">public</span> Property <span class="fu">f</span>(<span class="dt">final</span> Integer a, <span class="dt">final</span> Integer b) {
+    <span class="kw">return</span> <span class="fu">prop</span>(a + b == a - b);
+  }
+});</code></pre>
+<p>It turns out that this property is true for some values such as a == 0 and b == 0, but false for others:</p>
+<ul>
+<li><p><code>a = 1, b = 15</code></p></li>
+<li><p><code>a = 147, b = 92582</code></p></li>
+<li><p><code>a = 5923, b = 12</code></p></li>
+</ul>
+<p>But which of these counter-examples is going to be most useful to you, the tester? Any of the above? How about this counter-example: <code>a = 0, b = 1</code>? Isn’t this more useful to you than any of those above?</p>
+<p>Good test automation software will report a reasonably small counter-example in the event of the falsification of a property.</p>
+<h4 id="automated-mocking">Automated Mocking</h4>
+<p>OK, is there more? Yes sorry to keep your attention. Test automation software will also generate <strong>instances of an interface</strong> for you. That’s right, you can <em>quantify across an interface</em> in your property expressions. This is a bit like mocking, except not so manual; you just pass in the arbitrary generator (Reductio provides them of course) just as we did above and you can wipe your hands clean of the remaining manual effort otherwise.</p>
+<p>You might want to write a property where you say something like, “for all instances of my interface or class, then such and such…”. This might be an instance of the <code>HttpServletRequest</code> interface or perhaps one of your own classes. The good part is, no more manual mocking.</p>
+<h4 id="want-to-learn-more">Want to Learn More?</h4>
+<p>You can read the <a href="http://reductiotest.org/manual">Reductio Manual</a> or perhaps look at some <a href="http://reductiotest.org/examples/1.5">code examples</a>. If you’re a fan of the coming Java 7 BGGA closure syntax, you might prefer <a href="http://reductiotest.org/examples">these code examples</a>. Perhaps you’re into higher-level programming and prefer <a href="http://reductiotest.org/examples/scala">Scala code examples</a>. Whichever you choose, please feel free to jump on the <a href="http://reductiotest.org/community">Reductio mailing list or chat channel</a> and ask your question, no matter how silly it seems to you.</p>
+
+
+<hr />
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'tonys--blog';
+  var discus_identifier = '/posts/a-case-for-automated-testing/index.html';
+  var disqus_url = 'http://blog.tmorris.net/posts/a-case-for-automated-testing/index.html';
+  var discus_title = 'A Case for Automated Testing';
+  (function () {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript><p>The comments use <a href="http://disqus.com/?ref_noscript">Disqus</a>,
+  which requires Javascript.</p></noscript>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-3405112-1']);
+  _gaq.push(['_trackPageview']);
+  (function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+</html>

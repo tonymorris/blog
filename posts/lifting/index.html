@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>λ Tony's blog λ - Lifting</title>
+  <link rel="stylesheet" type="text/css" href="../../css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/syntax.css" />
+  <link rel="alternate" type="application/atom+xml" href="http://blog.tmorris.net/atom.xml" title="Atom feed" />
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/javascript" src="https://raw.github.com/Mathapedia/LaTeX2HTML5/master/latex2html5.min.js"></script>
+</head>
+<body>
+<div id="title">
+  λ Tony's blog λ
+  <div id="subtitle">
+    The weblog of Tony Morris
+  </div>
+</div>
+<div id="header">
+  <div id="navigation">
+    <a href="../../index.html">Home</a>
+    <a href="../../posts/">All Posts</a>
+    <a href="../../contact/">Contact</a>
+    <a href="http://cv.tmorris.net/">CV</a>
+    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+  </div>
+</div>
+<h1>Lifting</h1>
+<div class="info">Posted on July 17, 2011, in <a href="../../tags/Programming/index.html">Programming</a></div>
+
+<p>Below is a compileable Scala source file. If you read it from top to bottom, it may help with some insights regarding applicative functors. It was partially inspired by Eric’s rendition of <a href="http://etorreborre.blogspot.com/2011/06/essence-of-iterator-pattern.html">The Essence of the Iterator Pattern</a>.</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">trait</span> Lift[F[_]] {
+  <span class="co">// Spot the pattern in these type signatures</span>
+  <span class="co">// of increasing arity.</span>
+
+  <span class="kw">def</span> lift0[A]:
+    A =&gt; F[A]
+
+  <span class="kw">def</span> lift1[A, B]:
+    (A =&gt; B) =&gt; (F[A] =&gt; F[B])
+
+  <span class="kw">def</span> lift2[A, B, C]:
+    (A =&gt; B =&gt; C) =&gt; (F[A] =&gt; F[B] =&gt; F[C])
+
+  <span class="kw">def</span> lift3[A, B, C, D]:
+    (A =&gt; B =&gt; C =&gt; D) =&gt; (F[A] =&gt; F[B] =&gt; F[C] =&gt; F[D])
+
+  <span class="co">// ... and so on</span>
+
+  <span class="co">// The relationship between lift&lt;n&gt; and lift&lt;n-1&gt;</span>
+  <span class="co">// can be given by a function,</span>
+
+  <span class="kw">def</span> ap[A, B]:
+    F[A =&gt; B] =&gt; (F[A] =&gt; F[B])
+}
+
+<span class="kw">trait</span> LiftImpl[F[_]] <span class="kw">extends</span> Lift[F] {
+  <span class="co">// Each lift function uses</span>
+  <span class="co">// the previous lift function and ap.</span>
+
+  <span class="kw">def</span> lift1[A, B]:
+    (A =&gt; B) =&gt; (F[A] =&gt; F[B])
+    = ap compose lift0
+
+  <span class="kw">def</span> lift2[A, B, C]:
+    (A =&gt; B =&gt; C) =&gt; (F[A] =&gt; F[B] =&gt; F[C])
+    = f =&gt; ap compose <span class="fu">lift1</span>(f)
+
+  <span class="kw">def</span> lift3[A, B, C, D]:
+    (A =&gt; B =&gt; C =&gt; D) =&gt; (F[A] =&gt; F[B] =&gt; F[C] =&gt; F[D])
+    = f =&gt; a =&gt; ap compose <span class="fu">lift2</span>(f)(a)
+}
+
+<span class="co">// Notes</span>
+<span class="co">// * lift0 is often called: unit, return, pure, point, η</span>
+<span class="co">// * lift1 is often called: fmap, map, ∘</span>
+<span class="co">// * lift&lt;n&gt; is often called: liftA&lt;n&gt;, liftM&lt;n&gt;</span></code></pre>
+<p>All that is left to do is to implement the <code>LiftImpl</code> trait! You can do this by implementing the <code>ap</code> and <code>lift0</code> functions.</p>
+<p>Examples of implementations that I know will work out if you try to implement them:</p>
+<ul>
+<li><p><code class="sourceCode scala"><span class="kw">class</span> ListLift <span class="kw">extends</span> LiftImpl[List]</code></p></li>
+<li><p><code class="sourceCode scala"><span class="kw">class</span> OptionLift <span class="kw">extends</span> LiftImpl[Option]</code></p></li>
+<li><p><code class="sourceCode scala"><span class="kw">class</span> EitherLift[R] <span class="kw">extends</span> LiftImpl[({<span class="kw">type</span> λ[α] = Either[R, α]})#λ]</code></p></li>
+<li><p><code class="sourceCode scala"><span class="kw">class</span> Function1Lift[R] <span class="kw">extends</span> LiftImpl[({<span class="kw">type</span> λ[α] = R =&gt; α})#λ]</code></p></li>
+</ul>
+<p>Those last couple are a bit funky, but a lot of that is syntax noise rather than anything too complicated. Fill out the body of those classes!</p>
+
+
+<hr />
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'tonys--blog';
+  var discus_identifier = '/posts/lifting/index.html';
+  var disqus_url = 'http://blog.tmorris.net/posts/lifting/index.html';
+  var discus_title = 'Lifting';
+  (function () {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript><p>The comments use <a href="http://disqus.com/?ref_noscript">Disqus</a>,
+  which requires Javascript.</p></noscript>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-3405112-1']);
+  _gaq.push(['_trackPageview']);
+  (function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+</html>

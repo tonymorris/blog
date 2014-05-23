@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>λ Tony's blog λ - Scala Type-class Hierarchy</title>
+  <link rel="stylesheet" type="text/css" href="../../css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/syntax.css" />
+  <link rel="alternate" type="application/atom+xml" href="http://blog.tmorris.net/atom.xml" title="Atom feed" />
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/javascript" src="https://raw.github.com/Mathapedia/LaTeX2HTML5/master/latex2html5.min.js"></script>
+</head>
+<body>
+<div id="title">
+  λ Tony's blog λ
+  <div id="subtitle">
+    The weblog of Tony Morris
+  </div>
+</div>
+<div id="header">
+  <div id="navigation">
+    <a href="../../index.html">Home</a>
+    <a href="../../posts/">All Posts</a>
+    <a href="../../contact/">Contact</a>
+    <a href="http://cv.tmorris.net/">CV</a>
+    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+  </div>
+</div>
+<h1>Scala Type-class Hierarchy</h1>
+<div class="info">Posted on June 22, 2013, in <a href="../../tags/Programming/index.html">Programming</a>, <a href="../../tags/Scala/index.html">Scala</a></div>
+
+<p>Below is a proposed type-class hierarchy demonstrated using the Scala programming language. The goal of the hierarchy is to demonstrate one an arrangement that is useful and makes the appropriate trade-offs for general-purpose programming. It is therefore independent of a specific programming language, however some (many) programming-language type systems do not have the expressive power to witness the hierarchy.</p>
+<p>This proposal is in the spirit of <a href="http://www.haskell.org/haskellwiki/Typeclassopedia">the typeclassopedia</a> with the following differences:</p>
+<ol style="list-style-type: decimal">
+<li><p>Use the Scala programming language for demonstration for those who prefer it.</p></li>
+<li><p>Discussion need not concern itself with any kind of backward compatibility with existing libraries.</p></li>
+</ol>
+<p>You will find a similar type-class hierarchy in <a href="http://github.com/scalaz/scalaz">the Scalaz library</a>. That implementation is far more comprehensive and is aimed primarily for production use. A secondary goal here is to help document the Scalaz hierarchy in terse form, however, note that you will find some minor differences (improvements?) in the arrangement.</p>
+<p>Discussion about addition or rearrangement of the proposed hierarchy is welcome.</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">trait</span> ~&gt;[F[_], G[_]] {
+  <span class="kw">def</span> apply[A]: F[A] =&gt; G[A]
+}
+
+<span class="kw">case</span> <span class="kw">class</span> Id[A](x: A)
+
+<span class="kw">trait</span> Semigroup[M] {
+  <span class="kw">def</span> op: M =&gt; M =&gt; M
+}
+
+<span class="kw">trait</span> Monoid[M] <span class="kw">extends</span> Semigroup[M] {
+  <span class="kw">val</span> id: M
+}
+
+<span class="kw">trait</span> Functor[F[_]] {
+  <span class="kw">def</span> fmap[A, B](f: A =&gt; B): F[A] =&gt; F[B]
+}
+
+<span class="kw">trait</span> Apply[F[_]] <span class="kw">extends</span> Functor[F] {
+  <span class="kw">def</span> ap[A, B](f: F[A =&gt; B]): F[A] =&gt; F[B]
+}
+
+<span class="kw">trait</span> Bind[F[_]] <span class="kw">extends</span> Apply[F] {
+  <span class="kw">def</span> bind[A, B](f: A =&gt; F[B]): F[A] =&gt; F[B]
+}
+
+<span class="kw">trait</span> Applicative[F[_]] <span class="kw">extends</span> Apply[F] {
+  <span class="kw">def</span> insert[A]: A =&gt; F[A]
+}
+
+<span class="kw">trait</span> Monad[F[_]] <span class="kw">extends</span> Applicative[F] <span class="kw">with</span> Bind[F]
+
+<span class="kw">trait</span> Extend[F[_]] <span class="kw">extends</span> Functor[F] {
+  <span class="kw">def</span> extend[A, B](f: F[A] =&gt; B): F[A] =&gt; F[B]
+}
+
+<span class="kw">trait</span> Comonad[F[_]] <span class="kw">extends</span> Extend[F] {
+  <span class="kw">def</span> extract[A]: F[A] =&gt; A
+}
+
+<span class="kw">trait</span> Contravariant[F[_]] {
+  <span class="kw">def</span> contramap[A, B](f: B =&gt; A): F[A] =&gt; F[B]
+}
+
+<span class="kw">trait</span> Distributive[T[_]] <span class="kw">extends</span> Functor[T] {
+  <span class="kw">def</span> distribute[F[_]: Functor, A, B](f: A =&gt; T[B]): F[A] =&gt; T[F[B]]
+}
+
+<span class="kw">trait</span> Foldable[T[_]] {
+  <span class="kw">def</span> foldMap[A, M: Monoid](f: A =&gt; M): T[A] =&gt; M
+}
+
+<span class="kw">trait</span> Foldable1[T[_]] <span class="kw">extends</span> Foldable[T] {
+  <span class="kw">def</span> foldMap1[A, M: Semigroup](f: A =&gt; M): T[A] =&gt; M
+}
+
+<span class="kw">trait</span> Traversable[T[_]] <span class="kw">extends</span> Functor[T] <span class="kw">with</span> Foldable[T] {
+  <span class="kw">def</span> traverse[F[_]: Applicative, A, B](f: A =&gt; F[B]): T[A] =&gt; F[T[B]]
+}
+
+<span class="kw">trait</span> Traversable1[T[_]] <span class="kw">extends</span> Traversable[T] <span class="kw">with</span> Foldable1[T] {
+  <span class="kw">def</span> traverse1[F[_]: Apply, A, B](f: A =&gt; F[B]): T[A] =&gt; F[T[B]]
+}
+
+<span class="kw">trait</span> MonadTransformer[T[_[_], _]] {
+  <span class="kw">def</span> lift[M[_]: Monad, A]: M[A] =&gt; T[M, A]
+}
+
+<span class="kw">trait</span> BindTransformer[T[_[_], _]] <span class="kw">extends</span> MonadTransformer[T] {
+  <span class="kw">def</span> liftB[M[_]: Bind, A]: M[A] =&gt; T[M, A]
+}
+
+<span class="kw">trait</span> MonadTransform[T[_[_], _]] {
+  <span class="kw">def</span> transform[F[_]: Monad, G[_]: Monad, A](f: F ~&gt; G): T[F, A] =&gt; T[G, A]
+}
+
+<span class="kw">trait</span> BindTransform[T[_[_], _]] <span class="kw">extends</span> MonadTransform[T] {
+  <span class="kw">def</span> transformB[F[_]: Bind, G[_]: Monad, A](f: F ~&gt; G): T[F, A] =&gt; T[G, A]
+}
+
+<span class="kw">trait</span> ComonadTransformer[T[_[_], _]] {
+  <span class="kw">def</span> lower[M[_]: Comonad, A]: T[M, A] =&gt; M[A]
+}
+
+<span class="kw">trait</span> ExtendTransformer[T[_[_], _]] <span class="kw">extends</span> ComonadTransformer[T] {
+  <span class="kw">def</span> lowerE[M[_]: Extend, A]: T[M, A] =&gt; M[A]
+}
+
+<span class="kw">trait</span> ComonadHoist[T[_[_], _]] {
+  <span class="kw">def</span> cohoist[M[_]: Comonad, A]: T[M, A] =&gt; T[Id, A]
+}
+
+<span class="kw">trait</span> ExtendHoist[T[_[_], _]] <span class="kw">extends</span> ComonadHoist[T] {
+  <span class="kw">def</span> cohoistE[M[_]: Extend, A]: T[M, A] =&gt; T[Id, A]
+}
+
+<span class="kw">trait</span> Semigroupoid[~&gt;[_, _]] {
+  <span class="kw">def</span> compose[A, B, C]: (B ~&gt; C) =&gt; (A ~&gt; B) =&gt; (A ~&gt; C)
+}
+
+<span class="kw">trait</span> Category[~&gt;[_, _]] <span class="kw">extends</span> Semigroupoid[~&gt;] {
+  <span class="kw">def</span> id[A]: A ~&gt; A
+}
+
+<span class="kw">trait</span> First[~&gt;[_, _]] <span class="kw">extends</span> Semigroupoid[~&gt;] {
+  <span class="kw">def</span> first[A, B, C]: (A ~&gt; B) =&gt; ((A, C) ~&gt; (B, C))
+}
+
+<span class="kw">trait</span> Arrow[~&gt;[_, _]] <span class="kw">extends</span> Category[~&gt;] <span class="kw">with</span> First[~&gt;] {
+  <span class="kw">def</span> idA[A, B]: (A =&gt; B) =&gt; (A ~&gt; B)
+}</code></pre>
+
+
+<hr />
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'tonys--blog';
+  var discus_identifier = '/posts/scala-type-class-hierarchy/index.html';
+  var disqus_url = 'http://blog.tmorris.net/posts/scala-type-class-hierarchy/index.html';
+  var discus_title = 'Scala Type-class Hierarchy';
+  (function () {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript><p>The comments use <a href="http://disqus.com/?ref_noscript">Disqus</a>,
+  which requires Javascript.</p></noscript>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-3405112-1']);
+  _gaq.push(['_trackPageview']);
+  (function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+</html>

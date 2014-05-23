@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>λ Tony's blog λ - Inheritance dunrite</title>
+  <link rel="stylesheet" type="text/css" href="../../css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/syntax.css" />
+  <link rel="alternate" type="application/atom+xml" href="http://blog.tmorris.net/atom.xml" title="Atom feed" />
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/javascript" src="https://raw.github.com/Mathapedia/LaTeX2HTML5/master/latex2html5.min.js"></script>
+</head>
+<body>
+<div id="title">
+  λ Tony's blog λ
+  <div id="subtitle">
+    The weblog of Tony Morris
+  </div>
+</div>
+<div id="header">
+  <div id="navigation">
+    <a href="../../index.html">Home</a>
+    <a href="../../posts/">All Posts</a>
+    <a href="../../contact/">Contact</a>
+    <a href="http://cv.tmorris.net/">CV</a>
+    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+  </div>
+</div>
+<h1>Inheritance dunrite</h1>
+<div class="info">Posted on July 21, 2007, in <a href="../../tags/Programming/index.html">Programming</a></div>
+
+<p>I am absolutely surprised at the number of failed examples of inheritance. What troubles me is the extent of ignorance prevailing on the subject of inheritance. <a href="http://www.manageability.org/blog/stuff/inheritance_revisited/">Every once in a while, I read an old rant by a Blub programmer making claims to an understanding of a topic while simultaneously proclaiming that there are so many others without this understanding.</a> Less often, I am compelled to write something myself.</p>
+<p>I will start by using Blub grammar and syntax, but try to keep the usual euphemisms and loaded words to a minimum (I have two, annotated with warnings).</p>
+<p>Look at the following interface declarations:</p>
+<pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">interface</span> I {
+  T <span class="fu">i</span>();
+}
+
+<span class="kw">interface</span> J {
+  U <span class="fu">j</span>();
+}
+
+<span class="kw">interface</span> K <span class="kw">extends</span> I, J {}</code></pre>
+<p>If a method accepts a type K, what that method <strong>really</strong> means is that it accepts a type that is composed of both type I and J, <strong>which is more general than type K</strong>. I am ignoring the fact that interface K may have some additional restrictions that are not enforced by the type system, because well, this is Blub after all and using type systems to denote formal requirement specifications is well beyond Blub. If you have a type L that is composed of I and J, you will not be able to pass it to the method. Instead, you need to write an “Adapter” (WARNING: euphemism) from L to K.</p>
+<p>I now propose a hypothetical language (still Blub though) that allows you to pass a “<code>I with J</code>”, which means it might be a K or it might be some other composition of I and J. Note that a compiler can not deduce that K is composed of I and J and generalise this type, since this requires the compiler to compile I, J, K and all compositions of I and J, which is potentially infinite. In other words, time goes this way —&gt;, not that way &lt;–, despite what the Blub type systems say.</p>
+<p>In my hypothetical language, you do not explicitly give method arguments types. Instead, if you call both <code>i()</code> and <code>j()</code> within the aforementioned method, the compiler or <em>type inferencer</em> will determine that the method argument has type <code>I with J</code>. Surely, you have seen software in Blub languages, where you pass a type with a bazillion methods and only one or two of those methods are used when it is passed? It’s a problem, right? Ever used one of those “mock frameworks”? (WARNING: euphemism for “workaround”). Have you ever passed a K and only called <code>i()</code>?</p>
+<p>In my hypothetical language, if you only call <code>i()</code>, then the method argument type will be inferred to I, not K, not even <code>I with J</code>, since remember, we do not explicitly annotate types on method arguments.</p>
+<p>Now, is my hypothetical language really hypothetical? No! You see, there are (at least) not-so-crap type systems out there that permit this level of flexibility. They are far more powerful than this little rant purports, but you’ll just have to take my word for that. What I have effectively described is (one aspect of) <a href="http://en.wikibooks.org/wiki/Haskell/YAHT/Type_basics">Type Classes from a language called Haskell</a>, which can also <a href="http://blog.tmorris.net/the-power-of-type-classes-with-scala-implicit-defs/">be used in Scala</a> and other languages with at-least-reasonable type systems.</p>
+<p>In other words, <em>inheritance dunrite</em> is as easy as putting down those languages that have got it all wrong and stop pretending that they are sensible or “industry grade”. Stop trying to understand their inherent contradictions through cognitive dissonance, write books about the nonsense, invent design patterns, refactorings, workarounds and mock this and that and framework foo and blah blah blah (can I breath now?). Furthermore, standing on a pedestal and proclaiming that “I know something that you don’t so na na!” is really quite silly, even if it is true (which it isn’t more often than not as has been seen!).</p>
+<p>There is much more to inheritance than even the most expert Blub programmer can possibly imagine. I have only just touched the surface by introducing type classes here.</p>
+
+
+<hr />
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'tonys--blog';
+  var discus_identifier = '/posts/inheritance-dunrite/index.html';
+  var disqus_url = 'http://blog.tmorris.net/posts/inheritance-dunrite/index.html';
+  var discus_title = 'Inheritance dunrite';
+  (function () {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript><p>The comments use <a href="http://disqus.com/?ref_noscript">Disqus</a>,
+  which requires Javascript.</p></noscript>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-3405112-1']);
+  _gaq.push(['_trackPageview']);
+  (function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+</html>

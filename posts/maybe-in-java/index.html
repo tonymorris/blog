@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>λ Tony's blog λ - Maybe in Java</title>
+  <link rel="stylesheet" type="text/css" href="../../css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/syntax.css" />
+  <link rel="alternate" type="application/atom+xml" href="http://blog.tmorris.net/atom.xml" title="Atom feed" />
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/javascript" src="https://raw.github.com/Mathapedia/LaTeX2HTML5/master/latex2html5.min.js"></script>
+</head>
+<body>
+<div id="title">
+  λ Tony's blog λ
+  <div id="subtitle">
+    The weblog of Tony Morris
+  </div>
+</div>
+<div id="header">
+  <div id="navigation">
+    <a href="../../index.html">Home</a>
+    <a href="../../posts/">All Posts</a>
+    <a href="../../contact/">Contact</a>
+    <a href="http://cv.tmorris.net/">CV</a>
+    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+  </div>
+</div>
+<h1>Maybe in Java</h1>
+<div class="info">Posted on November 13, 2006, in <a href="../../tags/Programming/index.html">Programming</a></div>
+
+<p>In Haskell, there is an <em>algebraic data type</em> called <code>Maybe</code> to represent evaluation of a partial function. That is, if you have a function, say f(x), and f(x) is defined for some x, but not <strong>all</strong> x, you return either:</p>
+<ul>
+<li><p>A type Maybe that has a value available - called Just a where a is the value - representing defined function evaluation.</p></li>
+<li><p>A type Maybe that has no value available - called Nothing - representing undefined function evaluation.</p></li>
+</ul>
+<p>In fact, if we were to look at the source for the Maybe algebraic data type in <a href="http://www.haskell.org/ghc/">GHC</a>, we’d see this:</p>
+<p><code>data Maybe a = Just a | Nothing</code></p>
+<p>Not much to it, eh!? This Haskell snippet can be read as “Declare type Maybe with one polymorphic unbound variable ‘a’ that can be constructed as either Just ‘a’ or Nothing”.</p>
+<p>Consider a real Java example, <a href="http://java.sun.com/j2se/1.5.0/docs/api/java/util/List.html#get(int)"><code>List.get(int index)</code></a>, which returns a type T where T is a type parameter (it once returned type Object prior to 1.5). For some Lists and some ints, this function is undefined. For example, for the list [1,2,3] and the int 7, List.get is undefined. In fact, this will throw an <code>IndexOutOfBoundsException</code> if attempted:</p>
+<p><code>java.util.Arrays.asList(new Integer[]{1, 2, 3}).get(7);</code></p>
+<p>Throwing an exception is one of our possible options for evaluation of a partial function in Java. Here are all our options available in Java:</p>
+<ul>
+<li><p>Return <code>null</code></p></li>
+<li><p>Throw a compile-time checked exception</p></li>
+<li><p>Throw an unchecked exception</p></li>
+<li><p>Emulate continuation passing style (CPS)</p></li>
+</ul>
+<p>I have distinguished checked and unchecked exceptions for a specific reason that I’ll leave for another day and I won’t go into great detail about any of these options in specific, since I am currently in the middle of documenting all this in more detail along with some basic type theory. However I will note that each of these options for evaluation of a partial function have some kind of nasty consequence. For example, the value <code>null</code> is assignable to any reference type and so can inadvertently be passed along to a method (I am sure you have seen this before):</p>
+<pre class="sourceCode Java"><code class="sourceCode java">T t = <span class="fu">f</span>(x);
+<span class="co">// is t null?</span>
+<span class="co">// the compiler doesn't force us to check!</span>
+<span class="co">// how does the method behave now?</span>
+<span class="fu">method</span>(t);</code></pre>
+<p>And how long has that checked/unchecked exception debate been going? Yes there is a reason it has been going for so long - in fact, it is riding on a flawed premise so it will continue on forever until its participants realise this flaw - but we’ll leave that for another day and smile and nod in the meantime. :)</p>
+<p>With a Maybe data type, we might instead write our function/method as:</p>
+<p><code>Maybe List.get(int index)</code></p>
+<p>…where undefined behaviour is denoted by returning Nothing and defined behaviour is denoted with Just T. We should also be assured that only one of these two things will occur. No more returning null, no more throwing exceptions!! How wonderful would that be!? Well, if you’ve ever dabbled in Haskell or type theory, you’ll know immediately how great that would be - but what about Java?</p>
+<p>An initial and naive attempt to emulate Maybe fails immediately:</p>
+<pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">interface</span> Maybe&lt;t&gt; {
+  T <span class="fu">get</span>();
+}</code></pre>
+<p>We see that we have isolated our apparent anomaly that we are trying to resolve. We must still either return null or throw an exception from the Maybe.get method, but no other method ever need do so - as long as we (hopefully) remember to check for null for any given Maybe. While a slight improvement, this of course, does not solve our problem. We are still returning null or throwing exceptions and importantly, suffering the adverse consequences of doing so (we want the compiler to fail, not have to remember to do stuff!). Instead, we need to use types to represent Just and Nothing. Let’s try another attempt.</p>
+<pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">interface</span> Maybe&lt;t&gt; {
+}
+
+<span class="kw">interface</span> Just&lt;t&gt; <span class="kw">extends</span> Maybe&lt;t&gt; {
+  T <span class="fu">get</span>();
+}
+
+<span class="kw">interface</span> Nothing&lt;t&gt; <span class="kw">extends</span> Maybe&lt;t&gt; {
+}</code></pre>
+<p>Done!! Or not. There is a specific guarantee that our Haskell data type makes that our Java attempt doesn’t. Specifically, if a Maybe is not Just, then it is definitely Nothing and vice versa in Haskell - this is important if we are to continue. We can see that this constraint does not hold for our Java Maybe because it can have any number of sub-types - of course - since it is an interface. We know how to constrain a type to have zero sub-types; by using a class with the <code>final</code> keyword. We know how to free a type to have infinite sub-types; without the <code>final</code> keyword or an interface. But what about constraining a type to 2 <strong>and only 2</strong> sub-types?</p>
+<p>This can be achieved by exploiting a little known Java language feature - a type cannot be sub-typed if it has only private constructors <strong>unless those sub-types are nested in the super-type</strong>. It seems we can indeed have a Maybe algebraic data type in Java by having 2 and only 2 sub-types!</p>
+<pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">abstract</span> <span class="kw">class</span> Maybe&lt;t&gt; {
+  <span class="kw">private</span> <span class="fu">Maybe</span>() {
+  }
+
+  <span class="kw">public</span> <span class="dt">static</span> <span class="kw">abstract</span> <span class="kw">class</span> Nothing&lt;t&gt; <span class="kw">extends</span> Maybe&lt;t&gt; {
+    <span class="kw">private</span> <span class="fu">Nothing</span>() {
+    }
+  }
+
+  <span class="kw">public</span> <span class="dt">static</span> <span class="kw">abstract</span> <span class="kw">class</span> Just&lt;t&gt; <span class="kw">extends</span> Maybe&lt;t&gt; {
+    <span class="kw">private</span> <span class="fu">Just</span>() {
+    }
+
+    <span class="kw">public</span> <span class="kw">abstract</span> T <span class="fu">just</span>();
+  }
+}</code></pre>
+<p>Looking good so far. We now know for sure that <strong>every</strong> instance of Maybe is either Just or Nothing and if it is Just, we have a value available through the get method - exactly what we ordered. As it stands though, we cannot create instances - let’s expose these through public methods.</p>
+<pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">abstract</span> <span class="kw">class</span> Maybe&lt;t&gt; {
+  <span class="kw">private</span> <span class="fu">Maybe</span>() {
+  }
+
+  <span class="kw">public</span> <span class="dt">static</span> <span class="kw">abstract</span> <span class="kw">class</span> Nothing&lt;t&gt; <span class="kw">extends</span> Maybe&lt;t&gt; {
+    <span class="kw">private</span> <span class="fu">Nothing</span>() {
+    }
+  }
+
+  <span class="kw">public</span> <span class="dt">static</span> <span class="kw">abstract</span> <span class="kw">class</span> Just&lt;t&gt; <span class="kw">extends</span> Maybe&lt;t&gt; {
+    <span class="kw">private</span> <span class="fu">Just</span>() {
+    }
+
+    <span class="kw">public</span> <span class="kw">abstract</span> T <span class="fu">just</span>();
+  }
+
+  <span class="kw">public</span> <span class="dt">static</span> &lt;t&gt; Maybe&lt;t&gt; <span class="fu">_just</span>(<span class="dt">final</span> T t) {
+    <span class="kw">return</span> <span class="kw">new</span> Just&lt;t&gt;() {
+      <span class="kw">public</span> T <span class="fu">just</span>() {
+        <span class="kw">return</span> t;
+      }
+    };
+  }
+
+  <span class="kw">public</span> <span class="dt">static</span> &lt;t&gt; Maybe&lt;t&gt; <span class="fu">_nothing</span>() {
+    <span class="kw">return</span> <span class="kw">new</span> Nothing&lt;t&gt;() {
+    };
+  }
+}</code></pre>
+<p>And so there we have it - an algebraic data type in Java for evaluation of a partial function. How does our List method look now? How about this:</p>
+<p><code>Maybe List.get(int index)</code></p>
+<p>Clients of this method will now check if the return type is either Just or Nothing and in the case of Just, perform a downcast and retrieve the value. No more returning null. No more throwing exceptions. Not ever!</p>
+<p>I’ll let your imagination run wild with possibilities from here :)</p>
+<p>As I have mentioned, I plan to go into greater detail about this problem by documenting it in detail so keep an eye out on the <a href="http://workingmouse.com/research">Workingmouse Research</a> page.</p>
+<p>Until then, I’ll keep you wondering will a small piece of interesting code:</p>
+<pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">import java.util.List;</span>
+<span class="kw">import java.util.LinkedList;</span>
+<span class="kw">import java.util.Map;</span>
+<span class="kw">import java.util.Hashtable;</span>
+
+<span class="kw">class</span> ListMap {
+  <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(String[] args) {
+    Map&lt;Integer, String&gt; map =
+      <span class="kw">new</span> Hashtable&lt;Integer, String&gt;();
+    map.<span class="fu">put</span>(<span class="dv">0</span>, <span class="st">&quot;x&quot;</span>);
+    map.<span class="fu">put</span>(<span class="dv">1</span>, <span class="st">&quot;y&quot;</span>);
+    map.<span class="fu">put</span>(<span class="dv">2</span>, <span class="st">&quot;z&quot;</span>);
+
+    List&lt;string&gt; list =
+      <span class="kw">new</span> LinkedList&lt;string&gt;();
+    list.<span class="fu">add</span>(<span class="dv">0</span>, <span class="st">&quot;x&quot;</span>);
+    list.<span class="fu">add</span>(<span class="dv">1</span>, <span class="st">&quot;y&quot;</span>);
+    list.<span class="fu">add</span>(<span class="dv">2</span>, <span class="st">&quot;z&quot;</span>);
+
+    <span class="co">// xyz</span>
+    System.<span class="fu">out</span>.<span class="fu">println</span>(map.<span class="fu">get</span>(<span class="dv">0</span>) + map.<span class="fu">get</span>(<span class="dv">1</span>) + map.<span class="fu">get</span>(<span class="dv">2</span>));
+    <span class="co">// xyz</span>
+    System.<span class="fu">out</span>.<span class="fu">println</span>(list.<span class="fu">get</span>(<span class="dv">0</span>) + list.<span class="fu">get</span>(<span class="dv">1</span>) + list.<span class="fu">get</span>(<span class="dv">2</span>));
+
+    <span class="co">// returns null</span>
+    System.<span class="fu">out</span>.<span class="fu">println</span>(map.<span class="fu">get</span>(<span class="dv">7</span>));
+    <span class="co">// throws IndexOutOfBoundsException</span>
+    System.<span class="fu">out</span>.<span class="fu">println</span>(list.<span class="fu">get</span>(<span class="dv">7</span>));
+  }
+}</code></pre>
+
+
+<hr />
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'tonys--blog';
+  var discus_identifier = '/posts/maybe-in-java/index.html';
+  var disqus_url = 'http://blog.tmorris.net/posts/maybe-in-java/index.html';
+  var discus_title = 'Maybe in Java';
+  (function () {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript><p>The comments use <a href="http://disqus.com/?ref_noscript">Disqus</a>,
+  which requires Javascript.</p></noscript>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-3405112-1']);
+  _gaq.push(['_trackPageview']);
+  (function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>λ Tony's blog λ - Dear Java guy, State is a monad</title>
+  <link rel="stylesheet" type="text/css" href="../../css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/syntax.css" />
+  <link rel="alternate" type="application/atom+xml" href="http://blog.tmorris.net/atom.xml" title="Atom feed" />
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/javascript" src="https://raw.github.com/Mathapedia/LaTeX2HTML5/master/latex2html5.min.js"></script>
+</head>
+<body>
+<div id="title">
+  λ Tony's blog λ
+  <div id="subtitle">
+    The weblog of Tony Morris
+  </div>
+</div>
+<div id="header">
+  <div id="navigation">
+    <a href="../../index.html">Home</a>
+    <a href="../../posts/">All Posts</a>
+    <a href="../../contact/">Contact</a>
+    <a href="http://cv.tmorris.net/">CV</a>
+    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+  </div>
+</div>
+<h1>Dear Java guy, State is a monad</h1>
+<div class="info">Posted on January 19, 2010, in <a href="../../tags/Programming/index.html">Programming</a></div>
+
+<pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">interface</span> Pair&lt;A, B&gt; {
+  A <span class="fu">first</span>();
+  B <span class="fu">second</span>();
+}
+
+<span class="kw">class</span> Pairs {
+  <span class="kw">public</span> <span class="dt">static</span> &lt;A, B&gt; Pair&lt;A, B&gt; <span class="fu">pair</span>(<span class="dt">final</span> A a, <span class="dt">final</span> B b) {
+    <span class="kw">return</span> <span class="kw">new</span> Pair&lt;A, B&gt;() {
+      <span class="kw">public</span> A <span class="fu">first</span>() { <span class="kw">return</span> a; }
+      <span class="kw">public</span> B <span class="fu">second</span>() { <span class="kw">return</span> b; }
+    };
+  }
+}
+
+<span class="kw">interface</span> State&lt;S, A&gt; {
+  Pair&lt;S, A&gt; <span class="fu">run</span>(S s);
+}
+
+<span class="kw">interface</span> Function&lt;X, Y&gt; {
+  Y <span class="fu">apply</span>(X x);
+}
+
+<span class="kw">class</span> States {
+  <span class="co">// State&lt;S, _&gt; is a covariant functor</span>
+  <span class="kw">public</span> <span class="dt">static</span> &lt;S, A, B&gt; State&lt;S, B&gt; <span class="fu">map</span>(<span class="dt">final</span> State&lt;S, A&gt; s, <span class="dt">final</span> Function&lt;A, B&gt; f) {
+    <span class="kw">return</span> <span class="kw">new</span> State&lt;S, B&gt;() {
+      <span class="kw">public</span> Pair&lt;S, B&gt; <span class="fu">run</span>(<span class="dt">final</span> S k) {
+        <span class="dt">final</span> Pair&lt;S, A&gt; p = s.<span class="fu">run</span>(k);
+        <span class="kw">return</span> Pairs.<span class="fu">pair</span>(p.<span class="fu">first</span>(), f.<span class="fu">apply</span>(p.<span class="fu">second</span>()));
+      }
+    };
+  }
+
+  <span class="co">// // State&lt;S, _&gt; is a monad</span>
+  <span class="kw">public</span> <span class="dt">static</span> &lt;S, A, B&gt; State&lt;S, B&gt; <span class="fu">bind</span>(<span class="dt">final</span> State&lt;S, A&gt; s, <span class="dt">final</span> Function&lt;A, State&lt;S, B&gt;&gt; f) {
+    <span class="kw">return</span> <span class="kw">new</span> State&lt;S, B&gt;() {
+      <span class="kw">public</span> Pair&lt;S, B&gt; <span class="fu">run</span>(<span class="dt">final</span> S k) {
+        <span class="dt">final</span> Pair&lt;S, A&gt; p = s.<span class="fu">run</span>(k);
+        <span class="kw">return</span> f.<span class="fu">apply</span>(p.<span class="fu">second</span>()).<span class="fu">run</span>(p.<span class="fu">first</span>());
+      }
+    };
+  }
+}</code></pre>
+
+
+<hr />
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'tonys--blog';
+  var discus_identifier = '/posts/dear-java-guy-state-is-a-monad/index.html';
+  var disqus_url = 'http://blog.tmorris.net/posts/dear-java-guy-state-is-a-monad/index.html';
+  var discus_title = 'Dear Java guy, State is a monad';
+  (function () {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript><p>The comments use <a href="http://disqus.com/?ref_noscript">Disqus</a>,
+  which requires Javascript.</p></noscript>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-3405112-1']);
+  _gaq.push(['_trackPageview']);
+  (function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+</html>

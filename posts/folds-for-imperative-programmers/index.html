@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>λ Tony's blog λ - Folds for Imperative Programmers</title>
+  <link rel="stylesheet" type="text/css" href="../../css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/syntax.css" />
+  <link rel="alternate" type="application/atom+xml" href="http://blog.tmorris.net/atom.xml" title="Atom feed" />
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/javascript" src="https://raw.github.com/Mathapedia/LaTeX2HTML5/master/latex2html5.min.js"></script>
+</head>
+<body>
+<div id="title">
+  λ Tony's blog λ
+  <div id="subtitle">
+    The weblog of Tony Morris
+  </div>
+</div>
+<div id="header">
+  <div id="navigation">
+    <a href="../../index.html">Home</a>
+    <a href="../../posts/">All Posts</a>
+    <a href="../../contact/">Contact</a>
+    <a href="http://cv.tmorris.net/">CV</a>
+    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+  </div>
+</div>
+<h1>Folds for Imperative Programmers</h1>
+<div class="info">Posted on January  5, 2007, in <a href="../../tags/Programming/index.html">Programming</a></div>
+
+<p>Coming from an imperative language such as Java/C/C# and moving to a functional language, you will almost certainly encounter ‘folding functions’. There are usually two folding functions (sometimes there are minor variants) – one folds to the right and the other folds to the left. In Haskell, these functions are named <code>foldr</code> and <code>foldl</code>.</p>
+<p>This first encounter with folding functions can often be quite daunting, but I propose an alternative approach. In fact, these folding functions are almost certainly quite familiar to the imperative programmer – just without consciousness. If I had a dollar for every time I saw something like this (I’d buy every CS student a book on the lambda calculus :)):</p>
+<pre class="sourceCode Java"><code class="sourceCode java">...
+B accum = b;
+<span class="kw">for</span>(<span class="dt">final</span> A a : as) {
+  accum = f.<span class="fu">f</span>(a, accum);
+}
+<span class="kw">return</span> accum;</code></pre>
+<p>Look familiar? Not so daunting? Great, because it’s a fold – specificially, a fold to the left. It is a fold to the left because the sequence (list, array, whatever) is iterated from the left/start to the right/end. Conversely, a fold right iterates from the right/end of the sequence to the left/start.</p>
+<p>Let’s take a closer look at the ‘fold left’ above. The first line initialises an accumulator of type <code>B</code> to the given argument. Then the sequence (of <code>A</code>) is iterated and each element is passed to some function and its result assigned to the accumulator. Finally, the accumulated value is returned.</p>
+<p>Have I just trivialised a seemingly complicated concept? Not at all! I have undermined its apparent complexity perhaps. On the contrary, it is the imperative language version that has complicated a trivial concept. Let’s take a look at a complete and compilable example:</p>
+<pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">class</span> Foldr {
+  <span class="dt">static</span> <span class="kw">interface</span> F&lt;A, B&gt; {
+    B <span class="fu">f</span>(A a, B b);
+  }
+
+  <span class="dt">static</span> &lt;A, B&gt; B <span class="fu">foldr</span>(<span class="dt">final</span> F&lt;A, B&gt; f, <span class="dt">final</span> B b, <span class="dt">final</span> A[] as) {
+    B accum = b;
+
+    <span class="kw">for</span>(<span class="dt">int</span> i = as.<span class="fu">length</span> - <span class="dv">1</span>; i &gt;= <span class="dv">0</span>; i--) {
+      accum = f.<span class="fu">f</span>(as[i], accum);
+    }
+
+    <span class="kw">return</span> accum;
+  }
+}
+
+<span class="kw">class</span> Foldl {
+  <span class="dt">static</span> <span class="kw">interface</span> F&lt;A, B&gt; {
+    A <span class="fu">f</span>(A a, B b);
+  }
+
+  <span class="dt">static</span> &lt;A, B&gt; A <span class="fu">foldl</span>(<span class="dt">final</span> F&lt;A, B&gt; f, <span class="dt">final</span> A a, <span class="dt">final</span> B[] bs) {
+    A accum = a;
+
+    <span class="kw">for</span>(<span class="dt">final</span> B b : bs) {
+      accum = f.<span class="fu">f</span>(accum, b);
+    }
+
+    <span class="kw">return</span> accum;
+  }
+}
+
+<span class="kw">public</span> <span class="kw">class</span> Folds {
+  <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(<span class="dt">final</span> String[] args) {
+    <span class="dt">final</span> Integer[] i = <span class="kw">new</span> Integer[]{<span class="dv">7</span>,<span class="dv">8</span>,<span class="dv">9</span>,<span class="dv">42</span>,<span class="dv">11</span>,<span class="dv">13</span>,<span class="dv">45</span>,<span class="dv">54</span>,<span class="dv">45</span>,<span class="dv">46</span>,<span class="dv">64</span>,<span class="dv">74</span>};
+
+    <span class="dt">final</span> Integer right = Foldr.<span class="fu">foldr</span>(<span class="kw">new</span> Foldr.<span class="fu">F</span>&lt;Integer, Integer&gt;() {
+      <span class="kw">public</span> Integer <span class="fu">f</span>(<span class="dt">final</span> Integer a, <span class="dt">final</span> Integer b) {
+        <span class="kw">return</span> a - b;
+      }
+    }, <span class="dv">79</span>, i);
+
+    System.<span class="fu">out</span>.<span class="fu">println</span>(right);
+
+    <span class="dt">final</span> Integer left = Foldl.<span class="fu">foldl</span>(<span class="kw">new</span> Foldl.<span class="fu">F</span>&lt;Integer, Integer&gt;() {
+      <span class="kw">public</span> Integer <span class="fu">f</span>(<span class="dt">final</span> Integer a, <span class="dt">final</span> Integer b) {
+        <span class="kw">return</span> a - b;
+      }
+    }, <span class="dv">97</span>, i);
+
+    System.<span class="fu">out</span>.<span class="fu">println</span>(left);
+  }
+}</code></pre>
+<p>Phew! What an effort – pass me a beer!</p>
+<p>We notice in the <code>main</code> method that the types of both <code>A</code> and <code>B</code> are the same (<code>Integer</code>). This is purely consequential and these types may, and often do, differ. Also notice that our function in each case is <strong>not</strong> commutative. That is, <code>f(a, b)</code> is not necessarily equivalent to <code>f(b, a)</code>. We know this because <code>a - b</code> is not necessarily equivalent to <code>b - a</code>. If the functions were commutative, then the result of a fold right would be equivalent to the result of a fold left. If you execute the code above, you will not get the same output for each fold. Try changing the implementation of each function to be commutative (like +) and observe the equivalent results.</p>
+<p>Let’s take a look at the Haskell equivalent at an interpreter:</p>
+<pre><code>Prelude&gt; let i = [7,8,9,42,11,13,45,54,45,46,64,74]
+Prelude&gt; foldr (-) 97 i
+41
+Prelude&gt; foldl (-) 79 i
+-321</code></pre>
+<p>Same outputs as the imperative code? Good, so that’s folds out of the way – easy peasey :)</p>
+<p>By the way, yes the Haskell equivalent is supposed to be 100 times shorter – that is the nature of a relatively expressive programming language.</p>
+
+
+<hr />
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'tonys--blog';
+  var discus_identifier = '/posts/folds-for-imperative-programmers/index.html';
+  var disqus_url = 'http://blog.tmorris.net/posts/folds-for-imperative-programmers/index.html';
+  var discus_title = 'Folds for Imperative Programmers';
+  (function () {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript><p>The comments use <a href="http://disqus.com/?ref_noscript">Disqus</a>,
+  which requires Javascript.</p></noscript>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-3405112-1']);
+  _gaq.push(['_trackPageview']);
+  (function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+</html>

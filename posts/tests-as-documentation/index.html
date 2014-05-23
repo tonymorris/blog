@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>λ Tony's blog λ - Tests as Documentation</title>
+  <link rel="stylesheet" type="text/css" href="../../css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/syntax.css" />
+  <link rel="alternate" type="application/atom+xml" href="http://blog.tmorris.net/atom.xml" title="Atom feed" />
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/javascript" src="https://raw.github.com/Mathapedia/LaTeX2HTML5/master/latex2html5.min.js"></script>
+</head>
+<body>
+<div id="title">
+  λ Tony's blog λ
+  <div id="subtitle">
+    The weblog of Tony Morris
+  </div>
+</div>
+<div id="header">
+  <div id="navigation">
+    <a href="../../index.html">Home</a>
+    <a href="../../posts/">All Posts</a>
+    <a href="../../contact/">Contact</a>
+    <a href="http://cv.tmorris.net/">CV</a>
+    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+  </div>
+</div>
+<h1>Tests as Documentation</h1>
+<div class="info">Posted on June 17, 2008, in <a href="../../tags/Programming/index.html">Programming</a></div>
+
+<p><a href="http://wiki.workingmouse.com/index.php/Tests_As_Documentation"><em>(Copied from)</em></a></p>
+<h4 id="wouldnt-it-be-nice-if">Wouldn’t it be nice if?</h4>
+<p>When disciplined programmers write unit tests, they often make reference to the fact that their tests provide a means of documentation the software that it is testing. This documentation is more appropriate than what would otherwise be informal and potentially ambiguous comments using English. Take the simple example of adding two numbers. We might document using informal language:</p>
+<pre class="sourceCode Java"><code class="sourceCode java"><span class="co">/**</span>
+<span class="co"> * Adds the two arguments.</span>
+<span class="co"> *</span>
+<span class="co"> * </span><span class="kw">@param a </span><span class="co">Add this argument to the other one.</span>
+<span class="co"> * </span><span class="kw">@param b </span><span class="co">Add this argument to the other one.</span>
+<span class="co"> * </span><span class="kw">@return </span><span class="co">The sum of the two arguments.</span>
+<span class="co"> */</span></code></pre>
+<p>With unit tests, we might instead write something more formal and unambiguous:</p>
+<pre class="sourceCode Java"><code class="sourceCode java"><span class="fu">assertEqual</span>(<span class="fu">add</span>(<span class="dv">2</span>, <span class="dv">2</span>), <span class="dv">4</span>)
+<span class="fu">assertEqual</span>(<span class="fu">add</span>(<span class="dv">4</span>, <span class="dv">3</span>), <span class="dv">7</span>)</code></pre>
+<pre><code>... so on</code></pre>
+<p>It might be argued that both these forms of documentation complement each other. After all, while the unit tests have less room for misinterpretation, they are incomplete; for example, what about <code>add(88, 37)</code>? The English description makes up for this shortcoming.</p>
+<p>We could reword our English to be a little more succinct:</p>
+<p><sub>~</sub>{.Java} /** * Passing 0 as one argument returns the other argument, * otherwise, the result is the same as subtracting 1 from one argument and * adding 1 to the other argument then passing those values instead. * e.g. add(2, 8 ) is the same as add(1, 9) and so on until one of the arguments reaches 0. */</p>
+<p>Wouldn’t it be nice if we could express this formally in unit tests? You can, read on.</p>
+<p>While this example is trivial, it scales in proportion to the amount of discipline that the programmer is willing to exercise by <em>controlling side-effects</em> in their program. If we write our programs such that most of our methods retain the property of <em>referential transparency</em>, we can use this advanced method of tests as documentation. When we refactor our code to make tests easier to write, it is often the case that we are doing exactly this anyway. Win win!</p>
+<h4 id="lets-scale-up-a-little">Let’s scale up a little</h4>
+<p>We’ll give a slightly less trivial example next, but not so trivial that it takes away from the important points. In fact, let’s unit test a specific part of the Java Collections library – the <code>java.util.Collections.reverse</code> method. There are various ways of testing this method and we will choose one here that serves to illustrate the point of unit tests as documentation.</p>
+<p>The <code>reverse</code> method can be described as follows:</p>
+<ol style="list-style-type: decimal">
+<li><p>For the empty list, then reversing this list is always the same list</p></li>
+<li><p>For the list with one element, then reversing this list is always the same list</p></li>
+<li><p>For any other two lists (let’s call them ‘a’ and ‘b’), then appending b to a then reversing will yield the same list as reversing a, then appending the result to the reverse of b. Since this statement is a little convoluted, let’s write it with some pseudo-Java syntax notation: <code>(a.append(b)).reverse() == b.reverse().append(a.reverse())</code></p></li>
+</ol>
+<p>It is an interesting observation here that we have <em>completely specified</em> the <code>reverse</code> method. That is, under some reasonable assumptions, it is not possible to write a method that is not equivalent to <code>reverse</code> that also satisfies our statements above. This is the ultimate form of code documentation!</p>
+<p>We will ignore the first statement for the sake of interest and verbosity and focus on expressing the other two. This is because statements 2 and 3 have <em>free variables</em>, while statement 1 is merely an assertion that does not illustrate any interesting points. Let us start with the second statement and articulate it using <a href="http://reductiotest.org/">Reductio</a>:</p>
+<pre class="sourceCode Java"><code class="sourceCode java">    Property p2 = <span class="fu">property</span>(arbInteger, <span class="kw">new</span> F&lt;Integer, Property&gt;() {
+      <span class="kw">public</span> Property <span class="fu">f</span>(Integer i) {
+        <span class="kw">return</span> <span class="fu">prop</span>(<span class="fu">single</span>(i).<span class="fu">equals</span>(<span class="fu">reverse</span>(<span class="fu">single</span>(i))));
+      }
+    });</code></pre>
+<p>That pretty much sums up statement 2 doesn’t it? What about statement 3:</p>
+<pre class="sourceCode Java"><code class="sourceCode java">Property p3 = <span class="fu">property</span>(<span class="fu">arbLinkedList</span>(arbInteger), <span class="fu">arbLinkedList</span>(arbInteger), <span class="kw">new</span> F2&lt;LinkedList&lt;integer&gt;, LinkedList&lt;integer&gt;, Property&gt;() {
+  <span class="kw">public</span> Property <span class="fu">f</span>(LinkedList&lt;integer&gt; a, LinkedList&lt;integer&gt; b) {
+    <span class="dt">final</span> LinkedList&lt;integer&gt; x = <span class="fu">reverse</span>(<span class="fu">append</span>(a, b));
+    <span class="dt">final</span> LinkedList&lt;integer&gt; y = <span class="fu">append</span>(<span class="fu">reverse</span>(b), <span class="fu">reverse</span>(a));
+    <span class="kw">return</span> <span class="fu">prop</span>(x.<span class="fu">equals</span>(y));
+  }
+});</code></pre>
+<h4 id="is-that-it">Is that it?</h4>
+<p>Yep. Notwithstanding the absence of statement 1, we have completely specified the behaviour for the Java <code>Collections.reverse</code> method. We have exhaustive and formal documentation instead of one or the other as we traditionally do. What an improvement!</p>
+<h4 id="yeah-but-i-want-to-unit-test-it-too">Yeah but I want to unit test it too</h4>
+<p>That’s not hard either. How many unit tests do you want to run? By default, Reductio will run 100 unit tests per <code>Property</code> declaration. You can adjust this and various other factors about how your unit tests are executed. If you want to take the default, then a few more lines of code are enough to do just that:</p>
+<pre class="sourceCode Java"><code class="sourceCode java"><span class="fu">list</span>(p2, p3).<span class="fu">foreach</span>(<span class="kw">new</span> Effect&lt;property&gt;() {
+  <span class="kw">public</span> <span class="dt">void</span> <span class="fu">e</span>(Property p) {
+    summary.<span class="fu">println</span>(p.<span class="fu">check</span>());
+  }
+});</code></pre>
+<p>If you run this line of code, you will see the result of your 200 unit tests on the standard output:</p>
+<pre><code>OK, passed 100 tests.
+OK, passed 100 tests.</code></pre>
+<p>Is that too magical for you? Don’t believe me? Want to see it fail? OK, let’s fail it. In the expression of statement 3, change the line <code>b.addAll(a)</code> to <code>a.addAll(b)</code> and run again. What did you see? Here is what I saw:</p>
+<pre><code>OK, passed 100 tests.
+Falsified after 4 passed tests with arguments: [[3, 2, -3, 4, -3],[2, -3, 4, -3]]</code></pre>
+<p>Yep, it failed alright :) When those two list values are used as our free variables, the property is false and the unit test fails.</p>
+<h4 id="other-resources">Other Resources</h4>
+<ul>
+<li><p><a href="http://wiki.workingmouse.com/index.php/A_Case_for_Automated_Testing">A Case for Automated Testing</a></p></li>
+<li><p><a href="http://wiki.workingmouse.com/index.php/Reductio_EqualsHashCode">Reductio EqualsHashCode</a></p></li>
+<li><p><a href="http://reductiotest.org/">Reductio Website</a></p></li>
+<li><p><a href="http://reductiotest.org/examples">More Reductio examples</a></p></li>
+<li><p><a href="http://reductiotest.org/manual">Reductio Manual</a></p></li>
+</ul>
+<h4 id="complete-runnable-source-code">Complete Runnable Source Code</h4>
+<pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">import fj.Effect;</span>
+<span class="kw">import fj.F;</span>
+<span class="kw">import fj.F2;</span>
+<span class="kw">import static fj.data.List.list;</span>
+<span class="kw">import static reductio.Arbitrary.arbInteger;</span>
+<span class="kw">import static reductio.Arbitrary.arbLinkedList;</span>
+<span class="kw">import static reductio.CheckResult.summary;</span>
+<span class="kw">import reductio.Property;</span>
+<span class="kw">import static reductio.Property.prop;</span>
+<span class="kw">import static reductio.Property.property;</span>
+
+<span class="kw">import java.util.Collections;</span>
+<span class="kw">import static java.util.Collections.singletonList;</span>
+<span class="kw">import java.util.LinkedList;</span>
+
+<span class="kw">public</span> <span class="kw">class</span> ListReverse {
+  <span class="kw">public</span> <span class="dt">static</span> <span class="dt">void</span> <span class="fu">main</span>(String[] args) {
+    Property p2 = <span class="fu">property</span>(arbInteger, <span class="kw">new</span> F&lt;Integer, Property&gt;() {
+      <span class="kw">public</span> Property <span class="fu">f</span>(Integer i) {
+        <span class="kw">return</span> <span class="fu">prop</span>(<span class="fu">single</span>(i).<span class="fu">equals</span>(<span class="fu">reverse</span>(<span class="fu">single</span>(i))));
+      }
+    });
+
+    Property p3 = <span class="fu">property</span>(<span class="fu">arbLinkedList</span>(arbInteger), <span class="fu">arbLinkedList</span>(arbInteger), <span class="kw">new</span> F2&lt;LinkedList&lt;integer&gt;, LinkedList&lt;integer&gt;, Property&gt;() {
+      <span class="kw">public</span> Property <span class="fu">f</span>(LinkedList&lt;integer&gt; a, LinkedList&lt;integer&gt; b) {
+        <span class="dt">final</span> LinkedList&lt;integer&gt; x = <span class="fu">reverse</span>(<span class="fu">append</span>(a, b));
+        <span class="dt">final</span> LinkedList&lt;integer&gt; y = <span class="fu">append</span>(<span class="fu">reverse</span>(b), <span class="fu">reverse</span>(a));
+        <span class="kw">return</span> <span class="fu">prop</span>(x.<span class="fu">equals</span>(y));
+      }
+    });
+
+    <span class="fu">list</span>(p2, p3).<span class="fu">foreach</span>(<span class="kw">new</span> Effect&lt;property&gt;() {
+      <span class="kw">public</span> <span class="dt">void</span> <span class="fu">e</span>(Property p) {
+        summary.<span class="fu">println</span>(p.<span class="fu">check</span>());
+      }
+    });
+  }
+
+  <span class="dt">static</span> &lt;a&gt; LinkedList&lt;a&gt; <span class="fu">single</span>(A a) {
+    <span class="kw">return</span> <span class="kw">new</span> LinkedList&lt;a&gt;(<span class="fu">singletonList</span>(a));
+  }
+
+  <span class="dt">static</span> &lt;a&gt; LinkedList&lt;a&gt; <span class="fu">reverse</span>(LinkedList&lt;a&gt; as) {
+    LinkedList&lt;a&gt; aas = <span class="kw">new</span> LinkedList&lt;a&gt;(as);
+    Collections.<span class="fu">reverse</span>(aas);
+    <span class="kw">return</span> aas;
+  }
+
+  <span class="dt">static</span> &lt;a&gt; LinkedList&lt;a&gt; <span class="fu">append</span>(LinkedList&lt;a&gt; as1, LinkedList&lt;a&gt; as2) {
+    LinkedList&lt;a&gt; aas = <span class="kw">new</span> LinkedList&lt;a&gt;(as1);
+    aas.<span class="fu">addAll</span>(as2);
+    <span class="kw">return</span> aas;
+  }
+}</code></pre>
+
+
+<hr />
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'tonys--blog';
+  var discus_identifier = '/posts/tests-as-documentation/index.html';
+  var disqus_url = 'http://blog.tmorris.net/posts/tests-as-documentation/index.html';
+  var discus_title = 'Tests as Documentation';
+  (function () {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript><p>The comments use <a href="http://disqus.com/?ref_noscript">Disqus</a>,
+  which requires Javascript.</p></noscript>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-3405112-1']);
+  _gaq.push(['_trackPageview']);
+  (function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+</html>

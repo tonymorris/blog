@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>λ Tony's blog λ - Optional a -&gt; a (negative proof)</title>
+  <link rel="stylesheet" type="text/css" href="../../css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/syntax.css" />
+  <link rel="alternate" type="application/atom+xml" href="http://blog.tmorris.net/atom.xml" title="Atom feed" />
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/javascript" src="https://raw.github.com/Mathapedia/LaTeX2HTML5/master/latex2html5.min.js"></script>
+</head>
+<body>
+<div id="title">
+  λ Tony's blog λ
+  <div id="subtitle">
+    The weblog of Tony Morris
+  </div>
+</div>
+<div id="header">
+  <div id="navigation">
+    <a href="../../index.html">Home</a>
+    <a href="../../posts/">All Posts</a>
+    <a href="../../contact/">Contact</a>
+    <a href="http://cv.tmorris.net/">CV</a>
+    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+  </div>
+</div>
+<h1>Optional a -&gt; a (negative proof)</h1>
+<div class="info">Posted on June 20, 2010, in <a href="../../tags/Programming/index.html">Programming</a></div>
+
+<p><em>A loose follow-on from <a href="http://blog.tmorris.net/java-trivia/">Java Trivia</a>.</em></p>
+<p>I run a weekly Haskell session at my place of employment. We are just beginning. The intention is not so much to learn Haskell, but to learn deeper programming concepts so that we can apply them regardless of language – though to the extent that various languages permit.</p>
+<p>Recently, we were discussing algebraic data types and we invented our own:</p>
+<pre><code>data Optional a = Full a | Empty deriving (Eq, Show)</code></pre>
+<p>This is equivalent to:</p>
+<ul>
+<li><p><a href="http://functionaljava.googlecode.com/svn/artifacts/2.23/javadoc/fj/data/Option.html">fj.data.Option</a> for Java</p></li>
+<li><p><a href="http://www.haskell.org/ghc/docs/6.12.2/html/libraries/base-4.2.0.1/Data-Maybe.html">Data.Maybe</a> for Haskell</p></li>
+<li><p><a href="http://www.scala-lang.org/docu/files/api/scala/Option.html">scala.Option</a> for Scala</p></li>
+<li><p><a href="http://msdn.microsoft.com/en-us/library/dd233245.aspx">option</a> for F#</p></li>
+<li><p><a href="http://ocaml-lib.sourceforge.net/doc/Option.html">module Option</a> for OCaml</p></li>
+<li><p><a href="http://www.standardml.org/Basis/option.html">Option</a> for SML</p></li>
+<li><p><a href="http://www.lix.polytechnique.fr/coq/stdlib/Coq.Init.Datatypes.html#option">option</a> for Coq</p></li>
+</ul>
+<p>We were writing a function with this type</p>
+<pre><code>Optional a -&gt; a -&gt; a</code></pre>
+<p>when a member of the audience said, “Why not just use <code>Optional a -&gt; a</code>?” to which I responded, “That’s not possible to do in a consistent way.” That is, not only we shouldn’t, but we cannot do it, no matter what! By consistent here, I mean a total, terminating function. Telling programmers that something is not possible is often a little hasty, even if it is true, so I side-stepped any further discussion on this matter and carried on, promising further explanation, which follows.</p>
+<p>Here I will prove it is not possible by exploiting the Curry-Howard Isomorphism. It is not intended to be deep or technical, only to display some of the possibilities of using “types as propositions, programs as proof” – to paraphrase the intention of C-H Isomorphism.</p>
+<p>The essence of C-H is quite simple. If you write a type signature, you have also written a logical proposition. If you find at least one function that satisfies this signature, you have proven that proposition. Conversely, if you have a program, its existence proves its type (whether the programming language explicitly supplies that type or not). This program for a type is called an <em>inhabitant</em> of the type. Some types are uninhabited, for example: <code>a -&gt; b</code>. That’s because this proposition is not true.</p>
+<p>To state it logically, <code>forall a b. a implies b</code> is a false statement. You can determine this by a simple truth table:</p>
+<pre><code>a b a-&gt;b
+0 0 1
+0 1 1
+1 0 0 &lt;-- inconsistency
+1 1 1</code></pre>
+<p>In <a href="http://blog.tmorris.net/java-trivia/">a previous post</a>, I demonstrated a function that was <em>once-inhabited</em> using (a subset of – <em>see the rules</em>) Java. I knew it was once-inhabited before I gave the puzzle, meaning that every answer given should be the same (extensionally equivalent). Once-inhabited functions are very interesting, but not here – since we are looking for either:</p>
+<ul>
+<li><p>At least one inhabitant (proof which I have claimed does not exist)</p></li>
+<li><p>The absence of an inhabitant (proof negative)</p></li>
+</ul>
+<p>So how can we prove or disprove <code>Optional a -&gt; a</code>?</p>
+<p>My claim is that it is uninhabited. You can disprove this claim by finding an inhabitant. However, the inability to find an inhabitant does not disprove the proposition – after all, we might just be having an unimaginative day! I am assuring you for now, that you will find no such inhabitant. Now I will prove that you won’t.</p>
+<p>We first ask the question, what exactly is <code>Optional a</code>? We can provide a data structure of equivalence by exploiting the <a href="http://en.wikipedia.org/wiki/Catamorphism">catamorphism</a> for the data type:</p>
+<pre><code>type Optional a = forall x. (a -&gt; x) -&gt; x -&gt; x</code></pre>
+<p>This data type is isomorphic (of the same one form) to our previous one and you can determine this by passing in the two constructors of the earlier data type to this isomorphic data type to produce an identity function:</p>
+<pre><code>let cata :: (a -&gt; x) -&gt; x -&gt; x
+cata Full Empty == id</code></pre>
+<p>Side note: if you’re interested in doing the same for a Haskell list, see the <code>foldr</code> function denoting the list catamorphism (<code>foldr (:) [] == id</code>).</p>
+<p>Therefore, our proposition to prove/disprove is now rewritten <em>(remember that <code>-&gt;</code> is right-associative)</em>:</p>
+<pre><code>forall a x. ((a -&gt; x) -&gt; x -&gt; x) -&gt; a)</code></pre>
+<p>Using this, and the truth table for logical implication, we can find an answer by another truth table. Let us first assign some of the parts of this proposition to values for brevity (s being the proposition under investigation):</p>
+<pre><code>p = a -&gt; x
+q = x -&gt; x
+r = p -&gt; q
+s = r -&gt; a</code></pre>
+<p>Let us now draw the truth table:</p>
+<pre><code>a x p q r s
+0 0 1 1 1 0 &lt;-- inconsistency
+0 1 1 1 1 0 &lt;-- inconsistency
+1 0 0 1 1 1
+1 1 1 1 1 1</code></pre>
+<p>We have now disproven the proposition <code>Optional a -&gt; a</code>. It is not possible to inhabit this type signature consistently.</p>
+<p>Further Reading:</p>
+<ul>
+<li><p><a href="http://en.wikipedia.org/wiki/Curry%E2%80%93Howard_correspondence">The Curry-Howard Correspondence</a></p></li>
+<li><p><a href="http://en.wikibooks.org/wiki/Haskell/The_Curry-Howard_isomorphism">The Curry-Howard Isomorphism with a crash course in formal logic</a></p></li>
+</ul>
+<p>As always, I hope this helps!</p>
+
+
+<hr />
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'tonys--blog';
+  var discus_identifier = '/posts/optional-a-negative-proof/index.html';
+  var disqus_url = 'http://blog.tmorris.net/posts/optional-a-negative-proof/index.html';
+  var discus_title = 'Optional a -> a (negative proof)';
+  (function () {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript><p>The comments use <a href="http://disqus.com/?ref_noscript">Disqus</a>,
+  which requires Javascript.</p></noscript>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-3405112-1']);
+  _gaq.push(['_trackPageview']);
+  (function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+</html>

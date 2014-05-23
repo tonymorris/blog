@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  <title>λ Tony's blog λ - 20 Intermediate Scala Exercises</title>
+  <link rel="stylesheet" type="text/css" href="../../css/screen.css" />
+  <link rel="stylesheet" type="text/css" href="../../css/syntax.css" />
+  <link rel="alternate" type="application/atom+xml" href="http://blog.tmorris.net/atom.xml" title="Atom feed" />
+  <script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+  <script type="text/javascript" src="https://raw.github.com/Mathapedia/LaTeX2HTML5/master/latex2html5.min.js"></script>
+</head>
+<body>
+<div id="title">
+  λ Tony's blog λ
+  <div id="subtitle">
+    The weblog of Tony Morris
+  </div>
+</div>
+<div id="header">
+  <div id="navigation">
+    <a href="../../index.html">Home</a>
+    <a href="../../posts/">All Posts</a>
+    <a href="../../contact/">Contact</a>
+    <a href="http://cv.tmorris.net/">CV</a>
+    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+  </div>
+</div>
+<h1>20 Intermediate Scala Exercises</h1>
+<div class="info">Posted on September 10, 2008, in <a href="../../tags/Programming/index.html">Programming</a></div>
+
+<p>I will be publishing answers to these exercises as well as the <a href="http://blog.tmorris.net/revised-scala-exercises/">Revised Scala Exercises</a> in the near future. In the meantime, see if you can tackle the exercises below. In almost all cases, the type signature is enough to derive what the implementation should be. In all other cases, the solution is as difficult to derive anyway, so consider it an equivalent achievement.</p>
+<p>The source file below compiles, but is missing certain function implementations (where you see <code>error(&quot;todo&quot;)</code>). Enjoy and if you have questions, please feel free to post them :)</p>
+<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">trait</span> PartialType[T[_, _], A] {
+  <span class="kw">type</span> Apply[B] = T[A, B]
+  <span class="kw">type</span> Flip[B] = T[B, A]
+}
+
+<span class="kw">trait</span> Fluffy[F[_]] {
+  <span class="kw">def</span> furry[A, B](f: A =&gt; B, fa: F[A]): F[B]
+}
+
+<span class="kw">object</span> Fluffy {
+  <span class="co">// Exercise 1</span>
+  <span class="co">// Relative Difficulty: 1</span>
+  <span class="kw">def</span> ListFluffy: Fluffy[List] = <span class="fu">error</span>(<span class="st">&quot;todo&quot;</span>)
+
+  <span class="co">// Exercise 2</span>
+  <span class="co">// Relative Difficulty: 1</span>
+  <span class="kw">def</span> OptionFluffy: Fluffy[Option] = <span class="fu">error</span>(<span class="st">&quot;todo&quot;</span>)
+
+  <span class="co">// Exercise 3</span>
+  <span class="co">// Relative Difficulty: 1</span>
+  <span class="kw">def</span> StreamFluffy: Fluffy[Stream] = <span class="fu">error</span>(<span class="st">&quot;todo&quot;</span>)
+
+  <span class="co">// Exercise 4</span>
+  <span class="co">// Relative Difficulty: 1</span>
+  <span class="kw">def</span> ArrayFluffy: Fluffy[Array] = <span class="fu">error</span>(<span class="st">&quot;todo&quot;</span>)
+
+  <span class="co">// Exercise 5</span>
+  <span class="co">// Relative Difficulty: 5</span>
+  <span class="kw">def</span> Function1Fluffy[X]: Fluffy[PartialType[Function1, X]#Apply] =
+    <span class="fu">error</span>(<span class="st">&quot;todo&quot;</span>)
+
+  <span class="co">// Exercise 6</span>
+  <span class="co">// Relative Difficulty: 6</span>
+  <span class="kw">def</span> EitherLeftFluffy[X]: Fluffy[PartialType[Either.<span class="fu">LeftProjection</span>, X]#Flip] =
+    <span class="fu">error</span>(<span class="st">&quot;todo&quot;</span>)
+
+  <span class="co">// Exercise 7</span>
+  <span class="co">// Relative Difficulty: 4</span>
+  <span class="kw">def</span> EitherRightFluffy[X]: Fluffy[PartialType[Either.<span class="fu">RightProjection</span>, X]#Apply] =
+    <span class="fu">error</span>(<span class="st">&quot;todo&quot;</span>)
+}
+
+<span class="kw">trait</span> Misty[M[_]] <span class="kw">extends</span> Fluffy[M] {
+  <span class="kw">def</span> banana[A, B](f: A =&gt; M[B], ma: M[A]): M[B]
+
+  <span class="kw">def</span> unicorn[A](a: A): M[A]
+
+  <span class="co">// Exercise 8</span>
+  <span class="co">// Relative Difficulty: 3</span>
+  <span class="co">// (use banana and/or unicorn)</span>
+  <span class="kw">def</span> furry[A, B](f: A =&gt; B, ma: M[A]): M[B] = <span class="fu">error</span>(<span class="st">&quot;todo&quot;</span>)
+}
+
+<span class="kw">object</span> Misty {
+  <span class="co">// Exercise 9</span>
+  <span class="co">// Relative Difficulty: 2</span>
+  <span class="kw">def</span> ListMisty: Misty[List] = <span class="fu">error</span>(<span class="st">&quot;todo&quot;</span>)
+
+  <span class="co">// Exercise 10</span>
+  <span class="co">// Relative Difficulty: 2</span>
+  <span class="kw">def</span> OptionMisty: Misty[Option] = <span class="fu">error</span>(<span class="st">&quot;todo&quot;</span>)
+
+  <span class="co">// Exercise 11</span>
+  <span class="co">// Relative Difficulty: 2</span>
+  <span class="kw">def</span> StreamMisty: Misty[Stream] = <span class="fu">error</span>(<span class="st">&quot;todo&quot;</span>)
+
+  <span class="co">// Exercise 12</span>
+  <span class="co">// Relative Difficulty: 2</span>
+  <span class="kw">def</span> ArrayMisty: Misty[Array] = <span class="fu">error</span>(<span class="st">&quot;todo&quot;</span>)
+
+  <span class="co">// Exercise 13</span>
+  <span class="co">// Relative Difficulty: 6</span>
+  <span class="kw">def</span> Function1Misty[X]: Misty[PartialType[Function1, X]#Apply] =
+    <span class="fu">error</span>(<span class="st">&quot;todo&quot;</span>)
+
+  <span class="co">// Exercise 14</span>
+  <span class="co">// Relative Difficulty: 7</span>
+  <span class="kw">def</span> EitherLeftMisty[X]: Misty[PartialType[Either.<span class="fu">LeftProjection</span>, X]#Flip] =
+    <span class="fu">error</span>(<span class="st">&quot;todo&quot;</span>)
+
+  <span class="co">// Exercise 15</span>
+  <span class="co">// Relative Difficulty: 5</span>
+  <span class="kw">def</span> EitherRightMisty[X]: Misty[PartialType[Either.<span class="fu">RightProjection</span>, X]#Apply] =
+    <span class="fu">error</span>(<span class="st">&quot;todo&quot;</span>)
+
+  <span class="co">// Exercise 16</span>
+  <span class="co">// Relative Difficulty: 3</span>
+  <span class="kw">def</span> jellybean[M[_], A](ma: M[M[A]], m: Misty[M]): M[A] = <span class="fu">error</span>(<span class="st">&quot;todo&quot;</span>)
+
+  <span class="co">// Exercise 17</span>
+  <span class="co">// Relative Difficulty: 6</span>
+  <span class="kw">def</span> apple[M[_], A, B](ma: M[A], mf: M[A =&gt; B], m: Misty[M]): M[B] =
+    <span class="fu">error</span>(<span class="st">&quot;todo&quot;</span>)
+
+  <span class="co">// Exercise 18</span>
+  <span class="co">// Relative Difficulty: 6</span>
+  <span class="kw">def</span> moppy[M[_], A, B](as: List[A], f: A =&gt; M[B], m: Misty[M]): M[List[B]] =
+    <span class="fu">error</span>(<span class="st">&quot;todo&quot;</span>)
+}
+
+<span class="kw">object</span> AdvancedFun {
+  <span class="kw">case</span> <span class="kw">class</span> State[S, A](f: S =&gt; (S, A))
+
+  <span class="co">// Exercise 19</span>
+  <span class="co">// Relative Difficulty: 9</span>
+  <span class="kw">def</span> StateFluffy[S]: Fluffy[PartialType[State, S]#Apply] = <span class="fu">error</span>(<span class="st">&quot;todo&quot;</span>)
+
+  <span class="co">// Exercise 20</span>
+  <span class="co">// Relative Difficulty: 10</span>
+  <span class="kw">def</span> StateMisty[S]: Misty[PartialType[State, S]#Apply] = <span class="fu">error</span>(<span class="st">&quot;todo&quot;</span>)
+}</code></pre>
+
+
+<hr />
+<div id="disqus_thread"></div>
+<script type="text/javascript">
+  var disqus_shortname = 'tonys--blog';
+  var discus_identifier = '/posts/20-intermediate-scala-exercises/index.html';
+  var disqus_url = 'http://blog.tmorris.net/posts/20-intermediate-scala-exercises/index.html';
+  var discus_title = '20 Intermediate Scala Exercises';
+  (function () {
+    var dsq = document.createElement('script');
+    dsq.type = 'text/javascript';
+    dsq.async = true;
+    dsq.src = 'http://' + disqus_shortname + '.disqus.com/embed.js';
+    (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+  })();
+</script>
+<noscript><p>The comments use <a href="http://disqus.com/?ref_noscript">Disqus</a>,
+  which requires Javascript.</p></noscript>
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-3405112-1']);
+  _gaq.push(['_trackPageview']);
+  (function () {
+    var ga = document.createElement('script');
+    ga.type = 'text/javascript';
+    ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0];
+    s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+</body>
+</html>
