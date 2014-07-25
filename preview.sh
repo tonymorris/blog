@@ -1,5 +1,5 @@
 #!/bin/sh
 
 cabal build
-./dist/build/blog/blog preview
+./dist/build/blog/blog watch
 
