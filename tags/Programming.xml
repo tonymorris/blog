@@ -162,7 +162,7 @@ pure <span class="ot">::</span>
 pure <span class="fu">=</span>
   return</code></pre>
 <h3 id="applicative-do-notation">Applicative do-notation</h3>
-<p>With this proposal, there is <a href="http://ghc.haskell.org/trac/ghc/wiki/ApplicativeDo">another proposal to extend do-notation</a> to take advantage of this improved flexibility. Currently, do-notation translates to the code that uses the <code>Monad</code> primitives, <code>(&gt;&gt;=)</code> and <code>return</code><sup><a href="#fn1" class="footnoteRef" id="fnref1">1</a></sup>.</p>
+<p>With this proposal, there is <a href="http://ghc.haskell.org/trac/ghc/wiki/ApplicativeDo">another proposal to extend do-notation</a> to take advantage of this improved flexibility. Currently, do-notation translates to the code that uses the <code>Monad</code> primitives, <code>(&gt;&gt;=)</code> and <code>return</code><a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a>.</p>
 <p>There are some arguments against this proposal, because this extension is not always desirable. In particular, the degree to which values are shared may be affected. Consider:</p>
 <pre class="sourceCode Haskell"><code class="sourceCode haskell">result <span class="fu">=</span>
   <span class="kw">do</span> a <span class="ot">&lt;-</span> expr
@@ -336,11 +336,8 @@ result <span class="fu">=</span>
 <li><p><a href="https://vimeo.com/73648150">Video</a> <em>(vimeo)</em></p></li>
 </ul>
 <div class="embed-vimeo">
-  <iframe src="http://player.vimeo.com/video/73648150" width="688" height="387" frameborder="0" webkitAllowFullScreen="true" mozallowfullscreen="true" allowFullScreen="true">
-  </iframe>
-</div>
-
-]]></summary>
+<iframe src="http://player.vimeo.com/video/73648150" width="688" height="387" frameborder="0" webkitAllowFullScreen="true" mozallowfullscreen="true" allowFullScreen="true"> </iframe>
+</div>]]></summary>
 </entry>
 <entry>
     <title>Sticks, stones, but names are not useful to me</title>
@@ -362,12 +359,12 @@ result <span class="fu">=</span>
 <hr />
 <p>Suppose the following code:</p>
 <pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">def</span> reverse[A]: List[A] =&gt; List[A]</code></pre>
-<p>At first glance, it might appear that we must take a leap of confidence in inferring that the function reverses the list. However, we can infer the following fact — <em>this function definitely does not peel the first <code>Banana</code> in the list</em>. I can infer this because if the function attempted to do this, it <em>would not compile</em><sup><a href="#fn1" class="footnoteRef" id="fnref1">1</a></sup>. In fact, I can infer lots of things here, such as:</p>
+<p>At first glance, it might appear that we must take a leap of confidence in inferring that the function reverses the list. However, we can infer the following fact — <em>this function definitely does not peel the first <code>Banana</code> in the list</em>. I can infer this because if the function attempted to do this, it <em>would not compile</em><a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a>. In fact, I can infer lots of things here, such as:</p>
 <ul>
 <li>The <code>reverse</code> function did not add <code>10</code> to every second list element.</li>
 <li>All elements in the list returned by <code>reverse</code> are contained in the input list.</li>
 </ul>
-<p>We are able to infer these things simply by making the <code>reverse</code> function <em>parametric</em>. We are no longer reversing a list of bananas — although that might be our use-case — we are reversing a list of <code>A</code> for all values of <code>A</code>. One virtue of this <em>parametricity</em> is that we can infer a significant number of things that <em>do not occur</em>. This theme of learning what does not occur is ubiquitous when deploying these programming techniques and is described in more detail by Wadler<sup><a href="#fn2" class="footnoteRef" id="fnref2">2</a></sup>.</p>
+<p>We are able to infer these things simply by making the <code>reverse</code> function <em>parametric</em>. We are no longer reversing a list of bananas — although that might be our use-case — we are reversing a list of <code>A</code> for all values of <code>A</code>. One virtue of this <em>parametricity</em> is that we can infer a significant number of things that <em>do not occur</em>. This theme of learning what does not occur is ubiquitous when deploying these programming techniques and is described in more detail by Wadler<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a>.</p>
 <p>Here is another example, using a programming language called SafeHaskell (very similar to Haskell):</p>
 <pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="ot">add10 ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span></code></pre>
 <p>By the name of the function, we might unreliably infer (OK, let’s be honest, we are making a bold guess) that the function adds <code>10</code> to its argument. However, looking at the type, we know for sure that the function <em>did not print its argument to the standard output stream</em>. We know this because had the library provider attempted it, the code would not have compiled. To be clear, it would not be a valid SafeHaskell program, so our assumption that we are looking at SafeHaskell fails, forcing us to unify by selecting one of the following:</p>
@@ -992,11 +989,8 @@ runIntRdrs <span class="fu">=</span> foldr (\a b <span class="ot">-&gt;</span> b
 <li><p><a href="https://vimeo.com/64673035">Video</a> <em>(vimeo)</em></p></li>
 </ul>
 <div class="embed-vimeo">
-  <iframe src="http://player.vimeo.com/video/64673035" width="688" height="387" frameborder="0" webkitAllowFullScreen="true" mozallowfullscreen="true" allowFullScreen="true">
-  </iframe>
-</div>
-
-]]></summary>
+<iframe src="http://player.vimeo.com/video/64673035" width="688" height="387" frameborder="0" webkitAllowFullScreen="true" mozallowfullscreen="true" allowFullScreen="true"> </iframe>
+</div>]]></summary>
 </entry>
 <entry>
     <title>Obturator Entrapment Neuropathy</title>
@@ -1004,7 +998,7 @@ runIntRdrs <span class="fu">=</span> foldr (\a b <span class="ot">-&gt;</span> b
     <id>http://blog.tmorris.net/posts/obturator-neuropathy/index.html</id>
     <published>2013-04-11T19:00:00Z</published>
     <updated>2013-04-11T19:00:00Z</updated>
-    <summary type="html"><![CDATA[<p>After 19 surgeries<sup><a href="#fn1" class="footnoteRef" id="fnref1">1</a></sup> and 5 years of searching for the source of my chronic pain syndrome, which started with a sporting injury in 2007, I have been found to have a condition called Obturator Neuropathy — a source of chronic pain affecting athletes.</p>
+    <summary type="html"><![CDATA[<p>After 19 surgeries<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a> and 5 years of searching for the source of my chronic pain syndrome, which started with a sporting injury in 2007, I have been found to have a condition called Obturator Neuropathy — a source of chronic pain affecting athletes.</p>
 <p>Unfortunately, many specialists are unaware of this condition and so may not recognise the correct diagnosis, which has been my case. Obturator Neuropathy typically affects those engaged in kicking sports and especially, Australian Rules football. Although I was playing Australian Rules football at the time of my injury, I live in Brisbane, where the sport is less popular than in other cities such as Melbourne and Sydney, where the condition is more recognised. I have recently learned that many more specialists in these cities are aware of this insidious disease, while I have yet to find anyone in Brisbane who even know it exists — I suppose this set of circumstances came together to delay my correct diagnosis for many years.</p>
 <p>This article is the first of my writings on this condition, as at this time, it is still currently unresolved. I am planning to meet with many specialists in the next few days to discuss surgical management. Later, I intend to raise greater awareness of this condition in the hope that other athletes, professional or otherwise, needn’t go through the dramas that I have done in these last few years.</p>
 <p>My pain is now so severe that I am unable to perform my normal duties for my employer. Thankfully, my employer is awesome and understanding of my plight and I am committed to resolving this matter as soon as possible so that I can contribute back my highest level of performance. I am thankful to others in their understanding and I apologise to those who have sometimes been on “the wrong end of the stick” of my frustrations especially when I am having a “bad day” with pain. I am also usually taking narcotic medication during these times, so my recollection of the events is typically blurry to me.</p>

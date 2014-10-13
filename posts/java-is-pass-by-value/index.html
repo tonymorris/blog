@@ -45,7 +45,7 @@
 <p>Where an actual argument expression corresponding to a parameter variable is not FP-strict (§2.18), evaluation of that actual argument expression is permitted to use values drawn from the appropriate extended-exponent value sets. Prior to being stored in the parameter variable, the result of such an expression is mapped to the nearest value in the corresponding standard value set by method invocation conversion (§2.6.8).</p>
 <p>Let me extract a really important part:</p>
 <blockquote>
-<p>_…initialize newly created parameter variables (§2.5), each of the declared type, before execution of the body of the method. _</p>
+<p><em>…initialize newly created parameter variables (§2.5), each of the declared type, before execution of the body of the method. </em></p>
 </blockquote>
 <p>Did you see that? Java is pass by value, without reservation. It says so in the specification. It is even observable by writing a trivial program.</p>
 <pre class="sourceCode Java"><code class="sourceCode java">Object o = <span class="kw">new</span> Object();</code></pre>

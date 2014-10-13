@@ -39,21 +39,21 @@
   <span class="kw">def</span> xmap[A, B](f: (A =&gt; B, B =&gt; A)): F[A] =&gt; F[B]
 }</code></pre>
 <ul>
-<li>applicative functor<sup><a href="#fn1" class="footnoteRef" id="fnref1">1</a></sup> — defines the operation commonly known as <code>apply</code> or <code>&lt;*&gt;</code>.</li>
+<li>applicative functor<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a> — defines the operation commonly known as <code>apply</code> or <code>&lt;*&gt;</code>.</li>
 </ul>
 <pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// applicative functor (abbreviated)</span>
 <span class="kw">trait</span> Applicative[F[_]] {
   <span class="kw">def</span> apply[A, B](f: F[A =&gt; B]): F[A] =&gt; F[B]
 }</code></pre>
 <ul>
-<li>monad<sup><a href="#fn2" class="footnoteRef" id="fnref2">2</a></sup> — defines the operation commonly known as <code>bind</code>, <code>flatMap</code> or <code>=&lt;&lt;</code>.</li>
+<li>monad<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a> — defines the operation commonly known as <code>bind</code>, <code>flatMap</code> or <code>=&lt;&lt;</code>.</li>
 </ul>
 <pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// monad (abbreviated)</span>
 <span class="kw">trait</span> Monad[F[_]] {
   <span class="kw">def</span> flatMap[A, B](f: A =&gt; F[B]): F[A] =&gt; F[B]
 }</code></pre>
 <ul>
-<li>comonad<sup><a href="#fn3" class="footnoteRef" id="fnref3">3</a></sup> — defines the operation commonly known as <code>extend</code>, <code>coflatMap</code> or <code>&lt;&lt;=</code>.</li>
+<li>comonad<a href="#fn3" class="footnoteRef" id="fnref3"><sup>3</sup></a> — defines the operation commonly known as <code>extend</code>, <code>coflatMap</code> or <code>&lt;&lt;=</code>.</li>
 </ul>
 <pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// comonad (abbreviated)</span>
 <span class="kw">trait</span> Comonad[F[_]] {
@@ -66,8 +66,10 @@
 </blockquote>
 <p>I memorise the table that is the type of the different argument arrangements to help me to determine which abstraction might be appropriate. Of course, I use other methods, but this particular technique is elegant and short. Here is that table:</p>
 <table>
+<colgroup>
 <col width="20%" />
 <col width="25%" />
+</colgroup>
 <thead>
 <tr class="header">
 <th align="left">functor</th>

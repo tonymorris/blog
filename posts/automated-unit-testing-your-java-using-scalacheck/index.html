@@ -156,17 +156,23 @@
 + OK, passed 100 tests.</code></pre>
 <p>Yippee!!</p>
 <p>We might state two more properties:</p>
-<p>* For any list and any element (s), <code>list.add(s)</code> then <code>list.get(0)</code> will always yield <code>s</code>.</p>
-<p>* For any list, any element (s) and any integer between 0 and list.length - 1 (n), then calling <code>list.get(n)</code> is equivalent to calling <code>list.addFirst(s).get(n + 1)</code>.</p>
-<pre><code>$ scala -classpath .:ScalaCheck-1.2.jar CheckLinkedList
-+ OK, passed 100 tests.
-+ OK, passed 100 tests.
-+ OK, passed 100 tests.</code></pre>
+<ul>
+<li><p>For any list and any element (s), <code>list.add(s)</code> then <code>list.get(0)</code> will always yield <code>s</code>.</p></li>
+<li><p>For any list, any element (s) and any integer between 0 and list.length - 1 (n), then calling <code>list.get(n)</code> is equivalent to calling <code>list.addFirst(s).get(n + 1)</code>.</p>
+$ scala -classpath .:ScalaCheck-1.2.jar CheckLinkedList
+<ul>
+<li>OK, passed 100 tests.</li>
+<li>OK, passed 100 tests.</li>
+<li>OK, passed 100 tests.</li>
+</ul></li>
+</ul>
 <p>I have left off the code for the moment and I will give a complete example toward the end. Note that we have 300 passing unit tests – the code is around 25 lines (excluding the boilerplate to get the tests running).</p>
 <p>At this point, we have given <strong>an unambiguous specification for <code>addFirst</code></strong>. In other words, it is not possible to write a terminating function that does not satisfy these properties that is not equivalent to <code>addFirst</code>. However, this ignores the unfortunate potential for uncontrolled side-effects, which is an inherent property of Java (and Scala for that matter). We will assume it to be the case – no additional side-effects. It then follows that one additional benefit of automated testing is that we also obtain extremely valuable documentation for the function.</p>
 <p>Consider being provided with:</p>
-<p>* The type signature for <code>addFirst</code> (the properties which are proved).</p>
-<p>* The three stated properties for <code>addFirst</code>.</p>
+<ul>
+<li><p>The type signature for <code>addFirst</code> (the properties which are proved).</p></li>
+<li><p>The three stated properties for <code>addFirst</code>.</p></li>
+</ul>
 <p>Is there anything more useful to add in terms of documentation? Isn’t this unambiguous, highly readable specification more than you could possibly ask for? This is an interesting question to ponder, particularly in a more pure environment than the one we are discussing here, but I thought I would mention it anyway :)</p>
 <p>I will state a property that is false, just to exemplify what happens. The idea is that it is extremely difficult (but not impossible – remember halting problem) to state a false property that ScalaCheck passes. I’m not going to look for a specific corner case that traditional unit testing is unlikely to pick up, but I encourage you to do so as an added exercise.</p>
 <p>Instead, I will state an obviously false property; for any list and any element, adding the element with <code>addFirst</code> is equivalent to adding that element with <code>addLast</code>.</p>

@@ -16,16 +16,22 @@
     <published>2011-01-14T23:46:08Z</published>
     <updated>2011-01-14T23:46:08Z</updated>
     <summary type="html"><![CDATA[<p>I went looking for my grandmother today, who lives on the bank of the Brisbane River in Wivenhoe Pocket. I didn’t find her, but I’ve been assured she is safe.</p>
-<p>* <a href="http://www.vimeo.com/18780944">Video</a></p>
+<ul>
+<li><a href="http://www.vimeo.com/18780944">Video</a></li>
+</ul>
 <p>Fernvale bridge 32 hours after peaking during major flood. The edge of the water is 830 metres from the bridge which is typically used to traverse the river. The width of the river is estimated to be over 1.5km.</p>
 <p>The dried mud on the bitumen road indicates the peak height that was reached.</p>
 <p>Note the street sign indicating a side street ahead. Coominya State School lies completely submerged in the water ahead.</p>
 <p><a href="http://www.openstreetmap.org/?mlat=-27.43818&amp;mlon=152.63681&amp;zoom=14&amp;layers=M">Map location</a> The marker denotes the edge of the water as seen in the video to within a few metres.</p>
-<p>* <a href="http://www.vimeo.com/18782012">Video</a></p>
+<ul>
+<li><a href="http://www.vimeo.com/18782012">Video</a></li>
+</ul>
 <p>Alice Street and Queen Street, Goodna, Brisbane 32 hours after Brisbane River peaks in major flood disaster.</p>
 <p>The peak height of the river can be seen at 0:01 when the road changes to a dirty colour.</p>
 <p><a href="http://www.openstreetmap.org/?lat=-27.6139&amp;lon=152.90214&amp;zoom=17&amp;layers=">Map location</a></p>
-<p>* <a href="http://www.vimeo.com/18782516">Video</a></p>
+<ul>
+<li><a href="http://www.vimeo.com/18782516">Video</a></li>
+</ul>
 <p>Schmidt Road, Fernvale 32 hours after Brisbane River peaks in major flood disaster.</p>
 <p>The peak height of the river can be seen in the debris that hangs in the fences.</p>
 <p><a href="http://www.openstreetmap.org/?mlat=-27.44542&amp;mlon=152.65106&amp;zoom=15&amp;layers=M">Map location</a></p>]]></summary>
@@ -39,12 +45,12 @@
     <summary type="html"><![CDATA[<p>Haskell is a pure lazy programming language. The laziness of Haskell allows certain performance improvements without sacrificing compositional program properties. I have recently written parsers for XML map data formats that allow a user to “read a data file into a collection of immutable objects.” If I told you I used the parser library to “read in” a 140GB map data file and you’re not familiar with a lazy language, you might have asked how I did this within the constraints of memory requirements. Easy of course; I used a lazy language. The implications of a lazy (and therefore, pure) language are widely misunderstood, so I say “easy” wishing it really was easy for all people, but I know it isn’t (keep practicing!).</p>
 <p><a href="http://www.haskell.org/haskellwiki/HXT">HXT</a> is a parsing library for XML that is based on <a href="http://www.cs.chalmers.se/~rjmh/afp-arrows.pdf">Hughes’ arrows</a> and allows a user to piece together their own specific XML parser. I used it to parse the <a href="http://www.topografix.com/GPX/1/1/">GPS Exchange (GPX)</a> and <a href="http://wiki.openstreetmap.org/wiki/API_v0.6/DTD">OpenStreetMap (OSM)</a> data formats.</p>
 <p><a href="http://code.google.com/p/geo-gpx/">Here</a> are some example uses of parsing GPX files and <a href="http://code.google.com/p/geo-osm/">here</a> are examples parsing OSM files. My favourite is a very simple example (there are more complex ones) that removes waypoints from a GPX file. <a href="http://lists.openstreetmap.org/pipermail/newbies/2009-May/003131.html">This question (how to remove waypoints from gpx?)</a> was asked on the OSM mailing list quite a while ago; questions like these partially inspired me to write these libraries.</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">import</span> Data.Geo.GPX
+<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">import </span><span class="dt">Data.Geo.GPX</span>
 
-<span class="ot">removeWpts ::</span> FilePath <span class="ot">-&gt;</span> FilePath <span class="ot">-&gt;</span> <span class="dt">IO</span> ()
+<span class="ot">removeWpts ::</span> <span class="dt">FilePath</span> <span class="ot">-&gt;</span> <span class="dt">FilePath</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()
 removeWpts <span class="fu">=</span> flip interactGpx (usingWpts (const []))</code></pre>
 <p>The implementation is very simple. The <code>interactGpx</code> function takes two file names and a function that transforms a <code>Gpx</code> data structure to a new <code>Gpx</code>. The <code>interactGpx</code> function reads in the first given file name to a <code>Gpx</code>, executes the given function to produce a new <code>Gpx</code>, then writes the result to the other given file name.</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="ot">interactGpx ::</span> FilePath <span class="ot">-&gt;</span> (<span class="dt">Gpx</span> <span class="ot">-&gt;</span> <span class="dt">Gpx</span>) <span class="ot">-&gt;</span> FilePath <span class="ot">-&gt;</span> <span class="dt">IO</span> ()</code></pre>
+<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="ot">interactGpx ::</span> <span class="dt">FilePath</span> <span class="ot">-&gt;</span> (<span class="dt">Gpx</span> <span class="ot">-&gt;</span> <span class="dt">Gpx</span>) <span class="ot">-&gt;</span> <span class="dt">FilePath</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()</code></pre>
 <p>The <code>usingWpts</code> function takes a function that transforms a list of waypoints to a new list of waypoints and a <code>Gpx</code> value and returns a new <code>Gpx</code> value with the waypoints transformed.</p>
 <pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="ot">usingWpts ::</span> ([<span class="dt">WptType</span>] <span class="ot">-&gt;</span> [<span class="dt">WptType</span>]) <span class="ot">-&gt;</span> <span class="dt">Gpx</span> <span class="ot">-&gt;</span> <span class="dt">Gpx</span></code></pre>
 <p>Of course, since we want to remove all waypoints, we ignore the given list of waypoints and return an empty list (<code>const []</code>). Pretty neat I reckon!</p>

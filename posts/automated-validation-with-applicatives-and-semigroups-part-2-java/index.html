@@ -79,23 +79,37 @@
 <p>This is simple. It’s the <code>Person</code> constructor.</p>
 <p>So to sum up, we need to write a function with this type:</p>
 <p>Arguments:</p>
-<p>*</p>
+<ul>
+<li></li>
+</ul>
 <pre class="sourceCode Java"><code class="sourceCode java">F&lt;String, Validation&lt;LinkedList&lt;string&gt;, Age&gt;&gt;&gt;</code></pre>
-<p>*</p>
+<ul>
+<li></li>
+</ul>
 <pre class="sourceCode Java"><code class="sourceCode java">F&lt;String, Validation&lt;LinkedList&lt;string&gt;, Name&gt;&gt;&gt;</code></pre>
-<p>*</p>
+<ul>
+<li></li>
+</ul>
 <pre class="sourceCode Java"><code class="sourceCode java">F&lt;Age, F&lt;Name, Person&gt;&gt;</code></pre>
-<p>*</p>
+<ul>
+<li></li>
+</ul>
 <pre class="sourceCode Java"><code class="sourceCode java">Semigroup&lt;LinkedList&lt;string&gt;&gt;</code></pre>
 <p>Return type:</p>
 <pre class="sourceCode Java"><code class="sourceCode java">F&lt;String, F&lt;String, &lt;Validation&lt;LinkedList&lt;string&gt;, Person&gt;&gt;&gt;&gt;</code></pre>
 <p>Of course such a function is likely to be polymorphic, rather than specifying concrete types. I recommend starting by writing a function with this type:</p>
 <p>Arguments:</p>
-<p>*</p>
+<ul>
+<li></li>
+</ul>
 <pre class="sourceCode Java"><code class="sourceCode java">F&lt;T, F&lt;U, V&gt;&gt;</code></pre>
-<p>*</p>
+<ul>
+<li></li>
+</ul>
 <pre class="sourceCode Java"><code class="sourceCode java">F&lt;A, Validation&lt;E, T&gt;&gt;</code></pre>
-<p>*</p>
+<ul>
+<li></li>
+</ul>
 <pre class="sourceCode Java"><code class="sourceCode java">F&lt;B, Validation&lt;E, U&gt;&gt;</code></pre>
 <p>Return type:</p>
 <pre class="sourceCode Java"><code class="sourceCode java">F&lt;A, F&lt;B, Validation&lt;E, V&gt;&gt;</code></pre>

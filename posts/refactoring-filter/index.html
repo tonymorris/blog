@@ -31,13 +31,13 @@
 
 <h2 id="the-filter-function">The <code>filter</code> function</h2>
 <p>The <code>filter</code> function is one that accepts a list as an argument, keeping all elements that satisfy a given predicate, discarding all others and returns the resulting list. For example, I might use the <code>filter</code> function in Haskell to keep all <strong>even</strong> elements in a list:</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell">λ&gt; filter even [<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">6</span>,<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">7</span>,<span class="dv">6</span>,<span class="dv">75</span>,<span class="dv">22</span>]
+<pre class="sourceCode Haskell"><code class="sourceCode haskell">λ<span class="fu">&gt;</span> filter even [<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">6</span>,<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">7</span>,<span class="dv">6</span>,<span class="dv">75</span>,<span class="dv">22</span>]
 [<span class="dv">2</span>,<span class="dv">6</span>,<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">6</span>,<span class="dv">22</span>]</code></pre>
 <p>or perhaps using Scala:</p>
 <pre class="sourceCode Scala"><code class="sourceCode scala">scala&gt; List(<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">6</span>,<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">7</span>,<span class="dv">6</span>,<span class="dv">75</span>,<span class="dv">22</span>) <span class="fu">filter</span> (_ % <span class="dv">2</span> == <span class="dv">0</span>)
 res0: List[Int] = List(<span class="dv">2</span>, <span class="dv">6</span>, <span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">22</span>)</code></pre>
 <p>In both cases, the list structure under examination is a <a href="http://en.wikipedia.org/wiki/Cons">cons list</a>.</p>
-<p>When I teach functional programming, we are usually implementing the <code>filter</code> function on <a href="https://github.com/tonymorris/course/blob/master/src/L02/List.hs#L80">our own cons list using Haskell</a><sup><a href="#fn1" class="footnoteRef" id="fnref1">1</a></sup> on the first day. Having done this enough times now, with both Haskell and Scala, I observe a recurring pattern.</p>
+<p>When I teach functional programming, we are usually implementing the <code>filter</code> function on <a href="https://github.com/tonymorris/course/blob/master/src/L02/List.hs#L80">our own cons list using Haskell</a><a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a> on the first day. Having done this enough times now, with both Haskell and Scala, I observe a recurring pattern.</p>
 <p>The usual solutions are given either with explicit pattern-matching along with explicit recursion:</p>
 <pre class="sourceCode Haskell"><code class="sourceCode haskell">fiilter _ [] <span class="fu">=</span> []
 fiilter p (h<span class="fu">:</span>t) <span class="fu">=</span> <span class="kw">if</span> p h <span class="kw">then</span> h<span class="fu">:</span>fiilter p t <span class="kw">else</span> fiilter p t</code></pre>
@@ -78,7 +78,7 @@ id a <span class="fu">=</span> a</code></pre>
 <pre class="sourceCode Haskell"><code class="sourceCode haskell">fiilter p x <span class="fu">=</span> foldRight (\a b <span class="ot">-&gt;</span> (<span class="kw">if</span> p a <span class="kw">then</span> ((<span class="fu">:</span>) a) <span class="kw">else</span> id) b) [] x</code></pre>
 <p>…can be replaced with:</p>
 <pre class="sourceCode Haskell"><code class="sourceCode haskell">fiilter p <span class="fu">=</span> foldRight (\a <span class="ot">-&gt;</span> <span class="kw">if</span> p a <span class="kw">then</span> ((<span class="fu">:</span>) a) <span class="kw">else</span> id) []</code></pre>
-<p>OK, this is great! We are simply replacing each cons cell with the given function<sup><a href="#fn2" class="footnoteRef" id="fnref2">2</a></sup> and we needn’t specify the list in the argument list only to apply to it on the far right. But are we finished?</p>
+<p>OK, this is great! We are simply replacing each cons cell with the given function<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a> and we needn’t specify the list in the argument list only to apply to it on the far right. But are we finished?</p>
 <h2 id="final-housekeeping">Final housekeeping</h2>
 <p>Unfortunately, Haskell (and most languages) provide <code>if</code> as syntax. Since Haskell is a non-strict language, we can easily write it ourselves as a library function:</p>
 <pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="ot">if' ::</span> <span class="dt">Bool</span> <span class="ot">-&gt;</span> x <span class="ot">-&gt;</span> x <span class="ot">-&gt;</span> x
@@ -86,7 +86,7 @@ if' p t f <span class="fu">=</span> <span class="kw">if</span> p <span class="kw
 <p>So how does our code look?</p>
 <pre class="sourceCode Haskell"><code class="sourceCode haskell">fiilter p <span class="fu">=</span> foldRight (\a <span class="ot">-&gt;</span> if' (p a) ((<span class="fu">:</span>) a) id) []</code></pre>
 <p>No real improvement.</p>
-<p>However, for consistency with other <em>catamorphisms</em><sup><a href="#fn3" class="footnoteRef" id="fnref3">3</a></sup> in the Haskell library, we should shuffle the argument order<sup><a href="#fn4" class="footnoteRef" id="fnref4">4</a></sup>. I will also move the false branching argument to the <em>first position</em>. There is an underlying theoretical reason for this, but run with me for now!</p>
+<p>However, for consistency with other <em>catamorphisms</em><a href="#fn3" class="footnoteRef" id="fnref3"><sup>3</sup></a> in the Haskell library, we should shuffle the argument order<a href="#fn4" class="footnoteRef" id="fnref4"><sup>4</sup></a>. I will also move the false branching argument to the <em>first position</em>. There is an underlying theoretical reason for this, but run with me for now!</p>
 <pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="ot">if' ::</span> x <span class="ot">-&gt;</span> x <span class="ot">-&gt;</span> <span class="dt">Bool</span> <span class="ot">-&gt;</span> x
 if' f t p <span class="fu">=</span> <span class="kw">if</span> p <span class="kw">then</span> t <span class="kw">else</span> f</code></pre>
 <p>Great, we have a branching function with arguments in appropriate order :)</p>
@@ -104,7 +104,7 @@ if' f t p <span class="fu">=</span> <span class="kw">if</span> p <span class="kw
 <h3 id="the-ski-combinator-calculus">The SK(I) combinator calculus</h3>
 <p>We have an expression of this form:</p>
 <pre class="sourceCode Haskell"><code class="sourceCode haskell">\x <span class="ot">-&gt;</span> f x (g x)</code></pre>
-<p>This is known as <em>the S combinator of <a href="http://en.wikipedia.org/wiki/SKI_combinator_calculus">the SK(I) combinator calculus</a></em><sup><a href="#fn5" class="footnoteRef" id="fnref5">5</a></sup>. The S combinator generalises to an applicative functor<sup><a href="#fn6" class="footnoteRef" id="fnref6">6</a></sup> and we can exploit this to take our refactoring further. The S combinator (generalised) in Haskell is written with <code>(&lt;*&gt;)</code><sup><a href="#fn7" class="footnoteRef" id="fnref7">7</a></sup> and you will need to <code>import Control.Applicative</code> to use it.</p>
+<p>This is known as <em>the S combinator of <a href="http://en.wikipedia.org/wiki/SKI_combinator_calculus">the SK(I) combinator calculus</a></em><a href="#fn5" class="footnoteRef" id="fnref5"><sup>5</sup></a>. The S combinator generalises to an applicative functor<a href="#fn6" class="footnoteRef" id="fnref6"><sup>6</sup></a> and we can exploit this to take our refactoring further. The S combinator (generalised) in Haskell is written with <code>(&lt;*&gt;)</code><a href="#fn7" class="footnoteRef" id="fnref7"><sup>7</sup></a> and you will need to <code>import Control.Applicative</code> to use it.</p>
 <p>The expression <code>\x -&gt; f x (g x)</code> can be written <code>f &lt;*&gt; g</code> and we have an expression of precisely this form:</p>
 <pre class="sourceCode Haskell"><code class="sourceCode haskell">\a <span class="ot">-&gt;</span> ((if' id <span class="fu">.</span> (<span class="fu">:</span>)) a) (p a)</code></pre>
 <p>which can be refactored to:</p>

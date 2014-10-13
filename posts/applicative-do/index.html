@@ -81,7 +81,7 @@ pure <span class="ot">::</span>
 pure <span class="fu">=</span>
   return</code></pre>
 <h3 id="applicative-do-notation">Applicative do-notation</h3>
-<p>With this proposal, there is <a href="http://ghc.haskell.org/trac/ghc/wiki/ApplicativeDo">another proposal to extend do-notation</a> to take advantage of this improved flexibility. Currently, do-notation translates to the code that uses the <code>Monad</code> primitives, <code>(&gt;&gt;=)</code> and <code>return</code><sup><a href="#fn1" class="footnoteRef" id="fnref1">1</a></sup>.</p>
+<p>With this proposal, there is <a href="http://ghc.haskell.org/trac/ghc/wiki/ApplicativeDo">another proposal to extend do-notation</a> to take advantage of this improved flexibility. Currently, do-notation translates to the code that uses the <code>Monad</code> primitives, <code>(&gt;&gt;=)</code> and <code>return</code><a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a>.</p>
 <p>There are some arguments against this proposal, because this extension is not always desirable. In particular, the degree to which values are shared may be affected. Consider:</p>
 <pre class="sourceCode Haskell"><code class="sourceCode haskell">result <span class="fu">=</span>
   <span class="kw">do</span> a <span class="ot">&lt;-</span> expr

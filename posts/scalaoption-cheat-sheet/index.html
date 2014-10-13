@@ -127,7 +127,7 @@
 <p>This code is equivalent to:</p>
 <pre class="sourceCode Scala"><code class="sourceCode scala">option.<span class="fu">toList</span></code></pre>
 <hr />
-<p><strong><code>coflatMap</code></strong><sup><a href="#fn1" class="footnoteRef" id="fnref1">1</a></sup></p>
+<p><strong><code>coflatMap</code></strong><a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a></p>
 <pre class="sourceCode Scala"><code class="sourceCode scala">option <span class="kw">match</span> {
   <span class="kw">case</span> None =&gt; None
   <span class="kw">case</span> Some(_) =&gt; Some(<span class="fu">foo</span>(option))
@@ -135,7 +135,7 @@
 <p>This code is equivalent to:</p>
 <pre class="sourceCode Scala"><code class="sourceCode scala">option.<span class="fu">coflatMap</span>(<span class="fu">foo</span>(_))</code></pre>
 <hr />
-<p><strong><code>duplicate</code></strong><sup><a href="#fn2" class="footnoteRef" id="fnref2">2</a></sup></p>
+<p><strong><code>duplicate</code></strong><a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a></p>
 <pre class="sourceCode Scala"><code class="sourceCode scala">option <span class="kw">match</span> {
   <span class="kw">case</span> None =&gt; None
   <span class="kw">case</span> Some(_) =&gt; Some(option)

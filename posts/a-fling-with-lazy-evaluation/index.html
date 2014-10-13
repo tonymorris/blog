@@ -50,8 +50,7 @@
 
 </blockquote>
 <blockquote>
-<pre><code>
-// Sure I can!
+<pre><code>// Sure I can!
 boolean and(boolean b, boolean c) {
   return b &amp;&amp; c;
 }</code></pre>
@@ -73,8 +72,7 @@ f   ⊥   f
 <p>Two functions, f and g, are equivalent if the following property holds:</p>
 </blockquote>
 <blockquote>
-<pre><code>
-∀ x. f x ⇔ g x</code></pre>
+<pre><code>∀ x. f x ⇔ g x</code></pre>
 </blockquote>
 <p>We could rewrite the + function for <code>int</code> as follows:</p>
 <pre><code>int sum(int a, int b) {
@@ -86,8 +84,7 @@ f   ⊥   f
 
 </blockquote>
 <blockquote>
-<pre><code>
-false &amp;&amp; ⊥ == false</code></pre>
+<pre><code>false &amp;&amp; ⊥ == false</code></pre>
 </blockquote>
 <p>It is <strong>this</strong> entry that disallows us from rewriting &amp;&amp;. Look at the following function:</p>
 <pre><code>boolean bottom() {
@@ -98,8 +95,7 @@ false &amp;&amp; ⊥ == false</code></pre>
 
 </blockquote>
 <blockquote>
-<pre><code>
-and(false, bottom())</code></pre>
+<pre><code>and(false, bottom())</code></pre>
 </blockquote>
 <p>The result of this function is ⊥ and not false, like it is with &amp;&amp;. Therefore, this function is <strong>not equivalent</strong> to &amp;&amp;. Further, I restate that it is not possible to write such a function in these languages. Unlike +. which is strict in both of its arguments, &amp;&amp; is not and this makes it impossible to write a user-defined version of &amp;&amp; and therefore, ||, if/else and ?: and importantly, many other potential functions that many Java programmers are probably not even aware of (Dynamic Programming Algorithms anyone?).</p>
 <p>If you are ever forced to use these severely limited programming languages, you could be thankful that you have some primitive lazy constructs for doing very primitive operations (oppression), or you could be resentful for not having the expressive power of other, lazy languages (resistance against oppression) :)</p>

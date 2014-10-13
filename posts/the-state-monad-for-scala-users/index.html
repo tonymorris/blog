@@ -97,7 +97,7 @@
 <span class="kw">final</span> <span class="kw">case</span> <span class="kw">class</span> Leaf[A](a: A) <span class="kw">extends</span> Tree[A]
 <span class="kw">final</span> <span class="kw">case</span> <span class="kw">class</span> Branch[A](left: Tree[A], right: Tree[A]) <span class="kw">extends</span> Tree[A]</code></pre>
 <p>And if you find Haskell easier to read, this might help too. It is a roughly equivalent program using GHC’s built-in <code>State</code> data type.</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">import</span> Control.Monad.State.Lazy
+<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">import </span><span class="dt">Control.Monad.State.Lazy</span>
 
 <span class="kw">data</span> <span class="dt">Tree</span> a <span class="fu">=</span> <span class="dt">Leaf</span> a <span class="fu">|</span> <span class="dt">Branch</span> (<span class="dt">Tree</span> a) (<span class="dt">Tree</span> a)
 

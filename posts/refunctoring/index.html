@@ -29,7 +29,7 @@
 <h1>Refunctoring</h1>
 <div class="info">Posted on February 15, 2007, in <a href="../../tags/Programming/index.html">Programming</a></div>
 
-<p>Ask your average Java (or C#) programmer to ‘write a method that takes a list of integers, adds 10 to each element, converts the result to a String, prepends <em>*</em> to it and returns the resulting list’. It’s quite easy and you can certainly postulate what kind of start would be made on this. Here is how I suspect most Java programmers would solve this problem:</p>
+<p>Ask your average Java (or C#) programmer to ‘write a method that takes a list of integers, adds 10 to each element, converts the result to a String, prepends *** to it and returns the resulting list’. It’s quite easy and you can certainly postulate what kind of start would be made on this. Here is how I suspect most Java programmers would solve this problem:</p>
 <pre class="sourceCode Java"><code class="sourceCode java">...
 <span class="dt">static</span> List&lt;string&gt; <span class="fu">addTenAndConvert</span>(List&lt;integer&gt; list) {
   List&lt;string&gt; result = <span class="kw">new</span> LinkedList&lt;string&gt;();
@@ -41,8 +41,8 @@
 
   <span class="kw">return</span> result;
 }</code></pre>
-<p>Simple enough. Many people would also write so-called ‘unit tests’ to assist in verifying that the method meets the specified requirement. It is interesting to note at this point that ‘for all’ (<a href="http://en.wikipedia.org/wiki/Universal_quantification">hint</a>) list arguments, the length of the return value will always be equal. So for the argument, {1,2,3} with a length of 3, the result is {“<strong>*11“,”</strong><em>12“,”</em>**13”} also with a length of 3 and this property holds across all lists.</p>
-<p>But then, I ask for another method that does all the same, but this time, prepends “AAA” instead of “<em>*</em>”. Whatchya gunna do? Copy/paste/change? No, you’re going to refunctor (to be defined in time to come), that’s what. You might pass an additional argument of type String and prepend that. Sounds fair enough. But then I will ask instead that you append “BBB” instead of prepending “AAA”. Pass an additional argument of type boolean?</p>
+<p>Simple enough. Many people would also write so-called ‘unit tests’ to assist in verifying that the method meets the specified requirement. It is interesting to note at this point that ‘for all’ (<a href="http://en.wikipedia.org/wiki/Universal_quantification">hint</a>) list arguments, the length of the return value will always be equal. So for the argument, {1,2,3} with a length of 3, the result is {“<strong><em>11“,”</em></strong>12”, “***13“} also with a length of 3 and this property holds across all lists.</p>
+<p>But then, I ask for another method that does all the same, but this time, prepends “AAA” instead of “***“. Whatchya gunna do? Copy/paste/change? No, you’re going to refunctor (to be defined in time to come), that’s what. You might pass an additional argument of type String and prepend that. Sounds fair enough. But then I will ask instead that you append”BBB&quot; instead of prepending “AAA”. Pass an additional argument of type boolean?</p>
 <p>Let’s take a look at what we’ve got:</p>
 <pre class="sourceCode Java"><code class="sourceCode java">...
 <span class="dt">static</span> List&lt;string&gt; <span class="fu">addTenAndConvert</span>(

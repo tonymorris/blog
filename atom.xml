@@ -8,8 +8,61 @@
         <name>Tony Morris</name>
         <email>blog@tmorris.net</email>
     </author>
-    <updated>2014-06-04T00:00:00Z</updated>
+    <updated>2014-10-13T00:00:00Z</updated>
     <entry>
+    <title>Brisbane Ride Spots</title>
+    <link href="http://blog.tmorris.net/posts/brisbane-ride-spots/index.html" />
+    <id>http://blog.tmorris.net/posts/brisbane-ride-spots/index.html</id>
+    <published>2014-10-13T00:00:00Z</published>
+    <updated>2014-10-13T00:00:00Z</updated>
+    <summary type="html"><![CDATA[<p>Recently, on a forum, I saw a question regarding dirt bike areas around Brisbane. The question was motivated by a licenced rider on a registered motorcycle (WR450F), looking for areas to explore. I gave the following answer and I intend to update the answer with any improvements here.</p>
+<hr />
+<p>I do surveying as a hobby and have completed every state-owned track within about 250km of Brisbane (and some beyond, mostly northern Queensland). I have released that data openly under the OpenStreetMap project and I do public releases for use in Garmin devices. There are also phone apps for using this data. Some of those tracks are now not legally traversable, even for registered bikes. I started doing this several years ago.</p>
+<p>The project has a map viewable at <a href="http://osm.org/">http://osm.org/</a> This map is also available on the <a href="http://osmand.net/">OsmAnd</a> application for android. I have friends that run it on iphone, but every time I ask them how to recommend it to iphone users, I get some unusable answer, so <em>shrug</em> don’t know :)</p>
+<p>For running it on Garmin devices, it requires a bit of technical understanding and my map build is rather custom. For example, I also like to walk up hills around here (e.g. Mt Barney), so my build includes a topographic map of those areas of interest. I also run a custom filter on the data before the build to correct errors according to my own standards. I prefer using a device with an accurate antenna (which is also very expensive!), but using a phone is just fine for user application (opposed to surveying).</p>
+<p>Well, here are some riding spots, just from the top of my head. They all have various levels of difficulty and some of them are not always completely open to access. Sometimes they are not open at all (e.g. during the 2011 flood). Also note that there are some people who think that “giving away our secret riding areas is reprehensible!” Ignore them, they don’t realise it’s not a secret and never was. Self-importance bores me.</p>
+<hr />
+<h1 id="north-of-brisbane">North of Brisbane</h1>
+<ul>
+<li><p><a href="http://www.openstreetmap.org/#map=14/-27.1162/152.6851">Mount Mee State Forest</a> Mostly fire trails now. Look out for 4x4. A lot of excellent enduro tracks that are now illegal to traverse. There is still one remaining, that can be used by motorcycles, but not 4x4. There is also a now-closed logging area, that the government has promised to reopen one day. We’ll see.</p></li>
+<li><p><a href="http://www.openstreetmap.org/#map=14/-26.9557/152.8996">Beerburrum State Forest</a></p></li>
+<li><p><a href="http://www.openstreetmap.org/#map=14/-26.8806/152.8505">Peachester State Forest</a></p></li>
+<li><p><a href="http://www.openstreetmap.org/#map=13/-26.8604/152.6645">Bellthorpe State Forest</a></p></li>
+<li><p><a href="http://www.openstreetmap.org/#map=13/-26.7422/152.5282">Conondale National Park</a> Also, <a href="http://tonymorris.github.io/blog/posts/ride-report-mubbip-woo/index.html">here is a funny story about a ride in there last Christmas</a>.</p></li>
+<li><p><a href="http://www.openstreetmap.org/#map=13/-26.5188/152.5939">Imbil State Forest</a></p></li>
+<li><p><a href="http://www.openstreetmap.org/#map=13/-26.3605/152.5462">Amamoor State Forest</a> My favourite. Has some excellent and challenging enduro.</p></li>
+<li><p><a href="http://www.openstreetmap.org/#map=13/-26.0498/153.0461">Great Sandy National Park</a> Just like the label, lots of sand. Beach riding nearby too. Vehicle access permit is required in some areas (it’s cheap and easy to do online or purchase at Rainbow Beach).</p></li>
+<li><p><a href="http://www.openstreetmap.org/#map=13/-25.4509/153.0454">Great Sandy National Park (Fraser Island)</a> Well, it’s Fraser Island, so expect transport across the water and lots and lots and lots of sand. Permit required.</p></li>
+</ul>
+<hr />
+<h1 id="south-of-brisbane">South of Brisbane</h1>
+<ul>
+<li><p><a href="http://www.openstreetmap.org/#map=15/-28.1595/153.0525">Duck Creek Road</a> A mild and scenic ascent from Kerry up to O’Reilly’s. Excellent for a short trip out. I have seen less-experienced riders do it on a Triumph 1200. Look out for 4x4.</p></li>
+<li><p><a href="http://www.openstreetmap.org/#map=13/-28.3947/153.0416">Border Ranges National Park</a> A great day trip, scenic rainforest ride that extends for hours. Great for all rider skill levels. Dead easy for a learner, and good fun and scenic if you are not.</p></li>
+<li><p><a href="http://www.openstreetmap.org/#map=14/-28.5314/152.5193">Tooloom State Forest</a> Fire trails, with some harder off shoots.</p></li>
+</ul>
+<hr />
+<h1 id="west-of-brisbane">West of Brisbane</h1>
+<ul>
+<li><p><a href="http://www.openstreetmap.org/#map=13/-28.5716/151.8079">Passchendaele State Forest</a> Another favourite. Most scenic and some challenging areas. Dropping your bike will cost some $$ on those rocks (it ain’t called the granite belt for nothing).</p></li>
+<li><p><a href="http://www.openstreetmap.org/#map=13/-28.8624/151.6590">Sundown National Park</a> Some harder trails and technical hill climbs. Rocky, very scenic. Look out for 4x4.</p></li>
+</ul>
+<hr />
+<h1 id="a-couple-of-short-videos">A couple of short videos</h1>
+<ul>
+<li><p><a href="https://www.youtube.com/watch?v=jaGwoibQH38&amp;list=UUpDeRLsIqd041pueRjRUY0Q">Passchendaele State Forest 23 August 2014</a> We had the forest to ourselves.</p></li>
+<li><p><a href="https://www.youtube.com/watch?v=g-Qpe7ZJZIg">My friend making a graceful entrance onto Rainbow Beach</a></p></li>
+<li><p><a href="https://www.youtube.com/watch?v=b2DW6OzLXc8">Another friend on a fire trail with a 800XC in Mount Mee State Forest</a></p></li>
+<li><p><a href="https://www.youtube.com/watch?v=Mg9gWIHjymY">My unwelcome encounter with a red-bellied black snake in Beerburrum State Forest</a></p></li>
+<li><p><a href="https://vimeo.com/45384135">My friend going arse up on his TTR250 at Emu Creek Extreme Retreat</a> This area is near Urbenville and Tooloom State Forest. It is a privately owned track and does not require a registered bike. Good if you have friends on motocrossers or something. My friend is in fact, upside-down in the water and after a few seconds of laughing, I started wondering if he was going to pop back up.</p></li>
+<li><p><a href="https://vimeo.com/29880420">Sundown National Park 3 years ago</a></p></li>
+<li><p><a href="https://vimeo.com/24759031">Mount Mee State Forest 3 years ago</a> It is also my first video compilation, so I pressed all the fancy buttons.</p></li>
+</ul>
+<hr />
+<p>I have certainly left areas some off, but let’s not be greedy :)</p>
+<p>In any case, we should just meet up, work out what you are looking for and go for a ride. Unfortunately though, I am dealing with some health issues at the moment and hope to be back on two wheels by December.</p>]]></summary>
+</entry>
+<entry>
     <title>What kind of things are easy in Haskell and hard in Scala, and vice-versa?</title>
     <link href="http://blog.tmorris.net/posts/what-kind-of-things-are-easy-in-haskell-and-hard-in-scala-and-vice-versa/index.html" />
     <id>http://blog.tmorris.net/posts/what-kind-of-things-are-easy-in-haskell-and-hard-in-scala-and-vice-versa/index.html</id>
@@ -117,7 +170,9 @@ appointed Probation Officer</code></pre>
 <h4 id="nobles-road">Nobles Road</h4>
 <p>My first change of plan was the belief that I could take <a href="http://www.openstreetmap.org/?mlat=-26.734755&amp;mlon=152.980079%20&amp;zoom=16#map=16/-26.734755/152.980079">Nobles Road</a> so as to bypass Eudlo. Being a gazetted road, I thought it should be no problem. Alas, it was was one of many “private access” roads with a barrier part way along the trail. I could have gone around it, but I was too early in the ride to consider any dramas. So backtrack I did, back up on to Ilkley Road and through Eudlo.</p>
 <a href="http://www.openstreetmap.org/?mlat=-26.734755&mlon=152.980079%20&zoom=19#map=19/-26.734755/152.980079">
-<div id="map.noblesroad" style="width: 100%; height: 300px;"></div>
+<div id="map.noblesroad" style="width: 100%; height: 300px;">
+
+</div>
 <p></a></p>
 <script type="text/javascript">
 map = new OpenLayers.Map("map.noblesroad");
@@ -143,7 +198,9 @@ map.setCenter (lonLat, zoom);
 <p>The truck struggled up the hill at walking pace and, for safety reasons, I chose to stop and wait for it to complete the ascent. I caught up again and in front of us, another fun hill (going to waste!) but with a wider road permitting a pass. This was when the truck’s buddy behind him in a ute decided to overtake. So I wait for the overtake and my first feeling of disbelief sets in. The ute driver slows to the truck’s pace so as to have a discussion with the driver. FFS are you serious mate?! On a narrow ascending hill at about 8kph, this assclown thought it best to block all possible traffic to talk about his plans that night <em>to the driver above and beside him</em>. I was a bit gobsmacked at the stupidity unfolding in front of my eyes. That initial feeling is moving. Using voice signals over the top of the struggling diesel engine, I let these idiots know that I was unhappy with the dangerous situation they’d just created. Get a UHF ya twits. However, I am sure it was all lost in translation and stupidity. Like internet mailing lists I guess. Moving on.</p>
 <p>Soon after, I was able to overtake and left the circus show behind to enjoy the remainder of Brandenburg Road and onto Maleny-Kenilworth Road.</p>
 <a href="http://www.openstreetmap.org/?mlat=-26.765144&mlon=152.957474%20&zoom=17#map=17/-26.765144/152.957474">
-<div id="map.brandenburgroad" style="width: 100%; height: 300px;"></div>
+<div id="map.brandenburgroad" style="width: 100%; height: 300px;">
+
+</div>
 <p></a></p>
 <script type="text/javascript">
 map = new OpenLayers.Map("map.brandenburgroad");
@@ -168,7 +225,9 @@ map.setCenter (lonLat, zoom);
 <p>My next plan was to try cutting across Maleny-Kenilworth Road via <a href="http://www.openstreetmap.org/?mlat=-26.727266&amp;mlon=152.81675%20&amp;zoom=17#map=17/-26.727266/152.81675">Cox Road</a>. After turning into a narrow, gravel Cox Road, I came across car bodies littered all along – mostly old Toyota Landcruisers. A kilometre or so along, there were construction vehicles and I was unsure where the main track was. I headed along one of many narrow tracks and soon found myself in a cow paddock. Looking around, I found an even narrower, foliage-covered steep uphill track. “Looks fun, but I am probably going to turn around”, I thought. Up the hill I went and it became very steep and rocky with a drop to the side. I considered the consequences of going over out here on my own and decided to head on out.</p>
 <p>As I left Cox Road, I came upon a closed gate. “That wasn’t there before!” Well it was, but it had been left open and I didn’t notice it. Someone clearly didn’t want general vehicle access along this road – another “private access” road.</p>
 <a href="http://www.openstreetmap.org/?mlat=-26.727266&mlon=152.81675%20&zoom=17#map=17/-26.727266/152.81675">
-<div id="map.coxroad" style="width: 100%; height: 300px;"></div>
+<div id="map.coxroad" style="width: 100%; height: 300px;">
+
+</div>
 <p></a></p>
 <script type="text/javascript">
 map = new OpenLayers.Map("map.coxroad");
@@ -192,7 +251,9 @@ map.setCenter (lonLat, zoom);
 <h4 id="maleny-kenilworth-road">Maleny-Kenilworth Road</h4>
 <p>The scenery along the 15 or so kilometres of Maleny-Kenilworth Road was amazing. The temperature had dropped a little from the dry, hot summer sun to a cool breeze. I’d clearly put on some altitude. I didn’t check my altimeter but I guessed around 600m asl. It had run out of batteries around there anyway – as you can tell by the track log. I came into <a href="http://www.openstreetmap.org/?mlat=-26.729532&amp;mlon=152.717631%20&amp;zoom=17#map=17/-26.729532/152.717631">Conondale</a> and thought it best to fuel up.</p>
 <a href="http://www.openstreetmap.org/?mlat=-26.729532&mlon=152.717631%20&zoom=17#map=17/-26.729532/152.717631">
-<div id="map.conondale" style="width: 100%; height: 300px;"></div>
+<div id="map.conondale" style="width: 100%; height: 300px;">
+
+</div>
 <p></a></p>
 <script type="text/javascript">
 map = new OpenLayers.Map("map.conondale");
@@ -220,7 +281,9 @@ map.setCenter (lonLat, zoom);
 <p>Grigor Road was a welcome sight. I’d ridden down this road two days earlier in the opposing direction. Back on the gravel again and eventually, red, fertile clay. Dodging cows, I ploughed through the mud pit that I’d earlier roosted Jason with. Over the crest of a hill at medium pace and immediately in front of me, a 2 metre wide log across the track – a much bigger surprise in the opposite direction. It was easily avoided, but I could imagine having some trouble if I was off line and at full pace. Yep, that’d hurt.</p>
 <p>Grigor Road soon turned narrow and full of ruts. Much fun to be had! I passed a right turn but it was signed “No vehicle access.” Oh well, maybe this wasn’t the one that the local was referring to anyway.</p>
 <a href="http://www.openstreetmap.org/?mlat=-26.703964&mlon=152.684487%20&zoom=17#map=17/-26.703964/152.684487">
-<div id="map.grigorroad" style="width: 100%; height: 300px;"></div>
+<div id="map.grigorroad" style="width: 100%; height: 300px;">
+
+</div>
 <p></a></p>
 <script type="text/javascript">
 map = new OpenLayers.Map("map.grigorroad");
@@ -270,7 +333,9 @@ map.setCenter (lonLat, zoom);
 <h4 id="exploring">Exploring</h4>
 <p>I followed the track north until eventually I exited the forest. I had passed an extraordinary number of track turn-offs – several to Jimna, one or two to Kenilworth and Kilcoy. I was now on Gigher Creek Road, heading north. There were tracks everywhere. I reached <a href="http://www.openstreetmap.org/?mlat=-26.673211&amp;mlon=152.514170%20&amp;zoom=17#map=17/-26.673211/152.514170">Yeilo Homestead</a>, which I only knew about because it had a road named after it.</p>
 <a href="http://www.openstreetmap.org/?mlat=-26.673211&mlon=152.514170%20&zoom=17#map=17/-26.673211/152.514170">
-<div id="map.yielohomestead" style="width: 100%; height: 300px;"></div>
+<div id="map.yielohomestead" style="width: 100%; height: 300px;">
+
+</div>
 <p></a></p>
 <script type="text/javascript">
 map = new OpenLayers.Map("map.yielohomestead");
@@ -299,7 +364,9 @@ map.setCenter (lonLat, zoom);
 <p>Making my way to Kenilworth, I passed <a href="http://www.openstreetmap.org/?mlat=-26.680448&amp;mlon=152.606385%20&amp;zoom=19#map=19/-26.680448/152.606385">Peters Creek Lookout</a> on the left. I didn’t have time to stop. I needed to get back to Buderim before dark – the headlight on this bike isn’t the brightest and with dusk wildlife soon to make an appearance, I kept the pace up.</p>
 <p>I passed the <a href="http://www.openstreetmap.org/?mlat=-26.676427&amp;mlon=152.620923%20&amp;zoom=19#map=19/-26.676427/152.620923">Booloumba Falls</a> turn off (it was signed), then <a href="http://www.openstreetmap.org/?mlat=-26.655751&amp;mlon=152.645472%20&amp;zoom=19#map=19/-26.655751/152.645472">Booloumba Lookout</a> and continued on to <a href="http://www.openstreetmap.org/?mlat=-26.646357&amp;mlon=152.646916%20&amp;zoom=19#map=19/-26.646357/152.646916">Booloumba campgrounds</a>.</p>
 <a href="http://www.openstreetmap.org/?mlat=-26.646357&mlon=152.646916%20&zoom=17#map=17/-26.646357/152.646916">
-<div id="map.booloumba" style="width: 100%; height: 300px;"></div>
+<div id="map.booloumba" style="width: 100%; height: 300px;">
+
+</div>
 <p></a></p>
 <script type="text/javascript">
 map = new OpenLayers.Map("map.booloumba");
@@ -323,7 +390,9 @@ map.setCenter (lonLat, zoom);
 <p>Just after Booloumba campgrounds, I came around a corner to find a <a href="http://www.openstreetmap.org/?mlat=-26.634651&amp;mlon=152.650420%20&amp;zoom=19#map=19/-26.634651/152.650420">creek crossing</a> in front of me. Booloumba Creek must have been 40 metres wide but it was not flowing very fast. Given the width, I became a bit concerned with the possible depth. Had there been rain out here that I didn’t know about? If so, why wasn’t it flowing so fast? Then a Toyota Prado came from the left traversing the creek itself (not the road, the <em>creek</em>). It was only about 30cm deep. A little boy hung out the back window, clearly more excited by my presence than his own in the middle of a creek.</p>
 <p>I double-checked that I didn’t leave any vulnerable (non-waterproof) equipment on the bike and I punched first then second. I love putting on a show for children and I could see my bow wave in my peripheral and water well above my head :) The creek became a bit deeper on the other side, but I had a lot of momentum. This only increased the water displacement as I held the throttle on. When I got to the other side, I threw the front wheel skyward, hoping that that little boy will spend his youth aspiring to ride the adventure, like I used to do.</p>
 <a href="http://www.openstreetmap.org/?mlat=-26.634651&mlon=152.650420%20&zoom=17#map=17/-26.634651/152.650420">
-<div id="map.booloumbacreek" style="width: 100%; height: 300px;"></div>
+<div id="map.booloumbacreek" style="width: 100%; height: 300px;">
+
+</div>
 <p></a></p>
 <script type="text/javascript">
 map = new OpenLayers.Map("map.booloumbacreek");
@@ -445,7 +514,7 @@ pure <span class="ot">::</span>
 pure <span class="fu">=</span>
   return</code></pre>
 <h3 id="applicative-do-notation">Applicative do-notation</h3>
-<p>With this proposal, there is <a href="http://ghc.haskell.org/trac/ghc/wiki/ApplicativeDo">another proposal to extend do-notation</a> to take advantage of this improved flexibility. Currently, do-notation translates to the code that uses the <code>Monad</code> primitives, <code>(&gt;&gt;=)</code> and <code>return</code><sup><a href="#fn1" class="footnoteRef" id="fnref1">1</a></sup>.</p>
+<p>With this proposal, there is <a href="http://ghc.haskell.org/trac/ghc/wiki/ApplicativeDo">another proposal to extend do-notation</a> to take advantage of this improved flexibility. Currently, do-notation translates to the code that uses the <code>Monad</code> primitives, <code>(&gt;&gt;=)</code> and <code>return</code><a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a>.</p>
 <p>There are some arguments against this proposal, because this extension is not always desirable. In particular, the degree to which values are shared may be affected. Consider:</p>
 <pre class="sourceCode Haskell"><code class="sourceCode haskell">result <span class="fu">=</span>
   <span class="kw">do</span> a <span class="ot">&lt;-</span> expr
@@ -619,11 +688,8 @@ result <span class="fu">=</span>
 <li><p><a href="https://vimeo.com/73648150">Video</a> <em>(vimeo)</em></p></li>
 </ul>
 <div class="embed-vimeo">
-  <iframe src="http://player.vimeo.com/video/73648150" width="688" height="387" frameborder="0" webkitAllowFullScreen="true" mozallowfullscreen="true" allowFullScreen="true">
-  </iframe>
-</div>
-
-]]></summary>
+<iframe src="http://player.vimeo.com/video/73648150" width="688" height="387" frameborder="0" webkitAllowFullScreen="true" mozallowfullscreen="true" allowFullScreen="true"> </iframe>
+</div>]]></summary>
 </entry>
 <entry>
     <title>Sticks, stones, but names are not useful to me</title>
@@ -645,12 +711,12 @@ result <span class="fu">=</span>
 <hr />
 <p>Suppose the following code:</p>
 <pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">def</span> reverse[A]: List[A] =&gt; List[A]</code></pre>
-<p>At first glance, it might appear that we must take a leap of confidence in inferring that the function reverses the list. However, we can infer the following fact — <em>this function definitely does not peel the first <code>Banana</code> in the list</em>. I can infer this because if the function attempted to do this, it <em>would not compile</em><sup><a href="#fn1" class="footnoteRef" id="fnref1">1</a></sup>. In fact, I can infer lots of things here, such as:</p>
+<p>At first glance, it might appear that we must take a leap of confidence in inferring that the function reverses the list. However, we can infer the following fact — <em>this function definitely does not peel the first <code>Banana</code> in the list</em>. I can infer this because if the function attempted to do this, it <em>would not compile</em><a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a>. In fact, I can infer lots of things here, such as:</p>
 <ul>
 <li>The <code>reverse</code> function did not add <code>10</code> to every second list element.</li>
 <li>All elements in the list returned by <code>reverse</code> are contained in the input list.</li>
 </ul>
-<p>We are able to infer these things simply by making the <code>reverse</code> function <em>parametric</em>. We are no longer reversing a list of bananas — although that might be our use-case — we are reversing a list of <code>A</code> for all values of <code>A</code>. One virtue of this <em>parametricity</em> is that we can infer a significant number of things that <em>do not occur</em>. This theme of learning what does not occur is ubiquitous when deploying these programming techniques and is described in more detail by Wadler<sup><a href="#fn2" class="footnoteRef" id="fnref2">2</a></sup>.</p>
+<p>We are able to infer these things simply by making the <code>reverse</code> function <em>parametric</em>. We are no longer reversing a list of bananas — although that might be our use-case — we are reversing a list of <code>A</code> for all values of <code>A</code>. One virtue of this <em>parametricity</em> is that we can infer a significant number of things that <em>do not occur</em>. This theme of learning what does not occur is ubiquitous when deploying these programming techniques and is described in more detail by Wadler<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a>.</p>
 <p>Here is another example, using a programming language called SafeHaskell (very similar to Haskell):</p>
 <pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="ot">add10 ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span></code></pre>
 <p>By the name of the function, we might unreliably infer (OK, let’s be honest, we are making a bold guess) that the function adds <code>10</code> to its argument. However, looking at the type, we know for sure that the function <em>did not print its argument to the standard output stream</em>. We know this because had the library provider attempted it, the code would not have compiled. To be clear, it would not be a valid SafeHaskell program, so our assumption that we are looking at SafeHaskell fails, forcing us to unify by selecting one of the following:</p>
@@ -1275,11 +1341,8 @@ runIntRdrs <span class="fu">=</span> foldr (\a b <span class="ot">-&gt;</span> b
 <li><p><a href="https://vimeo.com/64673035">Video</a> <em>(vimeo)</em></p></li>
 </ul>
 <div class="embed-vimeo">
-  <iframe src="http://player.vimeo.com/video/64673035" width="688" height="387" frameborder="0" webkitAllowFullScreen="true" mozallowfullscreen="true" allowFullScreen="true">
-  </iframe>
-</div>
-
-]]></summary>
+<iframe src="http://player.vimeo.com/video/64673035" width="688" height="387" frameborder="0" webkitAllowFullScreen="true" mozallowfullscreen="true" allowFullScreen="true"> </iframe>
+</div>]]></summary>
 </entry>
 <entry>
     <title>Obturator Entrapment Neuropathy</title>
@@ -1287,7 +1350,7 @@ runIntRdrs <span class="fu">=</span> foldr (\a b <span class="ot">-&gt;</span> b
     <id>http://blog.tmorris.net/posts/obturator-neuropathy/index.html</id>
     <published>2013-04-11T19:00:00Z</published>
     <updated>2013-04-11T19:00:00Z</updated>
-    <summary type="html"><![CDATA[<p>After 19 surgeries<sup><a href="#fn1" class="footnoteRef" id="fnref1">1</a></sup> and 5 years of searching for the source of my chronic pain syndrome, which started with a sporting injury in 2007, I have been found to have a condition called Obturator Neuropathy — a source of chronic pain affecting athletes.</p>
+    <summary type="html"><![CDATA[<p>After 19 surgeries<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a> and 5 years of searching for the source of my chronic pain syndrome, which started with a sporting injury in 2007, I have been found to have a condition called Obturator Neuropathy — a source of chronic pain affecting athletes.</p>
 <p>Unfortunately, many specialists are unaware of this condition and so may not recognise the correct diagnosis, which has been my case. Obturator Neuropathy typically affects those engaged in kicking sports and especially, Australian Rules football. Although I was playing Australian Rules football at the time of my injury, I live in Brisbane, where the sport is less popular than in other cities such as Melbourne and Sydney, where the condition is more recognised. I have recently learned that many more specialists in these cities are aware of this insidious disease, while I have yet to find anyone in Brisbane who even know it exists — I suppose this set of circumstances came together to delay my correct diagnosis for many years.</p>
 <p>This article is the first of my writings on this condition, as at this time, it is still currently unresolved. I am planning to meet with many specialists in the next few days to discuss surgical management. Later, I intend to raise greater awareness of this condition in the hope that other athletes, professional or otherwise, needn’t go through the dramas that I have done in these last few years.</p>
 <p>My pain is now so severe that I am unable to perform my normal duties for my employer. Thankfully, my employer is awesome and understanding of my plight and I am committed to resolving this matter as soon as possible so that I can contribute back my highest level of performance. I am thankful to others in their understanding and I apologise to those who have sometimes been on “the wrong end of the stick” of my frustrations especially when I am having a “bad day” with pain. I am also usually taking narcotic medication during these times, so my recollection of the events is typically blurry to me.</p>
@@ -1449,21 +1512,21 @@ runIntRdrs <span class="fu">=</span> foldr (\a b <span class="ot">-&gt;</span> b
   <span class="kw">def</span> xmap[A, B](f: (A =&gt; B, B =&gt; A)): F[A] =&gt; F[B]
 }</code></pre>
 <ul>
-<li>applicative functor<sup><a href="#fn1" class="footnoteRef" id="fnref1">1</a></sup> — defines the operation commonly known as <code>apply</code> or <code>&lt;*&gt;</code>.</li>
+<li>applicative functor<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a> — defines the operation commonly known as <code>apply</code> or <code>&lt;*&gt;</code>.</li>
 </ul>
 <pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// applicative functor (abbreviated)</span>
 <span class="kw">trait</span> Applicative[F[_]] {
   <span class="kw">def</span> apply[A, B](f: F[A =&gt; B]): F[A] =&gt; F[B]
 }</code></pre>
 <ul>
-<li>monad<sup><a href="#fn2" class="footnoteRef" id="fnref2">2</a></sup> — defines the operation commonly known as <code>bind</code>, <code>flatMap</code> or <code>=&lt;&lt;</code>.</li>
+<li>monad<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a> — defines the operation commonly known as <code>bind</code>, <code>flatMap</code> or <code>=&lt;&lt;</code>.</li>
 </ul>
 <pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// monad (abbreviated)</span>
 <span class="kw">trait</span> Monad[F[_]] {
   <span class="kw">def</span> flatMap[A, B](f: A =&gt; F[B]): F[A] =&gt; F[B]
 }</code></pre>
 <ul>
-<li>comonad<sup><a href="#fn3" class="footnoteRef" id="fnref3">3</a></sup> — defines the operation commonly known as <code>extend</code>, <code>coflatMap</code> or <code>&lt;&lt;=</code>.</li>
+<li>comonad<a href="#fn3" class="footnoteRef" id="fnref3"><sup>3</sup></a> — defines the operation commonly known as <code>extend</code>, <code>coflatMap</code> or <code>&lt;&lt;=</code>.</li>
 </ul>
 <pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// comonad (abbreviated)</span>
 <span class="kw">trait</span> Comonad[F[_]] {
@@ -1476,8 +1539,10 @@ runIntRdrs <span class="fu">=</span> foldr (\a b <span class="ot">-&gt;</span> b
 </blockquote>
 <p>I memorise the table that is the type of the different argument arrangements to help me to determine which abstraction might be appropriate. Of course, I use other methods, but this particular technique is elegant and short. Here is that table:</p>
 <table>
+<colgroup>
 <col width="20%" />
 <col width="25%" />
+</colgroup>
 <thead>
 <tr class="header">
 <th align="left">functor</th>
@@ -1530,12 +1595,12 @@ runIntRdrs <span class="fu">=</span> foldr (\a b <span class="ot">-&gt;</span> b
     <updated>2013-02-22T00:00:00Z</updated>
     <summary type="html"><![CDATA[<p>Everyone has seen a naïve fibonacci implementation</p>
 <pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">object</span> FibNaïve {
-  <span class="kw">def</span> fibnaïve(n: BigInt): BigInt =
+  <span class="kw">def</span> fibnaï<span class="fu">ve</span>(n: BigInt): BigInt =
     <span class="kw">if</span>(n &lt;= <span class="dv">1</span>)
       n
     <span class="kw">else</span> {
-      <span class="kw">val</span> r = fibnaïve(n - <span class="dv">1</span>)
-      <span class="kw">val</span> s = fibnaïve(n - <span class="dv">2</span>)
+      <span class="kw">val</span> r = fibnaï<span class="fu">ve</span>(n - <span class="dv">1</span>)
+      <span class="kw">val</span> s = fibnaï<span class="fu">ve</span>(n - <span class="dv">2</span>)
       r + s
     }
 }</code></pre>
@@ -1699,13 +1764,13 @@ runIntRdrs <span class="fu">=</span> foldr (\a b <span class="ot">-&gt;</span> b
     <updated>2013-01-12T00:00:00Z</updated>
     <summary type="html"><![CDATA[<h2 id="the-filter-function">The <code>filter</code> function</h2>
 <p>The <code>filter</code> function is one that accepts a list as an argument, keeping all elements that satisfy a given predicate, discarding all others and returns the resulting list. For example, I might use the <code>filter</code> function in Haskell to keep all <strong>even</strong> elements in a list:</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell">λ&gt; filter even [<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">6</span>,<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">7</span>,<span class="dv">6</span>,<span class="dv">75</span>,<span class="dv">22</span>]
+<pre class="sourceCode Haskell"><code class="sourceCode haskell">λ<span class="fu">&gt;</span> filter even [<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">6</span>,<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">7</span>,<span class="dv">6</span>,<span class="dv">75</span>,<span class="dv">22</span>]
 [<span class="dv">2</span>,<span class="dv">6</span>,<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">6</span>,<span class="dv">22</span>]</code></pre>
 <p>or perhaps using Scala:</p>
 <pre class="sourceCode Scala"><code class="sourceCode scala">scala&gt; List(<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">6</span>,<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">7</span>,<span class="dv">6</span>,<span class="dv">75</span>,<span class="dv">22</span>) <span class="fu">filter</span> (_ % <span class="dv">2</span> == <span class="dv">0</span>)
 res0: List[Int] = List(<span class="dv">2</span>, <span class="dv">6</span>, <span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">22</span>)</code></pre>
 <p>In both cases, the list structure under examination is a <a href="http://en.wikipedia.org/wiki/Cons">cons list</a>.</p>
-<p>When I teach functional programming, we are usually implementing the <code>filter</code> function on <a href="https://github.com/tonymorris/course/blob/master/src/L02/List.hs#L80">our own cons list using Haskell</a><sup><a href="#fn1" class="footnoteRef" id="fnref1">1</a></sup> on the first day. Having done this enough times now, with both Haskell and Scala, I observe a recurring pattern.</p>
+<p>When I teach functional programming, we are usually implementing the <code>filter</code> function on <a href="https://github.com/tonymorris/course/blob/master/src/L02/List.hs#L80">our own cons list using Haskell</a><a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a> on the first day. Having done this enough times now, with both Haskell and Scala, I observe a recurring pattern.</p>
 <p>The usual solutions are given either with explicit pattern-matching along with explicit recursion:</p>
 <pre class="sourceCode Haskell"><code class="sourceCode haskell">fiilter _ [] <span class="fu">=</span> []
 fiilter p (h<span class="fu">:</span>t) <span class="fu">=</span> <span class="kw">if</span> p h <span class="kw">then</span> h<span class="fu">:</span>fiilter p t <span class="kw">else</span> fiilter p t</code></pre>
@@ -1746,7 +1811,7 @@ id a <span class="fu">=</span> a</code></pre>
 <pre class="sourceCode Haskell"><code class="sourceCode haskell">fiilter p x <span class="fu">=</span> foldRight (\a b <span class="ot">-&gt;</span> (<span class="kw">if</span> p a <span class="kw">then</span> ((<span class="fu">:</span>) a) <span class="kw">else</span> id) b) [] x</code></pre>
 <p>…can be replaced with:</p>
 <pre class="sourceCode Haskell"><code class="sourceCode haskell">fiilter p <span class="fu">=</span> foldRight (\a <span class="ot">-&gt;</span> <span class="kw">if</span> p a <span class="kw">then</span> ((<span class="fu">:</span>) a) <span class="kw">else</span> id) []</code></pre>
-<p>OK, this is great! We are simply replacing each cons cell with the given function<sup><a href="#fn2" class="footnoteRef" id="fnref2">2</a></sup> and we needn’t specify the list in the argument list only to apply to it on the far right. But are we finished?</p>
+<p>OK, this is great! We are simply replacing each cons cell with the given function<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a> and we needn’t specify the list in the argument list only to apply to it on the far right. But are we finished?</p>
 <h2 id="final-housekeeping">Final housekeeping</h2>
 <p>Unfortunately, Haskell (and most languages) provide <code>if</code> as syntax. Since Haskell is a non-strict language, we can easily write it ourselves as a library function:</p>
 <pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="ot">if&#39; ::</span> <span class="dt">Bool</span> <span class="ot">-&gt;</span> x <span class="ot">-&gt;</span> x <span class="ot">-&gt;</span> x
@@ -1754,7 +1819,7 @@ if&#39; p t f <span class="fu">=</span> <span class="kw">if</span> p <span class
 <p>So how does our code look?</p>
 <pre class="sourceCode Haskell"><code class="sourceCode haskell">fiilter p <span class="fu">=</span> foldRight (\a <span class="ot">-&gt;</span> if&#39; (p a) ((<span class="fu">:</span>) a) id) []</code></pre>
 <p>No real improvement.</p>
-<p>However, for consistency with other <em>catamorphisms</em><sup><a href="#fn3" class="footnoteRef" id="fnref3">3</a></sup> in the Haskell library, we should shuffle the argument order<sup><a href="#fn4" class="footnoteRef" id="fnref4">4</a></sup>. I will also move the false branching argument to the <em>first position</em>. There is an underlying theoretical reason for this, but run with me for now!</p>
+<p>However, for consistency with other <em>catamorphisms</em><a href="#fn3" class="footnoteRef" id="fnref3"><sup>3</sup></a> in the Haskell library, we should shuffle the argument order<a href="#fn4" class="footnoteRef" id="fnref4"><sup>4</sup></a>. I will also move the false branching argument to the <em>first position</em>. There is an underlying theoretical reason for this, but run with me for now!</p>
 <pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="ot">if&#39; ::</span> x <span class="ot">-&gt;</span> x <span class="ot">-&gt;</span> <span class="dt">Bool</span> <span class="ot">-&gt;</span> x
 if&#39; f t p <span class="fu">=</span> <span class="kw">if</span> p <span class="kw">then</span> t <span class="kw">else</span> f</code></pre>
 <p>Great, we have a branching function with arguments in appropriate order :)</p>
@@ -1772,7 +1837,7 @@ if&#39; f t p <span class="fu">=</span> <span class="kw">if</span> p <span class
 <h3 id="the-ski-combinator-calculus">The SK(I) combinator calculus</h3>
 <p>We have an expression of this form:</p>
 <pre class="sourceCode Haskell"><code class="sourceCode haskell">\x <span class="ot">-&gt;</span> f x (g x)</code></pre>
-<p>This is known as <em>the S combinator of <a href="http://en.wikipedia.org/wiki/SKI_combinator_calculus">the SK(I) combinator calculus</a></em><sup><a href="#fn5" class="footnoteRef" id="fnref5">5</a></sup>. The S combinator generalises to an applicative functor<sup><a href="#fn6" class="footnoteRef" id="fnref6">6</a></sup> and we can exploit this to take our refactoring further. The S combinator (generalised) in Haskell is written with <code>(&lt;*&gt;)</code><sup><a href="#fn7" class="footnoteRef" id="fnref7">7</a></sup> and you will need to <code>import Control.Applicative</code> to use it.</p>
+<p>This is known as <em>the S combinator of <a href="http://en.wikipedia.org/wiki/SKI_combinator_calculus">the SK(I) combinator calculus</a></em><a href="#fn5" class="footnoteRef" id="fnref5"><sup>5</sup></a>. The S combinator generalises to an applicative functor<a href="#fn6" class="footnoteRef" id="fnref6"><sup>6</sup></a> and we can exploit this to take our refactoring further. The S combinator (generalised) in Haskell is written with <code>(&lt;*&gt;)</code><a href="#fn7" class="footnoteRef" id="fnref7"><sup>7</sup></a> and you will need to <code>import Control.Applicative</code> to use it.</p>
 <p>The expression <code>\x -&gt; f x (g x)</code> can be written <code>f &lt;*&gt; g</code> and we have an expression of precisely this form:</p>
 <pre class="sourceCode Haskell"><code class="sourceCode haskell">\a <span class="ot">-&gt;</span> ((if&#39; id <span class="fu">.</span> (<span class="fu">:</span>)) a) (p a)</code></pre>
 <p>which can be refactored to:</p>
@@ -1940,7 +2005,10 @@ if&#39; f t p <span class="fu">=</span> <span class="kw">if</span> p <span class
     <published>2011-08-18T21:06:13Z</published>
     <updated>2011-08-18T21:06:13Z</updated>
     <summary type="html"><![CDATA[<p>Java 7 has proposed syntax for what Scala calls two methods:</p>
-<p>1. <code class="sourceCode scala">Option.<span class="fu">flatMap</span></code> In Scala where we would normally write:</p>
+<ol style="list-style-type: decimal">
+<li><pre><code>    `Option.flatMap`{.Scala}
+     In Scala where we would normally write:</code></pre></li>
+</ol>
 <pre class="sourceCode Scala"><code class="sourceCode scala">(a, b, c, d) =&gt; <span class="kw">for</span> {
   aa &lt;- <span class="fu">a</span>(argsa)
   bb &lt;- <span class="fu">b</span>(argsb)
@@ -2332,16 +2400,22 @@ if&#39; f t p <span class="fu">=</span> <span class="kw">if</span> p <span class
     <published>2011-01-14T23:46:08Z</published>
     <updated>2011-01-14T23:46:08Z</updated>
     <summary type="html"><![CDATA[<p>I went looking for my grandmother today, who lives on the bank of the Brisbane River in Wivenhoe Pocket. I didn’t find her, but I’ve been assured she is safe.</p>
-<p>* <a href="http://www.vimeo.com/18780944">Video</a></p>
+<ul>
+<li><a href="http://www.vimeo.com/18780944">Video</a></li>
+</ul>
 <p>Fernvale bridge 32 hours after peaking during major flood. The edge of the water is 830 metres from the bridge which is typically used to traverse the river. The width of the river is estimated to be over 1.5km.</p>
 <p>The dried mud on the bitumen road indicates the peak height that was reached.</p>
 <p>Note the street sign indicating a side street ahead. Coominya State School lies completely submerged in the water ahead.</p>
 <p><a href="http://www.openstreetmap.org/?mlat=-27.43818&amp;mlon=152.63681&amp;zoom=14&amp;layers=M">Map location</a> The marker denotes the edge of the water as seen in the video to within a few metres.</p>
-<p>* <a href="http://www.vimeo.com/18782012">Video</a></p>
+<ul>
+<li><a href="http://www.vimeo.com/18782012">Video</a></li>
+</ul>
 <p>Alice Street and Queen Street, Goodna, Brisbane 32 hours after Brisbane River peaks in major flood disaster.</p>
 <p>The peak height of the river can be seen at 0:01 when the road changes to a dirty colour.</p>
 <p><a href="http://www.openstreetmap.org/?lat=-27.6139&amp;lon=152.90214&amp;zoom=17&amp;layers=">Map location</a></p>
-<p>* <a href="http://www.vimeo.com/18782516">Video</a></p>
+<ul>
+<li><a href="http://www.vimeo.com/18782516">Video</a></li>
+</ul>
 <p>Schmidt Road, Fernvale 32 hours after Brisbane River peaks in major flood disaster.</p>
 <p>The peak height of the river can be seen in the debris that hangs in the fences.</p>
 <p><a href="http://www.openstreetmap.org/?mlat=-27.44542&amp;mlon=152.65106&amp;zoom=15&amp;layers=M">Map location</a></p>]]></summary>
@@ -2368,7 +2442,7 @@ if&#39; f t p <span class="fu">=</span> <span class="kw">if</span> p <span class
 <p>Where an actual argument expression corresponding to a parameter variable is not FP-strict (§2.18), evaluation of that actual argument expression is permitted to use values drawn from the appropriate extended-exponent value sets. Prior to being stored in the parameter variable, the result of such an expression is mapped to the nearest value in the corresponding standard value set by method invocation conversion (§2.6.8).</p>
 <p>Let me extract a really important part:</p>
 <blockquote>
-<p>_…initialize newly created parameter variables (§2.5), each of the declared type, before execution of the body of the method. _</p>
+<p><em>…initialize newly created parameter variables (§2.5), each of the declared type, before execution of the body of the method. </em></p>
 </blockquote>
 <p>Did you see that? Java is pass by value, without reservation. It says so in the specification. It is even observable by writing a trivial program.</p>
 <pre class="sourceCode Java"><code class="sourceCode java">Object o = <span class="kw">new</span> Object();</code></pre>
@@ -2736,8 +2810,7 @@ Swizzler <span class="fu">function1</span>(<span class="dt">int</span> i, String
 <p>Brad’s original post, before he yielded to the legal demands, follows.</p>
 <p>We received a copy of this yesterday evening. Please note Tony is a friend of mine and this is genuine.</p>
 <blockquote>
-<pre><code>
-To The Medical Board of Queensland,</code></pre>
+<pre><code>To The Medical Board of Queensland,</code></pre>
 </blockquote>
 <pre><code>My complaint is rather lengthy. It relates to an injury and subsequent treatment of that injury by various doctors and surgeons. I am not primarily complaining about any particular individual of the medical institution, rather, that I still have not been diagnosed and treated for my condition. I am desperately seeking diagnosis and a treatment. Some doctors may believe they have diagnosed my condition, but they have been wrong and this has been proven surgically. The best diagnosis available today is my own humble conjecture, which is terrifyingly inadequate.
 
@@ -3230,7 +3303,7 @@ Thank you for your time. Confidentiality is not requested and you may share this
 <p>My insistence that this was causing a significant problem and that I also had incomplete foot drop was met with deep scepticism. After all, the superficial peroneal nerve (SPN) is a cutaneous nerve that does not supply motor control. I knew this too of course, but I had no explanation. It is the deep peroneal nerve (DPN) which supplies motor control – the guy next door. Foot drop is often caused by an entrapment below and behind the knee before the nerve splits into these two branches, but I knew this was not the cause.</p>
 <p>A marcaine/steroid injection into the SPN entrapment site immediately (within seconds) relieved some amount of foot drop. This too, was met with scepticism (?placebo), but I was adamant – there was an effect including a functional improvement.</p>
 <p><strong>An entrapment neuropathy of the superficial peroneal can cause foot drop by extending the nerve, and placing traction on the L5 nerve root. This will result in the expected fibrillation of the foot extensor muscles. Further, this is an extremely painful and distressing condition resulting in symptoms that can be very distracting from the actual etiology.</strong></p>
-<p>_I am not a medical expert, just an independent thinker who owns too many medical text books. _</p>]]></summary>
+<p><em>I am not a medical expert, just an independent thinker who owns too many medical text books. </em></p>]]></summary>
 </entry>
 <entry>
     <title>Further understanding scala.Option</title>
@@ -3893,7 +3966,7 @@ s = r -&gt; a</code></pre>
 
 <span class="kw">module</span> <span class="dt">Exercises</span> <span class="kw">where</span>
 
-<span class="kw">import</span> Prelude <span class="kw">hiding</span> (sum, length, map, filter, maximum, reverse, succ, pred)
+<span class="kw">import </span><span class="dt">Prelude</span> <span class="kw">hiding</span> (sum, length, map, filter, maximum, reverse, succ, pred)
 
 <span class="co">-- BEGIN Helper functions and data types</span>
 
@@ -4989,23 +5062,37 @@ m.<span class="fu">c</span>(z);</code></pre>]]></summary>
 <p>This is simple. It’s the <code>Person</code> constructor.</p>
 <p>So to sum up, we need to write a function with this type:</p>
 <p>Arguments:</p>
-<p>*</p>
+<ul>
+<li></li>
+</ul>
 <pre class="sourceCode Java"><code class="sourceCode java">F&lt;String, Validation&lt;LinkedList&lt;string&gt;, Age&gt;&gt;&gt;</code></pre>
-<p>*</p>
+<ul>
+<li></li>
+</ul>
 <pre class="sourceCode Java"><code class="sourceCode java">F&lt;String, Validation&lt;LinkedList&lt;string&gt;, Name&gt;&gt;&gt;</code></pre>
-<p>*</p>
+<ul>
+<li></li>
+</ul>
 <pre class="sourceCode Java"><code class="sourceCode java">F&lt;Age, F&lt;Name, Person&gt;&gt;</code></pre>
-<p>*</p>
+<ul>
+<li></li>
+</ul>
 <pre class="sourceCode Java"><code class="sourceCode java">Semigroup&lt;LinkedList&lt;string&gt;&gt;</code></pre>
 <p>Return type:</p>
 <pre class="sourceCode Java"><code class="sourceCode java">F&lt;String, F&lt;String, &lt;Validation&lt;LinkedList&lt;string&gt;, Person&gt;&gt;&gt;&gt;</code></pre>
 <p>Of course such a function is likely to be polymorphic, rather than specifying concrete types. I recommend starting by writing a function with this type:</p>
 <p>Arguments:</p>
-<p>*</p>
+<ul>
+<li></li>
+</ul>
 <pre class="sourceCode Java"><code class="sourceCode java">F&lt;T, F&lt;U, V&gt;&gt;</code></pre>
-<p>*</p>
+<ul>
+<li></li>
+</ul>
 <pre class="sourceCode Java"><code class="sourceCode java">F&lt;A, Validation&lt;E, T&gt;&gt;</code></pre>
-<p>*</p>
+<ul>
+<li></li>
+</ul>
 <pre class="sourceCode Java"><code class="sourceCode java">F&lt;B, Validation&lt;E, U&gt;&gt;</code></pre>
 <p>Return type:</p>
 <pre class="sourceCode Java"><code class="sourceCode java">F&lt;A, F&lt;B, Validation&lt;E, V&gt;&gt;</code></pre>
@@ -5479,12 +5566,12 @@ main <span class="fu">=</span> <span class="kw">let</span> k <span class="fu">=<
     <summary type="html"><![CDATA[<p>Haskell is a pure lazy programming language. The laziness of Haskell allows certain performance improvements without sacrificing compositional program properties. I have recently written parsers for XML map data formats that allow a user to “read a data file into a collection of immutable objects.” If I told you I used the parser library to “read in” a 140GB map data file and you’re not familiar with a lazy language, you might have asked how I did this within the constraints of memory requirements. Easy of course; I used a lazy language. The implications of a lazy (and therefore, pure) language are widely misunderstood, so I say “easy” wishing it really was easy for all people, but I know it isn’t (keep practicing!).</p>
 <p><a href="http://www.haskell.org/haskellwiki/HXT">HXT</a> is a parsing library for XML that is based on <a href="http://www.cs.chalmers.se/~rjmh/afp-arrows.pdf">Hughes’ arrows</a> and allows a user to piece together their own specific XML parser. I used it to parse the <a href="http://www.topografix.com/GPX/1/1/">GPS Exchange (GPX)</a> and <a href="http://wiki.openstreetmap.org/wiki/API_v0.6/DTD">OpenStreetMap (OSM)</a> data formats.</p>
 <p><a href="http://code.google.com/p/geo-gpx/">Here</a> are some example uses of parsing GPX files and <a href="http://code.google.com/p/geo-osm/">here</a> are examples parsing OSM files. My favourite is a very simple example (there are more complex ones) that removes waypoints from a GPX file. <a href="http://lists.openstreetmap.org/pipermail/newbies/2009-May/003131.html">This question (how to remove waypoints from gpx?)</a> was asked on the OSM mailing list quite a while ago; questions like these partially inspired me to write these libraries.</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">import</span> Data.Geo.GPX
+<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">import </span><span class="dt">Data.Geo.GPX</span>
 
-<span class="ot">removeWpts ::</span> FilePath <span class="ot">-&gt;</span> FilePath <span class="ot">-&gt;</span> <span class="dt">IO</span> ()
+<span class="ot">removeWpts ::</span> <span class="dt">FilePath</span> <span class="ot">-&gt;</span> <span class="dt">FilePath</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()
 removeWpts <span class="fu">=</span> flip interactGpx (usingWpts (const []))</code></pre>
 <p>The implementation is very simple. The <code>interactGpx</code> function takes two file names and a function that transforms a <code>Gpx</code> data structure to a new <code>Gpx</code>. The <code>interactGpx</code> function reads in the first given file name to a <code>Gpx</code>, executes the given function to produce a new <code>Gpx</code>, then writes the result to the other given file name.</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="ot">interactGpx ::</span> FilePath <span class="ot">-&gt;</span> (<span class="dt">Gpx</span> <span class="ot">-&gt;</span> <span class="dt">Gpx</span>) <span class="ot">-&gt;</span> FilePath <span class="ot">-&gt;</span> <span class="dt">IO</span> ()</code></pre>
+<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="ot">interactGpx ::</span> <span class="dt">FilePath</span> <span class="ot">-&gt;</span> (<span class="dt">Gpx</span> <span class="ot">-&gt;</span> <span class="dt">Gpx</span>) <span class="ot">-&gt;</span> <span class="dt">FilePath</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()</code></pre>
 <p>The <code>usingWpts</code> function takes a function that transforms a list of waypoints to a new list of waypoints and a <code>Gpx</code> value and returns a new <code>Gpx</code> value with the waypoints transformed.</p>
 <pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="ot">usingWpts ::</span> ([<span class="dt">WptType</span>] <span class="ot">-&gt;</span> [<span class="dt">WptType</span>]) <span class="ot">-&gt;</span> <span class="dt">Gpx</span> <span class="ot">-&gt;</span> <span class="dt">Gpx</span></code></pre>
 <p>Of course, since we want to remove all waypoints, we ignore the given list of waypoints and return an empty list (<code>const []</code>). Pretty neat I reckon!</p>
@@ -6605,7 +6692,7 @@ java.lang.StackOverflowError
 <span class="kw">final</span> <span class="kw">case</span> <span class="kw">class</span> Leaf[A](a: A) <span class="kw">extends</span> Tree[A]
 <span class="kw">final</span> <span class="kw">case</span> <span class="kw">class</span> Branch[A](left: Tree[A], right: Tree[A]) <span class="kw">extends</span> Tree[A]</code></pre>
 <p>And if you find Haskell easier to read, this might help too. It is a roughly equivalent program using GHC’s built-in <code>State</code> data type.</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">import</span> Control.Monad.State.Lazy
+<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">import </span><span class="dt">Control.Monad.State.Lazy</span>
 
 <span class="kw">data</span> <span class="dt">Tree</span> a <span class="fu">=</span> <span class="dt">Leaf</span> a <span class="fu">|</span> <span class="dt">Branch</span> (<span class="dt">Tree</span> a) (<span class="dt">Tree</span> a)
 
@@ -7624,7 +7711,7 @@ Option&lt;NonEmptyList&lt;throwable&gt;&gt; <span class="fu">second</span>() {
 
 <span class="kw">module</span> <span class="dt">L02.List</span> <span class="kw">where</span>
 
-<span class="kw">import</span> Prelude <span class="kw">hiding</span> (sum, length, map, filter, maximum, reverse)
+<span class="kw">import </span><span class="dt">Prelude</span> <span class="kw">hiding</span> (sum, length, map, filter, maximum, reverse)
 
 <span class="co">-- BEGIN Helper functions and data types</span>
 
@@ -8869,17 +8956,23 @@ $ scala -classpath .:scalaz.jar Levenshtein algorithm altruistic # find the dist
 + OK, passed 100 tests.</code></pre>
 <p>Yippee!!</p>
 <p>We might state two more properties:</p>
-<p>* For any list and any element (s), <code>list.add(s)</code> then <code>list.get(0)</code> will always yield <code>s</code>.</p>
-<p>* For any list, any element (s) and any integer between 0 and list.length - 1 (n), then calling <code>list.get(n)</code> is equivalent to calling <code>list.addFirst(s).get(n + 1)</code>.</p>
-<pre><code>$ scala -classpath .:ScalaCheck-1.2.jar CheckLinkedList
-+ OK, passed 100 tests.
-+ OK, passed 100 tests.
-+ OK, passed 100 tests.</code></pre>
+<ul>
+<li><p>For any list and any element (s), <code>list.add(s)</code> then <code>list.get(0)</code> will always yield <code>s</code>.</p></li>
+<li><p>For any list, any element (s) and any integer between 0 and list.length - 1 (n), then calling <code>list.get(n)</code> is equivalent to calling <code>list.addFirst(s).get(n + 1)</code>.</p>
+$ scala -classpath .:ScalaCheck-1.2.jar CheckLinkedList
+<ul>
+<li>OK, passed 100 tests.</li>
+<li>OK, passed 100 tests.</li>
+<li>OK, passed 100 tests.</li>
+</ul></li>
+</ul>
 <p>I have left off the code for the moment and I will give a complete example toward the end. Note that we have 300 passing unit tests – the code is around 25 lines (excluding the boilerplate to get the tests running).</p>
 <p>At this point, we have given <strong>an unambiguous specification for <code>addFirst</code></strong>. In other words, it is not possible to write a terminating function that does not satisfy these properties that is not equivalent to <code>addFirst</code>. However, this ignores the unfortunate potential for uncontrolled side-effects, which is an inherent property of Java (and Scala for that matter). We will assume it to be the case – no additional side-effects. It then follows that one additional benefit of automated testing is that we also obtain extremely valuable documentation for the function.</p>
 <p>Consider being provided with:</p>
-<p>* The type signature for <code>addFirst</code> (the properties which are proved).</p>
-<p>* The three stated properties for <code>addFirst</code>.</p>
+<ul>
+<li><p>The type signature for <code>addFirst</code> (the properties which are proved).</p></li>
+<li><p>The three stated properties for <code>addFirst</code>.</p></li>
+</ul>
 <p>Is there anything more useful to add in terms of documentation? Isn’t this unambiguous, highly readable specification more than you could possibly ask for? This is an interesting question to ponder, particularly in a more pure environment than the one we are discussing here, but I thought I would mention it anyway :)</p>
 <p>I will state a property that is false, just to exemplify what happens. The idea is that it is extremely difficult (but not impossible – remember halting problem) to state a false property that ScalaCheck passes. I’m not going to look for a specific corner case that traditional unit testing is unlikely to pick up, but I encourage you to do so as an added exercise.</p>
 <p>Instead, I will state an obviously false property; for any list and any element, adding the element with <code>addFirst</code> is equivalent to adding that element with <code>addLast</code>.</p>
@@ -9015,9 +9108,11 @@ d58909b8433137ce452cabe91c56b334  share/scala/lib/scala-compiler.jar</code></pre
     <id>http://blog.tmorris.net/posts/never-ever-again/index.html</id>
     <published>2008-03-17T10:16:09Z</published>
     <updated>2008-03-17T10:16:09Z</updated>
-    <summary type="html"><![CDATA[<p>* I will never again be put in a position where a client requirement cannot be met in effort proportional to its complexity, as a result of the incompetence and outright malpractice of a fellow self-proclaimed computer programmer.</p>
-<p>* I will never again be put in a position where I must tell a client that their requirement is overdue as a result of the consequences implied by the incompetence of a fellow self-proclaimed programmer.</p>
-<p>* I will never again be put in a position where I must hack at software in most unsavoury ways (i.e. likely defective; unable to decompose perpetually) in order to achieve a client requirement satisfactorily – this flows from exclusive competence and thus, the elimination of incompetence.</p>
+    <summary type="html"><![CDATA[<ul>
+<li><p>I will never again be put in a position where a client requirement cannot be met in effort proportional to its complexity, as a result of the incompetence and outright malpractice of a fellow self-proclaimed computer programmer.</p></li>
+<li><p>I will never again be put in a position where I must tell a client that their requirement is overdue as a result of the consequences implied by the incompetence of a fellow self-proclaimed programmer.</p></li>
+<li><p>I will never again be put in a position where I must hack at software in most unsavoury ways (i.e. likely defective; unable to decompose perpetually) in order to achieve a client requirement satisfactorily – this flows from exclusive competence and thus, the elimination of incompetence.</p></li>
+</ul>
 <p>F.F.S., The bar is not that high!</p>
 <p><strong>NEVER. EVER. AGAIN.</strong></p>]]></summary>
 </entry>
@@ -9143,9 +9238,7 @@ aza    | 1353</code></pre>
     <id>http://blog.tmorris.net/posts/its-just-logic/index.html</id>
     <published>2008-02-01T16:03:24Z</published>
     <updated>2008-02-01T16:03:24Z</updated>
-    <summary type="html"><![CDATA[<pre><code>
-
-*Don&#39;t do this*
+    <summary type="html"><![CDATA[<pre><code>*Don&#39;t do this*
 **Do this**</code></pre>
 <hr />
 <p><strong>conjunction (∧)</strong></p>
@@ -9189,7 +9282,7 @@ aza    | 1353</code></pre>
 + -
 * / %
 ~</code></pre>
-<p>Postfix (<em>unary</em>_)</p>
+<p>Postfix (_unary__)</p>
 <pre><code>+
 -
 !
@@ -9300,7 +9393,7 @@ aza    | 1353</code></pre>
 <p>This code is equivalent to:</p>
 <pre class="sourceCode Scala"><code class="sourceCode scala">option.<span class="fu">toList</span></code></pre>
 <hr />
-<p><strong><code>coflatMap</code></strong><sup><a href="#fn1" class="footnoteRef" id="fnref1">1</a></sup></p>
+<p><strong><code>coflatMap</code></strong><a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a></p>
 <pre class="sourceCode Scala"><code class="sourceCode scala">option <span class="kw">match</span> {
   <span class="kw">case</span> None =&gt; None
   <span class="kw">case</span> Some(_) =&gt; Some(<span class="fu">foo</span>(option))
@@ -9308,7 +9401,7 @@ aza    | 1353</code></pre>
 <p>This code is equivalent to:</p>
 <pre class="sourceCode Scala"><code class="sourceCode scala">option.<span class="fu">coflatMap</span>(<span class="fu">foo</span>(_))</code></pre>
 <hr />
-<p><strong><code>duplicate</code></strong><sup><a href="#fn2" class="footnoteRef" id="fnref2">2</a></sup></p>
+<p><strong><code>duplicate</code></strong><a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a></p>
 <pre class="sourceCode Scala"><code class="sourceCode scala">option <span class="kw">match</span> {
   <span class="kw">case</span> None =&gt; None
   <span class="kw">case</span> Some(_) =&gt; Some(option)
@@ -9472,7 +9565,7 @@ aza    | 1353</code></pre>
   }
 }</code></pre>
 <blockquote>
-<p>scala&gt; import Doomsday._ import Doomsday._</p>
+<p>scala&gt; import Doomsday.<em> import Doomsday.</em></p>
 </blockquote>
 <p>scala&gt; doomsday(1966) res0: Day = Monday</p>
 <p>scala&gt; doomsday(2008) res1: Day = Friday</p>]]></summary>
@@ -9494,10 +9587,10 @@ aza    | 1353</code></pre>
 <p>More precisely, the following things have changed: <em>continues</em></p>
 <p>[1] Here are some that I have met and convincingly (and often quite easily) debunked in conversation. Perhaps I could write about them some time.</p>
 <ul>
-<li>From the CTO of X Corporation, “I don’t have any programmers capable of using Scala”. This myth is both easily falsified, but also extremely detrimental to the interests of the organisation – far more than is initially realised. That is to say, after debunking this myth, my opponent in the argument often has an enlightening experience and then an “Oh no! Given this (new understanding), look at what (detrimental decisions) I have been doing to the organisation!”. Of all fallacies, this is the one I’d like to put in the box of past events from which to learn.</li>
-</ul>
-<p>* But Java is enterprise-ready</p>
-<p>* But Java is a robust language with many libraries</p>]]></summary>
+<li><p>From the CTO of X Corporation, “I don’t have any programmers capable of using Scala”. This myth is both easily falsified, but also extremely detrimental to the interests of the organisation – far more than is initially realised. That is to say, after debunking this myth, my opponent in the argument often has an enlightening experience and then an “Oh no! Given this (new understanding), look at what (detrimental decisions) I have been doing to the organisation!”. Of all fallacies, this is the one I’d like to put in the box of past events from which to learn.</p></li>
+<li><p>But Java is enterprise-ready</p></li>
+<li><p>But Java is a robust language with many libraries</p></li>
+</ul>]]></summary>
 </entry>
 <entry>
     <title>Scalaz</title>
@@ -9697,8 +9790,7 @@ aza    | 1353</code></pre>
 
 </blockquote>
 <blockquote>
-<pre><code>
-// Sure I can!
+<pre><code>// Sure I can!
 boolean and(boolean b, boolean c) {
   return b &amp;&amp; c;
 }</code></pre>
@@ -9720,8 +9812,7 @@ f   ⊥   f
 <p>Two functions, f and g, are equivalent if the following property holds:</p>
 </blockquote>
 <blockquote>
-<pre><code>
-∀ x. f x ⇔ g x</code></pre>
+<pre><code>∀ x. f x ⇔ g x</code></pre>
 </blockquote>
 <p>We could rewrite the + function for <code>int</code> as follows:</p>
 <pre><code>int sum(int a, int b) {
@@ -9733,8 +9824,7 @@ f   ⊥   f
 
 </blockquote>
 <blockquote>
-<pre><code>
-false &amp;&amp; ⊥ == false</code></pre>
+<pre><code>false &amp;&amp; ⊥ == false</code></pre>
 </blockquote>
 <p>It is <strong>this</strong> entry that disallows us from rewriting &amp;&amp;. Look at the following function:</p>
 <pre><code>boolean bottom() {
@@ -9745,8 +9835,7 @@ false &amp;&amp; ⊥ == false</code></pre>
 
 </blockquote>
 <blockquote>
-<pre><code>
-and(false, bottom())</code></pre>
+<pre><code>and(false, bottom())</code></pre>
 </blockquote>
 <p>The result of this function is ⊥ and not false, like it is with &amp;&amp;. Therefore, this function is <strong>not equivalent</strong> to &amp;&amp;. Further, I restate that it is not possible to write such a function in these languages. Unlike +. which is strict in both of its arguments, &amp;&amp; is not and this makes it impossible to write a user-defined version of &amp;&amp; and therefore, ||, if/else and ?: and importantly, many other potential functions that many Java programmers are probably not even aware of (Dynamic Programming Algorithms anyone?).</p>
 <p>If you are ever forced to use these severely limited programming languages, you could be thankful that you have some primitive lazy constructs for doing very primitive operations (oppression), or you could be resentful for not having the expressive power of other, lazy languages (resistance against oppression) :)</p>
@@ -9789,8 +9878,10 @@ z: Boolean = false</code></pre>]]></summary>
     <updated>2007-08-07T15:02:40Z</updated>
     <summary type="html"><![CDATA[<p>There are a lot of things that, upon initial investigation, turn out to be false after some deeper analysis. There are a striking number of these propositions that not not only turn out to be false, but it is the inverse that turns out to be true!</p>
 <p>One of these is many common descriptions of pure functional programming against imperative programming. Here are some that I have seen:</p>
-<p>* functional programming <em>is on the other side of the fence of</em> (or some such) imperative programming. That is, there are two (or more) very distinct, non-unifiable methods or disciplines of programming.</p>
-<p>* Functional programming is more restrictive than imperative programming.</p>
+<ul>
+<li><p>functional programming <em>is on the other side of the fence of</em> (or some such) imperative programming. That is, there are two (or more) very distinct, non-unifiable methods or disciplines of programming.</p></li>
+<li><p>Functional programming is more restrictive than imperative programming.</p></li>
+</ul>
 <p>I hope to address the first point another time and on the second point, for now, I will assert that:</p>
 <blockquote>
 <p>Not only is functional programming not more restrictive than imperative programming, but quite the opposite is true! Imperative programming is one specific type of functional programming that is relatively seldom worth using.</p>
@@ -10427,7 +10518,7 @@ True
     <id>http://blog.tmorris.net/posts/refunctoring/index.html</id>
     <published>2007-02-15T16:51:42Z</published>
     <updated>2007-02-15T16:51:42Z</updated>
-    <summary type="html"><![CDATA[<p>Ask your average Java (or C#) programmer to ‘write a method that takes a list of integers, adds 10 to each element, converts the result to a String, prepends <em>*</em> to it and returns the resulting list’. It’s quite easy and you can certainly postulate what kind of start would be made on this. Here is how I suspect most Java programmers would solve this problem:</p>
+    <summary type="html"><![CDATA[<p>Ask your average Java (or C#) programmer to ‘write a method that takes a list of integers, adds 10 to each element, converts the result to a String, prepends *** to it and returns the resulting list’. It’s quite easy and you can certainly postulate what kind of start would be made on this. Here is how I suspect most Java programmers would solve this problem:</p>
 <pre class="sourceCode Java"><code class="sourceCode java">...
 <span class="dt">static</span> List&lt;string&gt; <span class="fu">addTenAndConvert</span>(List&lt;integer&gt; list) {
   List&lt;string&gt; result = <span class="kw">new</span> LinkedList&lt;string&gt;();
@@ -10439,8 +10530,8 @@ True
 
   <span class="kw">return</span> result;
 }</code></pre>
-<p>Simple enough. Many people would also write so-called ‘unit tests’ to assist in verifying that the method meets the specified requirement. It is interesting to note at this point that ‘for all’ (<a href="http://en.wikipedia.org/wiki/Universal_quantification">hint</a>) list arguments, the length of the return value will always be equal. So for the argument, {1,2,3} with a length of 3, the result is {“<strong>*11“,”</strong><em>12“,”</em>**13”} also with a length of 3 and this property holds across all lists.</p>
-<p>But then, I ask for another method that does all the same, but this time, prepends “AAA” instead of “<em>*</em>”. Whatchya gunna do? Copy/paste/change? No, you’re going to refunctor (to be defined in time to come), that’s what. You might pass an additional argument of type String and prepend that. Sounds fair enough. But then I will ask instead that you append “BBB” instead of prepending “AAA”. Pass an additional argument of type boolean?</p>
+<p>Simple enough. Many people would also write so-called ‘unit tests’ to assist in verifying that the method meets the specified requirement. It is interesting to note at this point that ‘for all’ (<a href="http://en.wikipedia.org/wiki/Universal_quantification">hint</a>) list arguments, the length of the return value will always be equal. So for the argument, {1,2,3} with a length of 3, the result is {“<strong><em>11“,”</em></strong>12”, “***13“} also with a length of 3 and this property holds across all lists.</p>
+<p>But then, I ask for another method that does all the same, but this time, prepends “AAA” instead of “***“. Whatchya gunna do? Copy/paste/change? No, you’re going to refunctor (to be defined in time to come), that’s what. You might pass an additional argument of type String and prepend that. Sounds fair enough. But then I will ask instead that you append”BBB&quot; instead of prepending “AAA”. Pass an additional argument of type boolean?</p>
 <p>Let’s take a look at what we’ve got:</p>
 <pre class="sourceCode Java"><code class="sourceCode java">...
 <span class="dt">static</span> List&lt;string&gt; <span class="fu">addTenAndConvert</span>(

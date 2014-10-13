@@ -8,8 +8,61 @@
         <name>Tony Morris</name>
         <email>blog@tmorris.net</email>
     </author>
-    <updated>2013-03-10T20:00:00Z</updated>
+    <updated>2014-10-13T00:00:00Z</updated>
     <entry>
+    <title>Brisbane Ride Spots</title>
+    <link href="http://blog.tmorris.net/posts/brisbane-ride-spots/index.html" />
+    <id>http://blog.tmorris.net/posts/brisbane-ride-spots/index.html</id>
+    <published>2014-10-13T00:00:00Z</published>
+    <updated>2014-10-13T00:00:00Z</updated>
+    <summary type="html"><![CDATA[<p>Recently, on a forum, I saw a question regarding dirt bike areas around Brisbane. The question was motivated by a licenced rider on a registered motorcycle (WR450F), looking for areas to explore. I gave the following answer and I intend to update the answer with any improvements here.</p>
+<hr />
+<p>I do surveying as a hobby and have completed every state-owned track within about 250km of Brisbane (and some beyond, mostly northern Queensland). I have released that data openly under the OpenStreetMap project and I do public releases for use in Garmin devices. There are also phone apps for using this data. Some of those tracks are now not legally traversable, even for registered bikes. I started doing this several years ago.</p>
+<p>The project has a map viewable at <a href="http://osm.org/">http://osm.org/</a> This map is also available on the <a href="http://osmand.net/">OsmAnd</a> application for android. I have friends that run it on iphone, but every time I ask them how to recommend it to iphone users, I get some unusable answer, so <em>shrug</em> don’t know :)</p>
+<p>For running it on Garmin devices, it requires a bit of technical understanding and my map build is rather custom. For example, I also like to walk up hills around here (e.g. Mt Barney), so my build includes a topographic map of those areas of interest. I also run a custom filter on the data before the build to correct errors according to my own standards. I prefer using a device with an accurate antenna (which is also very expensive!), but using a phone is just fine for user application (opposed to surveying).</p>
+<p>Well, here are some riding spots, just from the top of my head. They all have various levels of difficulty and some of them are not always completely open to access. Sometimes they are not open at all (e.g. during the 2011 flood). Also note that there are some people who think that “giving away our secret riding areas is reprehensible!” Ignore them, they don’t realise it’s not a secret and never was. Self-importance bores me.</p>
+<hr />
+<h1 id="north-of-brisbane">North of Brisbane</h1>
+<ul>
+<li><p><a href="http://www.openstreetmap.org/#map=14/-27.1162/152.6851">Mount Mee State Forest</a> Mostly fire trails now. Look out for 4x4. A lot of excellent enduro tracks that are now illegal to traverse. There is still one remaining, that can be used by motorcycles, but not 4x4. There is also a now-closed logging area, that the government has promised to reopen one day. We’ll see.</p></li>
+<li><p><a href="http://www.openstreetmap.org/#map=14/-26.9557/152.8996">Beerburrum State Forest</a></p></li>
+<li><p><a href="http://www.openstreetmap.org/#map=14/-26.8806/152.8505">Peachester State Forest</a></p></li>
+<li><p><a href="http://www.openstreetmap.org/#map=13/-26.8604/152.6645">Bellthorpe State Forest</a></p></li>
+<li><p><a href="http://www.openstreetmap.org/#map=13/-26.7422/152.5282">Conondale National Park</a> Also, <a href="http://tonymorris.github.io/blog/posts/ride-report-mubbip-woo/index.html">here is a funny story about a ride in there last Christmas</a>.</p></li>
+<li><p><a href="http://www.openstreetmap.org/#map=13/-26.5188/152.5939">Imbil State Forest</a></p></li>
+<li><p><a href="http://www.openstreetmap.org/#map=13/-26.3605/152.5462">Amamoor State Forest</a> My favourite. Has some excellent and challenging enduro.</p></li>
+<li><p><a href="http://www.openstreetmap.org/#map=13/-26.0498/153.0461">Great Sandy National Park</a> Just like the label, lots of sand. Beach riding nearby too. Vehicle access permit is required in some areas (it’s cheap and easy to do online or purchase at Rainbow Beach).</p></li>
+<li><p><a href="http://www.openstreetmap.org/#map=13/-25.4509/153.0454">Great Sandy National Park (Fraser Island)</a> Well, it’s Fraser Island, so expect transport across the water and lots and lots and lots of sand. Permit required.</p></li>
+</ul>
+<hr />
+<h1 id="south-of-brisbane">South of Brisbane</h1>
+<ul>
+<li><p><a href="http://www.openstreetmap.org/#map=15/-28.1595/153.0525">Duck Creek Road</a> A mild and scenic ascent from Kerry up to O’Reilly’s. Excellent for a short trip out. I have seen less-experienced riders do it on a Triumph 1200. Look out for 4x4.</p></li>
+<li><p><a href="http://www.openstreetmap.org/#map=13/-28.3947/153.0416">Border Ranges National Park</a> A great day trip, scenic rainforest ride that extends for hours. Great for all rider skill levels. Dead easy for a learner, and good fun and scenic if you are not.</p></li>
+<li><p><a href="http://www.openstreetmap.org/#map=14/-28.5314/152.5193">Tooloom State Forest</a> Fire trails, with some harder off shoots.</p></li>
+</ul>
+<hr />
+<h1 id="west-of-brisbane">West of Brisbane</h1>
+<ul>
+<li><p><a href="http://www.openstreetmap.org/#map=13/-28.5716/151.8079">Passchendaele State Forest</a> Another favourite. Most scenic and some challenging areas. Dropping your bike will cost some $$ on those rocks (it ain’t called the granite belt for nothing).</p></li>
+<li><p><a href="http://www.openstreetmap.org/#map=13/-28.8624/151.6590">Sundown National Park</a> Some harder trails and technical hill climbs. Rocky, very scenic. Look out for 4x4.</p></li>
+</ul>
+<hr />
+<h1 id="a-couple-of-short-videos">A couple of short videos</h1>
+<ul>
+<li><p><a href="https://www.youtube.com/watch?v=jaGwoibQH38&amp;list=UUpDeRLsIqd041pueRjRUY0Q">Passchendaele State Forest 23 August 2014</a> We had the forest to ourselves.</p></li>
+<li><p><a href="https://www.youtube.com/watch?v=g-Qpe7ZJZIg">My friend making a graceful entrance onto Rainbow Beach</a></p></li>
+<li><p><a href="https://www.youtube.com/watch?v=b2DW6OzLXc8">Another friend on a fire trail with a 800XC in Mount Mee State Forest</a></p></li>
+<li><p><a href="https://www.youtube.com/watch?v=Mg9gWIHjymY">My unwelcome encounter with a red-bellied black snake in Beerburrum State Forest</a></p></li>
+<li><p><a href="https://vimeo.com/45384135">My friend going arse up on his TTR250 at Emu Creek Extreme Retreat</a> This area is near Urbenville and Tooloom State Forest. It is a privately owned track and does not require a registered bike. Good if you have friends on motocrossers or something. My friend is in fact, upside-down in the water and after a few seconds of laughing, I started wondering if he was going to pop back up.</p></li>
+<li><p><a href="https://vimeo.com/29880420">Sundown National Park 3 years ago</a></p></li>
+<li><p><a href="https://vimeo.com/24759031">Mount Mee State Forest 3 years ago</a> It is also my first video compilation, so I pressed all the fancy buttons.</p></li>
+</ul>
+<hr />
+<p>I have certainly left areas some off, but let’s not be greedy :)</p>
+<p>In any case, we should just meet up, work out what you are looking for and go for a ride. Unfortunately though, I am dealing with some health issues at the moment and hope to be back on two wheels by December.</p>]]></summary>
+</entry>
+<entry>
     <title>Lane-Splitting in Australia.</title>
     <link href="http://blog.tmorris.net/posts/lane-splitting/index.html" />
     <id>http://blog.tmorris.net/posts/lane-splitting/index.html</id>

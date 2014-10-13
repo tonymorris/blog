@@ -31,12 +31,12 @@
 
 <p>Everyone has seen a naïve fibonacci implementation</p>
 <pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">object</span> FibNaïve {
-  <span class="kw">def</span> fibnaïve(n: BigInt): BigInt =
+  <span class="kw">def</span> fibnaï<span class="fu">ve</span>(n: BigInt): BigInt =
     <span class="kw">if</span>(n &lt;= <span class="dv">1</span>)
       n
     <span class="kw">else</span> {
-      <span class="kw">val</span> r = fibnaïve(n - <span class="dv">1</span>)
-      <span class="kw">val</span> s = fibnaïve(n - <span class="dv">2</span>)
+      <span class="kw">val</span> r = fibnaï<span class="fu">ve</span>(n - <span class="dv">1</span>)
+      <span class="kw">val</span> s = fibnaï<span class="fu">ve</span>(n - <span class="dv">2</span>)
       r + s
     }
 }</code></pre>

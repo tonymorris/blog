@@ -67,7 +67,7 @@ pure <span class="ot">::</span>
 pure <span class="fu">=</span>
   return</code></pre>
 <h3 id="applicative-do-notation">Applicative do-notation</h3>
-<p>With this proposal, there is <a href="http://ghc.haskell.org/trac/ghc/wiki/ApplicativeDo">another proposal to extend do-notation</a> to take advantage of this improved flexibility. Currently, do-notation translates to the code that uses the <code>Monad</code> primitives, <code>(&gt;&gt;=)</code> and <code>return</code><sup><a href="#fn1" class="footnoteRef" id="fnref1">1</a></sup>.</p>
+<p>With this proposal, there is <a href="http://ghc.haskell.org/trac/ghc/wiki/ApplicativeDo">another proposal to extend do-notation</a> to take advantage of this improved flexibility. Currently, do-notation translates to the code that uses the <code>Monad</code> primitives, <code>(&gt;&gt;=)</code> and <code>return</code><a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a>.</p>
 <p>There are some arguments against this proposal, because this extension is not always desirable. In particular, the degree to which values are shared may be affected. Consider:</p>
 <pre class="sourceCode Haskell"><code class="sourceCode haskell">result <span class="fu">=</span>
   <span class="kw">do</span> a <span class="ot">&lt;-</span> expr
@@ -259,21 +259,21 @@ result <span class="fu">=</span>
   <span class="kw">def</span> xmap[A, B](f: (A =&gt; B, B =&gt; A)): F[A] =&gt; F[B]
 }</code></pre>
 <ul>
-<li>applicative functor<sup><a href="#fn1" class="footnoteRef" id="fnref1">1</a></sup> — defines the operation commonly known as <code>apply</code> or <code>&lt;*&gt;</code>.</li>
+<li>applicative functor<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a> — defines the operation commonly known as <code>apply</code> or <code>&lt;*&gt;</code>.</li>
 </ul>
 <pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// applicative functor (abbreviated)</span>
 <span class="kw">trait</span> Applicative[F[_]] {
   <span class="kw">def</span> apply[A, B](f: F[A =&gt; B]): F[A] =&gt; F[B]
 }</code></pre>
 <ul>
-<li>monad<sup><a href="#fn2" class="footnoteRef" id="fnref2">2</a></sup> — defines the operation commonly known as <code>bind</code>, <code>flatMap</code> or <code>=&lt;&lt;</code>.</li>
+<li>monad<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a> — defines the operation commonly known as <code>bind</code>, <code>flatMap</code> or <code>=&lt;&lt;</code>.</li>
 </ul>
 <pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// monad (abbreviated)</span>
 <span class="kw">trait</span> Monad[F[_]] {
   <span class="kw">def</span> flatMap[A, B](f: A =&gt; F[B]): F[A] =&gt; F[B]
 }</code></pre>
 <ul>
-<li>comonad<sup><a href="#fn3" class="footnoteRef" id="fnref3">3</a></sup> — defines the operation commonly known as <code>extend</code>, <code>coflatMap</code> or <code>&lt;&lt;=</code>.</li>
+<li>comonad<a href="#fn3" class="footnoteRef" id="fnref3"><sup>3</sup></a> — defines the operation commonly known as <code>extend</code>, <code>coflatMap</code> or <code>&lt;&lt;=</code>.</li>
 </ul>
 <pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// comonad (abbreviated)</span>
 <span class="kw">trait</span> Comonad[F[_]] {
@@ -286,8 +286,10 @@ result <span class="fu">=</span>
 </blockquote>
 <p>I memorise the table that is the type of the different argument arrangements to help me to determine which abstraction might be appropriate. Of course, I use other methods, but this particular technique is elegant and short. Here is that table:</p>
 <table>
+<colgroup>
 <col width="20%" />
 <col width="25%" />
+</colgroup>
 <thead>
 <tr class="header">
 <th align="left">functor</th>
