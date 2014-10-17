@@ -1,0 +1,66 @@
+==================================================================
+https://keybase.io/tonymorris
+--------------------------------------------------------------------
+
+I hereby claim:
+
+  * I am an admin of http://tmorris.net
+  * I am tonymorris (https://keybase.io/tonymorris) on keybase.
+  * I have a public key with fingerprint DC2C 5A7D B75E D0A8 E071  3D58 BEDE AF77 81A7 D209
+
+To claim this, I am signing this object:
+
+{
+    "body": {
+        "key": {
+            "fingerprint": "dc2c5a7db75ed0a8e0713d58bedeaf7781a7d209",
+            "host": "keybase.io",
+            "key_id": "bedeaf7781a7d209",
+            "uid": "7550f3ad4c6a872a1d12065e8b5f3900",
+            "username": "tonymorris"
+        },
+        "service": {
+            "hostname": "tmorris.net",
+            "protocol": "http:"
+        },
+        "type": "web_service_binding",
+        "version": 1
+    },
+    "ctime": 1413521488,
+    "expire_in": 157680000,
+    "prev": "3fa04589e55af6079e8878b0e0aa5679bdb5f1bbdbf8c7d1b029e5137c422a4d",
+    "seqno": 2,
+    "tag": "signature"
+}
+
+with the aforementioned key, yielding the PGP signature:
+
+-----BEGIN PGP MESSAGE-----
+Version: Keybase OpenPGP v1.1.3
+Comment: https://keybase.io/crypto
+
+yMHmAnicbZFdSBRRFMdXSyVLUCuMyMIriOUqM7N7d2aXPhQpTEokFjOyljszd3Vs
+d2admVVXMxIzikhb1JdQE3wxC60eTGwR2TSSqCAJIzH6/vAhSSxSRLtj+dZ9Odxz
+fv//OYczGrfOFBux59eRxpbiG4URT0bm/CZndldhLeAVMQActeAMXg1uSS7Fqk+V
+ZB04gCgwAkSsyLMQixTiMMXSFhFyPBYxcrMsR5MiQ9mBGZQpmqEgNjzScJakkBz5
+uCSRZP/D+1cLLISU24JEq2BDHMsgWqQZygYxx0O3xU5RBqhhVUZeTGhdkQNeRVUl
+DdSZAclXSgI2pjaarzF/gSwZ60TsUxVdERQPKZTpus9h6PSAzwCrMO/6Z+HiJVkk
+ixNBJVY1SZGBgyakoEuGJ22lLZChrRxnBrjaJ6nYJRkEZG0cRZ7RBlcSS4sbUVbI
+2TGEyG2jWDvmOJbjKUwhBG2snRfJWjRPgpsTWJHmKYawtIUVrAyDrCIwlqqQFeBg
+yJiolFhqUqmMdL+KQV14pGS9KSLWFB0VaZzOFLshfu2gPl/McmpfVcabd4PbvKFQ
+zm/nbu3lwvS8UtDxoWbrqLe94dXS7Fje0ZMJMS3xi4eCA0VDCWMz17/XLH1zLuwH
+z3vy8kt6W8vDA23jBc0HL2zPfBt9NvQlb/JKpL+nK+A9P5WeOZFx+mHuZE6a/RSF
+9oGLQwu3FNh+oDDl9bkTUzOfxkObm1Dr1/ePp3uakprvLj6oWHnqvJOYfB/aJHB4
+V7DxZr45bqist3s6ZTb5Y6ie3lSdPjwftaPrqj0rOJzmKZ44VpAPTMOJ8Rjkdlrr
+0y79uNdQ1JFaUd7/Ymfz7WXn8b1N4cG5cNs1rAUzazxbQnPPsic7f/ZfXtn42TTx
+KMnT9weqrBiQ
+=SuEi
+-----END PGP MESSAGE-----
+
+And finally, I am proving ownership of this host by posting or
+appending to this document.
+
+View my publicly-auditable identity here: https://keybase.io/tonymorris
+
+==================================================================
+
