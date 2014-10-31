@@ -11,7 +11,7 @@ The subject of lane-splitting on a motorcycle often comes up in discussion. In A
 
 Below are verbatim excerpts of Transport Operations (Road Use Management) Act 1995; Transport Operations (Road Use Management-Road Rules) Regulation 1999 that are relevant to lane-splitting. The name of this legislation is sometimes abbreviated to *TORUM*. TORUM applies to the state of Queensland and is derived from the Australian Road Rules (ARR).
 
-Other Australian state and territory road use legislation is also derived from the ARR. Although these sections have been excerpted directly from TORUM, they can also be found in the ARR (under the same sections) and also in the road use legislation for each Australian state/territory.
+Other Australian state and territory road use legislation is also derived from the ARR. Although these sections have been excerpted directly from TORUM, they can also be found in the ARR (under the same sections) and also in the road use legislation for other Australian states and territories.
 
 141 No overtaking etc to the left of a vehicle
 ==============================================
