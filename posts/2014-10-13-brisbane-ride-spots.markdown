@@ -24,7 +24,7 @@ Well, here are some riding spots, just from the top of my head. They all have va
 
 ----
 
-# North of Brisbane
+### North of Brisbane
 
 * [Mount Mee State Forest](http://www.openstreetmap.org/#map=14/-27.1162/152.6851) Mostly fire trails now. Look out for 4x4. A lot of excellent enduro tracks that are now illegal to traverse. There is still one remaining, that can be used by motorcycles, but not 4x4. There is also a now-closed logging area, that the government has promised to reopen one day. We'll see.
 
@@ -46,7 +46,7 @@ Well, here are some riding spots, just from the top of my head. They all have va
 
 ----
 
-# South of Brisbane
+### South of Brisbane
 
 * [Duck Creek Road](http://www.openstreetmap.org/#map=15/-28.1595/153.0525) A mild and scenic ascent from Kerry up to O'Reilly's. Excellent for a short trip out. I have seen less-experienced riders do it on a Triumph 1200. Look out for 4x4.
 
@@ -56,7 +56,7 @@ Well, here are some riding spots, just from the top of my head. They all have va
 
 ----
 
-# West of Brisbane
+### West of Brisbane
 
 * [Passchendaele State Forest](http://www.openstreetmap.org/#map=13/-28.5716/151.8079) Another favourite. Most scenic and some challenging areas. Dropping your bike will cost some $$ on those rocks (it ain't called the granite belt for nothing).
 
@@ -64,7 +64,7 @@ Well, here are some riding spots, just from the top of my head. They all have va
 
 ----
 
-# A couple of short videos
+### A couple of short videos
 
 * [Passchendaele State Forest 23 August 2014](https://www.youtube.com/watch?v=jaGwoibQH38&list=UUpDeRLsIqd041pueRjRUY0Q) We had the forest to ourselves.
 

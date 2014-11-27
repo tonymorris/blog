@@ -1,5 +1,5 @@
 html {
-  font-family:  'Trebuchet MS', 'Lucida Grande', Verdana, Arial, sans-serif;
+  font-family: 'Open Sans', sans-serif;
   font-size: 16px;
   color: black;
 }
@@ -10,11 +10,30 @@ body {
   background: white url('../images/skyandsea.gif') repeat-x top left;
 }
 
+hr {
+  color: rgb(240, 240, 240);
+  height: 1px;
+  width: 100%;
+}
+
+blockquote {
+  color: black;
+  background-color: #f3f3f3;
+}
+
+table, th, td
+{
+  border: 1px solid gray;
+  border-collapse:  collapse;
+  width: 60%;
+}
+
+/* Titles */
+
 div#title {
   text-align: left;
   font-size: 38px;
   color: white;
-  background: url('../images/island.gif') no-repeat;
   background-position: 634px 60px;
   margin: 0;
   height: 150px;
@@ -29,81 +48,74 @@ div#subtitle {
   width: 100%;
 }
 
-div#header {
-  font-size: 16px;
+/* Links */
+
+a:link {
+  text-decoration: none;
   font-weight: bold;
+  color: rgb(40, 40, 40);
 }
+
+a:visited {
+  text-decoration: none;
+  font-weight: bold;
+  color: rgb(40, 40, 40);
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+a:focus {
+
+}
+
+a:active {
+  text-decoration: underline;
+}
+
+/* Headings */
+
+h1 {
+  color: rgb(100, 100, 100);
+  font-size: 26px;
+  margin-top: 30px;
+}
+
+h2 {
+  color: rgb(120, 120, 120);
+  font-size: 22px;
+  margin-top: 30px;
+}
+
+h3, h4, h5, h6 {
+  color: rgb(120, 120, 120);
+  font-size: 20px;
+  margin-top: 30px;
+}
+
+/* Navigation Links */
 
 div#navigation {
   float: right;
 }
 
 div#navigation a {
-  margin-left: 10px;
+  margin-left: 20px;
 }
 
-div#footer {
-  text-align: center;
-  font-style: italic;
-  font-size: 11px;
-  margin-top: 140px;
-}
+/* Tags */
 
-div#tags {
-  font-size: 14px;
+div#taglist {
+  font-size: 12px;
   word-spacing: 12px;
-}
-
-h1 {
-  color: rgb(140, 140, 140);
-  border-bottom: 2px solid rgb(150, 150, 250);
-  font-size: 22px;
-  margin-top: 30px;
-}
-
-h2 {
   color: rgb(160, 160, 160);
-  font-size: 20px;
-  margin-top: 30px;
 }
 
-h3, h4, h5, h6 {
-  color: rgb(160, 160, 160);
-  font-size: 16px;
-  margin-top: 30px;
-}
+/* Recent posts */
 
 div#recent-posts-list li, div#all-posts-list li {
   list-style-type: square;
   text-indent: 15px;
   line-height: 40px;
-}
-
-a {
-  color: rgb(30, 30, 30);
-}
-
-div#taglist {
-  font-size: small;
-}
-
-div.figure {
-  text-align: center;
-}
-
-div.figure p.caption {
-  font-style: italic;
-}
-
-table, th, td
-{
-  border: 1px solid gray;
-  border-collapse:  collapse;
-  width: 60%;
-}
-
-blockquote {
-  color: black;
-  background-color: #f3f3f3;
-  font-weight: bold;
 }
