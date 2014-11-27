@@ -1,10 +1,10 @@
 name:                blog
-version:             0.1.1.0
+version:             0.1.2.0
 synopsis:            Tony's Blog
 description:         Tony's Blog
 homepage:            http://blog.tmorris.net/
 license:             AllRightsReserved
-copyright:           Copyright (C) 2008-2013 Tony Morris
+copyright:           Copyright (C) 2014 Tony Morris
 author:              Tony Morris
 maintainer:          Tony Morris <ʇǝu˙sıɹɹoɯʇ@sıɹɹoɯʇ>
 category:            Web
