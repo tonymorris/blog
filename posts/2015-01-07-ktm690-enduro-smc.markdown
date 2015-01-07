@@ -110,7 +110,7 @@ specifies the following for these bolts:
 [^1]: This service manual is made available online, in protest to a lack of
 response from KTM Australia, regarding a defective service manual product in
 violation of Australian Consumer Law (Schedule 2 of the Competition and Consumer
-Act 2010. Read more
+Act 2010). Read more
 [here](https://gist.github.com/tonymorris/d0b9cf9b0babde5df1cb).
 
 ----
