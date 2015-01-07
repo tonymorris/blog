@@ -8,7 +8,7 @@ tags: Motorcycling, KTM, Supermoto
 ---
 
 This article is a description of the conversion of a 2014 KTM 690 Enduro R to a
-Supermoto with 17" wheels. Two goals ar kept in mind:
+Supermoto with 17" wheels. Two goals are kept in mind:
 
 1. It is easy to go back to Enduro configuration.
 
