@@ -268,10 +268,10 @@ harness. It should take a maximum of 15 minutes in total.
     colour.
 5.  Using nose pliers, gently pull this wire from the plug.
 
-    <a href="http://i.imgur.com/tHqHV8W.jpg"><img src="http://i.imgur.com/tHqHV8W.jpg" alt="pulled brown wire" style="width: 688px;"/></a>
+    <a href="http://i.imgur.com/x5SxCwq.jpg"><img src="http://i.imgur.com/x5SxCwq.jpg" alt="pulled brown wire" style="width: 688px;"/></a>
 6.  Insulate this wire. I used 4mm heat-shrink.
 
-    <a href="http://i.imgur.com/x5SxCwq.jpg"><img src="http://i.imgur.com/x5SxCwq.jpg" alt="insulated brown wire" style="width: 688px;"/></a>
+    <a href="http://i.imgur.com/tHqHV8W.jpg"><img src="http://i.imgur.com/tHqHV8W.jpg" alt="insulated brown wire" style="width: 688px;"/></a>
 7.  Restore the black-coloured retaining clip to the plug.
 8.  Turn the ignition to the **ON** position and wait for completion of the
     ignition start sequence.
