@@ -78,8 +78,8 @@ Note that the wheels included:
 ### ABS Sensor Rings
 
 I chose to buy a second set of ABS sensor rings and factory bolts to use on the
-supermoto wheels, without having to remove them whenever I wanted to go back to
-Enduro configuration.
+supermoto wheels, so that I didn't have to remove them whenever I wanted to go
+back to Enduro configuration.
 
 *    **1x** SENSOR WHEEL FRONT (KTM part `60142020000`)
 
@@ -95,17 +95,17 @@ Enduro configuration.
 
 ----
 
-Each ABS sensor requires six (6) of the Zylinderkopf DIN14580 TORX bolts. I
-purchased a total of fifteen (15) so that I had some spares.
+Each ABS sensor requires six (6) of the Zylinderkopf DIN14580 Torx bolts. I
+purchased a total of fifteen (15) so that I had 3 spares.
 
 The [KTM 690 service manual](https://github.com/tonymorris/ktm690/blob/master/manuals.md)[^1]
 specifies the following for these bolts:
 
 *   Tighten to 14Nm (10.3 lbf·ft) torque 
 
-*   Use Loctite 243
+*   Use Loctite 243 (thread locker)
 
-*   The lettering on the ABS sensor wheel is located on the outside.
+*   "The lettering on the ABS sensor wheel is located on the outside."
 
 [^1]: This service manual is made available online, in protest to a lack of
 response from KTM Australia, regarding a defective service manual product in
@@ -122,9 +122,9 @@ After fitment of the ABS sensor rings, the wheels now look like this:
 # Tyres
 
 I fitted Pirelli Diablo Rosso tyres to the rims. The tyre sizes were chosen for
-their application, however, it was later learned that it is also important for
-fitment. Specifically, the front tyre is at the limit of maximum width for a
-proper fitment.
+their application, however, it was later learned that the size is also important
+for fitment. Specifically, the front tyre is at the limit of maximum width
+without fouling.
 
 I also used tubes and rim bands.
 
@@ -135,7 +135,7 @@ I also used tubes and rim bands.
 # Rear Wheel Fitment
 
 Using the warp9racing supplied bushings, I was able to fit the rear wheel,
-however, it was clearly malaligned, since
+however, it was clearly malaligned, since:
 
 *   the inside brake pad friction was preventing wheel rotation
 
@@ -144,12 +144,13 @@ however, it was clearly malaligned, since
     <a href="http://i.imgur.com/zaIwNkG.jpg"><img src="http://i.imgur.com/zaIwNkG.jpg" alt="warp9racing supermoto rear wheel, malaligned" style="height: 1033px;"/></a>
 
 I removed the rear wheel and measured the distance from the wheel hub shaft
-(against which the bushings sit) to surface of the ABS sensor ring.
+(against which the bushings sit) to surface of the ABS sensor ring, by first 
+placing a straight-edge along the ABS sensor ring.
 
 <a href="http://i.imgur.com/L5qWMcN.jpg"><img src="http://i.imgur.com/L5qWMcN.jpg" alt="measure malaligned rear wheel" style="width: 688px;"/></a>
 
-I first measured this distance, using the factory wheel. The resulting distance
-is `18.93mm`.
+I first measured the distance from the bottom edge to the wheel hub shaft, using
+the factory wheel. The resulting distance is `18.93mm`.
 
 <a href="http://i.imgur.com/yGZbZ9a.jpg"><img src="http://i.imgur.com/yGZbZ9a.jpg" alt="measure factory rear wheel" style="height: 688px;"/></a>
 
@@ -185,11 +186,15 @@ Since he is awesome, this was not a problem and I had new bushings within a
 couple of hours.
 
 I used the existing cush-drive rubber dampers and fitted them to the supermoto
-hub. This requires no bolts or fixings as they just slot right in. Next, I
-fitted the warp9racing supplied 44T sprocket and cush-drive into the hub. Again,
-no fixings are required. Reassembling the rear wheel, with the custom-made
-bushings, and it all slotted in perfectly. The alignment of the drive-chain and
-brake calipers was perfect.
+hub. This requires no bolts or fixings as they just slot right into position.
+Here they are on the factory hub.
+
+<a href="http://i.imgur.com/MB9SzlJ.jpg"><img src="http://i.imgur.com/MB9SzlJ.jpg" alt="cush-drive rubber dampers" style="height: 688px;"/></a>
+
+Next, I fitted the warp9racing supplied 44T sprocket and cush-drive into the
+hub. Again, no fixings are required. Reassembling the rear wheel, with the
+custom-made bushings, and it all slotted in perfectly. The alignment of the
+drive-chain and brake calipers was perfect.
 
 ### Front Wheel Fitment
 
@@ -198,8 +203,9 @@ as I had for the rear wheel. In this case, the wheel fitted perfectly with the
 supplied spacers.
 
 However, since the front wheel is wider than factory, it fouls on the fork leg
-protectors on both sides as well as the front brake hose. The fork leg
-protectors are important, as the left one retains the front brake hoses.
+protectors on both sides as well as the front brake hoses. The fork leg
+protectors are important and cannot be removed, as the left one retains the
+front brake hoses from hitting the wheel or rim.
 
 Importantly, even though at rest the front wheel does not contact the front
 brake hose, *under motion, there is fouling*. Therefore, it is important to
@@ -223,7 +229,12 @@ Here is the modification of the left fork leg protector:
 Note the channeling that has been cut into the fork leg protector to re-route
 the front brake hoses. This is in addition to the notch that has also been cut
 to clear the tyre. This modification to the fork leg protector is necessary to
-prevent fouling under through the entire suspension travel.
+prevent fouling through the entire suspension travel.
+
+Using the factory front brake hose position, it will not foul the rim while at
+rest. However, it was quickly found to foul during operation of the motorcycle.
+This is why the additional channeling has been notched into the left fork leg
+protector.
 
 <a href="http://i.imgur.com/JjojyyP.jpg"><img src="http://i.imgur.com/JjojyyP.jpg" alt="left fork leg protector" style="height: 688px;"/></a>
 
@@ -233,9 +244,10 @@ Using a factory kick stand, with the supermoto  wheels fitted, the motorcycle
 will be difficult to stand on a level surface. This is because of the lowered
 overall height, requiring a shorter side stand.
 
-Using a second factory side stand (part `7650312300033`), I shortened it by 
+Using an additional factory side stand (part `7650312300033`), I shortened it by 
 `50mm`. After fitting the shortened side stand, the length was found to be
-optimal.
+optimal. I recommend losing exactly `50mm` from a factory side stand for this
+modification.
 
 ### Speedometer
 
@@ -244,12 +256,12 @@ approximately `20%`. This can be corrected by paying a KTM service centre.
 
 However, it can also be corrected with a minor modification to the factory
 wiring. This modification is simply a matter of disconnecting one wire from the
-harness.
+harness. It should take a maximum of 15 minutes in total.
 
 1.  Remove the headlight assembly.
-2.  Underneath the speedometer, on the right side, is a black rubber boot,
+2.  Underneath the speedometer, on the right side, is a black rubber boot
     covering a white-coloured electrical plug. Disconnect this plug. There is a
-    retainer on this plug, so don't just pull it.
+    retainer on this plug, so don't just pull it — undo the retainer.
 3.  Holding all the wires in the plug is a black-coloured retainer clip. Release
     this clip from the plug.
 4.  Identify the wire that is coloured completely brown, with no other trace
@@ -276,13 +288,85 @@ harness.
     **TRIP 1** mode.
 13. The time will have reset to `12:00`. Set the time to the current local time.
 
+    Here is the relevant excerpt from the Owner's Manual (part `3213101en`)
+
+    <a href="http://i.imgur.com/6je7YXr.png"><img src="http://i.imgur.com/6je7YXr.png" alt="manual: set the time" style="width: 823px;"/></a>
+
 Check the accuracy of the speedometer against a reliable GPS. At this setting, I
-found the accuracy to be within tolerances of undetectable error.
+found the accuracy to be within the tolerances of undetectable error.
 
 ### Result
 
 The wheels, with appropriate tyres, result in excellent handling of the
-motorcycle. I have run these same tyres on a track bike (YZF-R1) again and now 
+motorcycle. I have run these same tyres on a track bike (YZF-R1) before and now 
 with a lighter motorcycle, the performance is outstanding.
 
+Wheelstands remain easy from third gear. Highway riding is still comfortable.
+The bike tracks exactly as it is told.
+
+Here are some pictures.
+
+----
+
+<a href="http://i.imgur.com/Kcl2ODX.jpg"><img src="http://i.imgur.com/Kcl2ODX.jpg" alt="2014 KTM 690 Enduro R to Supermoto" style="width: 688px;"/></a>
+
+----
+
+<a href="http://i.imgur.com/rzBoOJX.jpg"><img src="http://i.imgur.com/rzBoOJX.jpg" alt="2014 KTM 690 Enduro R to Supermoto" style="width: 688px;"/></a>
+
+----
+
+<a href="http://i.imgur.com/Vbr0Zb2.jpg"><img src="http://i.imgur.com/Vbr0Zb2.jpg" alt="2014 KTM 690 Enduro R to Supermoto" style="width: 688px;"/></a>
+
+----
+
+<a href="http://i.imgur.com/MfdQ1zw.jpg"><img src="http://i.imgur.com/MfdQ1zw.jpg" alt="2014 KTM 690 Enduro R to Supermoto" style="width: 688px;"/></a>
+
+----
+
+<a href="http://i.imgur.com/9nLeT3t.jpg"><img src="http://i.imgur.com/9nLeT3t.jpg" alt="2014 KTM 690 Enduro R to Supermoto" style="width: 688px;"/></a>
+
+----
+
+<a href="http://i.imgur.com/8KjaW8g.jpg"><img src="http://i.imgur.com/8KjaW8g.jpg" alt="2014 KTM 690 Enduro R to Supermoto" style="width: 688px;"/></a>
+
+----
+
+<a href="http://i.imgur.com/eKTDTW1.jpg"><img src="http://i.imgur.com/eKTDTW1.jpg" alt="2014 KTM 690 Enduro R to Supermoto" style="width: 688px;"/></a>
+
 ### List of Existing Modifications
+
+It is not expected that any of these modifications have affected the procedures
+outlined here, however, they are listed for completeness.
+
+* KTM bad fuel dongle (part `60312953000`)
+
+* Scotts `DS-SUB-3528-02R` steering stabilizer
+
+* Wings `690E/R 14+` muffler
+
+* Sicass Racing `22-100c` rear turn signals
+
+* Sicass Racing `22-206` black turn signal hand guard deflectors
+
+* (x4) Oledone `1L10-L` spotlights
+
+* Oxford `OXF.OF692Z` heated grips
+
+* Unifilter 690E (07-14) foam air filter
+
+* R&G `FP0085BK` fork sliders
+
+* Rear swingarm spools
+
+* perunmoto KTM 690 subframe reinforcement kit
+
+* perunmoto KTM 690 Luggage rack
+
+* Barkbusters
+
+* KTM 690 Enduro 14L Safari Tanks long range fuel tank
+
+* (x2) 3BR 5V 2.1A USB charger
+
+* Doubletake mirrors with RAM mounts
