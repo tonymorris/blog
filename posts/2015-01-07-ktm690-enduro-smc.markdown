@@ -27,8 +27,8 @@ help you.
 
 The motorcycle was already heavily modified (details below). It is an Australian
 version of the KTM 690 Enduro R, which closely resembles the EU version. I would
-expect that  the description here would apply, without alternation, to US
-models.
+expect that the modification described here would apply, without alteration, to
+US models.
 
 I also expect that this description would apply to earlier year models, with
 exception for taking into account the ABS. The use of ABS in the 2014 model only
