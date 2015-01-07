@@ -215,27 +215,70 @@ Here is the modification of the right fork leg protector:
 
 <a href="http://i.imgur.com/4XJDKqI.jpg"><img src="http://i.imgur.com/4XJDKqI.jpg" alt="right fork leg protector" style="height: 688px;"/></a>
 
+Here is the modification of the left fork leg protector:
+
+<a href="http://i.imgur.com/3VHFxzG.jpg"><img src="http://i.imgur.com/3VHFxzG.jpg" alt="left fork leg protector" style="height: 688px;"/></a>
+
+<a href="http://i.imgur.com/Twzn1KY.jpg"><img src="http://i.imgur.com/Twzn1KY.jpg" alt="left fork leg protector" style="height: 688px;"/></a>
+
+Note the channeling that has been cut into the fork leg protector to re-route
+the front brake hose and speedometer wire. This is in addition to the notch that
+has also been cut to clear the tyre. This modification to the fork leg protector
+is necessary to prevent fouling under through the entire suspension travel.
+
+<a href="http://i.imgur.com/JjojyyP.jpg"><img src="http://i.imgur.com/JjojyyP.jpg" alt="left fork leg protector" style="height: 688px;"/></a>
+
 ### Kickstand Height
+
+Using a factory kick stand, with the supermoto  wheels fitted, the motorcycle
+will be difficult to stand on a level surface. This is because of the lowered
+overall height, requiring a shorter side stand.
+
+Using a second factory side stand (part `7650312300033`), I shortened it by 
+`50mm`. After fitting the shortened side stand, the length was found to be
+optimal.
 
 ### Speedometer
 
-<!--
+With the supermoto wheels fitted, the speedometer will over-read by
+approximately `20%`. This can be corrected by paying a KTM service centre.
 
-- confirmed to work; ABS (including bad fuel dongle (60312953000) with rear wheel off), 
+However, it can also be corrected with a minor modification to the factory
+wiring. This modification is simply a matter of disconnecting one wire from the
+harness.
 
-1. Take off headlight assembly ( 2 torx bolts on the side near the blinkers)
-2. Disconnect the connection to the speedo (white attachment with about 16 or so wires going into it)
-3. Pull out the black clip that holds the wires in place
-4. Pull out the all Brown wire (tape it off)
-5. Re-connect the instrument cluster wires
-6. Turn ignition on
-7. Change mode to Odo 1
-8. Hold mode button for 10 seconds
-9. The wheel length will show up now, press mode/ set to change the value to 1870
-10. Hold mode and set button simultaneously to set it
-11. Re-connect everything and you're good to go...
+1.  Remove the headlight assembly.
+2.  Underneath the speedometer, on the right side, is a black rubber boot,
+    covering a white-coloured electrical plug. Disconnect this plug. There is a
+    retainer on this plug, so don't just pull it.
+3.  Holding all the wires in the plug is a black-coloured retainer clip. Release
+    this clip from the plug.
+4.  Identify the wire that is coloured completely brown, with no other trace
+    colour.
+5.  Using nose pliers, gently pull this wire from the plug.
 
--->
+    <a href="http://i.imgur.com/x5SxCwq.jpg"><img src="http://i.imgur.com/x5SxCwq.jpg" alt="pulled brown wire" style="width: 688px;"/></a>
+6.  Insulate this wire. I used 4mm heat-shrink.
+
+    <a href="http://i.imgur.com/x5SxCwq.jpg"><img src="http://i.imgur.com/x5SxCwq.jpg" alt="insulated brown wire" style="width: 688px;"/></a>
+7.  Restore the black-coloured retaining clip to the plug.
+8.  Turn the ignition to the **ON** position and wait for completion of the
+    ignition start sequence.
+9.  By pressing the **MODE* button, scroll to the **TRIP 1** mode.
+10. Hold down the *MODE** button for 10 seconds, until the dashboard displays
+    the factory wheel length (`2250`), then release.
+11. Using the **MODE** button to increase the wheel length and the **SET**
+    button to decrease it, set the length to (`1870`).
+
+    Be careful about holding down either of these two buttons for too long,
+    since the scrolling speed increases rapidly.
+12. Once the desired length has been selected, press the **MODE** and the
+    **SET** buttons simultaneously, until the dashboard display returns to the
+    **TRIP 1** mode.
+13. The time will have reset to `12:00`. Set the time to the current local time.
+
+Check the accuracy of the speedometer against a reliable GPS. At this setting, I
+found the accuracy to be within tolerances of undetectable error.
 
 ### Result
 
