@@ -199,13 +199,12 @@ supplied spacers.
 
 However, since the front wheel is wider than factory, it fouls on the fork leg
 protectors on both sides as well as the front brake hose. The fork leg
-protectors are important, as the left one retains the front brake hose and
-speedometer wire.
+protectors are important, as the left one retains the front brake hoses.
 
 Importantly, even though at rest the front wheel does not contact the front
 brake hose, *under motion, there is fouling*. Therefore, it is important to
 modify the left fork leg protector for clear the tyre as well as mount the front
-brake hose and speedometer wire away from the tyre.
+brake hoses away from the tyre.
 
 The fork leg protectors can be modified by cutting a notch with a utility knife.
 The part number for the fork leg protectors, if you choose to have another set,
@@ -222,9 +221,9 @@ Here is the modification of the left fork leg protector:
 <a href="http://i.imgur.com/Twzn1KY.jpg"><img src="http://i.imgur.com/Twzn1KY.jpg" alt="left fork leg protector" style="height: 688px;"/></a>
 
 Note the channeling that has been cut into the fork leg protector to re-route
-the front brake hose and speedometer wire. This is in addition to the notch that
-has also been cut to clear the tyre. This modification to the fork leg protector
-is necessary to prevent fouling under through the entire suspension travel.
+the front brake hoses. This is in addition to the notch that has also been cut
+to clear the tyre. This modification to the fork leg protector is necessary to
+prevent fouling under through the entire suspension travel.
 
 <a href="http://i.imgur.com/JjojyyP.jpg"><img src="http://i.imgur.com/JjojyyP.jpg" alt="left fork leg protector" style="height: 688px;"/></a>
 
@@ -281,5 +280,9 @@ Check the accuracy of the speedometer against a reliable GPS. At this setting, I
 found the accuracy to be within tolerances of undetectable error.
 
 ### Result
+
+The wheels, with appropriate tyres, result in excellent handling of the
+motorcycle. I have run these same tyres on a track bike (YZF-R1) again and now 
+with a lighter motorcycle, the performance is outstanding.
 
 ### List of Existing Modifications
