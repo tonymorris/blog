@@ -275,8 +275,8 @@ harness. It should take a maximum of 15 minutes in total.
 7.  Restore the black-coloured retaining clip to the plug.
 8.  Turn the ignition to the **ON** position and wait for completion of the
     ignition start sequence.
-9.  By pressing the **MODE* button, scroll to the **TRIP 1** mode.
-10. Hold down the *MODE** button for 10 seconds, until the dashboard displays
+9.  By pressing the **MODE** button, scroll to the **TRIP 1** mode.
+10. Hold down the **MODE** button for 10 seconds, until the dashboard displays
     the factory wheel length (`2250`), then release.
 11. Using the **MODE** button to increase the wheel length and the **SET**
     button to decrease it, set the length to (`1870`).
