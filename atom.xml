@@ -8,8 +8,187 @@
         <name>Tony Morris</name>
         <email>blog@tmorris.net</email>
     </author>
-    <updated>2014-10-13T00:00:00Z</updated>
+    <updated>2015-01-07T00:00:00Z</updated>
     <entry>
+    <title>2014 KTM 690 Enduro to Supermoto</title>
+    <link href="http://blog.tmorris.net/posts/ktm690-enduro-smc/index.html" />
+    <id>http://blog.tmorris.net/posts/ktm690-enduro-smc/index.html</id>
+    <published>2015-01-07T00:00:00Z</published>
+    <updated>2015-01-07T00:00:00Z</updated>
+    <summary type="html"><![CDATA[<p>This article is a description of the conversion of a 2014 KTM 690 Enduro R to a Supermoto with 17&quot; wheels. Two goals ar kept in mind:</p>
+<ol style="list-style-type: decimal">
+<li><p>It is easy to go back to Enduro configuration.</p></li>
+<li><p>It is easy to go back to factory. This refers to the minimising the irreversible modification of factory parts.</p></li>
+</ol>
+<p>Part names and numbers will be provided.</p>
+<p>If you would like me to do this conversion for on your bike and you are able to transport your motorcycle to Brisbane, please email me and I will be happy to help you.</p>
+<p><a href="tonymorris@gmail.com" class="uri">tonymorris@gmail.com</a></p>
+<h3 id="motorcycle-models">Motorcycle models</h3>
+<p>The motorcycle was already heavily modified (details below). It is an Australian version of the KTM 690 Enduro R, which closely resembles the EU version. I would expect that the description here would apply, without alternation, to US models.</p>
+<p>I also expect that this description would apply to earlier year models, with exception for taking into account the ABS. The use of ABS in the 2014 model only changes the following facts:</p>
+<ul>
+<li><p>There is no need to purchase the ABS sensor rings for the supermoto wheels.</p></li>
+<li><p>The earlier models use different wheel bushing/spacer widths, which:</p>
+<ul>
+<li><p>are supplied with the supermoto wheels for all year models</p></li>
+<li><p>required customisation for the rear wheel in my case anyway</p></li>
+</ul></li>
+</ul>
+<h3 id="wheels">Wheels</h3>
+<p>In August 2014, I purchased the front wheel, rear wheel and cush-drive hub with 44T sprocket from <a href="http://www.warp9racing.com/sm_wheels_KTM.html">warp9racing.com</a>:</p>
+<ul>
+<li><p>ASSEMBLED KTM 690 FRONT WHEEL - 17“X3.50” BLACK HUB / BLACK RIM / SILVER SPOKES WITH SILVER NIPPLES INCLUDES 300MM FLOATING ROTOR WITH SPACERS</p>
+<p><code>USD468.00</code></p></li>
+<li><p>ASSEMBLED KTM 690 ENDURO REAR WHEEL - 17“X4.25” ORANGE HUB / BLACK RIM / SILVER SPOKES WITH SILVER NIPPLES INCLUDES ROTOR</p>
+<p><code>USD468.00</code></p></li>
+<li><p>KTM 690 CUSH DRIVE WITH SROPCKET (USES OEM RUBBERS) 44T</p>
+<p><code>USD139.00</code></p></li>
+</ul>
+<hr />
+<p>When the wheels arrived, they looked like this:</p>
+<p><a href="http://i.imgur.com/rmurQaG.jpg"><img src="http://i.imgur.com/rmurQaG.jpg" alt="warp9racing supermoto wheels" style="width: 1032px;"/></a></p>
+<p>Note that the wheels included:</p>
+<ul>
+<li><p>disc brakes</p></li>
+<li><p>wheel bushings/spacers</p></li>
+</ul>
+<h3 id="abs-sensor-rings">ABS Sensor Rings</h3>
+<p>I chose to buy a second set of ABS sensor rings and factory bolts to use on the supermoto wheels, so that I didn’t have to remove them whenever I wanted to go back to Enduro configuration.</p>
+<ul>
+<li><p><strong>1x</strong> SENSOR WHEEL FRONT (KTM part <code>60142020000</code>)</p>
+<p><code>USD23.46</code></p></li>
+<li><p><strong>1x</strong> SENSOR WHEEL ABS REAR (KTM part <code>76542021000</code>)</p>
+<p><code>USD23.36</code></p></li>
+<li><p><strong>15x</strong> ZYL.SCHRAUBE DIN14580 M6X16 (KTM part <code>014580060166S</code>)</p>
+<p><code>USD11.25</code> (<code>USD0.79</code> each)</p></li>
+</ul>
+<hr />
+<p>Each ABS sensor requires six (6) of the Zylinderkopf DIN14580 Torx bolts. I purchased a total of fifteen (15) so that I had 3 spares.</p>
+<p>The <a href="https://github.com/tonymorris/ktm690/blob/master/manuals.md">KTM 690 service manual</a><a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a> specifies the following for these bolts:</p>
+<ul>
+<li><p>Tighten to 14Nm (10.3 lbf·ft) torque</p></li>
+<li><p>Use Loctite 243 (thread locker)</p></li>
+<li><p>“The lettering on the ABS sensor wheel is located on the outside.”</p></li>
+</ul>
+<hr />
+<p>After fitment of the ABS sensor rings, the wheels now look like this:</p>
+<p><a href="http://i.imgur.com/oP0tzZI.jpg"><img src="http://i.imgur.com/oP0tzZI.jpg" alt="warp9racing supermoto wheels, with ABS sensor" style="width: 1032px;"/></a></p>
+<h1 id="tyres">Tyres</h1>
+<p>I fitted Pirelli Diablo Rosso tyres to the rims. The tyre sizes were chosen for their application, however, it was later learned that the size is also important for fitment. Specifically, the front tyre is at the limit of maximum width without fouling.</p>
+<p>I also used tubes and rim bands.</p>
+<ul>
+<li><p>Front <code>150/60-ZR17</code></p></li>
+<li><p>Rear <code>120/70-ZR17</code></p></li>
+</ul>
+<h1 id="rear-wheel-fitment">Rear Wheel Fitment</h1>
+<p>Using the warp9racing supplied bushings, I was able to fit the rear wheel, however, it was clearly malaligned, since:</p>
+<ul>
+<li><p>the inside brake pad friction was preventing wheel rotation</p></li>
+<li><p>the ABS sensor ring bolt heads fouled the rear brake caliper</p>
+<p><a href="http://i.imgur.com/zaIwNkG.jpg"><img src="http://i.imgur.com/zaIwNkG.jpg" alt="warp9racing supermoto rear wheel, malaligned" style="height: 1033px;"/></a></p></li>
+</ul>
+<p>I removed the rear wheel and measured the distance from the wheel hub shaft (against which the bushings sit) to surface of the ABS sensor ring, by first placing a straight-edge along the ABS sensor ring.</p>
+<p><a href="http://i.imgur.com/L5qWMcN.jpg"><img src="http://i.imgur.com/L5qWMcN.jpg" alt="measure malaligned rear wheel" style="width: 688px;"/></a></p>
+<p>I first measured the distance from the bottom edge to the wheel hub shaft, using the factory wheel. The resulting distance is <code>18.93mm</code>.</p>
+<p><a href="http://i.imgur.com/yGZbZ9a.jpg"><img src="http://i.imgur.com/yGZbZ9a.jpg" alt="measure factory rear wheel" style="height: 688px;"/></a></p>
+<p>Next, I measured the same distance for the warp9racing supplied rear wheel. The resulting distance is <code>20.84mm</code>.</p>
+<p><a href="http://i.imgur.com/VToToXx.jpg"><img src="http://i.imgur.com/VToToXx.jpg" alt="measure warp9racing rear wheel" style="height: 688px;"/></a></p>
+<p>I then double-checked all measurements, supplied parts and or other possible errors. I was left to conclude that the supplied rear wheel would not fit this motorcycle. I sent an email to warp9racing.com, while I set about making my own spacers that would put the rear wheel in its appropriate position, which is an extra <code>2mm</code>.</p>
+<p>I have <strong>still</strong> not heard from warp9racing since sending that email (20 December 2014), which is disappointing. Everything else about the company had been great, including the quality of the wheels. Unfortunately, since they now had my money, I was screwed. It was a shame to learn that warp9racing would not support their product. I suspect that nobody had actually successfully fitted these wheels to the 2014 model.</p>
+<p>Oh well, plan B.</p>
+<hr />
+<p>Fortunately, I know an excellent machinist. Given the two supplied bushings, I asked him to add <code>2mm</code> to the right-sided one and shave <code>2mm</code> from the left-sided one.</p>
+<p><a href="http://i.imgur.com/eBL2HKX.jpg"><img src="http://i.imgur.com/eBL2HKX.jpg" alt="warp9racing bushings, before alteration" style="width: 688px;"/></a></p>
+<p>Since he is awesome, this was not a problem and I had new bushings within a couple of hours.</p>
+<p>I used the existing cush-drive rubber dampers and fitted them to the supermoto hub. This requires no bolts or fixings as they just slot right into position. Here they are on the factory hub.</p>
+<p><a href="http://i.imgur.com/MB9SzlJ.jpg"><img src="http://i.imgur.com/MB9SzlJ.jpg" alt="cush-drive rubber dampers" style="height: 688px;"/></a></p>
+<p>Next, I fitted the warp9racing supplied 44T sprocket and cush-drive into the hub. Again, no fixings are required. Reassembling the rear wheel, with the custom-made bushings, and it all slotted in perfectly. The alignment of the drive-chain and brake calipers was perfect.</p>
+<h3 id="front-wheel-fitment">Front Wheel Fitment</h3>
+<p>For the front wheel, I did not have the same problems with the bushings/spacers as I had for the rear wheel. In this case, the wheel fitted perfectly with the supplied spacers.</p>
+<p>However, since the front wheel is wider than factory, it fouls on the fork leg protectors on both sides as well as the front brake hoses. The fork leg protectors are important and cannot be removed, as the left one retains the front brake hoses from hitting the wheel or rim.</p>
+<p>Importantly, even though at rest the front wheel does not contact the front brake hose, <em>under motion, there is fouling</em>. Therefore, it is important to modify the left fork leg protector for clear the tyre as well as mount the front brake hoses away from the tyre.</p>
+<p>The fork leg protectors can be modified by cutting a notch with a utility knife. The part number for the fork leg protectors, if you choose to have another set, is <code>7800109420030</code>.</p>
+<p>Here is the modification of the right fork leg protector:</p>
+<p><a href="http://i.imgur.com/4XJDKqI.jpg"><img src="http://i.imgur.com/4XJDKqI.jpg" alt="right fork leg protector" style="height: 688px;"/></a></p>
+<p>Here is the modification of the left fork leg protector:</p>
+<p><a href="http://i.imgur.com/3VHFxzG.jpg"><img src="http://i.imgur.com/3VHFxzG.jpg" alt="left fork leg protector" style="height: 688px;"/></a></p>
+<p><a href="http://i.imgur.com/Twzn1KY.jpg"><img src="http://i.imgur.com/Twzn1KY.jpg" alt="left fork leg protector" style="height: 688px;"/></a></p>
+<p>Note the channeling that has been cut into the fork leg protector to re-route the front brake hoses. This is in addition to the notch that has also been cut to clear the tyre. This modification to the fork leg protector is necessary to prevent fouling through the entire suspension travel.</p>
+<p>Using the factory front brake hose position, it will not foul the rim while at rest. However, it was quickly found to foul during operation of the motorcycle. This is why the additional channeling has been notched into the left fork leg protector.</p>
+<p><a href="http://i.imgur.com/JjojyyP.jpg"><img src="http://i.imgur.com/JjojyyP.jpg" alt="left fork leg protector" style="height: 688px;"/></a></p>
+<h3 id="kickstand-height">Kickstand Height</h3>
+<p>Using a factory kick stand, with the supermoto wheels fitted, the motorcycle will be difficult to stand on a level surface. This is because of the lowered overall height, requiring a shorter side stand.</p>
+<p>Using an additional factory side stand (part <code>7650312300033</code>), I shortened it by <code>50mm</code>. After fitting the shortened side stand, the length was found to be optimal. I recommend losing exactly <code>50mm</code> from a factory side stand for this modification.</p>
+<h3 id="speedometer">Speedometer</h3>
+<p>With the supermoto wheels fitted, the speedometer will over-read by approximately <code>20%</code>. This can be corrected by paying a KTM service centre.</p>
+<p>However, it can also be corrected with a minor modification to the factory wiring. This modification is simply a matter of disconnecting one wire from the harness. It should take a maximum of 15 minutes in total.</p>
+<ol style="list-style-type: decimal">
+<li>Remove the headlight assembly.</li>
+<li>Underneath the speedometer, on the right side, is a black rubber boot covering a white-coloured electrical plug. Disconnect this plug. There is a retainer on this plug, so don’t just pull it — undo the retainer.</li>
+<li>Holding all the wires in the plug is a black-coloured retainer clip. Release this clip from the plug.</li>
+<li>Identify the wire that is coloured completely brown, with no other trace colour.</li>
+<li><p>Using nose pliers, gently pull this wire from the plug.</p>
+<a href="http://i.imgur.com/x5SxCwq.jpg"><img src="http://i.imgur.com/x5SxCwq.jpg" alt="pulled brown wire" style="width: 688px;"/></a></li>
+<li><p>Insulate this wire. I used 4mm heat-shrink.</p>
+<a href="http://i.imgur.com/x5SxCwq.jpg"><img src="http://i.imgur.com/x5SxCwq.jpg" alt="insulated brown wire" style="width: 688px;"/></a></li>
+<li>Restore the black-coloured retaining clip to the plug.</li>
+<li>Turn the ignition to the <strong>ON</strong> position and wait for completion of the ignition start sequence.</li>
+<li>By pressing the <strong>MODE* button, scroll to the </strong>TRIP 1** mode.</li>
+<li>Hold down the *MODE** button for 10 seconds, until the dashboard displays the factory wheel length (<code>2250</code>), then release.</li>
+<li><p>Using the <strong>MODE</strong> button to increase the wheel length and the <strong>SET</strong> button to decrease it, set the length to (<code>1870</code>).</p>
+Be careful about holding down either of these two buttons for too long, since the scrolling speed increases rapidly.</li>
+<li>Once the desired length has been selected, press the <strong>MODE</strong> and the <strong>SET</strong> buttons simultaneously, until the dashboard display returns to the <strong>TRIP 1</strong> mode.</li>
+<li><p>The time will have reset to <code>12:00</code>. Set the time to the current local time.</p>
+<p>Here is the relevant excerpt from the Owner’s Manual (part <code>3213101en</code>)</p>
+<p><a href="http://i.imgur.com/6je7YXr.png"><img src="http://i.imgur.com/6je7YXr.png" alt="manual: set the time" style="width: 823px;"/></a></p></li>
+</ol>
+<p>Check the accuracy of the speedometer against a reliable GPS. At this setting, I found the accuracy to be within the tolerances of undetectable error.</p>
+<h3 id="result">Result</h3>
+<p>The wheels, with appropriate tyres, result in excellent handling of the motorcycle. I have run these same tyres on a track bike (YZF-R1) before and now with a lighter motorcycle, the performance is outstanding.</p>
+<p>Wheelstands remain easy from third gear. Highway riding is still comfortable. The bike tracks exactly as it is told.</p>
+<p>Here are some pictures.</p>
+<hr />
+<p><a href="http://i.imgur.com/Kcl2ODX.jpg"><img src="http://i.imgur.com/Kcl2ODX.jpg" alt="2014 KTM 690 Enduro R to Supermoto" style="width: 688px;"/></a></p>
+<hr />
+<p><a href="http://i.imgur.com/rzBoOJX.jpg"><img src="http://i.imgur.com/rzBoOJX.jpg" alt="2014 KTM 690 Enduro R to Supermoto" style="width: 688px;"/></a></p>
+<hr />
+<p><a href="http://i.imgur.com/Vbr0Zb2.jpg"><img src="http://i.imgur.com/Vbr0Zb2.jpg" alt="2014 KTM 690 Enduro R to Supermoto" style="width: 688px;"/></a></p>
+<hr />
+<p><a href="http://i.imgur.com/MfdQ1zw.jpg"><img src="http://i.imgur.com/MfdQ1zw.jpg" alt="2014 KTM 690 Enduro R to Supermoto" style="width: 688px;"/></a></p>
+<hr />
+<p><a href="http://i.imgur.com/9nLeT3t.jpg"><img src="http://i.imgur.com/9nLeT3t.jpg" alt="2014 KTM 690 Enduro R to Supermoto" style="width: 688px;"/></a></p>
+<hr />
+<p><a href="http://i.imgur.com/8KjaW8g.jpg"><img src="http://i.imgur.com/8KjaW8g.jpg" alt="2014 KTM 690 Enduro R to Supermoto" style="width: 688px;"/></a></p>
+<hr />
+<p><a href="http://i.imgur.com/eKTDTW1.jpg"><img src="http://i.imgur.com/eKTDTW1.jpg" alt="2014 KTM 690 Enduro R to Supermoto" style="width: 688px;"/></a></p>
+<h3 id="list-of-existing-modifications">List of Existing Modifications</h3>
+<p>It is not expected that any of these modifications have affected the procedures outlined here, however, they are listed for completeness.</p>
+<ul>
+<li><p>KTM bad fuel dongle (part <code>60312953000</code>)</p></li>
+<li><p>Scotts <code>DS-SUB-3528-02R</code> steering stabilizer</p></li>
+<li><p>Wings <code>690E/R 14+</code> muffler</p></li>
+<li><p>Sicass Racing <code>22-100c</code> rear turn signals</p></li>
+<li><p>Sicass Racing <code>22-206</code> black turn signal hand guard deflectors</p></li>
+<li><p>(x4) Oledone <code>1L10-L</code> spotlights</p></li>
+<li><p>Oxford <code>OXF.OF692Z</code> heated grips</p></li>
+<li><p>Unifilter 690E (07-14) foam air filter</p></li>
+<li><p>R&amp;G <code>FP0085BK</code> fork sliders</p></li>
+<li><p>Rear swingarm spools</p></li>
+<li><p>perunmoto KTM 690 subframe reinforcement kit</p></li>
+<li><p>perunmoto KTM 690 Luggage rack</p></li>
+<li><p>Barkbusters</p></li>
+<li><p>KTM 690 Enduro 14L Safari Tanks long range fuel tank</p></li>
+<li><p>(x2) 3BR 5V 2.1A USB charger</p></li>
+<li><p>Doubletake mirrors with RAM mounts</p></li>
+</ul>
+<div class="footnotes">
+<hr />
+<ol>
+<li id="fn1"><p>This service manual is made available online, in protest to a lack of response from KTM Australia, regarding a defective service manual product in violation of Australian Consumer Law (Schedule 2 of the Competition and Consumer Act 2010. Read more <a href="https://gist.github.com/tonymorris/d0b9cf9b0babde5df1cb">here</a>.<a href="#fnref1">↩</a></p></li>
+</ol>
+</div>]]></summary>
+</entry>
+<entry>
     <title>Brisbane Ride Spots</title>
     <link href="http://blog.tmorris.net/posts/brisbane-ride-spots/index.html" />
     <id>http://blog.tmorris.net/posts/brisbane-ride-spots/index.html</id>
@@ -18,7 +197,7 @@
     <summary type="html"><![CDATA[<p>Recently, on a forum, I saw a question regarding dirt bike areas around Brisbane. The question was motivated by a licenced rider on a registered motorcycle (WR450F), looking for areas to explore. I gave the following answer and I intend to update the answer with any improvements here.</p>
 <hr />
 <p>I do surveying as a hobby and have completed every state-owned track within about 250km of Brisbane (and some beyond, mostly northern Queensland). I have released that data openly under the OpenStreetMap project and I do public releases for use in Garmin devices. There are also phone apps for using this data. Some of those tracks are now not legally traversable, even for registered bikes. I started doing this several years ago.</p>
-<p>The project has a map viewable at <a href="http://osm.org/">http://osm.org/</a> This map is also available on the <a href="http://osmand.net/">OsmAnd</a> application for android. I have friends that run it on iphone, but every time I ask them how to recommend it to iphone users, I get some unusable answer, so <em>shrug</em> don’t know :)</p>
+<p>The project has a map viewable at <a href="http://osm.org/" class="uri">http://osm.org/</a> This map is also available on the <a href="http://osmand.net/">OsmAnd</a> application for android. I have friends that run it on iphone, but every time I ask them how to recommend it to iphone users, I get some unusable answer, so <em>shrug</em> don’t know :)</p>
 <p>For running it on Garmin devices, it requires a bit of technical understanding and my map build is rather custom. For example, I also like to walk up hills around here (e.g. Mt Barney), so my build includes a topographic map of those areas of interest. I also run a custom filter on the data before the build to correct errors according to my own standards. I prefer using a device with an accurate antenna (which is also very expensive!), but using a phone is just fine for user application (opposed to surveying).</p>
 <p>Well, here are some riding spots, just from the top of my head. They all have various levels of difficulty and some of them are not always completely open to access. Sometimes they are not open at all (e.g. during the 2011 flood). Also note that there are some people who think that “giving away our secret riding areas is reprehensible!” Ignore them, they don’t realise it’s not a secret and never was. Self-importance bores me.</p>
 <hr />
@@ -164,7 +343,6 @@ appointed Probation Officer</code></pre>
     <published>2013-12-24T20:00:00Z</published>
     <updated>2013-12-24T20:00:00Z</updated>
     <summary type="html"><![CDATA[<script src="http://www.openlayers.org/api/OpenLayers.js" type="text/javascript"></script>
-
 <p>I have never written a ride report before so please forgive any oversights. However, this ride was notable, so I thought best to write it up.</p>
 <p>I left Buderim at around 1030 on the morning of 23 December, with the intention of heading west toward Conondale. I only had a rough idea of my planned route.</p>
 <h4 id="nobles-road">Nobles Road</h4>
@@ -192,7 +370,6 @@ markers.addMarker(new OpenLayers.Marker(lonLat));
 
 map.setCenter (lonLat, zoom);
 </script>
-
 <h4 id="brandenburg-road">Brandenburg Road</h4>
 <p>After heading south to Mooloolah, I turned west toward Maleny. This is when I found the super fun <a href="http://www.openstreetmap.org/?mlat=-26.765144&amp;mlon=152.957474%20&amp;zoom=17#map=17/-26.765144/152.957474">Brandenburg Road</a>. A hard-packed, cement road with a loose gravel surface, this was going to be bliss on the TE510. Hootin’ along, I came to a steep, narrow hill with a couple of cars and a rigid (no articulations) truck in front.</p>
 <p>The truck struggled up the hill at walking pace and, for safety reasons, I chose to stop and wait for it to complete the ascent. I caught up again and in front of us, another fun hill (going to waste!) but with a wider road permitting a pass. This was when the truck’s buddy behind him in a ute decided to overtake. So I wait for the overtake and my first feeling of disbelief sets in. The ute driver slows to the truck’s pace so as to have a discussion with the driver. FFS are you serious mate?! On a narrow ascending hill at about 8kph, this assclown thought it best to block all possible traffic to talk about his plans that night <em>to the driver above and beside him</em>. I was a bit gobsmacked at the stupidity unfolding in front of my eyes. That initial feeling is moving. Using voice signals over the top of the struggling diesel engine, I let these idiots know that I was unhappy with the dangerous situation they’d just created. Get a UHF ya twits. However, I am sure it was all lost in translation and stupidity. Like internet mailing lists I guess. Moving on.</p>
@@ -220,7 +397,6 @@ markers.addMarker(new OpenLayers.Marker(lonLat));
 
 map.setCenter (lonLat, zoom);
 </script>
-
 <h4 id="cox-road">Cox Road</h4>
 <p>My next plan was to try cutting across Maleny-Kenilworth Road via <a href="http://www.openstreetmap.org/?mlat=-26.727266&amp;mlon=152.81675%20&amp;zoom=17#map=17/-26.727266/152.81675">Cox Road</a>. After turning into a narrow, gravel Cox Road, I came across car bodies littered all along – mostly old Toyota Landcruisers. A kilometre or so along, there were construction vehicles and I was unsure where the main track was. I headed along one of many narrow tracks and soon found myself in a cow paddock. Looking around, I found an even narrower, foliage-covered steep uphill track. “Looks fun, but I am probably going to turn around”, I thought. Up the hill I went and it became very steep and rocky with a drop to the side. I considered the consequences of going over out here on my own and decided to head on out.</p>
 <p>As I left Cox Road, I came upon a closed gate. “That wasn’t there before!” Well it was, but it had been left open and I didn’t notice it. Someone clearly didn’t want general vehicle access along this road – another “private access” road.</p>
@@ -247,7 +423,6 @@ markers.addMarker(new OpenLayers.Marker(lonLat));
 
 map.setCenter (lonLat, zoom);
 </script>
-
 <h4 id="maleny-kenilworth-road">Maleny-Kenilworth Road</h4>
 <p>The scenery along the 15 or so kilometres of Maleny-Kenilworth Road was amazing. The temperature had dropped a little from the dry, hot summer sun to a cool breeze. I’d clearly put on some altitude. I didn’t check my altimeter but I guessed around 600m asl. It had run out of batteries around there anyway – as you can tell by the track log. I came into <a href="http://www.openstreetmap.org/?mlat=-26.729532&amp;mlon=152.717631%20&amp;zoom=17#map=17/-26.729532/152.717631">Conondale</a> and thought it best to fuel up.</p>
 <a href="http://www.openstreetmap.org/?mlat=-26.729532&mlon=152.717631%20&zoom=17#map=17/-26.729532/152.717631">
@@ -273,7 +448,6 @@ markers.addMarker(new OpenLayers.Marker(lonLat));
 
 map.setCenter (lonLat, zoom);
 </script>
-
 <h4 id="conondale">Conondale</h4>
 <p>I filled up on 91 RON fuel again, knowing that the Husky won’t be happy about that – there was no 95 RON available. This causes some pinging when the engine is under load, but I’m sure she will forgive me.</p>
 <p>Filling up on sugars myself, a local struck up a conversation. I told him my plan to head down <a href="http://www.openstreetmap.org/?mlat=-26.703964&amp;mlon=152.684487%20&amp;zoom=17#map=17/-26.703964/152.684487">Grigor Road</a> and see what happens after that. He told me about a huge log that he’d hit a couple of years earlier, knocking himself out of consciousness and into hospital. I didn’t know it at the time, but I was about to pay a visit to that log myself. He also mentioned that “turning right” off the track will take me to (what I now know is) Booloumba – I had trouble interpreting the pronunciation at the time.</p>
@@ -303,7 +477,6 @@ markers.addMarker(new OpenLayers.Marker(lonLat));
 
 map.setCenter (lonLat, zoom);
 </script>
-
 <h4 id="mubbip-woo">Mubbip woo!</h4>
 <p>I took <a href="http://www.openstreetmap.org/?mlat=-26.736464/152.619499&amp;mlon=152.619499%20&amp;zoom=17#map=17/-26.736464/152.619499">a right turn off Grigor Road</a> and entered a steady ascent. I was obviously putting on even more altitude as I entered lush rainforest. I could hear Eastern Whipbirds over the sound of the Husqvarna’s engine. Insects and birds flittered about through the narrow track and I was having fun on the loose twisty corners. Soon I decided to pull up to properly take in the scenery. I was feeling a bit parched anyway.</p>
 <p>I found <a href="http://www.openstreetmap.org/?mlat=-26.70909&amp;mlon=152.56792%20&amp;zoom=17#map=17/-26.70909/152.56792">a nice straight</a> to avoid any disasters with other potential traffic and pulled the bike to a stop.</p>
@@ -319,15 +492,15 @@ map.setCenter (lonLat, zoom);
 <p><a href="http://i.imgur.com/qwTJ8y9.jpg"><img height="816" width="612" src="http://i.imgur.com/qwTJ8y9.jpgg" alt="J&J Yowie Search"></a></p>
 <p>When I got home after this ride, in August 2013, I decided to take a look at the youtube channel. This is where I learned how to correctly call for yowies. A short, sharp call of “mubbip woo!” will attract and help identify the presence of yowies in the national parks of south-east Queensland. Here is a demonstration, starting at 3:17.</p>
 <hr />
-<iframe width="560" height="315" src="//www.youtube.com/embed/hScEb3r37K4?start=197" frameborder="0" allowfullscreen></iframe>
-
+<iframe width="560" height="315" src="//www.youtube.com/embed/hScEb3r37K4?start=197" frameborder="0" allowfullscreen>
+</iframe>
 <hr />
 <p>Yep, sure enough, <a href="http://www.openstreetmap.org/?mlat=-26.70909&amp;mlon=152.56792%20&amp;zoom=17#map=17/-26.70909/152.56792">in the middle of absolutely nowhere</a>, I’d found them again. They must have been just 100 metres away, somewhere in the trees, calling for yowies.</p>
 <p>I spun out. This truly was happening. I was completely stunned by the coincidence and immediately started hunting for alternative explanations. Yep, I am as lucid as can possibly be – this is real. I was in the middle of the forest. I was completely lost.</p>
 <p>Awestruck, I was able to gather myself enough to begin recording on my phone. The “mubbip woo” calls are very distinct but since they are distant, you will probably need earphones. Also, sorry about my squeaky boots.</p>
 <hr />
-<iframe width="540" height="350" src="//www.youtube.com/embed/HJY0ZyddM-U" frameborder="0" allowfullscreen></iframe>
-
+<iframe width="540" height="350" src="//www.youtube.com/embed/HJY0ZyddM-U" frameborder="0" allowfullscreen>
+</iframe>
 <hr />
 <p>I suspect the yowie searchers didn’t realise I was there in Conondale NP. They’d heard the bike coming, then heard it stop, believing me to have passed. The “mubbip woo” calls had started a few minutes after I’d stopped. As you can see, I made an attempt to say hi for a second meeting by approaching their location, but it was not to be. Not to be disturbing the yowies (and yowie searchers) in their habitat, I decided to move on. It’s an enormous forest and we can all share. The only other species willing to socialise with me here were the horse-flies. Bye yowie searchers, it was fun again. Mubbip wooooooooooo!</p>
 <h4 id="exploring">Exploring</h4>
@@ -355,7 +528,6 @@ markers.addMarker(new OpenLayers.Marker(lonLat));
 
 map.setCenter (lonLat, zoom);
 </script>
-
 <p>From here, I turned around and immediately saw that there was an alternative track back into the forest. A steady ascent, I assumed it would come to an end – a service road of some sort. Nope, I was on <a href="http://www.openstreetmap.org/?mlat=-26.674703&amp;mlon=152.514804%20&amp;zoom=17#map=17/-26.674703/152.514804">Langston Road</a> heading south.</p>
 <p>Exploring now, I traversed Buffalo Road, Middle Road and I passed the <a href="http://www.openstreetmap.org/?mlat=-26.707681&amp;mlon=152.534779%20&amp;zoom=17#map=17/-26.707681/152.534779">Sunday Creek Environmental Education Centre</a>.</p>
 <p>I turned right down Cockalorum Road. This road is probably up there as the most fun in the forest. A very narrow, winding track full of surprises, such as a rutted-out, mud-filled trench after lifting both wheels off a small crest. A lush rainforest road, I wondered if vehicular traffic really were permitted, but I hadn’t seen any signage to indicate otherwise.</p>
@@ -386,7 +558,6 @@ markers.addMarker(new OpenLayers.Marker(lonLat));
 
 map.setCenter (lonLat, zoom);
 </script>
-
 <p>Just after Booloumba campgrounds, I came around a corner to find a <a href="http://www.openstreetmap.org/?mlat=-26.634651&amp;mlon=152.650420%20&amp;zoom=19#map=19/-26.634651/152.650420">creek crossing</a> in front of me. Booloumba Creek must have been 40 metres wide but it was not flowing very fast. Given the width, I became a bit concerned with the possible depth. Had there been rain out here that I didn’t know about? If so, why wasn’t it flowing so fast? Then a Toyota Prado came from the left traversing the creek itself (not the road, the <em>creek</em>). It was only about 30cm deep. A little boy hung out the back window, clearly more excited by my presence than his own in the middle of a creek.</p>
 <p>I double-checked that I didn’t leave any vulnerable (non-waterproof) equipment on the bike and I punched first then second. I love putting on a show for children and I could see my bow wave in my peripheral and water well above my head :) The creek became a bit deeper on the other side, but I had a lot of momentum. This only increased the water displacement as I held the throttle on. When I got to the other side, I threw the front wheel skyward, hoping that that little boy will spend his youth aspiring to ride the adventure, like I used to do.</p>
 <a href="http://www.openstreetmap.org/?mlat=-26.634651&mlon=152.650420%20&zoom=17#map=17/-26.634651/152.650420">
@@ -412,11 +583,10 @@ markers.addMarker(new OpenLayers.Marker(lonLat));
 
 map.setCenter (lonLat, zoom);
 </script>
-
 <hr />
 <h4 id="track-log"><a href="https://gist.github.com/tonymorris/8105985/raw/c092b91bbfa92916385da8e1001f700df65e6ea3/20131223-Ride.gpx">Track log</a></h4>
-<iframe width="800" height="600" src="//latlon.org/show_gpx?gpx_url=https%3A%2F%2Fgist.github.com%2Ftonymorris%2F8105985%2Fraw%2Fc092b91bbfa92916385da8e1001f700df65e6ea3%2F20131223-Ride.gpx" frameborder="0" allowfullscreen></iframe>
-
+<iframe width="800" height="600" src="//latlon.org/show_gpx?gpx_url=https%3A%2F%2Fgist.github.com%2Ftonymorris%2F8105985%2Fraw%2Fc092b91bbfa92916385da8e1001f700df65e6ea3%2F20131223-Ride.gpx" frameborder="0" allowfullscreen>
+</iframe>
 <hr />
 <h5 id="elevation">Elevation</h5>
 <p><a href="http://i.imgur.com/kAVm17V.png"><img height="546" width="688" src="http://i.imgur.com/kAVm17V.png" alt="Elevation"></a></p>
@@ -688,7 +858,7 @@ result <span class="fu">=</span>
 <li><p><a href="https://vimeo.com/73648150">Video</a> <em>(vimeo)</em></p></li>
 </ul>
 <div class="embed-vimeo">
-<iframe src="http://player.vimeo.com/video/73648150" width="688" height="387" frameborder="0" webkitAllowFullScreen="true" mozallowfullscreen="true" allowFullScreen="true"> </iframe>
+<p><iframe src="http://player.vimeo.com/video/73648150" width="688" height="387" frameborder="0" webkitAllowFullScreen="true" mozallowfullscreen="true" allowFullScreen="true"> </iframe></p>
 </div>]]></summary>
 </entry>
 <entry>
@@ -1341,7 +1511,7 @@ runIntRdrs <span class="fu">=</span> foldr (\a b <span class="ot">-&gt;</span> b
 <li><p><a href="https://vimeo.com/64673035">Video</a> <em>(vimeo)</em></p></li>
 </ul>
 <div class="embed-vimeo">
-<iframe src="http://player.vimeo.com/video/64673035" width="688" height="387" frameborder="0" webkitAllowFullScreen="true" mozallowfullscreen="true" allowFullScreen="true"> </iframe>
+<p><iframe src="http://player.vimeo.com/video/64673035" width="688" height="387" frameborder="0" webkitAllowFullScreen="true" mozallowfullscreen="true" allowFullScreen="true"> </iframe></p>
 </div>]]></summary>
 </entry>
 <entry>
@@ -2277,7 +2447,7 @@ if&#39; f t p <span class="fu">=</span> <span class="kw">if</span> p <span class
 <p>Now let’s move to Monad. Essentially, I am saying that you won’t be able to write such a function for Monad. I really encourage you to try to write it so you can see the twist that you will get into.</p>
 <pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">def</span> MonadCompose[M[_], N[_]](<span class="kw">implicit</span> ma: Monad[M], na: Monad[N]):
     Monad[({<span class="kw">type</span> λ[α]=M[N[α]]})#λ]</code></pre>
-<p>Here is a compilable version <a href="http://paste.pocoo.org/show/343606/">http://paste.pocoo.org/show/343606/</a></p>
+<p>Here is a compilable version <a href="http://paste.pocoo.org/show/343606/" class="uri">http://paste.pocoo.org/show/343606/</a></p>
 <p>Hope that helps!</p>]]></summary>
 </entry>
 <entry>
@@ -2780,22 +2950,28 @@ Swizzler <span class="fu">function1</span>(<span class="dt">int</span> i, String
 <p>After going riding with my mates on a 510 race-style enduro with a 7.2 litre tank, it’s usually me who is the first to complain of the need to return to a fuel supply. Not anymore, not even close. I’m very happy with the purchase of the Safari fuel tank and I would recommend it to anyone. After dealing with some minor fitting issues and the obvious attention given to my complaints, I have no doubt that Safari will have sorted out those issues by now. I would recommend this fuel tank to any fellow enthusiast of Husqvarna high-performance motorcycles.</p>
 <p>Some pictures of the bike fitted with the tank follow.</p>
 <div class="figure">
-<img src="http://i.imgur.com/0eWAR.jpg" alt="Husqvarna TE510 Safari Fuel Tank" /><p class="caption">Husqvarna TE510 Safari Fuel Tank</p>
+<img src="http://i.imgur.com/0eWAR.jpg" alt="Husqvarna TE510 Safari Fuel Tank" />
+<p class="caption">Husqvarna TE510 Safari Fuel Tank</p>
 </div>
 <div class="figure">
-<img src="http://i.imgur.com/YFZ09.jpg" alt="Husqvarna TE510 Safari Fuel Tank" /><p class="caption">Husqvarna TE510 Safari Fuel Tank</p>
+<img src="http://i.imgur.com/YFZ09.jpg" alt="Husqvarna TE510 Safari Fuel Tank" />
+<p class="caption">Husqvarna TE510 Safari Fuel Tank</p>
 </div>
 <div class="figure">
-<img src="http://i.imgur.com/uJybZ.jpg" alt="Husqvarna TE510 Safari Fuel Tank" /><p class="caption">Husqvarna TE510 Safari Fuel Tank</p>
+<img src="http://i.imgur.com/uJybZ.jpg" alt="Husqvarna TE510 Safari Fuel Tank" />
+<p class="caption">Husqvarna TE510 Safari Fuel Tank</p>
 </div>
 <div class="figure">
-<img src="http://i.imgur.com/ns6ZD.jpg" alt="Husqvarna TE510 Safari Fuel Tank" /><p class="caption">Husqvarna TE510 Safari Fuel Tank</p>
+<img src="http://i.imgur.com/ns6ZD.jpg" alt="Husqvarna TE510 Safari Fuel Tank" />
+<p class="caption">Husqvarna TE510 Safari Fuel Tank</p>
 </div>
 <div class="figure">
-<img src="http://i.imgur.com/Qp61g.jpg" alt="Husqvarna TE510 Safari Fuel Tank" /><p class="caption">Husqvarna TE510 Safari Fuel Tank</p>
+<img src="http://i.imgur.com/Qp61g.jpg" alt="Husqvarna TE510 Safari Fuel Tank" />
+<p class="caption">Husqvarna TE510 Safari Fuel Tank</p>
 </div>
 <div class="figure">
-<img src="http://i.imgur.com/WSDmo.jpg" alt="Husqvarna TE510 Safari Fuel Tank" /><p class="caption">Husqvarna TE510 Safari Fuel Tank</p>
+<img src="http://i.imgur.com/WSDmo.jpg" alt="Husqvarna TE510 Safari Fuel Tank" />
+<p class="caption">Husqvarna TE510 Safari Fuel Tank</p>
 </div>]]></summary>
 </entry>
 <entry>
@@ -5554,8 +5730,8 @@ main <span class="fu">=</span> <span class="kw">let</span> k <span class="fu">=<
     <id>http://blog.tmorris.net/posts/what-does-monad-mean/index.html</id>
     <published>2010-01-14T13:22:49Z</published>
     <updated>2010-01-14T13:22:49Z</updated>
-    <summary type="html"><![CDATA[<p><strong>Slides</strong> <a href="http://docs.tmorris.net/what-does-monad-mean/what-does-monad-mean.html">http://docs.tmorris.net/what-does-monad-mean/what-does-monad-mean.html</a></p>
-<p><strong>Video</strong> <a href="http://vimeo.com/8729673">http://vimeo.com/8729673</a></p>]]></summary>
+    <summary type="html"><![CDATA[<p><strong>Slides</strong> <a href="http://docs.tmorris.net/what-does-monad-mean/what-does-monad-mean.html" class="uri">http://docs.tmorris.net/what-does-monad-mean/what-does-monad-mean.html</a></p>
+<p><strong>Video</strong> <a href="http://vimeo.com/8729673" class="uri">http://vimeo.com/8729673</a></p>]]></summary>
 </entry>
 <entry>
     <title>Parsing map data using a lazy language</title>
@@ -5568,10 +5744,10 @@ main <span class="fu">=</span> <span class="kw">let</span> k <span class="fu">=<
 <p><a href="http://code.google.com/p/geo-gpx/">Here</a> are some example uses of parsing GPX files and <a href="http://code.google.com/p/geo-osm/">here</a> are examples parsing OSM files. My favourite is a very simple example (there are more complex ones) that removes waypoints from a GPX file. <a href="http://lists.openstreetmap.org/pipermail/newbies/2009-May/003131.html">This question (how to remove waypoints from gpx?)</a> was asked on the OSM mailing list quite a while ago; questions like these partially inspired me to write these libraries.</p>
 <pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">import </span><span class="dt">Data.Geo.GPX</span>
 
-<span class="ot">removeWpts ::</span> <span class="dt">FilePath</span> <span class="ot">-&gt;</span> <span class="dt">FilePath</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()
+<span class="ot">removeWpts ::</span> FilePath <span class="ot">-&gt;</span> FilePath <span class="ot">-&gt;</span> <span class="dt">IO</span> ()
 removeWpts <span class="fu">=</span> flip interactGpx (usingWpts (const []))</code></pre>
 <p>The implementation is very simple. The <code>interactGpx</code> function takes two file names and a function that transforms a <code>Gpx</code> data structure to a new <code>Gpx</code>. The <code>interactGpx</code> function reads in the first given file name to a <code>Gpx</code>, executes the given function to produce a new <code>Gpx</code>, then writes the result to the other given file name.</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="ot">interactGpx ::</span> <span class="dt">FilePath</span> <span class="ot">-&gt;</span> (<span class="dt">Gpx</span> <span class="ot">-&gt;</span> <span class="dt">Gpx</span>) <span class="ot">-&gt;</span> <span class="dt">FilePath</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()</code></pre>
+<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="ot">interactGpx ::</span> FilePath <span class="ot">-&gt;</span> (<span class="dt">Gpx</span> <span class="ot">-&gt;</span> <span class="dt">Gpx</span>) <span class="ot">-&gt;</span> FilePath <span class="ot">-&gt;</span> <span class="dt">IO</span> ()</code></pre>
 <p>The <code>usingWpts</code> function takes a function that transforms a list of waypoints to a new list of waypoints and a <code>Gpx</code> value and returns a new <code>Gpx</code> value with the waypoints transformed.</p>
 <pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="ot">usingWpts ::</span> ([<span class="dt">WptType</span>] <span class="ot">-&gt;</span> [<span class="dt">WptType</span>]) <span class="ot">-&gt;</span> <span class="dt">Gpx</span> <span class="ot">-&gt;</span> <span class="dt">Gpx</span></code></pre>
 <p>Of course, since we want to remove all waypoints, we ignore the given list of waypoints and return an empty list (<code>const []</code>). Pretty neat I reckon!</p>
@@ -5776,7 +5952,7 @@ ciAiYnp6dC4gVGhpcyBpcyBIYXNrZWxsIHNpbGx5LiIK</code></pre>]]></summary>
     <id>http://blog.tmorris.net/posts/22-of-99/index.html</id>
     <published>2009-03-31T19:14:27Z</published>
     <updated>2009-03-31T19:14:27Z</updated>
-    <summary type="html"><![CDATA[<p>From <a href="http://aperiodic.net/phil/scala/s-99/">http://aperiodic.net/phil/scala/s-99/</a>.</p>
+    <summary type="html"><![CDATA[<p>From <a href="http://aperiodic.net/phil/scala/s-99/" class="uri">http://aperiodic.net/phil/scala/s-99/</a>.</p>
 <pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">object</span> NinetyNine {
   <span class="co">// P01</span>
   <span class="kw">def</span> last[A](as: List[A]): A = as <span class="kw">match</span> {
@@ -6355,7 +6531,7 @@ V v = <span class="fu">e4</span>(t, u);
     <id>http://blog.tmorris.net/posts/scalaz-moved-to-google-code/index.html</id>
     <published>2008-12-25T07:54:22Z</published>
     <updated>2008-12-25T07:54:22Z</updated>
-    <summary type="html"><![CDATA[<p>Scalaz is no longer on the workingmouse website but is hosted on Google Code at <a href="http://code.google.com/p/scalaz/">http://code.google.com/p/scalaz/</a>.</p>]]></summary>
+    <summary type="html"><![CDATA[<p>Scalaz is no longer on the workingmouse website but is hosted on Google Code at <a href="http://code.google.com/p/scalaz/" class="uri">http://code.google.com/p/scalaz/</a>.</p>]]></summary>
 </entry>
 <entry>
     <title>= ≠ ⇒</title>
@@ -6487,7 +6663,8 @@ V v = <span class="fu">e4</span>(t, u);
 <p>I wish to convert one of the rooms – westward-facing, 3 metres by 3 metres – into my office. I currently work in the main living area under a split system A/C and this has some problems that I want to alleviate.</p>
 <p>Below is an image of the only window in this room. It has a single slider 570mm by 1450mm (the pink line) which is fitted with a security screen by pop-rivets. This window faces west and there is drainage outside.</p>
 <div class="figure">
-<img src="http://public.tmorris.net/image/misc/bedroomwindow.jpg" alt="Bedroom Window" /><p class="caption">Bedroom Window</p>
+<img src="http://public.tmorris.net/image/misc/bedroomwindow.jpg" alt="Bedroom Window" />
+<p class="caption">Bedroom Window</p>
 </div>
 <p>What is an appropriate set up for cooling such a room, given that it is a rental property? I have looked at evaporative coolers and portable air conditioners but have been advised against both given our climate. It also appears somewhat difficult to use a portable A/C given the fixed security screen and the need for an external vent – can it me reversibly modified somehow? I find no other appropriate option and am a bit of a deadlock. Advice?</p>]]></summary>
 </entry>
@@ -6583,7 +6760,7 @@ V v = <span class="fu">e4</span>(t, u);
     <id>http://blog.tmorris.net/posts/agile-is-falling-like-religions-do/index.html</id>
     <published>2008-11-16T07:32:02Z</published>
     <updated>2008-11-16T07:32:02Z</updated>
-    <summary type="html"><![CDATA[<p>Re: Comments on <a href="http://jamesshore.com/Blog/The-Decline-and-Fall-of-Agile.html">http://jamesshore.com/Blog/The-Decline-and-Fall-of-Agile.html</a></p>
+    <summary type="html"><![CDATA[<p>Re: Comments on <a href="http://jamesshore.com/Blog/The-Decline-and-Fall-of-Agile.html" class="uri">http://jamesshore.com/Blog/The-Decline-and-Fall-of-Agile.html</a></p>
 <p>For example</p>
 <blockquote>
 <p>Well, okay, but Agile is starting to sound a lot more like religious rhetoric than an engineering practice.</p>
@@ -6892,7 +7069,7 @@ java.lang.NoSuchMethodException: $anon$1.apply(java.lang.Object, java.lang.Strin
     <id>http://blog.tmorris.net/posts/did-you-to-have-be-so-blunt/index.html</id>
     <published>2008-09-23T20:18:28Z</published>
     <updated>2008-09-23T20:18:28Z</updated>
-    <summary type="html"><![CDATA[<p><a href="http://realtimecollisiondetection.net/blog/?p=81">http://realtimecollisiondetection.net/blog/?p=81</a></p>
+    <summary type="html"><![CDATA[<p><a href="http://realtimecollisiondetection.net/blog/?p=81" class="uri">http://realtimecollisiondetection.net/blog/?p=81</a></p>
 <p>My favourites:</p>
 <blockquote>
 <p>In contrast, design patterns are purported “master programmer advice” strongly suggesting to young or otherwise impressionable programmers that the design patterns convey important concepts, practices, or principles that have been “prethought.” However, design patterns are not “master programmer advice!”</p>
@@ -8332,7 +8509,7 @@ OK, passed 100 tests.</code></pre>
     <id>http://blog.tmorris.net/posts/abc-learning-centres-required-for-adults/index.html</id>
     <published>2008-06-23T15:05:32Z</published>
     <updated>2008-06-23T15:05:32Z</updated>
-    <summary type="html"><![CDATA[<p>From <a href="http://www.news.com.au/comments/0,23600,23907216-462,00.html">http://www.news.com.au/comments/0,23600,23907216-462,00.html</a> on the recent price rise by ABC Learning Centres (i.e. child care):</p>
+    <summary type="html"><![CDATA[<p>From <a href="http://www.news.com.au/comments/0,23600,23907216-462,00.html" class="uri">http://www.news.com.au/comments/0,23600,23907216-462,00.html</a> on the recent price rise by ABC Learning Centres (i.e. child care):</p>
 <blockquote>
 <p>ABC Learing centres have now increased there fees three times since early 2007. There justification for these raises in no way benefit the children in they’re care or they’re staff!.</p>
 </blockquote>]]></summary>
@@ -8637,7 +8814,7 @@ assertEqual(new MyClass(42, &quot;CBA&quot;).hashCode(), new MyClass(42, &quot;C
 <p>Reductio also provides shrinking of counter-examples in the event of proving a property false; for example, <code>a + b == a - b</code> is not always going to be true (for all values of ‘a’ and ‘b’), but would you like Reductio to provide the counter-example <code>a = 1934, b = 4571</code>? I think you’d prefer a smaller counter-example such as <code>a = 1, b = 1</code> right? I would too :) By providing the smallest reasonable counter-example, Reductio makes it easier to debug your code in the event of finding fault.</p>
 <p>Another extremely useful feature of Reductio is <em>automated mocking</em>. That is to say, Reductio can generate implementations of an interface for you so long as you provide the mapping from one or more transformations (this exploits a programming pattern called a Functor) to your type. Doing so is guaranteed to be a straight-forward task for the user (so straight-forward that you could automate it with reflection; an add-on feature perhaps?). This allows you to quantify across interface types. For example, you might state a property about your software using some interface, but you assert that the property holds regardless of the implementation of the interface. Reductio will generate hundreds of implementations if you like! All automated of course ;)</p>
 <p>Reductio makes it trivial to write generators for user-defined types (again, another potentially automated task that requires Java’s meta-programming facility ala reflection), however, Reductio also provides many existing implementations. Following is a <em>non-exhaustive</em> list.</p>
-<p>If you’re into robustness in the verification of the correctness of your Java software, take a look at Reductio. <a href="http://reductiotest.org/">http://reductiotest.org/</a></p>
+<p>If you’re into robustness in the verification of the correctness of your Java software, take a look at Reductio. <a href="http://reductiotest.org/" class="uri">http://reductiotest.org/</a></p>
 <hr />
 <h5 id="java.lang">java.lang</h5>
 <ul>
@@ -9123,7 +9300,8 @@ d58909b8433137ce452cabe91c56b334  share/scala/lib/scala-compiler.jar</code></pre
     <published>2008-03-16T13:55:37Z</published>
     <updated>2008-03-16T13:55:37Z</updated>
     <summary type="html"><![CDATA[<div class="figure">
-<img src="http://i30.photobucket.com/albums/c342/zvoncic/SickChristian.jpg" alt="Religiosity is a neurological disorder" /><p class="caption">Religiosity is a neurological disorder</p>
+<img src="http://i30.photobucket.com/albums/c342/zvoncic/SickChristian.jpg" alt="Religiosity is a neurological disorder" />
+<p class="caption">Religiosity is a neurological disorder</p>
 </div>]]></summary>
 </entry>
 <entry>
@@ -9465,7 +9643,7 @@ aza    | 1353</code></pre>
     <id>http://blog.tmorris.net/posts/doomsday-in-scala/index.html</id>
     <published>2008-01-01T08:03:31Z</published>
     <updated>2008-01-01T08:03:31Z</updated>
-    <summary type="html"><![CDATA[<p>Just for kicks, from <a href="http://en.wikipedia.org/wiki/Doomsday_algorithm">http://en.wikipedia.org/wiki/Doomsday_algorithm</a></p>
+    <summary type="html"><![CDATA[<p>Just for kicks, from <a href="http://en.wikipedia.org/wiki/Doomsday_algorithm" class="uri">http://en.wikipedia.org/wiki/Doomsday_algorithm</a></p>
 <pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">sealed</span> <span class="kw">trait</span> Day {
   <span class="kw">def</span> +(n: Int): Day
 }
@@ -9688,7 +9866,7 @@ aza    | 1353</code></pre>
     <summary type="html"><![CDATA[<p>Finding reason to explain the outward and proactive denial of the evidence that surrounds us by members of religious organisations has always fascinated me. How could an apparently rational person be suffering a sickness of such a magnitude? I have watched Christians deny Evolution without even knowing what it is! I have watched Muslims deny the origin of the Quran. I have wondered what a Christian would say to the charge that the bible is nothing more than a mythological personification of cosmological events and that we still celebrate the birth of the Sun/Son 3 days after its death on the winter solstice (December 22 in the northern hemisphere by the way fellow Australians :)). These questions and many more have fascinated me since I can remember even having independent thoughts as a child.</p>
 <p>Aside from those who are not genuine in their delusion for the obvious gains in money and power (i.e. their pawns), I have always been in awe when observing a person suffer such severe delusions with incredible conviction. Having a keen interest in Psychology, I have also wondered if we would ever have a rational explanation for this observation.</p>
 <p>Maybe we have found one? As many are now outwardly hypothesising (and others, once did it in silence), religious conviction and psychological disorder are not that unlike.</p>
-<p><a href="http://www.sciam.com/print_version.cfm?articleID=434D7C62-E7F2-99DF-37CC9814533B90D7">http://www.sciam.com/print_version.cfm?articleID=434D7C62-E7F2-99DF-37CC9814533B90D7</a></p>
+<p><a href="http://www.sciam.com/print_version.cfm?articleID=434D7C62-E7F2-99DF-37CC9814533B90D7" class="uri">http://www.sciam.com/print_version.cfm?articleID=434D7C62-E7F2-99DF-37CC9814533B90D7</a></p>
 <p>Of course, this does not detract from the sheer awe.</p>]]></summary>
 </entry>
 <entry>
@@ -9697,7 +9875,7 @@ aza    | 1353</code></pre>
     <id>http://blog.tmorris.net/posts/yeah-but-speed-kills/index.html</id>
     <published>2007-09-17T11:08:28Z</published>
     <updated>2007-09-17T11:08:28Z</updated>
-    <summary type="html"><![CDATA[<p><a href="http://www.news.com.au/couriermail/story/0,23739,22427799-5007200,00.html">http://www.news.com.au/couriermail/story/0,23739,22427799-5007200,00.html</a></p>
+    <summary type="html"><![CDATA[<p><a href="http://www.news.com.au/couriermail/story/0,23739,22427799-5007200,00.html" class="uri">http://www.news.com.au/couriermail/story/0,23739,22427799-5007200,00.html</a></p>
 <blockquote>
 <p>PHILIP Lamattina’s spectacular effort at Willowbank near Ipswich on Saturday night has already assumed legend status among Australia’s drag racing fraternity.</p>
 </blockquote>
@@ -10007,7 +10185,7 @@ someFunction <span class="dt">Nothing</span> <span class="fu">=</span> bar</code
     <id>http://blog.tmorris.net/posts/perhaps-not/index.html</id>
     <published>2007-07-22T07:01:13Z</published>
     <updated>2007-07-22T07:01:13Z</updated>
-    <summary type="html"><![CDATA[<p>From <a href="http://cafe.elharo.com/java/internal-and-external-exceptions/">http://cafe.elharo.com/java/internal-and-external-exceptions/</a></p>
+    <summary type="html"><![CDATA[<p>From <a href="http://cafe.elharo.com/java/internal-and-external-exceptions/" class="uri">http://cafe.elharo.com/java/internal-and-external-exceptions/</a></p>
 <blockquote>
 <p>Perhaps the continuing confusion over the difference between checked and runtime exceptions in Java is because we haven’t named them properly.</p>
 </blockquote>
@@ -11243,7 +11421,7 @@ instance Eq XString where
 <pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">interface</span> I&lt;a, b&gt; {
   b <span class="fu">f</span>(a arg);
 }</code></pre>
-<p>[2] The “thing” (monolithic abominable creature?) that I used to laboriously implement for IBM <a href="http://java.sun.com/j2se/1.5.0/docs/api/">http://java.sun.com/j2se/1.5.0/docs/api/</a></p>
+<p>[2] The “thing” (monolithic abominable creature?) that I used to laboriously implement for IBM <a href="http://java.sun.com/j2se/1.5.0/docs/api/" class="uri">http://java.sun.com/j2se/1.5.0/docs/api/</a></p>
 <p>[3] I must have backspaced 50 or so times before finally settling on the conservative adjective, “evolving” :)</p>]]></summary>
 </entry>
 

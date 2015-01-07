@@ -85,7 +85,7 @@
 <p>Now let’s move to Monad. Essentially, I am saying that you won’t be able to write such a function for Monad. I really encourage you to try to write it so you can see the twist that you will get into.</p>
 <pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">def</span> MonadCompose[M[_], N[_]](<span class="kw">implicit</span> ma: Monad[M], na: Monad[N]):
     Monad[({<span class="kw">type</span> λ[α]=M[N[α]]})#λ]</code></pre>
-<p>Here is a compilable version <a href="http://paste.pocoo.org/show/343606/">http://paste.pocoo.org/show/343606/</a></p>
+<p>Here is a compilable version <a href="http://paste.pocoo.org/show/343606/" class="uri">http://paste.pocoo.org/show/343606/</a></p>
 <p>Hope that helps!</p>
 
 

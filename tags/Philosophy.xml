@@ -37,7 +37,7 @@
     <id>http://blog.tmorris.net/posts/agile-is-falling-like-religions-do/index.html</id>
     <published>2008-11-16T07:32:02Z</published>
     <updated>2008-11-16T07:32:02Z</updated>
-    <summary type="html"><![CDATA[<p>Re: Comments on <a href="http://jamesshore.com/Blog/The-Decline-and-Fall-of-Agile.html">http://jamesshore.com/Blog/The-Decline-and-Fall-of-Agile.html</a></p>
+    <summary type="html"><![CDATA[<p>Re: Comments on <a href="http://jamesshore.com/Blog/The-Decline-and-Fall-of-Agile.html" class="uri">http://jamesshore.com/Blog/The-Decline-and-Fall-of-Agile.html</a></p>
 <p>For example</p>
 <blockquote>
 <p>Well, okay, but Agile is starting to sound a lot more like religious rhetoric than an engineering practice.</p>
@@ -126,7 +126,8 @@
     <published>2008-03-16T13:55:37Z</published>
     <updated>2008-03-16T13:55:37Z</updated>
     <summary type="html"><![CDATA[<div class="figure">
-<img src="http://i30.photobucket.com/albums/c342/zvoncic/SickChristian.jpg" alt="Religiosity is a neurological disorder" /><p class="caption">Religiosity is a neurological disorder</p>
+<img src="http://i30.photobucket.com/albums/c342/zvoncic/SickChristian.jpg" alt="Religiosity is a neurological disorder" />
+<p class="caption">Religiosity is a neurological disorder</p>
 </div>]]></summary>
 </entry>
 <entry>
