@@ -144,7 +144,7 @@ however, it was clearly malaligned, since:
     <a href="http://i.imgur.com/zaIwNkG.jpg"><img src="http://i.imgur.com/zaIwNkG.jpg" alt="warp9racing supermoto rear wheel, malaligned" style="height: 1033px;"/></a>
 
 I removed the rear wheel and measured the distance from the wheel hub shaft
-(against which the bushings sit) to surface of the ABS sensor ring, by first 
+(against which the bushings sit) to the surface of the ABS sensor ring, by first 
 placing a straight-edge along the ABS sensor ring.
 
 <a href="http://i.imgur.com/L5qWMcN.jpg"><img src="http://i.imgur.com/L5qWMcN.jpg" alt="measure malaligned rear wheel" style="width: 688px;"/></a>
@@ -159,11 +159,11 @@ resulting distance is `20.84mm`.
 
 <a href="http://i.imgur.com/VToToXx.jpg"><img src="http://i.imgur.com/VToToXx.jpg" alt="measure warp9racing rear wheel" style="height: 688px;"/></a>
 
-I then double-checked all measurements, supplied parts and or other possible 
-errors. I was left to conclude that the supplied rear wheel would not fit this
-motorcycle. I sent an email to warp9racing.com, while I set about making my own
-spacers that would put the rear wheel in its appropriate position, which is an 
-extra `2mm`.
+I then double-checked all measurements, supplied parts and considered other
+possible  errors. I was left to conclude that the supplied rear wheel would not
+fit this motorcycle. I sent an email to warp9racing.com, while I set about
+making my own spacers that would put the rear wheel in its appropriate position,
+which is an extra `2mm` left.
 
 I have **still** not heard from warp9racing since sending that email (20
 December 2014), which is disappointing. Everything else about the company had
@@ -192,8 +192,8 @@ Here they are on the factory hub.
 <a href="http://i.imgur.com/MB9SzlJ.jpg"><img src="http://i.imgur.com/MB9SzlJ.jpg" alt="cush-drive rubber dampers" style="height: 688px;"/></a>
 
 Next, I fitted the warp9racing supplied 44T sprocket and cush-drive into the
-hub. Again, no fixings are required. Reassembling the rear wheel, with the
-custom-made bushings, and it all slotted in perfectly. The alignment of the
+hub. Again, no fixings are required. After reassembling the rear wheel, with the
+custom-made bushings, it all slotted in perfectly. The alignment of the 
 drive-chain and brake calipers was perfect.
 
 ### Front Wheel Fitment
@@ -268,7 +268,7 @@ harness. It should take a maximum of 15 minutes in total.
     colour.
 5.  Using nose pliers, gently pull this wire from the plug.
 
-    <a href="http://i.imgur.com/x5SxCwq.jpg"><img src="http://i.imgur.com/x5SxCwq.jpg" alt="pulled brown wire" style="width: 688px;"/></a>
+    <a href="http://i.imgur.com/tHqHV8W.jpg"><img src="http://i.imgur.com/tHqHV8W.jpg" alt="pulled brown wire" style="width: 688px;"/></a>
 6.  Insulate this wire. I used 4mm heat-shrink.
 
     <a href="http://i.imgur.com/x5SxCwq.jpg"><img src="http://i.imgur.com/x5SxCwq.jpg" alt="insulated brown wire" style="width: 688px;"/></a>
