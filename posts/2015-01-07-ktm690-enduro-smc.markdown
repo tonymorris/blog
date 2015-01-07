@@ -12,8 +12,8 @@ Supermoto with 17" wheels. Two goals are kept in mind:
 
 1. It is easy to go back to Enduro configuration.
 
-2. It is easy to go back to factory. This refers to the minimising the
-   irreversible modification of factory parts.
+2. It is easy to go back to factory. This refers to minimising the irreversible
+   modification of factory parts.
 
 Part names and numbers will be provided.
 
