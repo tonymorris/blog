@@ -59,7 +59,7 @@ In August 2014, I purchased the front wheel, rear wheel and cush-drive hub with
   
      `USD468.00`
   
-*    KTM 690 CUSH DRIVE WITH SROPCKET (USES OEM RUBBERS) 44T 
+*    KTM 690 CUSH DRIVE WITH SPROCKET (USES OEM RUBBERS) 44T 
      
      `USD139.00`
 
