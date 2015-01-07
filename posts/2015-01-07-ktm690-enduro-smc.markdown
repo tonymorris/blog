@@ -353,6 +353,8 @@ outlined here, however, they are listed for completeness.
 
 * Oxford `OXF.OF692Z` heated grips
 
+* Seat Concepts seat
+
 * Unifilter 690E (07-14) foam air filter
 
 * R&G `FP0085BK` fork sliders
