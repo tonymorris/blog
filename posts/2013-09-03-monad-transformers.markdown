@@ -9,7 +9,7 @@ tags: Haskell, Programming, Monad, Transformers
 
 A talk on monad transformers , delivered to [Brisbane Functional Programming Group on Tuesday 27 August 2013](http://www.meetup.com/Brisbane-Functional-Programming-Group/events/104664162/).
 
-* [Slides](http://dl.dropbox.com/u/7810909/media/doc/monad-transformers.pdf) *(pdf)*
+* [Slides](https://dl.dropboxusercontent.com/u/7810909/talks/monad-transformers/cbaa991e0eb49224eb286c1e418e2b9828e1fb21/monad-transformers.pdf) *(pdf)*
 
 * [Video](https://vimeo.com/73648150) *(vimeo)*
 
