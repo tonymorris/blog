@@ -9,7 +9,7 @@ tags: Haskell, Scala, Programming, list, foldl, foldr, foldLeft, foldRight
 
 A talk on the list fold functions (fold left and fold right), delivered to [Brisbane Functional Programming Group on Tuesday 23 April 2013](http://www.bfpg.org/events/96368322/?eventId=96368322&action=detail).
 
-* [Slides](http://dl.dropbox.com/u/7810909/media/doc/list-folds.pdf) *(pdf)*
+* [Slides](https://dl.dropboxusercontent.com/u/7810909/talks/list-folds/b30aa0fdff296c731bc5b1c824adf1d02b3b69d9/list-folds.pdf) *(pdf)*
 
 * [Video](https://vimeo.com/64673035) *(vimeo)*
 
