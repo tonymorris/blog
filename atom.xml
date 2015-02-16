@@ -1509,7 +1509,7 @@ runIntRdrs <span class="fu">=</span> foldr (\a b <span class="ot">-&gt;</span> b
     <updated>2013-04-24T15:00:00Z</updated>
     <summary type="html"><![CDATA[<p>A talk on the list fold functions (fold left and fold right), delivered to <a href="http://www.bfpg.org/events/96368322/?eventId=96368322&amp;action=detail">Brisbane Functional Programming Group on Tuesday 23 April 2013</a>.</p>
 <ul>
-<li><p><a href="http://dl.dropbox.com/u/7810909/media/doc/list-folds.pdf">Slides</a> <em>(pdf)</em></p></li>
+<li><p><a href="https://dl.dropboxusercontent.com/u/7810909/talks/list-folds/b30aa0fdff296c731bc5b1c824adf1d02b3b69d9/list-folds.pdf">Slides</a> <em>(pdf)</em></p></li>
 <li><p><a href="https://vimeo.com/64673035">Video</a> <em>(vimeo)</em></p></li>
 </ul>
 <div class="embed-vimeo">
