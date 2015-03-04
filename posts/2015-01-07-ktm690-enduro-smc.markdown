@@ -280,7 +280,7 @@ harness. It should take a maximum of 15 minutes in total.
 11. Hold down the **MODE** button for 10 seconds, until the dashboard displays
     the factory wheel length (`2250`), then release.
 12. Using the **MODE** button to increase the wheel length and the **SET**
-    button to decrease it, set the length to (`1870`).
+    button to decrease it, set the length to (`1840`).
 
     Be careful about holding down either of these two buttons for too long,
     since the scrolling speed increases rapidly.
