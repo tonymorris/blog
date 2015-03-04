@@ -202,6 +202,7 @@ For the front wheel, I did not have the same problems with the bushings/spacers
 as I had for the rear wheel. In this case, the wheel fitted perfectly with the 
 supplied spacers.
 
+-------
 However, since the front wheel is wider than factory, it fouls on the fork leg
 protectors on both sides as well as the front brake hoses. The fork leg
 protectors are important and cannot be removed, as the left one retains the
@@ -209,7 +210,7 @@ front brake hoses from hitting the wheel or rim.
 
 Importantly, even though at rest the front wheel does not contact the front
 brake hose, *under motion, there is fouling*. Therefore, it is important to
-modify the left fork leg protector for clear the tyre as well as mount the front
+modify the left fork leg protector to clear the tyre as well as mount the front
 brake hoses away from the tyre.
 
 The fork leg protectors can be modified by cutting a notch with a utility knife.
@@ -237,6 +238,8 @@ This is why the additional channeling has been notched into the left fork leg
 protector.
 
 <a href="http://i.imgur.com/JjojyyP.jpg"><img src="http://i.imgur.com/JjojyyP.jpg" alt="left fork leg protector" style="height: 688px;"/></a>
+
+-------
 
 ### Kickstand Height
 
