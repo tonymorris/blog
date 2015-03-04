@@ -211,11 +211,13 @@ front brake hoses from hitting the wheel or rim.
 Importantly, even though at rest the front wheel does not contact the front
 brake hose, *under motion, there is fouling*. Therefore, it is important to
 modify the left fork leg protector to clear the tyre as well as mount the front
-brake hoses away from the tyre.
+brake hoses on the outside of the fork leg protector. It is impossible for the
+forks to clear the brake hose if it were mounted in the original position, 
+between the forks and the front wheel.
 
-The fork leg protectors can be modified by cutting a notch with a utility knife.
-The part number for the fork leg protectors, if you choose to have another set,
-is `7800109420030`.
+The fork leg protectors can be modified to clear the tyre by cutting a notch
+with a utility knife. The part number for the fork leg protectors, if you choose
+to have another set, is `7800109420030`.
 
 Here is the modification of the right fork leg protector:
 
@@ -223,21 +225,14 @@ Here is the modification of the right fork leg protector:
 
 Here is the modification of the left fork leg protector:
 
-<a href="http://i.imgur.com/3VHFxzG.jpg"><img src="http://i.imgur.com/3VHFxzG.jpg" alt="left fork leg protector" style="height: 688px;"/></a>
+<a href="http://i.imgur.com/5YN4qPW.jpg"><img src="http://i.imgur.com/5YN4qPW.jpg" alt="left fork leg protector" style="width: 688px;"/></a>
 
-<a href="http://i.imgur.com/Twzn1KY.jpg"><img src="http://i.imgur.com/Twzn1KY.jpg" alt="left fork leg protector" style="height: 688px;"/></a>
+<a href="http://i.imgur.com/wouBAt6.jpg"><img src="http://i.imgur.com/wouBAt6.jpg" alt="left fork leg protector" style="width: 688px;"/></a>
 
-Note the channeling that has been cut into the fork leg protector to re-route
-the front brake hoses. This is in addition to the notch that has also been cut
-to clear the tyre. This modification to the fork leg protector is necessary to
-prevent fouling through the entire suspension travel.
-
-Using the factory front brake hose position, it will not foul the rim while at
-rest. However, it was quickly found to foul during operation of the motorcycle.
-This is why the additional channeling has been notched into the left fork leg
-protector.
-
-<a href="http://i.imgur.com/JjojyyP.jpg"><img src="http://i.imgur.com/JjojyyP.jpg" alt="left fork leg protector" style="height: 688px;"/></a>
+The channeling that has been cut on the inside of the left fork leg protector is
+a consequence of having attempted to route the brake lines on the inside of the
+forks. It was then determined that this is impossible, since it fouls the forks
+when they are under compression.
 
 -------
 
