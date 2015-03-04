@@ -202,7 +202,6 @@ For the front wheel, I did not have the same problems with the bushings/spacers
 as I had for the rear wheel. In this case, the wheel fitted perfectly with the 
 supplied spacers.
 
--------
 However, since the front wheel is wider than factory, it fouls on the fork leg
 protectors on both sides as well as the front brake hoses. The fork leg
 protectors are important and cannot be removed, as the left one retains the
@@ -233,8 +232,6 @@ The channeling that has been cut on the inside of the left fork leg protector is
 a consequence of having attempted to route the brake lines on the inside of the
 forks. It was then determined that this is impossible, since it fouls the forks
 when they are under compression.
-
--------
 
 ### Kickstand Height
 
