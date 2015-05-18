@@ -271,7 +271,7 @@ harness. It should take a maximum of 15 minutes in total.
 8.  Reconnect the white-coloured plug to the speedometer and fit the protective rubber boot.
 9.  Turn the ignition to the **ON** position and wait for completion of the
     ignition start sequence.
-10.  By pressing the **MODE** button, scroll to the **TRIP 1** mode.
+10. By pressing the **MODE** button, scroll to the **TRIP 1** mode.
 11. Hold down the **MODE** button for 10 seconds, until the dashboard displays
     the factory wheel length (`2250`), then release.
 12. Using the **MODE** button to increase the wheel length and the **SET**
@@ -282,7 +282,8 @@ harness. It should take a maximum of 15 minutes in total.
 13. Once the desired length has been selected, press the **MODE** and the
     **SET** buttons simultaneously, until the dashboard display returns to the
     **TRIP 1** mode.
-14. The time will have reset to `12:00`. Set the time to the current local time.
+14. Turn the ignition off and on to have the new settings take effect.
+15. The time might have reset to `12:00`. Set the time to the current local time.
 
     Here is the relevant excerpt from the Owner's Manual (part `3213101en`)
 
