@@ -9,7 +9,7 @@ tags: Motorcycling, KTM, Ride Report
 
 # Bike
 
-* 2014 KTM 690 Enduro R (supermoto modified)
+* 2014 KTM 690 Enduro R (supermoto modified. [Here is a post](http://tonymorris.github.io/blog/posts/ktm690-enduro-smc/index.html) on the modification.)
 
 ----
 
