@@ -9,7 +9,7 @@ tags: Motorcycling, KTM, Ride Report
 
 # Ride 20150524 Thulimbah
 
-We planned to meet at Rathdown around 0845 on the Sunday morning, knowing that
+We planned to meet at Rathdowney around 0845 on the Sunday morning, knowing that
 Rob & Athol had never seen the granite belt. We would take Mt Lindesay Highway 
 (or is it Road? haha, there is a back-story to that) to Woodenbong then Legume,
 before stopping at the
@@ -136,7 +136,7 @@ That was when ... the unbelievable happened. My eyes were deceiving me. It just
 wasn't happening. Was this real? Did I just see that? Did I miss a memo? Is
 there something I have simply misunderstood? These questions raced through my
 mind as the two DRZs could be heard in the distance, fading away. They'd both
-ridden to Rathdowney, along the main strethc of road, then **kept going**.
+ridden to Rathdowney, along the main stretch of road, then **kept going**.
 
 I could not figure out how this plan change could have worked out. By what
 method had these two come to the conclusion that passing through Rathdowney was
