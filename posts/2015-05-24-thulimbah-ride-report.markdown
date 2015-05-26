@@ -9,17 +9,80 @@ tags: Motorcycling, KTM, Ride Report
 
 # Ride 20150524 Thulimbah
 
-[Abstract]
+We planned to meet at Rathdown around 0845 on the Sunday morning, knowing that
+Rob & Athol had never seen the granite belt. We would take Mt Lindesay Highway 
+(or is it Road? haha, there is a back-story to that) to Woodenbong then Legume,
+before stopping at the
+[Maryland River Bridge](http://www.openstreetmap.org/?mlat=-28.4351&mlon=152.3838#map=15/-28.4351/152.3838)
+for some beach riding. Soon, we'd turn on to the scenic
+[Wylie Creek Road](http://www.openstreetmap.org/?mlat=-28.5496&mlon=152.1307#map=15/-28.5496/152.1307)
+through [Maryland](http://www.openstreetmap.org/?mlat=-28.5627&mlon=151.9986#map=14/-28.5627/151.9986) and on to Thulimbah.
+
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/1O8JLGQZtBY" frameborder="0" allowfullscreen></iframe>
 
 ----
 
+<iframe width="560" height="315" src="https://www.youtube.com/embed/LYD-fTzxMRM" frameborder="0" allowfullscreen></iframe>
+
+----
+
+<a href="http://i.imgur.com/UmRwWG7.jpg"><img src="http://i.imgur.com/UmRwWG7.jpg" alt="" style="width: 600px;"/></a>
+
+----
+
+Not another body in sight, only moo-cows, we started the slow climb from 500 to
+950 metres above sea level. Arriving at Thulimbah, we did a loop of the Hinze
+Enduro Loop, then said our goodbyes.
+
+Entering [Passchendaele State Forest](http://www.openstreetmap.org/#map=13/-28.5642/151.8168)
+from the east, we did a few little loops before deciding that food and fuel were
+in order. Having already seen an abundance of wildlife, I was mindful of the
+risks at highway speed. That was when a tidings of magpies took off from the
+shoulder of the road. Having no air traffic control in this area, these magpies
+were completely unaware of my ground speed, which tripled their take-off speed.
+One of the individuals, mistakenly, chose the strategy of "outpace the threat."
+There was no way to save it, and before I could let up the brakes, I could see 
+an explosion of feathers in the mirror. I ventured back to make sure there was 
+no more suffering and despite the unfortunate circumstance, felt a mild relief 
+that it was all over for that miscalculating magpie.
+
+We fueled and ate at Stanthorpe, while planning the next leg. Another journey
+into Passchendaele was all too tempting. Aiming for
+[Swiper's Gully](http://www.openstreetmap.org/?mlat=-28.60556&mlon=151.78448#map=17/-28.60556/15178448), and not knowing if the rabbit fence would prevent access, I
+came upon some familiar track landmarks where I reassured myself that this was
+the way in.
+
+That was when we decided to stop for a short meeting and Rob's DRZ became a
+DRZZZZZZ. Refusing to rest on the kickstand, the DRZ chose to have a little
+snooze on its left side. Once again [\[last time\]](http://tonymorris.github.io/blog/posts/mount-mee-ride-report/index.html), we broke out the orange toolkit for adjustments
+and repairs. Soon, we were on the trail to Swiper's Gully at the south end of
+Passchendaele. Hooting through the rocky, thin trails, a wild pig scooted out of
+our way, and then we came upon an emu carcass. Black cockatoos called out as an
+eagle left its high perch in a tree. That was when I knew, dusk was coming.
+
+<a href="http://i.imgur.com/jdTc4WY.jpg"><img src="http://i.imgur.com/jdTc4WY.jpg" alt="" style="width: 600px;"/></a>
+
+----
+
+<a href="http://i.imgur.com/K0jVATR.jpg"><img src="http://i.imgur.com/K0jVATR.jpg" alt="" style="width: 600px;"/></a>
+
+----
+
+Turning the bikes east along Donnellys Castle Road, the abundance of bouncing
+wallabies, while serene, also served as a caution of what was ahead. Thulimbah,
+then Wylie Creek Road, I must have seen 40 wallabies by now. We stopped for a 
+road-side meeting where we discussed the dangers ahead. As the sun went down,
+I saw a small kangaroo leap in front of Rob's bike. Close call, I thought, but
+then a larger roo followed behind, looking to take on the idling DRZ at 70kph.
+
 ### Bikes
 
-* 2014 KTM 690 Enduro R
+* 2014 KTM 690 Enduro R, **Tony**
 
-* 2011 Suzuki DR-Z400
+* 2011 Suzuki DR-Z400, **Athol**
 
-* 2013 Suzuki DR-Z400
+* 2013 Suzuki DR-Z400, **Rob**
 
 ----
 
@@ -67,27 +130,11 @@ tags: Motorcycling, KTM, Ride Report
 
 ### Videos
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/1O8JLGQZtBY" frameborder="0" allowfullscreen></iframe>
-
-----
-
-<iframe width="560" height="315" src="https://www.youtube.com/embed/LYD-fTzxMRM" frameborder="0" allowfullscreen></iframe>
-
-----
-
 <iframe width="560" height="315" src="https://www.youtube.com/embed/24nHE-tflII" frameborder="0" allowfullscreen></iframe>
 
 ----
 
 ### Photos
-
-<a href="http://i.imgur.com/jdTc4WY.jpg"><img src="http://i.imgur.com/jdTc4WY.jpg" alt="" style="width: 600px;"/></a>
-
-----
-
-<a href="http://i.imgur.com/K0jVATR.jpg"><img src="http://i.imgur.com/K0jVATR.jpg" alt="" style="width: 600px;"/></a>
-
-----
 
 <a href="http://i.imgur.com/bITOXQZ.jpg"><img src="http://i.imgur.com/bITOXQZ.jpg" alt="" style="width: 600px;"/></a>
 
