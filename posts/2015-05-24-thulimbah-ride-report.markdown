@@ -48,7 +48,7 @@ that it was all over for that miscalculating magpie.
 
 We fueled and ate at Stanthorpe, while planning the next leg. Another journey
 into Passchendaele was all too tempting. Aiming for
-[Swiper's Gully](http://www.openstreetmap.org/?mlat=-28.60556&mlon=151.78448#map=17/-28.60556/15178448), and not knowing if the rabbit fence would prevent access, I
+[Swiper's Gully](http://www.openstreetmap.org/?mlat=-28.60556&mlon=151.78448#map=17/-28.60556/151.78448), and not knowing if the rabbit fence would prevent access, I
 came upon some familiar track landmarks where I reassured myself that this was
 the way in.
 
