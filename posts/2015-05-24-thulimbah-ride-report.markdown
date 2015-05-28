@@ -76,8 +76,8 @@ I saw a small kangaroo leap in front of Rob's bike. Close call, I thought, but
 then a larger roo followed behind, looking to take on the idling DRZ at 70kph.
 It was one of those moments where there is no time to reach for the brake; just
 a shot of adrenaline as the big lumbering beast appears in the headlight beam
-and before there is any reaction, it is all over. It must have been less than a
-metre, from where I was, about 40 metres behind.
+and before there is any reaction, it is all over. It must have missed Rob's DR-Z
+by less than a metre, from where I was, about 40 metres behind.
 
 <a href="http://i.imgur.com/bITOXQZ.jpg"><img src="http://i.imgur.com/bITOXQZ.jpg" alt="" style="width: 640px;"/></a>
 
@@ -97,9 +97,9 @@ metre, from where I was, about 40 metres behind.
 
 We stopped again at the end of Wylie Creek Road for a meeting. By now, the sun
 was truly gone and Venus and Jupiter were shining bright in the northern sky.
-Athol asked, "where is Rathdown from here?" Why, it's just over the hill yonder,
-a tad beyond Legume, a smaller tad passed Woodenbong and then a tiny tad and we
-are there!
+Athol asked, "where is Rathdowney from here?" Why, it's just over the hill
+yonder, a tad beyond Legume, a smaller tad passed Woodenbong and then a tiny tad
+and we are there!
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/24nHE-tflII" frameborder="0" allowfullscreen></iframe>
 
@@ -127,8 +127,8 @@ overshoot, then use the brakes to adjust. Yeah those plonkers, and not a
 straight-away for a long time.
 
 Fifteen minutes of cornering like a see-saw with bipolar disorder, finally, the 
-solid white line gave way and it was throttles wound. Rob and Athol didn't make
-it, but I got up to the posted speed limit and set in for the final leg to
+solid white line gave way and it was throttles wound on. Rob and Athol didn't
+make it, but I got up to the posted speed limit and set in for the final leg to
 Rathdowney. Arriving there in short order, I parked up the KTM next to the
 parked car and waited. I could hear the two DRZs puttering along, approaching.
 
