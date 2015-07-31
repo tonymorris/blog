@@ -5,7 +5,6 @@ layout: post
 slug: 20150731-no-offence
 title: No offence
 tags: Offence, Self-righteousness, Marxism, Thought-Policing
-
 ---
 
 Following is a list of software-related projects, venues, etc that include a 
