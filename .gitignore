@@ -1,11 +1,30 @@
-_cache/
-_site/
-site
+*~
+*#*
+
+# CABAL
+/dist
+/.cabal-sandbox
+/cabal.sandbox.config
+
+# Hakyll
+/_cache
+/_site
+
+# Haskell output
 *.hi
 *.o
-.idea/ant.xml
-.idea/workspace.xml
-/.cabal-sandbox/
-/cabal.sandbox.config
-/dist
+
+# Haskell Program Coverage
+/.hpc
+/*.tix
+
+# Leksah
+*.lkshs
+
+# Intellij IDEA
+/.idea
+*.iml
+
+# ctags
+TAGS
 
