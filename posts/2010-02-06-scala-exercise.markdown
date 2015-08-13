@@ -5,6 +5,7 @@ layout: post
 slug: scala-exercise
 title: Scala exercise
 wordpressid: 649
+tags: Scala, Programming
 ---
 
 A result of a discussion in the [#scala IRC channel](irc://freenode.net/#scala).
