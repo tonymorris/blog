@@ -4,7 +4,7 @@ date: 2015-01-07 00:00:00
 layout: post
 slug: ktm690-enduro-smc
 title: 2014 KTM 690 Enduro to Supermoto
-tags: Motorcycling, KTM, Supermoto
+tags: Motorcycle, KTM, Supermoto
 ---
 
 This article is a description of the conversion of a 2014 KTM 690 Enduro R to a

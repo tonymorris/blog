@@ -4,7 +4,7 @@ date: 2014-10-13 00:00:00
 layout: post
 slug: brisbane-ride-spots
 title: Brisbane Ride Spots
-tags: Motorcycling
+tags: Motorcycle
 ---
 
 Recently, on a forum, I saw a question regarding dirt bike areas around

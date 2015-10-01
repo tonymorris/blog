@@ -4,7 +4,7 @@ date: 2015-05-24 00:00:00
 layout: post
 slug: 20150524-thulimbah-ride-report
 title: 24 May 2015 Thulimbah Ride Report
-tags: Motorcycling, KTM, Ride Report
+tags: Motorcycle, KTM, Ride Report
 ---
 
 # Ride 20150524 Thulimbah

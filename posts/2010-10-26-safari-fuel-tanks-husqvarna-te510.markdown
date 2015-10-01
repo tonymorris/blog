@@ -5,7 +5,7 @@ layout: post
 slug: safari-fuel-tanks-husqvarna-te510
 title: Safari Fuel Tanks -- Husqvarna TE510
 wordpressid: 834
-tags: Motorcycling
+tags: Motorcycle
 ---
 
 [Safari Tanks](http://www.safaritanks.com.au/home/) recently released a long range fuel tank for the Husqvarna TE250/310/450/510 4-stroke enduro motorcycle. These bikes come standard with a 7.2 litre fuel tank, which simply does not cut the mustard, particularly for the thirsty 510.

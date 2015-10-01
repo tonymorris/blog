@@ -4,7 +4,7 @@ date: 2015-05-24 00:00:00
 layout: post
 slug: 20150509-mount-mee-ride-report
 title: 09 May 2015 Mount Mee Ride Report
-tags: Motorcycling, KTM, Ride Report
+tags: Motorcycle, KTM, Ride Report
 ---
 
 # Ride 20150509 Mount Mee

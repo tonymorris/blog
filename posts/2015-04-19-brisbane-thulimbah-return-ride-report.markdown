@@ -4,7 +4,7 @@ date: 2015-05-24 00:00:00
 layout: post
 slug: 20150419-brisbane-thulimbah-return-ride-report
 title: 19 April 2015 Brisbane/Thulimbah return Ride Report
-tags: Motorcycling, KTM, Ride Report
+tags: Motorcycle, KTM, Ride Report
 ---
 
 # Bike

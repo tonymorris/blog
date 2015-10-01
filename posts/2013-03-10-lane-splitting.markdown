@@ -4,7 +4,7 @@ date: 2013-03-10 20:00:00
 layout: post
 slug: lane-splitting-in-australia
 title: Lane-Splitting in Australia.
-tags: Motorcycling, Law, Road Rules
+tags: Motorcycle, Law, Road Rules
 ---
 
 The subject of lane-splitting on a motorcycle often comes up in discussion. In Australia, the legality of lane-splitting is not absolute. For example, under some circumstances, such as two (or even three) motorcycles sharing a lane, this manouvre may be legal (further specifics apply). Under some other circumstances, lane-splitting is illegal.
