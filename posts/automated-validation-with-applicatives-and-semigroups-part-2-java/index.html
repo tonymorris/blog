@@ -20,11 +20,11 @@
 </div>
 <div id="header">
   <div id="navigation">
-    <a href="../../index.html">Home</a>
-    <a href="../../posts/">All Posts</a>
-    <a href="../../contact/">Contact</a>
-    <a href="http://cv.tmorris.net/">CV</a>
-    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+    <a class="navbar" href="../../index.html">Home</a>
+    <a class="navbar" href="../../posts/">All Posts</a>
+    <a class="navbar" href="../../contact/">Contact</a>
+    <a class="navbar" href="http://cv.tmorris.net/">CV</a>
+    <a class="navbar" href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
   </div>
 </div>
 <h1>Automated Validation with Applicatives and Semigroups (Part 2 - Java)</h1>
@@ -32,7 +32,7 @@
 
 <p>In <a href="http://blog.tmorris.net/automated-validation-with-applicatives-and-semigroups-for-sanjiv/">a previous post</a>, I mentioned a small library for validating using an applicative functor pattern with a semigroup for accumulating errors using Haskell, Scala and Java programming languages. In this post, I will give a set up for an example usage, but not necessarily a complete example. This is left as an exercise and may be elaborated on in a future post.</p>
 <p>I will start with Java. First we must decide <em>how we are going to accumulate errors</em>. I have decided to store them in a <code>LinkedList</code>. In more practical languages with a better collections library, we would probably use something else. We will use something else for Scala and Haskell (later!), or you could use the <a href="http://functionaljava.org/">Functional Java</a> extension. In the meantime, we will use <code>java.util.LinkedList</code>. We start by writing its <code>Semigroup</code> implementation:</p>
-<pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">public</span> <span class="dt">static</span> &lt;a&gt; Semigroup&lt;LinkedList&lt;a&gt;&gt; <span class="fu">LinkedListSemigroup</span>() {
+<div class="sourceCode"><pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">public</span> <span class="dt">static</span> &lt;a&gt; Semigroup&lt;LinkedList&lt;a&gt;&gt; <span class="fu">LinkedListSemigroup</span>() {
   <span class="kw">return</span> <span class="kw">new</span> Semigroup&lt;LinkedList&lt;a&gt;&gt;() {
     <span class="kw">public</span> LinkedList&lt;a&gt; <span class="fu">append</span>(<span class="dt">final</span> LinkedList&lt;a&gt; a1,
                                 <span class="dt">final</span> LinkedList&lt;a&gt; a2) {
@@ -41,9 +41,9 @@
       <span class="kw">return</span> r;
     }
   };
-}</code></pre>
+}</code></pre></div>
 <p>This is very straight-forward. In the previous example, I mentioned a class <code>Person</code> that is made of an age and a name. The age is an integer between 0 and 130 while the name is any string that starts with an upper-case character. Let’s write these data types:</p>
-<pre class="sourceCode Java"><code class="sourceCode java"><span class="co">// int wrapper between 0 and 130</span>
+<div class="sourceCode"><pre class="sourceCode Java"><code class="sourceCode java"><span class="co">// int wrapper between 0 and 130</span>
 <span class="kw">class</span> Age {
   <span class="kw">private</span> <span class="dt">final</span> <span class="dt">int</span> i;
   <span class="kw">private</span> <span class="fu">Age</span>(<span class="dt">final</span> <span class="dt">int</span> i) { <span class="kw">this</span>.<span class="fu">i</span> = i; }
@@ -54,9 +54,9 @@
     <span class="kw">else</span>
       <span class="kw">return</span> <span class="kw">new</span> <span class="fu">Age</span>(i);
   }
-}</code></pre>
+}</code></pre></div>
 <p>And here is <code>Name</code>:</p>
-<pre class="sourceCode Java"><code class="sourceCode java"><span class="co">// String wrapper starts with upper-case</span>
+<div class="sourceCode"><pre class="sourceCode Java"><code class="sourceCode java"><span class="co">// String wrapper starts with upper-case</span>
 <span class="kw">class</span> Name {
   <span class="kw">private</span> <span class="dt">final</span> String s;
   <span class="kw">private</span> Name(<span class="dt">final</span> String s) { <span class="kw">this</span>.<span class="fu">s</span> = s; }
@@ -67,53 +67,53 @@
     <span class="kw">else</span>
       <span class="kw">return</span> <span class="kw">new</span> Name(s);
   }
-}</code></pre>
+}</code></pre></div>
 <p>I won’t bother writing the <code>Person</code> data type, but it is sufficient to say it will have an <code>Age</code> field and a <code>Name</code> field.</p>
 <p>Now for validation. Suppose we have two string values; one each for age and name. We would like to check these for validation and return either one or more error messages (<code>String</code>) or a <code>Person</code>. More succinctly, we want a function with the type:</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Validation</span><span class="fu">&lt;</span><span class="dt">LinkedList</span><span class="fu">&lt;</span><span class="dt">String</span><span class="fu">&gt;</span>, <span class="dt">Person</span><span class="fu">&gt;&gt;</span></code></pre>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Validation</span><span class="fu">&lt;</span><span class="dt">LinkedList</span><span class="fu">&lt;</span><span class="dt">String</span><span class="fu">&gt;</span>, <span class="dt">Person</span><span class="fu">&gt;&gt;</span></code></pre></div>
 <p>How are we going to achieve this function? First we must say how to create an <code>Age</code> from a <code>String</code> or an error message if we cannot:</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Validation</span><span class="fu">&lt;</span><span class="dt">LinkedList</span><span class="fu">&lt;</span><span class="dt">String</span><span class="fu">&gt;</span>, <span class="dt">Age</span><span class="fu">&gt;&gt;</span></code></pre>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Validation</span><span class="fu">&lt;</span><span class="dt">LinkedList</span><span class="fu">&lt;</span><span class="dt">String</span><span class="fu">&gt;</span>, <span class="dt">Age</span><span class="fu">&gt;&gt;</span></code></pre></div>
 <p>and same for <code>Name</code></p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Validation</span><span class="fu">&lt;</span><span class="dt">LinkedList</span><span class="fu">&lt;</span><span class="dt">String</span>, <span class="dt">Name</span><span class="fu">&gt;&gt;</span></code></pre>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">Validation</span><span class="fu">&lt;</span><span class="dt">LinkedList</span><span class="fu">&lt;</span><span class="dt">String</span>, <span class="dt">Name</span><span class="fu">&gt;&gt;</span></code></pre></div>
 <p>We also need a function to create a <code>Person</code> from an <code>Age</code> and a <code>Name</code></p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="dt">Age</span> <span class="ot">-&gt;</span> <span class="dt">Name</span> <span class="ot">-&gt;</span> <span class="dt">Person</span></code></pre>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="dt">Age</span> <span class="ot">-&gt;</span> <span class="dt">Name</span> <span class="ot">-&gt;</span> <span class="dt">Person</span></code></pre></div>
 <p>This is simple. It’s the <code>Person</code> constructor.</p>
 <p>So to sum up, we need to write a function with this type:</p>
 <p>Arguments:</p>
 <ul>
 <li></li>
 </ul>
-<pre class="sourceCode Java"><code class="sourceCode java">F&lt;String, Validation&lt;LinkedList&lt;string&gt;, Age&gt;&gt;&gt;</code></pre>
+<div class="sourceCode"><pre class="sourceCode Java"><code class="sourceCode java">F&lt;String, Validation&lt;LinkedList&lt;string&gt;, Age&gt;&gt;&gt;</code></pre></div>
 <ul>
 <li></li>
 </ul>
-<pre class="sourceCode Java"><code class="sourceCode java">F&lt;String, Validation&lt;LinkedList&lt;string&gt;, Name&gt;&gt;&gt;</code></pre>
+<div class="sourceCode"><pre class="sourceCode Java"><code class="sourceCode java">F&lt;String, Validation&lt;LinkedList&lt;string&gt;, Name&gt;&gt;&gt;</code></pre></div>
 <ul>
 <li></li>
 </ul>
-<pre class="sourceCode Java"><code class="sourceCode java">F&lt;Age, F&lt;Name, Person&gt;&gt;</code></pre>
+<div class="sourceCode"><pre class="sourceCode Java"><code class="sourceCode java">F&lt;Age, F&lt;Name, Person&gt;&gt;</code></pre></div>
 <ul>
 <li></li>
 </ul>
-<pre class="sourceCode Java"><code class="sourceCode java">Semigroup&lt;LinkedList&lt;string&gt;&gt;</code></pre>
+<div class="sourceCode"><pre class="sourceCode Java"><code class="sourceCode java">Semigroup&lt;LinkedList&lt;string&gt;&gt;</code></pre></div>
 <p>Return type:</p>
-<pre class="sourceCode Java"><code class="sourceCode java">F&lt;String, F&lt;String, &lt;Validation&lt;LinkedList&lt;string&gt;, Person&gt;&gt;&gt;&gt;</code></pre>
+<div class="sourceCode"><pre class="sourceCode Java"><code class="sourceCode java">F&lt;String, F&lt;String, &lt;Validation&lt;LinkedList&lt;string&gt;, Person&gt;&gt;&gt;&gt;</code></pre></div>
 <p>Of course such a function is likely to be polymorphic, rather than specifying concrete types. I recommend starting by writing a function with this type:</p>
 <p>Arguments:</p>
 <ul>
 <li></li>
 </ul>
-<pre class="sourceCode Java"><code class="sourceCode java">F&lt;T, F&lt;U, V&gt;&gt;</code></pre>
+<div class="sourceCode"><pre class="sourceCode Java"><code class="sourceCode java">F&lt;T, F&lt;U, V&gt;&gt;</code></pre></div>
 <ul>
 <li></li>
 </ul>
-<pre class="sourceCode Java"><code class="sourceCode java">F&lt;A, Validation&lt;E, T&gt;&gt;</code></pre>
+<div class="sourceCode"><pre class="sourceCode Java"><code class="sourceCode java">F&lt;A, Validation&lt;E, T&gt;&gt;</code></pre></div>
 <ul>
 <li></li>
 </ul>
-<pre class="sourceCode Java"><code class="sourceCode java">F&lt;B, Validation&lt;E, U&gt;&gt;</code></pre>
+<div class="sourceCode"><pre class="sourceCode Java"><code class="sourceCode java">F&lt;B, Validation&lt;E, U&gt;&gt;</code></pre></div>
 <p>Return type:</p>
-<pre class="sourceCode Java"><code class="sourceCode java">F&lt;A, F&lt;B, Validation&lt;E, V&gt;&gt;</code></pre>
+<div class="sourceCode"><pre class="sourceCode Java"><code class="sourceCode java">F&lt;A, F&lt;B, Validation&lt;E, V&gt;&gt;</code></pre></div>
 <p>This function can be written by using the constructs mentioned in the previous post. I’m out of breath. Java is incredibly laborious.</p>
 <p>Scala and Haskell for another time!</p>
 

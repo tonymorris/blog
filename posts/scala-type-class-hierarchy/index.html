@@ -20,11 +20,11 @@
 </div>
 <div id="header">
   <div id="navigation">
-    <a href="../../index.html">Home</a>
-    <a href="../../posts/">All Posts</a>
-    <a href="../../contact/">Contact</a>
-    <a href="http://cv.tmorris.net/">CV</a>
-    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+    <a class="navbar" href="../../index.html">Home</a>
+    <a class="navbar" href="../../posts/">All Posts</a>
+    <a class="navbar" href="../../contact/">Contact</a>
+    <a class="navbar" href="http://cv.tmorris.net/">CV</a>
+    <a class="navbar" href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
   </div>
 </div>
 <h1>Scala Type-class Hierarchy</h1>
@@ -38,7 +38,7 @@
 </ol>
 <p>You will find a similar type-class hierarchy in <a href="http://github.com/scalaz/scalaz">the Scalaz library</a>. That implementation is far more comprehensive and is aimed primarily for production use. A secondary goal here is to help document the Scalaz hierarchy in terse form, however, note that you will find some minor differences (improvements?) in the arrangement.</p>
 <p>Discussion about addition or rearrangement of the proposed hierarchy is welcome.</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">trait</span> ~&gt;[F[_], G[_]] {
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">trait</span> ~&gt;[F[_], G[_]] {
   <span class="kw">def</span> apply[A]: F[A] =&gt; G[A]
 }
 
@@ -148,7 +148,7 @@
 
 <span class="kw">trait</span> Arrow[~&gt;[_, _]] <span class="kw">extends</span> Category[~&gt;] <span class="kw">with</span> First[~&gt;] {
   <span class="kw">def</span> idA[A, B]: (A =&gt; B) =&gt; (A ~&gt; B)
-}</code></pre>
+}</code></pre></div>
 
 
 <hr />

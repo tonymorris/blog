@@ -20,11 +20,11 @@
 </div>
 <div id="header">
   <div id="navigation">
-    <a href="../../index.html">Home</a>
-    <a href="../../posts/">All Posts</a>
-    <a href="../../contact/">Contact</a>
-    <a href="http://cv.tmorris.net/">CV</a>
-    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+    <a class="navbar" href="../../index.html">Home</a>
+    <a class="navbar" href="../../posts/">All Posts</a>
+    <a class="navbar" href="../../contact/">Contact</a>
+    <a class="navbar" href="http://cv.tmorris.net/">CV</a>
+    <a class="navbar" href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
   </div>
 </div>
 <h1>20 Intermediate Scala Exercises</h1>
@@ -32,7 +32,7 @@
 
 <p>I will be publishing answers to these exercises as well as the <a href="http://blog.tmorris.net/revised-scala-exercises/">Revised Scala Exercises</a> in the near future. In the meantime, see if you can tackle the exercises below. In almost all cases, the type signature is enough to derive what the implementation should be. In all other cases, the solution is as difficult to derive anyway, so consider it an equivalent achievement.</p>
 <p>The source file below compiles, but is missing certain function implementations (where you see <code>error(&quot;todo&quot;)</code>). Enjoy and if you have questions, please feel free to post them :)</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">trait</span> PartialType[T[_, _], A] {
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">trait</span> PartialType[T[_, _], A] {
   <span class="kw">type</span> Apply[B] = T[A, B]
   <span class="kw">type</span> Flip[B] = T[B, A]
 }
@@ -142,7 +142,7 @@
   <span class="co">// Exercise 20</span>
   <span class="co">// Relative Difficulty: 10</span>
   <span class="kw">def</span> StateMisty[S]: Misty[PartialType[State, S]#Apply] = <span class="fu">error</span>(<span class="st">&quot;todo&quot;</span>)
-}</code></pre>
+}</code></pre></div>
 
 
 <hr />

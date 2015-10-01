@@ -20,11 +20,11 @@
 </div>
 <div id="header">
   <div id="navigation">
-    <a href="../../index.html">Home</a>
-    <a href="../../posts/">All Posts</a>
-    <a href="../../contact/">Contact</a>
-    <a href="http://cv.tmorris.net/">CV</a>
-    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+    <a class="navbar" href="../../index.html">Home</a>
+    <a class="navbar" href="../../posts/">All Posts</a>
+    <a class="navbar" href="../../contact/">Contact</a>
+    <a class="navbar" href="http://cv.tmorris.net/">CV</a>
+    <a class="navbar" href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
   </div>
 </div>
 <h1>Finding the Levenshtein Distance in Scala</h1>
@@ -40,7 +40,7 @@
 <li><p>While the code memoises with an array, you could use say, a map and save some space as well</p></li>
 <li><p>The code builds the call stack as it traverses the matrix (the loopy one does not)</p></li>
 </ul>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">import</span> scalaz.<span class="fu">memo</span>.<span class="fu">Memo</span>
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">import</span> scalaz.<span class="fu">memo</span>.<span class="fu">Memo</span>
 <span class="kw">import</span> scalaz.<span class="fu">memo</span>.<span class="fu">SizedMemo</span>.<span class="fu">arraySizedMemo</span>
 
 <span class="kw">object</span> Levenshtein {
@@ -60,7 +60,7 @@
 
   <span class="kw">def</span> <span class="fu">main</span>(args: Array[String]) =
     <span class="fu">println</span>(<span class="fu">levenshtein</span>(<span class="fu">args</span>(<span class="dv">0</span>).<span class="fu">toCharArray</span>, <span class="fu">args</span>(<span class="dv">1</span>).<span class="fu">toCharArray</span>))
-}</code></pre>
+}</code></pre></div>
 <p>To run this code:</p>
 <pre><code>$ wget http://projects.workingmouse.com/public/scalaz/artifacts/2.4/scalaz.jar # download Scalaz 2.4
 $ scalac -classpath scalaz.jar Levenshtein.scala # compile

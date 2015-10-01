@@ -20,11 +20,11 @@
 </div>
 <div id="header">
   <div id="navigation">
-    <a href="../../index.html">Home</a>
-    <a href="../../posts/">All Posts</a>
-    <a href="../../contact/">Contact</a>
-    <a href="http://cv.tmorris.net/">CV</a>
-    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+    <a class="navbar" href="../../index.html">Home</a>
+    <a class="navbar" href="../../posts/">All Posts</a>
+    <a class="navbar" href="../../contact/">Contact</a>
+    <a class="navbar" href="http://cv.tmorris.net/">CV</a>
+    <a class="navbar" href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
   </div>
 </div>
 <h1>Understanding Monads using Scala (Part 1)</h1>
@@ -33,7 +33,7 @@
 <p>Below are three exercises using Scala. The instructions for each are in the comments. Exercises 1 and 2 must be completed before Exercise 3 (which is just a thinking exercise – no code).</p>
 <p>A follow-on to these exercises will be coming.</p>
 <p>Hope this helps!</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// A typical data type with a single abstract method</span>
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// A typical data type with a single abstract method</span>
 <span class="kw">case</span> <span class="kw">class</span> Inter[A](f: Int =&gt; A) {
   <span class="co">// which is a functor</span>
   <span class="kw">def</span> map[B](g: A =&gt; B): Inter[B] =
@@ -132,7 +132,7 @@
     <span class="fu">assertInterEquals</span>(<span class="fu">sequenceInter</span>(List(<span class="fu">Inter</span>(<span class="dv">1</span>+),
         <span class="fu">Inter</span>(<span class="dv">2</span>*))), <span class="fu">Inter</span>(n =&gt; List(<span class="dv">1</span>+n, <span class="dv">2</span>*n)))
   }
-}</code></pre>
+}</code></pre></div>
 
 
 <hr />

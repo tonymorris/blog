@@ -20,11 +20,11 @@
 </div>
 <div id="header">
   <div id="navigation">
-    <a href="../../index.html">Home</a>
-    <a href="../../posts/">All Posts</a>
-    <a href="../../contact/">Contact</a>
-    <a href="http://cv.tmorris.net/">CV</a>
-    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+    <a class="navbar" href="../../index.html">Home</a>
+    <a class="navbar" href="../../posts/">All Posts</a>
+    <a class="navbar" href="../../contact/">Contact</a>
+    <a class="navbar" href="http://cv.tmorris.net/">CV</a>
+    <a class="navbar" href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
   </div>
 </div>
 <h1>Monads do not compose</h1>
@@ -32,7 +32,7 @@
 
 <p>On the Scala mailing list, I said “monads do not compose.” What does this mean exactly? Hopefully the following answers it.</p>
 <p>Let us first state the <code>Functor</code>, <code>Applicative</code> and <code>Monad</code> interfaces:</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">trait</span> Functor[F[_]] {
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">trait</span> Functor[F[_]] {
   <span class="kw">def</span> fmap[A, B](f: A =&gt; B, a: F[A]): F[B]
 }
 
@@ -47,7 +47,7 @@
   <span class="kw">def</span> flatMap[A, B](f: A =&gt; F[B], a: F[A]): F[B]
   <span class="kw">override</span> <span class="kw">final</span> <span class="kw">def</span> ap[A, B](f: F[A =&gt; B], a: F[A]) =
     <span class="fu">flatMap</span>((ff: A =&gt; B) =&gt; <span class="fu">fmap</span>((aa: A) =&gt; <span class="fu">ff</span>(aa), a), f)
-}</code></pre>
+}</code></pre></div>
 <p>Let’s now restate our claims:</p>
 <ol style="list-style-type: decimal">
 <li><p>Functors compose</p></li>
@@ -56,20 +56,20 @@
 </ol>
 <p>I will now address points 1) and 2). What does it mean for X to compose in this context? Let us now answer that question more succinctly:</p>
 <p>It means that we can write a function with this signature (for some X):</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">def</span> XCompose[M[_], N[_]](<span class="kw">implicit</span> mx: X[M], nx: X[N]):
-  X[({<span class="kw">type</span> λ[α]=M[N[α]]})#λ]</code></pre>
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">def</span> XCompose[M[_], N[_]](<span class="kw">implicit</span> mx: X[M], nx: X[N]):
+  X[({<span class="kw">type</span> λ[α]=M[N[α]]})#λ]</code></pre></div>
 <p>This return type may look like gobbledy, but it’s just a fancy way of doing partial type constructor application in Scala. It is essentially the X type constructor applied to the composition of M and N and followed by a type variable just like M and N itself (kind * -&gt; *). Let us now test our claims.</p>
 <p>Functors compose. That is to say, we can write:</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">def</span> FunctorCompose[M[_], N[_]]
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">def</span> FunctorCompose[M[_], N[_]]
     (<span class="kw">implicit</span> mx: Functor[M], nx: Functor[N]):
-       Functor[({<span class="kw">type</span> λ[α]=M[N[α]]})#λ]</code></pre>
+       Functor[({<span class="kw">type</span> λ[α]=M[N[α]]})#λ]</code></pre></div>
 <p>Let’s do it!</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">new</span> Functor[({<span class="kw">type</span> λ[α]=M[N[α]]})#λ] {
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">new</span> Functor[({<span class="kw">type</span> λ[α]=M[N[α]]})#λ] {
   <span class="kw">def</span> fmap[A, B](f: A =&gt; B, a: M[N[A]]) =
       mx.<span class="fu">fmap</span>((na: N[A]) =&gt; nx.<span class="fu">fmap</span>(f, na), a)
-}</code></pre>
+}</code></pre></div>
 <p>Here we are composing two Functors. Claim 1) is demonstrated. What about claim 2)? Here we go. Hold your breath!</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">def</span> ApplicativeCompose[M[_], N[_]]
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">def</span> ApplicativeCompose[M[_], N[_]]
     (<span class="kw">implicit</span> ma: Applicative[M], na: Applicative[N]):
         Applicative[({<span class="kw">type</span> λ[α]=M[N[α]]})#λ] =
   <span class="kw">new</span> Applicative[({<span class="kw">type</span> λ[α]=M[N[α]]})#λ] {
@@ -80,11 +80,11 @@
   }
   <span class="kw">def</span> point[A](a: A) =
     ma <span class="fu">point</span> (na point a)
-}</code></pre>
+}</code></pre></div>
 <p>Have fun untangling that! It’s a bit noisy but this is mostly because Scala requires a lot of boilerplate. Hopefully you can get to the essence of what it means to compose two Applicative functors.</p>
 <p>Now let’s move to Monad. Essentially, I am saying that you won’t be able to write such a function for Monad. I really encourage you to try to write it so you can see the twist that you will get into.</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">def</span> MonadCompose[M[_], N[_]](<span class="kw">implicit</span> ma: Monad[M], na: Monad[N]):
-    Monad[({<span class="kw">type</span> λ[α]=M[N[α]]})#λ]</code></pre>
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">def</span> MonadCompose[M[_], N[_]](<span class="kw">implicit</span> ma: Monad[M], na: Monad[N]):
+    Monad[({<span class="kw">type</span> λ[α]=M[N[α]]})#λ]</code></pre></div>
 <p>Here is a compilable version <a href="http://paste.pocoo.org/show/343606/" class="uri">http://paste.pocoo.org/show/343606/</a></p>
 <p>Hope that helps!</p>
 

@@ -20,45 +20,45 @@
 <ul>
 <li>covariant functors — defines the operation commonly known as <code>map</code> or <code>fmap</code>.</li>
 </ul>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// covariant functor</span>
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// covariant functor</span>
 <span class="kw">trait</span> Functor[F[_]] {
   <span class="kw">def</span> fmap[A, B](f: A =&gt; B): F[A] =&gt; F[B]
-}</code></pre>
+}</code></pre></div>
 <ul>
 <li>contravariant functors — defines the operation commonly known as <code>contramap</code>.</li>
 </ul>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// contravariant functor</span>
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// contravariant functor</span>
 <span class="kw">trait</span> Contravariant[F[_]] {
   <span class="kw">def</span> contramap[A, B](f: B =&gt; A): F[A] =&gt; F[B]
-}</code></pre>
+}</code></pre></div>
 <ul>
 <li>exponential functors — defines the operation commonly known as <code>xmap</code>. Also known as <em>invariant functors</em>.</li>
 </ul>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// exponential functor</span>
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// exponential functor</span>
 <span class="kw">trait</span> Exponential[F[_]] {
   <span class="kw">def</span> xmap[A, B](f: (A =&gt; B, B =&gt; A)): F[A] =&gt; F[B]
-}</code></pre>
+}</code></pre></div>
 <ul>
 <li>applicative functor<a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a> — defines the operation commonly known as <code>apply</code> or <code>&lt;*&gt;</code>.</li>
 </ul>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// applicative functor (abbreviated)</span>
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// applicative functor (abbreviated)</span>
 <span class="kw">trait</span> Applicative[F[_]] {
   <span class="kw">def</span> apply[A, B](f: F[A =&gt; B]): F[A] =&gt; F[B]
-}</code></pre>
+}</code></pre></div>
 <ul>
 <li>monad<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a> — defines the operation commonly known as <code>bind</code>, <code>flatMap</code> or <code>=&lt;&lt;</code>.</li>
 </ul>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// monad (abbreviated)</span>
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// monad (abbreviated)</span>
 <span class="kw">trait</span> Monad[F[_]] {
   <span class="kw">def</span> flatMap[A, B](f: A =&gt; F[B]): F[A] =&gt; F[B]
-}</code></pre>
+}</code></pre></div>
 <ul>
 <li>comonad<a href="#fn3" class="footnoteRef" id="fnref3"><sup>3</sup></a> — defines the operation commonly known as <code>extend</code>, <code>coflatMap</code> or <code>&lt;&lt;=</code>.</li>
 </ul>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// comonad (abbreviated)</span>
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// comonad (abbreviated)</span>
 <span class="kw">trait</span> Comonad[F[_]] {
   <span class="kw">def</span> coflatMap[A, B](f: F[A] =&gt; B): F[A] =&gt; F[B]
-}</code></pre>
+}</code></pre></div>
 <h2 id="remembering-the-different-types">Remembering the different types</h2>
 <p>Sometimes I am asked how to remember all of these and/or determine which is appropriate. There are many answers to this question, but there is a common feature of all of these different types of functor:</p>
 <blockquote>

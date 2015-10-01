@@ -20,11 +20,11 @@
 </div>
 <div id="header">
   <div id="navigation">
-    <a href="../../index.html">Home</a>
-    <a href="../../posts/">All Posts</a>
-    <a href="../../contact/">Contact</a>
-    <a href="http://cv.tmorris.net/">CV</a>
-    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+    <a class="navbar" href="../../index.html">Home</a>
+    <a class="navbar" href="../../posts/">All Posts</a>
+    <a class="navbar" href="../../contact/">Contact</a>
+    <a class="navbar" href="http://cv.tmorris.net/">CV</a>
+    <a class="navbar" href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
   </div>
 </div>
 <h1>Debut with a Catamorphism</h1>
@@ -37,19 +37,19 @@
 <p>Some discussions recently on the Scala mailing list include the relationship between <code>scala.Option</code> data type and <code>null</code> and another discussion about documentation and types that are once-inhabited such as <code>forall a b c. (a -&gt; b) -&gt; (b -&gt; c) -&gt; a -&gt; c</code></p>
 <p>I thought I’d propose a small piece of code and leave any potential insights unstated so as not to destroy anything for the observer. There is a Haskell version toward the end.</p>
 <p>I propose the following data type:</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">trait</span> MyOption[+A] {
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">trait</span> MyOption[+A] {
   <span class="co">// single abstract method</span>
   <span class="kw">def</span> cata[X](some: A =&gt; X, none: =&gt; X): X
-}</code></pre>
+}</code></pre></div>
 <p>Astute observers will notice that the <code>cata</code> method is similar to a combination of the <code>map</code> and <code>getOrElse</code> methods on <code>scala.Option</code>. This topic has also arisen on the Scala mailing list in the past. In other words, I could have written this:</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">trait</span> MyOption[+A] {
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">trait</span> MyOption[+A] {
   <span class="co">// two abstract methods</span>
   <span class="kw">def</span> map[X](f: A =&gt; X): MyOption[X]
   <span class="kw">def</span> getOrElse[AA &gt;: A](a: =&gt; AA): AA
-}</code></pre>
+}</code></pre></div>
 <p>…and I’d have a data structure that is exactly the same as the previous one. What may not be obvious is that <code>MyOption</code> is also exactly the same as <code>scala.Option</code>. The correct term for “exactly the same” is <em>isomorphic</em>. Yes, this is despite not using case classes or subclasses – coincidentally, another area where much mythology is prevalent.</p>
 <p>I could also write construction functions that are akin to <code>scala.None</code> and <code>scala.Some</code>:</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">object</span> MyOption {
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">object</span> MyOption {
   <span class="kw">def</span> none[A] = <span class="kw">new</span> MyOption[A] {
     <span class="kw">def</span> cata[X](s: A =&gt; X, n: =&gt; X) = n
   }
@@ -57,9 +57,9 @@
   <span class="kw">def</span> some[A](a: A) = <span class="kw">new</span> MyOption[A] {
     <span class="kw">def</span> cata[X](s: A =&gt; X, n: =&gt; X) = <span class="fu">s</span>(a)
   }
-}</code></pre>
+}</code></pre></div>
 <p>As an exercise, I propose filling out the <code>Option</code> API, however, using the single abstract method <code>cata</code> and the <code>none</code>/<code>some</code> constructor functions for additional convenience. I promise you it can be done and that anything <code>scala.Option</code> can do, <code>MyOption</code> can do also (and vice versa), since they are isomorphic.</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">trait</span> MyOption[+A] {
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">trait</span> MyOption[+A] {
   <span class="co">// single abstract method</span>
   <span class="kw">def</span> cata[X](some: A =&gt; X, none: =&gt; X): X
 
@@ -99,7 +99,7 @@
   <span class="kw">def</span> some[A](a: A) = <span class="kw">new</span> MyOption[A] {
     <span class="kw">def</span> cata[X](s: A =&gt; X, n: =&gt; X) = <span class="fu">s</span>(a)
   }
-}</code></pre>
+}</code></pre></div>
 <p>If you get stuck, the answer is base-64 encoded below, however, I encourage you to follow the types and to the extent that there may be ambiguity, follow the existing Scala API specification for <code>scala.Option</code>. If need be, please ask questions. Best of luck!</p>
 <pre><code>dHJhaXQgTXlPcHRpb25bK0FdIHsKICAvLyBzaW5nbGUgYWJzdHJhY3QgbWV0aG9kCiAgZGVmIGNh
 dGFbWF0oc29tZTogQSA9PiBYLCBub25lOiA9PiBYKTogWAoKICBpbXBvcnQgTXlPcHRpb24uXwoK
@@ -124,7 +124,7 @@ IE15T3B0aW9uW0FdIHsKICAgIGRlZiBjYXRhW1hdKHM6IEEgPT4gWCwgbjogPT4gWCkgPSBuCiAg
 fQoKICBkZWYgc29tZVtBXShhOiBBKSA9IG5ldyBNeU9wdGlvbltBXSB7CiAgICBkZWYgY2F0YVtY
 XShzOiBBID0+IFgsIG46ID0+IFgpID0gcyhhKQogIH0KfQoK</code></pre>
 <p>For Haskell users:</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="ot">{-# LANGUAGE RankNTypes #-}</span>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="ot">{-# LANGUAGE RankNTypes #-}</span>
 
 <span class="co">-- Data.Maybe</span>
 <span class="kw">newtype</span> <span class="dt">Option</span> a <span class="fu">=</span> <span class="dt">Option</span> {<span class="ot"> cata ::</span> forall x<span class="fu">.</span> (a <span class="ot">-&gt;</span> x) <span class="ot">-&gt;</span> x <span class="ot">-&gt;</span> x }
@@ -183,7 +183,7 @@ toRight m x <span class="fu">=</span> error <span class="st">&quot;todo&quot;</s
 <span class="ot">toList ::</span> <span class="dt">Option</span> a <span class="ot">-&gt;</span> [a]
 toList m <span class="fu">=</span> error <span class="st">&quot;todo&quot;</span>
 
-iterator <span class="fu">=</span> error <span class="st">&quot;bzzt. This is Haskell silly.&quot;</span></code></pre>
+iterator <span class="fu">=</span> error <span class="st">&quot;bzzt. This is Haskell silly.&quot;</span></code></pre></div>
 <pre><code>ey0jIExBTkdVQUdFIFJhbmtOVHlwZXMgIy19CgotLSBEYXRhLk1heWJlCm5ld3R5cGUgT3B0aW9u
 IGEgPSBPcHRpb24geyBjYXRhIDo6IGZvcmFsbCB4LiAoYSAtPiB4KSAtPiB4IC0+IHggfQoKLS0g
 SnVzdApzb21lIDo6IGEgLT4gT3B0aW9uIGEKc29tZSBhID0gT3B0aW9uIChccyBfIC0+IHMgYSkK

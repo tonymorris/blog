@@ -20,17 +20,17 @@
 </div>
 <div id="header">
   <div id="navigation">
-    <a href="../../index.html">Home</a>
-    <a href="../../posts/">All Posts</a>
-    <a href="../../contact/">Contact</a>
-    <a href="http://cv.tmorris.net/">CV</a>
-    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+    <a class="navbar" href="../../index.html">Home</a>
+    <a class="navbar" href="../../posts/">All Posts</a>
+    <a class="navbar" href="../../contact/">Contact</a>
+    <a class="navbar" href="http://cv.tmorris.net/">CV</a>
+    <a class="navbar" href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
   </div>
 </div>
 <h1>SKI combinator calculus in Java</h1>
 <div class="info">Posted on February  8, 2010, in <a href="../../tags/Programming/index.html">Programming</a></div>
 
-<pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">interface</span> Lam&lt;X, Y&gt; {
+<div class="sourceCode"><pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">interface</span> Lam&lt;X, Y&gt; {
   Y <span class="fu">apply</span>(X x);
 }
 
@@ -67,7 +67,7 @@
   <span class="kw">public</span> <span class="dt">static</span> &lt;a&gt; Lam&lt;A, A&gt; <span class="fu">i</span>() {
     <span class="kw">return</span> SKI.&lt;A, Lam&lt;A, A&gt;, A&gt;<span class="fu">s</span>().<span class="fu">apply</span>(SKI.&lt;A, Lam&lt;A, A&gt;&gt;<span class="fu">k</span>()).<span class="fu">apply</span>(SKI.&lt;A, A&gt;<span class="fu">k</span>());
   }
-}</code></pre>
+}</code></pre></div>
 
 
 <hr />

@@ -20,11 +20,11 @@
 </div>
 <div id="header">
   <div id="navigation">
-    <a href="../../index.html">Home</a>
-    <a href="../../posts/">All Posts</a>
-    <a href="../../contact/">Contact</a>
-    <a href="http://cv.tmorris.net/">CV</a>
-    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+    <a class="navbar" href="../../index.html">Home</a>
+    <a class="navbar" href="../../posts/">All Posts</a>
+    <a class="navbar" href="../../contact/">Contact</a>
+    <a class="navbar" href="http://cv.tmorris.net/">CV</a>
+    <a class="navbar" href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
   </div>
 </div>
 <h1>Funky Scala Bifunctor</h1>
@@ -37,10 +37,10 @@
 </ul>
 <p>Note that <code>Function1</code> is not a bifunctor, evident by the fact that it is contra-variant in its first type variable. It is notable that <code>Tuple2</code> represents <em>conjunction</em> while <code>Either</code> represents the <em>disjunction</em> of two theorems under the <a href="http://en.wikipedia.org/wiki/Curry-Howard_correspondence">Curry-Howard Isomorphism</a> (<code>Function1</code> represents <em>implication</em>`).</p>
 <p>A bifunctor often combines the two possible mappings into a function called <code>bimap</code> with the signature (Scala-ish syntax):</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala">F[A, B] =&gt; (A =&gt; C) =&gt; (B =&gt; D) =&gt; F[C, D]</code></pre>
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala">F[A, B] =&gt; (A =&gt; C) =&gt; (B =&gt; D) =&gt; F[C, D]</code></pre></div>
 <p>Recall that identity and composition laws must satisfy in the implementation.</p>
 <p>Consider now an implementation of <code>bimap</code> for both <code>Tuple2</code> and <code>Either</code>:</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">trait</span> Bifunctor[F[+_, +_]] {
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">trait</span> Bifunctor[F[+_, +_]] {
   <span class="kw">def</span> bimap[A, B, C, D](fa: F[A, B], f: A =&gt; C, g: B =&gt; D): F[C, D]
 }
 
@@ -57,7 +57,7 @@
         <span class="kw">case</span> <span class="fu">Right</span>(b) =&gt; <span class="fu">Right</span>(<span class="fu">g</span>(b))
       }
   }
-}</code></pre>
+}</code></pre></div>
 <p>These implementations are quite easy to understand, but they are not so pretty to use. This is an unfortunate consequence of a number of factors about Scala, including:</p>
 <ul>
 <li><p>Higher-kinds are never inferred</p></li>
@@ -73,7 +73,7 @@ arg :: obj</code></pre>
 <li><p><code>:-&gt;</code> for mapping on the other side</p></li>
 <li><p><code>&lt;-:-&gt;</code> for mapping on both sides</p></li>
 </ul>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">trait</span> BifunctorW[F[+_, +_], A, B] {
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">trait</span> BifunctorW[F[+_, +_], A, B] {
   <span class="kw">val</span> value: F[A, B]
   <span class="kw">val</span> bifunctor: Bifunctor[F]
 
@@ -104,9 +104,9 @@ arg :: obj</code></pre>
 
   <span class="kw">implicit</span> <span class="kw">def</span> Either2Bifunctor[A, B](v: Either[A, B]) =
     bifunctor[Either](v)
-}</code></pre>
+}</code></pre></div>
 <p>So we’ve wrapped a value and its <code>Bifunctor</code> implementation. So how does it look when we use it? Like this!</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">object</span> Main {
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">object</span> Main {
   <span class="kw">def</span> <span class="fu">main</span>(args: Array[String]) {
     <span class="kw">import</span> BifunctorW.<span class="fu">_</span>
 
@@ -128,7 +128,7 @@ arg :: obj</code></pre>
     <span class="fu">println</span>(p)
     <span class="fu">println</span>(q)
   }
-}</code></pre>
+}</code></pre></div>
 <p>And I think that’s an elegant use of a sometimes baroque (when trying for advanced concepts) language :)</p>
 
 

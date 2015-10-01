@@ -20,11 +20,11 @@
 </div>
 <div id="header">
   <div id="navigation">
-    <a href="../../index.html">Home</a>
-    <a href="../../posts/">All Posts</a>
-    <a href="../../contact/">Contact</a>
-    <a href="http://cv.tmorris.net/">CV</a>
-    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+    <a class="navbar" href="../../index.html">Home</a>
+    <a class="navbar" href="../../posts/">All Posts</a>
+    <a class="navbar" href="../../contact/">Contact</a>
+    <a class="navbar" href="http://cv.tmorris.net/">CV</a>
+    <a class="navbar" href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
   </div>
 </div>
 <h1>Haskell exercises for beginners</h1>
@@ -33,7 +33,7 @@
 <p>The exercises below are similar to my previous ‘Scala exercises for beginners’, except the rules a little clearer. For those of who have emailed me or submitted responses here on the blog, I will get around to providing you feedback, however, I’d prefer to do so on the revised version of the Exercises since then I can maintain a bit of clarity in explaining the solutions; specifically, why one may be preferred over another. I hope you don’t mind.</p>
 <p>If you have not used Haskell before, download and install <a href="http://haskell.org/ghc">GHC</a>, start up the interpreter (ghci) and load the source file. e.g. <code>:load Exercises.hs</code> If you are on Debian, you can install GHC and start the interpreter with: <code>apt-get install ghc6 &amp;&amp; ghci</code>.</p>
 <p>The source file below can be found <a href="https://bitbucket.org/dibblego/haskell-course/src/default/L02/List.hs">here</a>.</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="co">-- + Complete the 10 exercises below by filling out the function bodies.</span>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="co">-- + Complete the 10 exercises below by filling out the function bodies.</span>
 <span class="co">--   The code currently compiles, but none of the tests pass (the test function).</span>
 <span class="co">--   Replace the function bodies (error &quot;todo&quot;) with an appropriate solution.</span>
 <span class="co">-- + These exercises may be done in any order, however:</span>
@@ -282,7 +282,7 @@ contains <span class="ot">::</span>
   <span class="ot">-&gt;</span> a
   <span class="ot">-&gt;</span> <span class="dt">Bool</span>
 contains <span class="dt">Nil</span>    _ <span class="fu">=</span> <span class="dt">False</span>
-contains (h<span class="fu">:|</span>t) e <span class="fu">=</span> h <span class="fu">==</span> e <span class="fu">||</span> contains t e</code></pre>
+contains (h<span class="fu">:|</span>t) e <span class="fu">=</span> h <span class="fu">==</span> e <span class="fu">||</span> contains t e</code></pre></div>
 
 
 <hr />

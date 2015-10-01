@@ -20,11 +20,11 @@
 </div>
 <div id="header">
   <div id="navigation">
-    <a href="../../index.html">Home</a>
-    <a href="../../posts/">All Posts</a>
-    <a href="../../contact/">Contact</a>
-    <a href="http://cv.tmorris.net/">CV</a>
-    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+    <a class="navbar" href="../../index.html">Home</a>
+    <a class="navbar" href="../../posts/">All Posts</a>
+    <a class="navbar" href="../../contact/">Contact</a>
+    <a class="navbar" href="http://cv.tmorris.net/">CV</a>
+    <a class="navbar" href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
   </div>
 </div>
 <h1>scala.Option Cheat Sheet</h1>
@@ -32,117 +32,117 @@
 
 <p>Many people who are coming in to Scala first encounter the <a href="http://www.scala-lang.org/docu/files/api/scala/Option.html">Option</a> type, which may be thought of (among other things) as a type-safe <code>null</code>. They also encounter pattern matching as both a new and (relatively) powerful concept, but also one that is easy to understand. This leads to quite a lot of use of pattern matching and often excessively so in what I have observed.</p>
 <p>Particularly with a type as trivial as <code>Option</code>, it is almost always possible to do away with pattern matching by using a higher-order function. Use of this function is typically preferred over pattern matching as tighter code. In fact, it is important to observe that it is possible to encapsulate all forms of pattern matching over <code>Option</code> with one simple higher-order function:</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">def</span> option[A, X](o: Option[A])(none: =&gt; X, some: =&gt; A =&gt; X): X = ...</code></pre>
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">def</span> option[A, X](o: Option[A])(none: =&gt; X, some: =&gt; A =&gt; X): X = ...</code></pre></div>
 <p>Then, all functions can be written in terms of this one and needn’t pattern match at all. For example, consider <code>Option.map</code>:</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">def</span> map[A, B](o: Option[A], f: A =&gt; B) =
-  <span class="fu">option</span>(o, None, a =&gt; Some(<span class="fu">f</span>(a)))</code></pre>
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">def</span> map[A, B](o: Option[A], f: A =&gt; B) =
+  <span class="fu">option</span>(o, None, a =&gt; Some(<span class="fu">f</span>(a)))</code></pre></div>
 <p>In this post, I am going to give some common uses of pattern matching, which many developers might find themselves performing, followed by the use of a function that already exists on <code>Option</code> that encapsulates that given form of pattern matching. If you find yourself using pattern matching in a form not listed below, but feel it could be abstracted, then chances are that such a function exists in the <a href="http://code.google.com/p/scalaz/">Scalaz extension to scala.Option</a>.</p>
 <p>I will use the identifier <code>foo</code> below to denote any particular function, including many functions composed, for example, <code>foo(x)</code> may represent the composition of two functions f and g: <code>f(g(x))</code>. I also use the identifier <code>option</code> to denote any value of the type <code>scala.Option</code>.</p>
 <p>I hope this helps :)</p>
 <hr />
 <p><strong><code>flatMap</code></strong></p>
-<pre class="sourceCode Scala"><code class="sourceCode scala">option <span class="kw">match</span> {
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala">option <span class="kw">match</span> {
   <span class="kw">case</span> None =&gt; None
   <span class="kw">case</span> Some(x) =&gt; <span class="fu">foo</span>(x)
-}</code></pre>
+}</code></pre></div>
 <p>This code is equivalent to:</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala">option.<span class="fu">flatMap</span>(<span class="fu">foo</span>(_))</code></pre>
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala">option.<span class="fu">flatMap</span>(<span class="fu">foo</span>(_))</code></pre></div>
 <hr />
 <p><strong><code>flatten</code></strong></p>
-<pre class="sourceCode Scala"><code class="sourceCode scala">option <span class="kw">match</span> {
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala">option <span class="kw">match</span> {
   <span class="kw">case</span> None =&gt; None
   <span class="kw">case</span> Some(x) =&gt; x
-}</code></pre>
+}</code></pre></div>
 <p>This code is equivalent to:</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala">option.<span class="fu">flatten</span></code></pre>
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala">option.<span class="fu">flatten</span></code></pre></div>
 <hr />
 <p><strong><code>map</code></strong></p>
-<pre class="sourceCode Scala"><code class="sourceCode scala">option <span class="kw">match</span> {
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala">option <span class="kw">match</span> {
   <span class="kw">case</span> None =&gt; None
   <span class="kw">case</span> Some(x) =&gt; Some(<span class="fu">foo</span>(x))
-}</code></pre>
+}</code></pre></div>
 <p>This code is equivalent to:</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala">option.<span class="fu">map</span>(<span class="fu">foo</span>(_))</code></pre>
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala">option.<span class="fu">map</span>(<span class="fu">foo</span>(_))</code></pre></div>
 <hr />
 <p><strong><code>foreach</code></strong></p>
-<pre class="sourceCode Scala"><code class="sourceCode scala">option <span class="kw">match</span> {
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala">option <span class="kw">match</span> {
   <span class="kw">case</span> None =&gt; {}
   <span class="kw">case</span> Some(x) =&gt; <span class="fu">foo</span>(x)
-}</code></pre>
+}</code></pre></div>
 <p>This code is equivalent to:</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala">option.<span class="fu">foreach</span>(<span class="fu">foo</span>(_))</code></pre>
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala">option.<span class="fu">foreach</span>(<span class="fu">foo</span>(_))</code></pre></div>
 <hr />
 <p><strong><code>isDefined</code></strong></p>
-<pre class="sourceCode Scala"><code class="sourceCode scala">option <span class="kw">match</span> {
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala">option <span class="kw">match</span> {
   <span class="kw">case</span> None =&gt; <span class="kw">false</span>
   <span class="kw">case</span> Some(_) =&gt; <span class="kw">true</span>
-}</code></pre>
+}</code></pre></div>
 <p>This code is equivalent to:</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala">option.<span class="fu">isDefined</span></code></pre>
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala">option.<span class="fu">isDefined</span></code></pre></div>
 <hr />
 <p><strong><code>isEmpty</code></strong></p>
-<pre class="sourceCode Scala"><code class="sourceCode scala">option <span class="kw">match</span> {
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala">option <span class="kw">match</span> {
   <span class="kw">case</span> None =&gt; <span class="kw">true</span>
   <span class="kw">case</span> Some(_) =&gt; <span class="kw">false</span>
-}</code></pre>
+}</code></pre></div>
 <p>This code is equivalent to:</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala">option.<span class="fu">isEmpty</span></code></pre>
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala">option.<span class="fu">isEmpty</span></code></pre></div>
 <hr />
 <p><strong><code>forall</code></strong></p>
-<pre class="sourceCode Scala"><code class="sourceCode scala">option <span class="kw">match</span> {
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala">option <span class="kw">match</span> {
   <span class="kw">case</span> None =&gt; <span class="kw">true</span>
   <span class="kw">case</span> Some(x) =&gt; <span class="fu">foo</span>(x)
-}</code></pre>
+}</code></pre></div>
 <p>This code is equivalent to:</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala">option.<span class="fu">forall</span>(<span class="fu">foo</span>(_))</code></pre>
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala">option.<span class="fu">forall</span>(<span class="fu">foo</span>(_))</code></pre></div>
 <hr />
 <p><strong><code>exists</code></strong></p>
-<pre class="sourceCode Scala"><code class="sourceCode scala">option <span class="kw">match</span> {
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala">option <span class="kw">match</span> {
   <span class="kw">case</span> None =&gt; <span class="kw">false</span>
   <span class="kw">case</span> Some(x) =&gt; <span class="fu">foo</span>(x)
-}</code></pre>
+}</code></pre></div>
 <p>This code is equivalent to:</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala">option.<span class="fu">exists</span>(<span class="fu">foo</span>(_))</code></pre>
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala">option.<span class="fu">exists</span>(<span class="fu">foo</span>(_))</code></pre></div>
 <hr />
 <p><strong><code>orElse</code></strong></p>
-<pre class="sourceCode Scala"><code class="sourceCode scala">option <span class="kw">match</span> {
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala">option <span class="kw">match</span> {
   <span class="kw">case</span> None =&gt; foo
   <span class="kw">case</span> Some(x) =&gt; Some(x)
-}</code></pre>
+}</code></pre></div>
 <p>This code is equivalent to:</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala">option.<span class="fu">orElse</span>(foo)</code></pre>
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala">option.<span class="fu">orElse</span>(foo)</code></pre></div>
 <hr />
 <p><strong><code>getOrElse</code></strong></p>
-<pre class="sourceCode Scala"><code class="sourceCode scala">option <span class="kw">match</span> {
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala">option <span class="kw">match</span> {
   <span class="kw">case</span> None =&gt; foo
   <span class="kw">case</span> Some(x) =&gt; x
-}</code></pre>
+}</code></pre></div>
 <p>This code is equivalent to:</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala">option.<span class="fu">getOrElse</span>(foo)</code></pre>
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala">option.<span class="fu">getOrElse</span>(foo)</code></pre></div>
 <hr />
 <p><strong><code>toList</code></strong></p>
-<pre class="sourceCode Scala"><code class="sourceCode scala">option <span class="kw">match</span> {
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala">option <span class="kw">match</span> {
   <span class="kw">case</span> None =&gt; Nil
   <span class="kw">case</span> Some(x) =&gt; x :: Nil
-}</code></pre>
+}</code></pre></div>
 <p>This code is equivalent to:</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala">option.<span class="fu">toList</span></code></pre>
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala">option.<span class="fu">toList</span></code></pre></div>
 <hr />
 <p><strong><code>coflatMap</code></strong><a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a></p>
-<pre class="sourceCode Scala"><code class="sourceCode scala">option <span class="kw">match</span> {
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala">option <span class="kw">match</span> {
   <span class="kw">case</span> None =&gt; None
   <span class="kw">case</span> Some(_) =&gt; Some(<span class="fu">foo</span>(option))
-}</code></pre>
+}</code></pre></div>
 <p>This code is equivalent to:</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala">option.<span class="fu">coflatMap</span>(<span class="fu">foo</span>(_))</code></pre>
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala">option.<span class="fu">coflatMap</span>(<span class="fu">foo</span>(_))</code></pre></div>
 <hr />
 <p><strong><code>duplicate</code></strong><a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a></p>
-<pre class="sourceCode Scala"><code class="sourceCode scala">option <span class="kw">match</span> {
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala">option <span class="kw">match</span> {
   <span class="kw">case</span> None =&gt; None
   <span class="kw">case</span> Some(_) =&gt; Some(option)
-}</code></pre>
+}</code></pre></div>
 <p>This code is equivalent to:</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala">option.<span class="fu">duplicate</span></code></pre>
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala">option.<span class="fu">duplicate</span></code></pre></div>
 <div class="footnotes">
 <hr />
 <ol>

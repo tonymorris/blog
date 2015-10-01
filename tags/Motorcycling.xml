@@ -8,8 +8,10 @@
         <name>Tony Morris</name>
         <email>blog@tmorris.net</email>
     </author>
-    <updated>2015-05-24T00:00:00Z</updated>
+    <updated>2013-03-10T20:00:00Z</updated>
     <entry>
+<<<<<<< HEAD
+=======
     <title>24 May 2015 Thulimbah Ride Report</title>
     <link href="http://blog.tmorris.net/posts/thulimbah-ride-report/index.html" />
     <id>http://blog.tmorris.net/posts/thulimbah-ride-report/index.html</id>
@@ -603,6 +605,7 @@ Be careful about holding down either of these two buttons for too long, since th
 <p>In any case, we should just meet up, work out what you are looking for and go for a ride. Unfortunately though, I am dealing with some health issues at the moment and hope to be back on two wheels by December.</p>]]></summary>
 </entry>
 <entry>
+>>>>>>> 718efa71bf675bd79414596c96ab14269d079034
     <title>Lane-Splitting in Australia.</title>
     <link href="http://blog.tmorris.net/posts/lane-splitting/index.html" />
     <id>http://blog.tmorris.net/posts/lane-splitting/index.html</id>

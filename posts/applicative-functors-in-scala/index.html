@@ -20,18 +20,18 @@
 </div>
 <div id="header">
   <div id="navigation">
-    <a href="../../index.html">Home</a>
-    <a href="../../posts/">All Posts</a>
-    <a href="../../contact/">Contact</a>
-    <a href="http://cv.tmorris.net/">CV</a>
-    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+    <a class="navbar" href="../../index.html">Home</a>
+    <a class="navbar" href="../../posts/">All Posts</a>
+    <a class="navbar" href="../../contact/">Contact</a>
+    <a class="navbar" href="http://cv.tmorris.net/">CV</a>
+    <a class="navbar" href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
   </div>
 </div>
 <h1>Applicative Functors in Scala</h1>
 <div class="info">Posted on June 20, 2008, in <a href="../../tags/Programming/index.html">Programming</a></div>
 
 <p>The <a href="http://www.soi.city.ac.uk/~ross/papers/Applicative.html">Applicative Functor</a> pattern is an incredibly powerful abstraction. I recently added it to a branch of <a href="http://wiki.workingmouse.com/index.php/Scalaz">Scalaz</a>. However, it would be nice if I could alter the fixity of functions so that the parentheses below are not required to make the expression right-associative.</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">val</span> add = (a: Int) =&gt; (b: Int) =&gt; (c: Int) =&gt; a + b + c
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">val</span> add = (a: Int) =&gt; (b: Int) =&gt; (c: Int) =&gt; a + b + c
 <span class="kw">val</span> none: Option[Int] = None <span class="co">// Grrr Scala</span>
 
 <span class="co">// Some(24)</span>
@@ -41,9 +41,9 @@
 <span class="fu">println</span>(Some(<span class="dv">7</span>) &lt;*&gt; (none &lt;*&gt; (Some(<span class="dv">9</span>) &gt; add)))
 
 <span class="co">// List(87, 88, 89, 91, 92, 93)</span>
-<span class="fu">println</span>(List(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>) &lt;*&gt; (List(<span class="dv">77</span>) &lt;*&gt; (List(<span class="dv">9</span>, <span class="dv">13</span>) &gt; add)))</code></pre>
+<span class="fu">println</span>(List(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>) &lt;*&gt; (List(<span class="dv">77</span>) &lt;*&gt; (List(<span class="dv">9</span>, <span class="dv">13</span>) &gt; add)))</code></pre></div>
 <p>Having to write that silly <code>none</code> value is annoying too. At the very least a none function would suffice:</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">def</span> none[A]: Option[A] = None</code></pre>
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">def</span> none[A]: Option[A] = None</code></pre></div>
 <p>That way. I could use <code>none[Int]</code> and be done with it.</p>
 <p>Still, this pattern is a nice tool to use and I will surely be using it in the future.</p>
 

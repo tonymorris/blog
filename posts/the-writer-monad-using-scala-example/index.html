@@ -20,11 +20,11 @@
 </div>
 <div id="header">
   <div id="navigation">
-    <a href="../../index.html">Home</a>
-    <a href="../../posts/">All Posts</a>
-    <a href="../../contact/">Contact</a>
-    <a href="http://cv.tmorris.net/">CV</a>
-    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+    <a class="navbar" href="../../index.html">Home</a>
+    <a class="navbar" href="../../posts/">All Posts</a>
+    <a class="navbar" href="../../contact/">Contact</a>
+    <a class="navbar" href="http://cv.tmorris.net/">CV</a>
+    <a class="navbar" href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
   </div>
 </div>
 <h1>The Writer Monad using Scala (example)</h1>
@@ -32,7 +32,7 @@
 
 <p>Prompted by <a href="http://permalink.gmane.org/gmane.comp.lang.scala.user/34094">a question on the scala mailing list</a>, I have produced below a minimal library representing a data type called <code>Logger</code> and its monad implementation (see the <code>map</code> and <code>flatMap</code> methods).</p>
 <p>This data type represents logging in a pure functional environment where you maintain compositionality of your code (i.e. no side-effects) and also, brevity of code – see the example usage below using a for-comprehension demonstrating this.</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">trait</span> Monoid[A] {
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">trait</span> Monoid[A] {
   <span class="kw">def</span> <span class="fu">append</span>(a1: A, a2: A): A
   <span class="kw">def</span> empty: A
 }
@@ -123,7 +123,7 @@
 
   <span class="kw">def</span> <span class="fu">times7</span>(n: Int) =
     (n * <span class="dv">7</span>) &lt;|~ (<span class="st">&quot;multiplying &quot;</span> + n + <span class="st">&quot; by 7 to produce &quot;</span> + _)
-}</code></pre>
+}</code></pre></div>
 
 
 <hr />

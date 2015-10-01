@@ -20,11 +20,11 @@
 </div>
 <div id="header">
   <div id="navigation">
-    <a href="../../index.html">Home</a>
-    <a href="../../posts/">All Posts</a>
-    <a href="../../contact/">Contact</a>
-    <a href="http://cv.tmorris.net/">CV</a>
-    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+    <a class="navbar" href="../../index.html">Home</a>
+    <a class="navbar" href="../../posts/">All Posts</a>
+    <a class="navbar" href="../../contact/">Contact</a>
+    <a class="navbar" href="http://cv.tmorris.net/">CV</a>
+    <a class="navbar" href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
   </div>
 </div>
 <h1>Proving the existence of curry</h1>
@@ -65,20 +65,20 @@ curry :: forall a b c. ((a, b) -&gt; c) -&gt; a -&gt; b -&gt; c</code></pre>
 <p>Same same! :)</p>
 <p>OK, so Haskell is for crazy people who use (oh dear!) logic which has nothing to do with that <em>real world</em> and they should all be writing enterprise Java applications like real programmers, right? Yeah right. Yep uh huh.</p>
 <p>So let’s write this in Java, just for kicks and just to be noisy. Start with the conjunction and implication primitives:</p>
-<pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">interface</span> Implication&lt;P, Q&gt; {
+<div class="sourceCode"><pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">interface</span> Implication&lt;P, Q&gt; {
   Q <span class="fu">implies</span>(P p);
 }
 
 <span class="kw">interface</span> Conjunction&lt;P, Q&gt; {
   P <span class="fu">p</span>();
   Q <span class="fu">q</span>();
-}</code></pre>
+}</code></pre></div>
 <p>Next write the method for representing the aforementioned statement:</p>
-<pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">class</span> S {
+<div class="sourceCode"><pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">class</span> S {
   <span class="dt">static</span> &lt;A, B, C&gt; Implication&lt;Implication&lt;Conjunction&lt;A, B&gt;, C&gt;, Implication&lt;A, Implication&lt;B, C&gt;&gt;&gt; <span class="fu">s</span>() {
     <span class="kw">return</span> <span class="kw">null</span>; <span class="co">// todo</span>
   }
-}</code></pre>
+}</code></pre></div>
 <p>I shall leave it as a reader exercise to implement the <code>s</code> method. I assure you of only one possible implementation if you do not use <code>null</code>, exceptions or side-effects.</p>
 <p>Function currying, like all programming concepts, is a logical statement under the Curry-Howard Isomorphism. Have a nice day :)</p>
 

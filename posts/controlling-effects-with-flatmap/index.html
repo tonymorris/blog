@@ -20,11 +20,11 @@
 </div>
 <div id="header">
   <div id="navigation">
-    <a href="../../index.html">Home</a>
-    <a href="../../posts/">All Posts</a>
-    <a href="../../contact/">Contact</a>
-    <a href="http://cv.tmorris.net/">CV</a>
-    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+    <a class="navbar" href="../../index.html">Home</a>
+    <a class="navbar" href="../../posts/">All Posts</a>
+    <a class="navbar" href="../../contact/">Contact</a>
+    <a class="navbar" href="http://cv.tmorris.net/">CV</a>
+    <a class="navbar" href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
   </div>
 </div>
 <h1>Controlling effects with flatMap/>>=</h1>
@@ -32,57 +32,57 @@
 
 <p>I used to lecture at university. These days I teach for fun. Sometimes I am asked about controlling effects in a pure programming language such as Haskell by people who are very familiar with Scala’s <code>flatMap</code> method on List type, Option and so on (sadly, it is missing from the most fundamental of all – <code>Function1</code>). I often do this on a white-board and it has been reasonably successful at producing “aha! moments” so maybe it will help you.</p>
 <p>Scala includes special syntax for using this method in the form of for-comprehensions. Specifically code like the following…</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell">for(k <span class="ot">&lt;-</span> e1;
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell">for(k <span class="ot">&lt;-</span> e1;
     l <span class="ot">&lt;-</span> e2(k);
     m <span class="ot">&lt;-</span> e3;
     n <span class="ot">&lt;-</span> e4(k, m))
-  yield f(k, l, m, n)</code></pre>
+  yield f(k, l, m, n)</code></pre></div>
 <p>…is translated into…</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala">e1 <span class="fu">flatMap</span> (k =&gt;
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala">e1 <span class="fu">flatMap</span> (k =&gt;
 <span class="fu">e2</span>(k) <span class="fu">flatMap</span> (l =&gt;
 e3 <span class="fu">flatMap</span> (m =&gt;
 <span class="fu">e4</span>(k, m) <span class="fu">map</span> (n =&gt;
-<span class="fu">f</span>(k, l, m, n)))))</code></pre>
+<span class="fu">f</span>(k, l, m, n)))))</code></pre></div>
 <p>Notice the final call to <code>map</code> which is a <em>specialisation</em> of a call to <code>flatMap</code> by taking the <em>unital</em> for the type constructor under consideration. Gobbledy-gook? It’s simple really. Consider Lists:</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala">x map f
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala">x map f
 <span class="co">// can also be written</span>
-x <span class="fu">flatMap</span> (z =&gt; List(<span class="fu">f</span>(z)))</code></pre>
+x <span class="fu">flatMap</span> (z =&gt; List(<span class="fu">f</span>(z)))</code></pre></div>
 <p>That is because <code>x =&gt; List(x)</code> is the unit for <code>List</code>. For <code>Option</code> this function is the unit operation: <code>x =&gt; Some(x)</code>. Try it next time you call <code>map</code> – use <code>flatMap</code> instead plus the unit operation for whatever type constructor you’re using (<code>List</code>, <code>Option</code>, whatever) – you’ll always get the same result. For <code>Function1</code> the unit operation is <code>x =&gt; y =&gt; x</code>. I digress.</p>
 <p>When I am asked about controlling side-effects I point to this <code>flatMap</code> business first so that I can assume familiarity (simple right?), then I switch to a completely different discussion about say, the following Java program snippet:</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala">T t = <span class="fu">e1</span>();
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala">T t = <span class="fu">e1</span>();
 <span class="fu">e2</span>(t);
 U u = <span class="fu">e3</span>(t);
 V v = <span class="fu">e4</span>(t, u);
-<span class="kw">return</span> <span class="fu">e5</span>(u, v);</code></pre>
+<span class="kw">return</span> <span class="fu">e5</span>(u, v);</code></pre></div>
 <p>What I do with this snippet is invent a new programming that has very similar, but still different syntax to Java and I rewrite the program above. I do two things first</p>
 <ol style="list-style-type: decimal">
 <li><p>The syntax for assignment occurs in reverse</p></li>
 <li><p>I remove type annotations (like T, U and V)</p></li>
 </ol>
 <p>Here is how the program looks now:</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="fu">e1</span>() = t;
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="fu">e1</span>() = t;
 <span class="fu">e2</span>(t);
 <span class="fu">e3</span>(t) = u;
 <span class="fu">e4</span>(t, u) = v;
-<span class="kw">return</span> <span class="fu">e5</span>(u, v);</code></pre>
+<span class="kw">return</span> <span class="fu">e5</span>(u, v);</code></pre></div>
 <p>Next I replace semi-colons (except the last one) with <code>=&gt;</code> and I rename <code>return</code> to <code>unit</code>:</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="fu">e1</span>() = t =&gt;
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="fu">e1</span>() = t =&gt;
 <span class="fu">e2</span>(t) =&gt;
 <span class="fu">e3</span>(t) = u =&gt;
 <span class="fu">e4</span>(t, u) = v =&gt;
-<span class="dt">unit</span> <span class="fu">e5</span>(u, v)</code></pre>
+<span class="dt">unit</span> <span class="fu">e5</span>(u, v)</code></pre></div>
 <p>Finally, I replace the equals sign with <code>flatMap</code> and I add a special case for the call to <code>e2</code> which has no return value by calling <code>flatMap</code> but ignoring the parameter to the given function (denoted with an underscore):</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="fu">e1</span>() flatMap t =&gt;
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="fu">e1</span>() flatMap t =&gt;
 <span class="fu">e2</span>(t) flatMap _ =&gt;
 <span class="fu">e3</span>(t) flatMap u =&gt;
 <span class="fu">e4</span>(t, u) flatMap v =&gt;
-<span class="dt">unit</span> <span class="fu">e5</span>(u, v)</code></pre>
+<span class="dt">unit</span> <span class="fu">e5</span>(u, v)</code></pre></div>
 <p>Since we know that the call to <code>flatMap</code> with <code>unit</code> can be replaced with a call to <code>map</code> let’s do that:</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="fu">e1</span>() flatMap t =&gt;
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="fu">e1</span>() flatMap t =&gt;
 <span class="fu">e2</span>(t) flatMap _ =&gt;
 <span class="fu">e3</span>(t) flatMap u =&gt;
 <span class="fu">e4</span>(t, u) map v =&gt;
-<span class="fu">e5</span>(u, v)</code></pre>
+<span class="fu">e5</span>(u, v)</code></pre></div>
 <p>Voila! Have we just turned an imperative program into a pure one just by altering syntax!? Not really – rather, the distinction between imperative and pure is entirely dependent on the colour of your glasses. There is no hard-and-fast divide between one and the other (let that not detract from the huge implications of using one or the other). Importantly, we have seen that we can control side-effects with <code>flatMap</code>.</p>
 <p>The <code>flatMap</code> method is at the very essence of a computational model called monads. Note that while we can control side-effects with monads, monads are not always about controlling side-effects! Indeed, when we call <code>flatMap</code> on <code>Option</code> or <code>List</code> we are using monads that have nothing to do with side-effects.</p>
 <p>Haskell calls <code>flatMap</code> by a different name <code>&gt;&gt;=</code> and instead of for-comprehensions, Haskell has do-notation.</p>

@@ -20,7 +20,7 @@
 <p><strong>How might the problem of code duplication be solved for this case?</strong></p>
 <p>The puzzle is designed to compile as-is, which means for some languages, support data structures need to be provided. For example, the C# programming language does not provide an immutable (cons) list data structure, so the bare minimum is supplied here. This makes the puzzle appear quite noisy for that specific programming language, however be assured it is the same code.</p>
 <h1 id="scala">Scala</h1>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">object</span> RefactorPuzzle {
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">object</span> RefactorPuzzle {
   <span class="kw">case</span> <span class="kw">class</span> IntRdr[+A](read: Int =&gt; A) {
     <span class="kw">def</span> map[B](f: A =&gt; B): IntRdr[B] =
       <span class="fu">IntRdr</span>(f compose read)
@@ -52,9 +52,9 @@
 <span class="co">// x.foldRight[Option[List[A]]](Option(Nil))((a, b) =&gt; a.flatMap(aa =&gt; b.map(aa :: _)))</span>
 <span class="co">// x.foldRight[IntRdr[List[A]]](IntRdr(Nil))((a, b) =&gt; a.flatMap(aa =&gt; b.map(aa :: _)))</span>
 
-}</code></pre>
+}</code></pre></div>
 <h1 id="haskell">Haskell</h1>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">module</span> <span class="dt">RefactoringPuzzle</span> <span class="kw">where</span>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">module</span> <span class="dt">RefactoringPuzzle</span> <span class="kw">where</span>
 
 <span class="kw">newtype</span> <span class="dt">IntRdr</span> a <span class="fu">=</span>
   <span class="dt">IntRdr</span> {
@@ -123,9 +123,9 @@ runIntRdrs <span class="fu">=</span> foldr (\a b <span class="ot">-&gt;</span> b
 
 <span class="co">-- ***      ***********************      **************      ************           ****</span>
 <span class="co">-- runOptions = foldr (\a b -&gt; bindOption a (\aa -&gt; mapOption b (aa:))) (applyOption [])</span>
-<span class="co">-- runIntRdrs = foldr (\a b -&gt; bindIntRdr a (\aa -&gt; mapIntRdr b (aa:))) (applyIntRdr [])</span></code></pre>
+<span class="co">-- runIntRdrs = foldr (\a b -&gt; bindIntRdr a (\aa -&gt; mapIntRdr b (aa:))) (applyIntRdr [])</span></code></pre></div>
 <h1 id="c">C#</h1>
-<pre class="sourceCode cs"><code class="sourceCode cs"><span class="kw">using</span> System;
+<div class="sourceCode"><pre class="sourceCode cs"><code class="sourceCode cs"><span class="kw">using</span> System;
 
 <span class="kw">namespace</span> RefactoringPuzzle {
 <span class="kw">class</span> IntRdr&lt;A&gt; {
@@ -236,9 +236,9 @@ runIntRdrs <span class="fu">=</span> foldr (\a b <span class="ot">-&gt;</span> b
 <span class="co">// b.Select(bb =&gt; bb.Prepend(aa))), Option&lt;List&lt;A&gt;&gt;.apply(new Nil()));</span>
 <span class="co">// b.Select(bb =&gt; bb.Prepend(aa))), IntRdr&lt;List&lt;A&gt;&gt;.apply(new Nil()));</span>
 
-}</code></pre>
+}</code></pre></div>
 <h1 id="java">Java</h1>
-<pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">package RefactoringPuzzle;</span>
+<div class="sourceCode"><pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">package RefactoringPuzzle;</span>
 
 <span class="kw">abstract</span> <span class="kw">class</span> Func&lt;T, U&gt; {
   <span class="kw">abstract</span> U <span class="fu">apply</span>(T t);
@@ -415,7 +415,7 @@ runIntRdrs <span class="fu">=</span> foldr (\a b <span class="ot">-&gt;</span> b
 <span class="co">//   ***      ***********************</span>
 <span class="co">//   }, Option.apply(List.&lt;A&gt;nil()));</span>
 <span class="co">//   }, IntRdr.apply(List.&lt;A&gt;nil()));</span>
-  …</code></pre>]]></summary>
+  …</code></pre></div>]]></summary>
 </entry>
 
 </feed>

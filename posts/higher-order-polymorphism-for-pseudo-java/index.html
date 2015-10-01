@@ -20,17 +20,17 @@
 </div>
 <div id="header">
   <div id="navigation">
-    <a href="../../index.html">Home</a>
-    <a href="../../posts/">All Posts</a>
-    <a href="../../contact/">Contact</a>
-    <a href="http://cv.tmorris.net/">CV</a>
-    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+    <a class="navbar" href="../../index.html">Home</a>
+    <a class="navbar" href="../../posts/">All Posts</a>
+    <a class="navbar" href="../../contact/">Contact</a>
+    <a class="navbar" href="http://cv.tmorris.net/">CV</a>
+    <a class="navbar" href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
   </div>
 </div>
 <h1>Higher-order Polymorphism for pseudo-Java</h1>
 <div class="info">Posted on January 28, 2010, in <a href="../../tags/Programming/index.html">Programming</a></div>
 
-<pre class="sourceCode Java"><code class="sourceCode java"><span class="co">// Simulate Higher-Order Functions.</span>
+<div class="sourceCode"><pre class="sourceCode Java"><code class="sourceCode java"><span class="co">// Simulate Higher-Order Functions.</span>
 <span class="co">// A lambda function is any implementation of this interface.</span>
 <span class="kw">interface</span> Lambda&lt;X, Y&gt; {
   Y <span class="fu">apply</span>(X x);
@@ -102,7 +102,7 @@
 <span class="co">// It turns a linear amount of code into a constant amount of code.</span>
 <span class="co">// Similarly a sort function that runs on lists of</span>
 <span class="co">// any type (provided a comparator) alleviates the need for linear</span>
-<span class="co">// amounts of code (a sort function for each possible list element type).</span></code></pre>
+<span class="co">// amounts of code (a sort function for each possible list element type).</span></code></pre></div>
 
 
 <hr />

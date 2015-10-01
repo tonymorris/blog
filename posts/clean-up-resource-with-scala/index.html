@@ -20,11 +20,11 @@
 </div>
 <div id="header">
   <div id="navigation">
-    <a href="../../index.html">Home</a>
-    <a href="../../posts/">All Posts</a>
-    <a href="../../contact/">Contact</a>
-    <a href="http://cv.tmorris.net/">CV</a>
-    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+    <a class="navbar" href="../../index.html">Home</a>
+    <a class="navbar" href="../../posts/">All Posts</a>
+    <a class="navbar" href="../../contact/">Contact</a>
+    <a class="navbar" href="http://cv.tmorris.net/">CV</a>
+    <a class="navbar" href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
   </div>
 </div>
 <h1>Clean-up resource with Scala</h1>
@@ -33,7 +33,7 @@
 <blockquote>
 <p><code>Nov 17 15:48:39 &lt;jinok&gt;</code> i hate wasting vertical space declaring vals that i need to initialize outside of a try block so i can clean them up in a finally block <code>Nov 17 15:48:53 &lt;jinok&gt;</code> so i’ve started doing the initialization using lazy vals.</p>
 </blockquote>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">sealed</span> <span class="kw">trait</span> Resource[+T] {
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">sealed</span> <span class="kw">trait</span> Resource[+T] {
   <span class="kw">val</span> value: T
   <span class="kw">def</span> close: Unit
 
@@ -59,7 +59,7 @@
     <span class="co">// print the first character of /etc/passwd</span>
     <span class="fu">println</span>(in <span class="fu">use</span> (_.<span class="fu">read</span>.<span class="fu">toChar</span>))
   }
-}</code></pre>
+}</code></pre></div>
 <p>Reader’s exercise: <code>Resource</code> is a functor and monad. Implement the <code>map</code> and <code>flatMap</code> methods. Observe trickiness and ask why?</p>
 
 

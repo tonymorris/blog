@@ -20,11 +20,11 @@
 </div>
 <div id="header">
   <div id="navigation">
-    <a href="../../index.html">Home</a>
-    <a href="../../posts/">All Posts</a>
-    <a href="../../contact/">Contact</a>
-    <a href="http://cv.tmorris.net/">CV</a>
-    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+    <a class="navbar" href="../../index.html">Home</a>
+    <a class="navbar" href="../../posts/">All Posts</a>
+    <a class="navbar" href="../../contact/">Contact</a>
+    <a class="navbar" href="http://cv.tmorris.net/">CV</a>
+    <a class="navbar" href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
   </div>
 </div>
 <h1>Does Scala have Java's ternary operator?</h1>
@@ -32,9 +32,9 @@
 
 <p>I hear this question a lot. Yes it does. Instead of <code>c ? p : q</code>, it is written <code>if(c) p else q</code>.</p>
 <p>This may not be preferable. Perhaps you’d like to write it using the same syntax as Java. Sadly, you can’t. This is because <code>:</code> is not a valid identifier. Fear not, <code>|</code> is! Would you settle for this?</p>
-<pre class="sourceCode Java"><code class="sourceCode java">c ? p | q</code></pre>
+<div class="sourceCode"><pre class="sourceCode Java"><code class="sourceCode java">c ? p | q</code></pre></div>
 <p>Then you’ll need the following code. Notice the call-by-name (<code>=&gt;</code>) annotations on the arguments. This evaluation strategy is required to correctly rewrite Java’s ternary operator. This cannot be done in Java itself.</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">case</span> <span class="kw">class</span> <span class="fu">Bool</span>(b: Boolean) {
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">case</span> <span class="kw">class</span> <span class="fu">Bool</span>(b: Boolean) {
   <span class="kw">def</span> ?[X](t: =&gt; X) = <span class="kw">new</span> {
     <span class="kw">def</span> |(f: =&gt; X) = <span class="kw">if</span>(b) t <span class="kw">else</span> f
   }
@@ -42,16 +42,16 @@
 
 <span class="kw">object</span> Bool {
   <span class="kw">implicit</span> <span class="kw">def</span> <span class="fu">BooleanBool</span>(b: Boolean) = <span class="fu">Bool</span>(b)
-}</code></pre>
+}</code></pre></div>
 <p>Here is an example using the new operator that we just defined:</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">object</span> T {
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">object</span> T {
   <span class="kw">val</span> condition = <span class="kw">true</span>
 
   <span class="kw">import</span> Bool.<span class="fu">_</span>
 
   <span class="co">// yay!</span>
   <span class="kw">val</span> x = condition ? <span class="st">&quot;yes&quot;</span> | <span class="st">&quot;no&quot;</span>
-}</code></pre>
+}</code></pre></div>
 <p>Have fun ;)</p>
 
 

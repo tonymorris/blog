@@ -20,18 +20,18 @@
 </div>
 <div id="header">
   <div id="navigation">
-    <a href="../../index.html">Home</a>
-    <a href="../../posts/">All Posts</a>
-    <a href="../../contact/">Contact</a>
-    <a href="http://cv.tmorris.net/">CV</a>
-    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+    <a class="navbar" href="../../index.html">Home</a>
+    <a class="navbar" href="../../posts/">All Posts</a>
+    <a class="navbar" href="../../contact/">Contact</a>
+    <a class="navbar" href="http://cv.tmorris.net/">CV</a>
+    <a class="navbar" href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
   </div>
 </div>
 <h1>Lifting (Haskell addendum)</h1>
 <div class="info">Posted on August 19, 2011, in <a href="../../tags/Programming/index.html">Programming</a></div>
 
 <p>A follow-on from <a href="http://blog.tmorris.net/lifting/">Lifting</a>. A port of the Scala code to Haskell follows.</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">class</span> <span class="dt">Lift</span> f <span class="kw">where</span>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">class</span> <span class="dt">Lift</span> f <span class="kw">where</span>
   lift0 <span class="ot">::</span>
     a <span class="ot">-&gt;</span> f a
 
@@ -83,7 +83,7 @@
     error <span class="st">&quot;todo&quot;</span>
 
   ap <span class="fu">=</span>
-    error <span class="st">&quot;todo&quot;</span></code></pre>
+    error <span class="st">&quot;todo&quot;</span></code></pre></div>
 
 
 <hr />

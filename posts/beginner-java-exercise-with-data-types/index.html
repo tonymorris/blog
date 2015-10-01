@@ -20,11 +20,11 @@
 </div>
 <div id="header">
   <div id="navigation">
-    <a href="../../index.html">Home</a>
-    <a href="../../posts/">All Posts</a>
-    <a href="../../contact/">Contact</a>
-    <a href="http://cv.tmorris.net/">CV</a>
-    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+    <a class="navbar" href="../../index.html">Home</a>
+    <a class="navbar" href="../../posts/">All Posts</a>
+    <a class="navbar" href="../../contact/">Contact</a>
+    <a class="navbar" href="http://cv.tmorris.net/">CV</a>
+    <a class="navbar" href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
   </div>
 </div>
 <h1>Beginner Java Exercise with Data Types</h1>
@@ -34,7 +34,7 @@
 <p>Consider for example, <a href="http://java.sun.com/products/servlet/2.2/javadoc/javax/servlet/http/HttpServletRequest.html#getHeader%28java.lang.String%29">the <code>getHeaders</code> method</a> on <code>HttpServletRequest</code> which returns a <code>String</code> but might return <code>null</code> if there is no such header. Instead, a new API might return <code>NoneOrOne&lt;String&gt;</code> and do away with the use of <code>null</code>.</p>
 <p>The idea of this exercise is to fill out the method bodies (remove the thrown <code>Error</code>) according to the comments without altering the method type. It is not permitted to use <code>null</code> or throw any exception. The tests at the bottom (see <code>main</code> method) should produce the specified results. At the moment, the code compiles, but will not execute successfully.</p>
 <p>There are nine methods that need filling out. The tests are not exhaustive (use some intuition). Have fun! Questions are welcome.</p>
-<pre class="sourceCode Java"><code class="sourceCode java"><span class="co">// A list that is either empty or has one element.</span>
+<div class="sourceCode"><pre class="sourceCode Java"><code class="sourceCode java"><span class="co">// A list that is either empty or has one element.</span>
 <span class="kw">public</span> <span class="kw">abstract</span> <span class="kw">class</span> NoneOrOne&lt;a&gt; {
   <span class="co">// The key abstract method (catamorphism).</span>
   <span class="kw">public</span> <span class="kw">abstract</span> &lt;x&gt; X <span class="fu">fold</span>(Thunk&lt;x&gt; none, Func&lt;A, X&gt; one);
@@ -182,7 +182,7 @@
 <span class="co">// Takes an A and produces a B</span>
 <span class="kw">interface</span> Func&lt;A, B&gt; {
   B <span class="fu">apply</span>(A a);
-}</code></pre>
+}</code></pre></div>
 
 
 <hr />

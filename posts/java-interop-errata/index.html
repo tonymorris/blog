@@ -20,11 +20,11 @@
 </div>
 <div id="header">
   <div id="navigation">
-    <a href="../../index.html">Home</a>
-    <a href="../../posts/">All Posts</a>
-    <a href="../../contact/">Contact</a>
-    <a href="http://cv.tmorris.net/">CV</a>
-    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+    <a class="navbar" href="../../index.html">Home</a>
+    <a class="navbar" href="../../posts/">All Posts</a>
+    <a class="navbar" href="../../contact/">Contact</a>
+    <a class="navbar" href="http://cv.tmorris.net/">CV</a>
+    <a class="navbar" href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
   </div>
 </div>
 <h1>Java interop errata</h1>
@@ -37,7 +37,7 @@
 <li><p>Removed <code>=</code> in main declaration (strongly advised on functions returning <code>Unit</code> and especially more for <code>main</code>)</p></li>
 <li><p>Removed a few unnecessary parentheses</p></li>
 </ul>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">import</span> javax.<span class="fu">swing</span>.<span class="fu">_</span>
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">import</span> javax.<span class="fu">swing</span>.<span class="fu">_</span>
 <span class="kw">import</span> java.<span class="fu">awt</span>.<span class="fu">event</span>.{ActionEvent, ActionListener}
 
 <span class="kw">object</span> HelloWorld <span class="kw">extends</span> JFrame(<span class="st">&quot;Hello Swing&quot;</span>) {
@@ -56,7 +56,7 @@
   <span class="kw">implicit</span> <span class="kw">def</span> <span class="fu">actionPerformedWrapper</span>(func: (ActionEvent) =&gt; Unit) = <span class="kw">new</span> ActionListener {
     <span class="kw">def</span> <span class="fu">actionPerformed</span>(e:ActionEvent) = <span class="fu">func</span>(e)
   }
-}</code></pre>
+}</code></pre></div>
 
 
 <hr />

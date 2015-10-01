@@ -20,18 +20,18 @@
 </div>
 <div id="header">
   <div id="navigation">
-    <a href="../../index.html">Home</a>
-    <a href="../../posts/">All Posts</a>
-    <a href="../../contact/">Contact</a>
-    <a href="http://cv.tmorris.net/">CV</a>
-    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+    <a class="navbar" href="../../index.html">Home</a>
+    <a class="navbar" href="../../posts/">All Posts</a>
+    <a class="navbar" href="../../contact/">Contact</a>
+    <a class="navbar" href="http://cv.tmorris.net/">CV</a>
+    <a class="navbar" href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
   </div>
 </div>
 <h1>Continuation monad in Scala</h1>
 <div class="info">Posted on December 28, 2008, in <a href="../../tags/Programming/index.html">Programming</a></div>
 
 <p>Here is how a continuation data type might look in Scala:</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">sealed</span> <span class="kw">trait</span> Continuation[R, +A] {
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">sealed</span> <span class="kw">trait</span> Continuation[R, +A] {
   <span class="kw">def</span> <span class="fu">apply</span>(f: A =&gt; R): R
 
   <span class="kw">import</span> Continuation.<span class="fu">continuation</span>
@@ -41,10 +41,10 @@
 
   <span class="kw">def</span> flatMap[B](k: A =&gt; Continuation[R, B]) =
     continuation[R, B](z =&gt; <span class="fu">apply</span>(<span class="fu">k</span>(_)(z)))
-}</code></pre>
+}</code></pre></div>
 <p>Note that there are <code>map</code> and <code>flatMap</code> functions that satisfy the functor and monad laws. <code>Continuation[R, _]</code> is a monad.</p>
 <p>Now let’s add some construction functions:</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">object</span> Continuation {
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">object</span> Continuation {
   <span class="kw">def</span> continuation[R, A](g: (A =&gt; R) =&gt; R) = <span class="kw">new</span> Continuation[R, A] {
     <span class="kw">def</span> <span class="fu">apply</span>(f: A =&gt; R) = <span class="fu">g</span>(f)
   }
@@ -55,10 +55,10 @@
 
   <span class="kw">def</span> callcc[R, A, B](f: (A =&gt; Continuation[R, B]) =&gt; Continuation[R, A]) =
     continuation[R, A](k =&gt; <span class="fu">f</span>(a =&gt; <span class="fu">continuation</span>(x =&gt; <span class="fu">k</span>(a)))(k))
-}</code></pre>
+}</code></pre></div>
 <p>The <code>continuation</code> function is a straight-forward construction. The <code>unit</code> function constructs a continuation is such a way as to satisfy the monad laws against the <code>flatMap</code> method. The <code>callcc</code> function (call with current continuation) is to allow “escaping” from the current continuation.</p>
 <p>Here is some example client code that squares a number using a continuation (see <code>squarec</code>):</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">object</span> Square {
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">object</span> Square {
   <span class="kw">import</span> Continuation.<span class="fu">_</span>
 
   <span class="kw">def</span> <span class="fu">square</span>(n: Int) = n * n
@@ -74,9 +74,9 @@
     <span class="kw">val</span> k = <span class="fu">squareE</span>(<span class="fu">args</span>(<span class="dv">0</span>).<span class="fu">toInt</span>)
     <span class="fu">k</span>(println)
   }
-}</code></pre>
+}</code></pre></div>
 <p>A slightly more complicated example for modelling exceptions. Let’s divide where the denominator must be 0 or an “exception” is thrown:</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">object</span> Divide {
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">object</span> Divide {
   <span class="kw">import</span> Continuation.<span class="fu">_</span>
 
   <span class="co">// Division</span>
@@ -95,7 +95,7 @@
     <span class="fu">println</span>(<span class="fu">divError</span>(<span class="dv">7</span>, <span class="dv">3</span>)(x =&gt; x))
     <span class="fu">println</span>(<span class="fu">divError</span>(<span class="dv">7</span>, <span class="dv">0</span>)(x =&gt; x)) <span class="co">// throws error</span>
   }
-}</code></pre>
+}</code></pre></div>
 
 
 <hr />

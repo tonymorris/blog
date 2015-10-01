@@ -20,11 +20,11 @@
 </div>
 <div id="header">
   <div id="navigation">
-    <a href="../../index.html">Home</a>
-    <a href="../../posts/">All Posts</a>
-    <a href="../../contact/">Contact</a>
-    <a href="http://cv.tmorris.net/">CV</a>
-    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+    <a class="navbar" href="../../index.html">Home</a>
+    <a class="navbar" href="../../posts/">All Posts</a>
+    <a class="navbar" href="../../contact/">Contact</a>
+    <a class="navbar" href="http://cv.tmorris.net/">CV</a>
+    <a class="navbar" href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
   </div>
 </div>
 <h1>Java 7</h1>
@@ -35,16 +35,16 @@
 <li><pre><code>    `Option.flatMap`{.Scala}
      In Scala where we would normally write:</code></pre></li>
 </ol>
-<pre class="sourceCode Scala"><code class="sourceCode scala">(a, b, c, d) =&gt; <span class="kw">for</span> {
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala">(a, b, c, d) =&gt; <span class="kw">for</span> {
   aa &lt;- <span class="fu">a</span>(argsa)
   bb &lt;- <span class="fu">b</span>(argsb)
   cc &lt;- <span class="fu">c</span>(argsc)
   dd &lt;- <span class="fu">d</span>(argsd)
-} <span class="kw">yield</span> <span class="fu">f</span>(aa, bb, cc, dd)</code></pre>
+} <span class="kw">yield</span> <span class="fu">f</span>(aa, bb, cc, dd)</code></pre></div>
 <p>While in Java we write:</p>
-<pre class="sourceCode Java"><code class="sourceCode java"><span class="co">// ceremony in the absence of closures</span>
+<div class="sourceCode"><pre class="sourceCode Java"><code class="sourceCode java"><span class="co">// ceremony in the absence of closures</span>
 <span class="co">// has been omitted (and altered slightly) for brevity</span>
-<span class="fu">a</span>(argsa)?.<span class="fu">b</span>(argsb)?.<span class="fu">c</span>(argsc)?.<span class="fu">d</span>(argsd).<span class="fu">f</span>();</code></pre>
+<span class="fu">a</span>(argsa)?.<span class="fu">b</span>(argsb)?.<span class="fu">c</span>(argsc)?.<span class="fu">d</span>(argsd).<span class="fu">f</span>();</code></pre></div>
 <p>This syntax denotes the bind operation of <code>Option</code> monad, while Scala’s for-comprehension works for <em>any</em> monad. A pedantic point of note is that, from a particular perspective, Java’s syntax is slightly weaker than monad syntax, in that it is in fact, an applicative functor comprehension (not monad), since subsequent computations do not have access to previously computed values along the chain (if this is confuzzling, never mind – it’s important point otherwise, but not so much here). Scala’s for-comprehensions allow this, but it hasn’t been demonstrated above.</p>
 <ol start="2" style="list-style-type: decimal">
 <li><code class="sourceCode scala">Option.<span class="fu">getOrElse</span></code></li>

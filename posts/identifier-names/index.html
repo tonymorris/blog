@@ -20,18 +20,18 @@
 </div>
 <div id="header">
   <div id="navigation">
-    <a href="../../index.html">Home</a>
-    <a href="../../posts/">All Posts</a>
-    <a href="../../contact/">Contact</a>
-    <a href="http://cv.tmorris.net/">CV</a>
-    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+    <a class="navbar" href="../../index.html">Home</a>
+    <a class="navbar" href="../../posts/">All Posts</a>
+    <a class="navbar" href="../../contact/">Contact</a>
+    <a class="navbar" href="http://cv.tmorris.net/">CV</a>
+    <a class="navbar" href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
   </div>
 </div>
 <h1>Sticks, stones, but names are not useful to me</h1>
 <div class="info">Posted on July 18, 2013, in <a href="../../tags/Programming/index.html">Programming</a>, <a href="../../tags/Scala/index.html">Scala</a>, <a href="../../tags/Parametricity/index.html">Parametricity</a>, <a href="../../tags/Identifiers/index.html">Identifiers</a>, <a href="../../tags/Code%20Comprehension/index.html">Code Comprehension</a>, <a href="../../tags/Bayes%27%20Theorem/index.html">Bayes' Theorem</a>, <a href="../../tags/Theorems%20for%20Free/index.html">Theorems for Free</a></div>
 
 <p>There are various tools for comprehending code. It is often alleged to me that identifier names are one such tool — an important one even. In order to be a useful tool for comprehension, it must have a degree of efficacy above an arbitrary hypothesis. For example, suppose the following code:</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">def</span> reverse: List[Banana] =&gt; List[Banana]</code></pre>
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">def</span> reverse: List[Banana] =&gt; List[Banana]</code></pre></div>
 <p>Without viewing the body of the code, one might infer that this code “reverses the list.” What does it mean to reverse a list? Let us try to rigorously define reversing a list:</p>
 <ul>
 <li>Reversing the empty list produces the empty list.</li>
@@ -43,7 +43,7 @@
 <p>Thankfully, this is unimportant. It is unimportant because there exist methods of code comprehension that are <em>significantly more effective</em>, so you can abandon the question of whether or not there is efficacy of using identifier names for inferring properties of code.</p>
 <hr />
 <p>Suppose the following code:</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">def</span> reverse[A]: List[A] =&gt; List[A]</code></pre>
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">def</span> reverse[A]: List[A] =&gt; List[A]</code></pre></div>
 <p>At first glance, it might appear that we must take a leap of confidence in inferring that the function reverses the list. However, we can infer the following fact — <em>this function definitely does not peel the first <code>Banana</code> in the list</em>. I can infer this because if the function attempted to do this, it <em>would not compile</em><a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a>. In fact, I can infer lots of things here, such as:</p>
 <ul>
 <li>The <code>reverse</code> function did not add <code>10</code> to every second list element.</li>
@@ -51,7 +51,7 @@
 </ul>
 <p>We are able to infer these things simply by making the <code>reverse</code> function <em>parametric</em>. We are no longer reversing a list of bananas — although that might be our use-case — we are reversing a list of <code>A</code> for all values of <code>A</code>. One virtue of this <em>parametricity</em> is that we can infer a significant number of things that <em>do not occur</em>. This theme of learning what does not occur is ubiquitous when deploying these programming techniques and is described in more detail by Wadler<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a>.</p>
 <p>Here is another example, using a programming language called SafeHaskell (very similar to Haskell):</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="ot">add10 ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span></code></pre>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="ot">add10 ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span></code></pre></div>
 <p>By the name of the function, we might unreliably infer (OK, let’s be honest, we are making a bold guess) that the function adds <code>10</code> to its argument. However, looking at the type, we know for sure that the function <em>did not print its argument to the standard output stream</em>. We know this because had the library provider attempted it, the code would not have compiled. To be clear, it would not be a valid SafeHaskell program, so our assumption that we are looking at SafeHaskell fails, forcing us to unify by selecting one of the following:</p>
 <ul>
 <li>The function does not print its argument to the standard output stream.</li>
@@ -60,7 +60,7 @@
 </ul>
 <p>There are simply no other options. What other things can we reliably conclude this function does not do?</p>
 <p>Here is yet another example:</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">def</span> constant[A, B]: A =&gt; B =&gt; A</code></pre>
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">def</span> constant[A, B]: A =&gt; B =&gt; A</code></pre></div>
 <p>In this case, we can reliably infer that this function does one single thing. It ignores its second argument and returns its first. This might be protested:</p>
 <ul>
 <li>It might perform a side-effect first!
@@ -100,7 +100,7 @@
 <p>Unfortunately, an implication of the halting problem is that we cannot prove these program properties, for the general case. This is not the end of the world though — we can still attempt to <em>disprove</em> these program properties. That is to say, we can go to efforts to determine if the function is <em>not</em> one which reverses the list. We can express our algebraic properties, which give away the full specification of the function, then automate the assertion that there exist values for which the property does not hold. This automation is precisely what <a href="http://code.google.com/p/scalacheck/">ScalaCheck</a> does, however, the expression itself is enough to rigorously specify the function behaviour without degenerating to faith in function names.</p>
 <p>The next time you see a function named <code>&lt;-:</code> and you think to yourself, “OMG, how unreadable, what am I going to do now!?”, ask yourself if there are other tools — perhaps more robust than those familiar — to comprehend the code. What is its type? What are its algebraic properties? Are there parametric properties to exploit?</p>
 <p>What if it has this type?</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">def</span> &lt;-:[A, B](f: A =&gt; B): List[A] =&gt; List[B]</code></pre>
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">def</span> &lt;-:[A, B](f: A =&gt; B): List[A] =&gt; List[B]</code></pre></div>
 <p>Does it map the function across the list elements? Maybe. However, we definitely know that the elements in the resulting list came from running the given function on an element from the input list. You see? Parametricity, just like that, was 73 fuck-loads more reliable than looking at the function name to comprehend how this code works, and this is only the start of answering the question. We have many more tools at our disposal. Importantly, they are <em>reliable</em>. I like reliable, because I also like things that are true. Hopefully you do too!</p>
 <hr />
 <p>So what about these allegations of utility of identifier names? Do they have any merit at all?</p>

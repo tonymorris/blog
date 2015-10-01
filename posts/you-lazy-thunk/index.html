@@ -20,11 +20,11 @@
 </div>
 <div id="header">
   <div id="navigation">
-    <a href="../../index.html">Home</a>
-    <a href="../../posts/">All Posts</a>
-    <a href="../../contact/">Contact</a>
-    <a href="http://cv.tmorris.net/">CV</a>
-    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+    <a class="navbar" href="../../index.html">Home</a>
+    <a class="navbar" href="../../posts/">All Posts</a>
+    <a class="navbar" href="../../contact/">Contact</a>
+    <a class="navbar" href="http://cv.tmorris.net/">CV</a>
+    <a class="navbar" href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
   </div>
 </div>
 <h1>You Lazy Thunk!</h1>
@@ -42,13 +42,13 @@
 <p>We can see now that if <em>f() or g() gets called twice</em>, then this is not inefficient, nor is it efficient. This is actually a trade. Computation has been spent while space has been gained, since the result of the computation of the first call of either function is not stored, but is recomputed. Similarly, purchasing a bottle of water for one dollar is not more or less efficient, assuming that the bottle of water is indeed worth one dollar. You are no more or less better off whether you purchased the water or not. Of course, we rarely see such purist forms of capitalism, but the analogy makes sense otherwise :)</p>
 <p>Programmers of strict, imperative languages do not always elect to strictly evaluate from what is called a <em>universe (or domain) of discourse</em> (from Set Theory). That is to say, from the universe (U) that is passed to the programmer, each expression is not necessarily brought to WHNF. Ideally, only what is necessary is evaluated to complete the computation and anything else from U is left untouched, however, the decision of what to evaluate is often (at least in my observations) totally arbitrary due to a lack of formal reasoning and inexperience with the foundations of computer programming – on the part of the programmer. If a subset of the universe is evaluated that is never needed to complete the computation, then this <strong>is</strong> an inefficiency and it happens very often in strict, imperative languages. (Think tip: Is it any wonder your Java application consumes all your volatile memory?)</p>
 <p>Let’s demonstrate this. Suppose a Java programmer is asked to compute an int – the sum of the first 2 bytes from an InputStream, or compute 1024 if the bytes are not available. The InputStream represents a potentially infinite universe of discourse (|U| = ∞), however, not all of it is necessarily evaluated (if it were infinite, the function would never terminate). Here is a canonical solution:</p>
-<pre class="sourceCode Java"><code class="sourceCode java"><span class="dt">int</span> <span class="fu">firstByte</span>(InputStream in) <span class="kw">throws</span> IOException {
+<div class="sourceCode"><pre class="sourceCode Java"><code class="sourceCode java"><span class="dt">int</span> <span class="fu">firstByte</span>(InputStream in) <span class="kw">throws</span> IOException {
   <span class="dt">final</span> <span class="dt">int</span> i = in.<span class="fu">read</span>();
   <span class="dt">final</span> <span class="dt">int</span> j = in.<span class="fu">read</span>();
   <span class="kw">return</span> i == -<span class="dv">1</span> || j == -<span class="dv">1</span> ? <span class="dv">1024</span> : i + j;
-}</code></pre>
+}</code></pre></div>
 <p>Notice how the entire InputStream is not read until the end (if there is one), <em>simply because you can</em>, since this would be an inefficiency. The domain or universe is an InputStream, but only two reads occur. Indeed, if this InputStream were infinite, the function would still terminate. Similarly, the following equivalent Haskell function will terminate:</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">let</span> first (i<span class="fu">:</span>j<span class="fu">:</span>_) <span class="fu">=</span> i <span class="fu">+</span> j; first _ <span class="fu">=</span> <span class="dv">1024</span></code></pre>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">let</span> first (i<span class="fu">:</span>j<span class="fu">:</span>_) <span class="fu">=</span> i <span class="fu">+</span> j; first _ <span class="fu">=</span> <span class="dv">1024</span></code></pre></div>
 <p>…even if passed an infinite list:</p>
 <pre><code>&gt; first [20..] -- from 20 to infinity
 41</code></pre>

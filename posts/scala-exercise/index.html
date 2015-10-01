@@ -20,19 +20,19 @@
 </div>
 <div id="header">
   <div id="navigation">
-    <a href="../../index.html">Home</a>
-    <a href="../../posts/">All Posts</a>
-    <a href="../../contact/">Contact</a>
-    <a href="http://cv.tmorris.net/">CV</a>
-    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+    <a class="navbar" href="../../index.html">Home</a>
+    <a class="navbar" href="../../posts/">All Posts</a>
+    <a class="navbar" href="../../contact/">Contact</a>
+    <a class="navbar" href="http://cv.tmorris.net/">CV</a>
+    <a class="navbar" href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
   </div>
 </div>
 <h1>Scala exercise</h1>
-<div class="info">Posted on February  6, 2010, in </div>
+<div class="info">Posted on February  6, 2010, in <a href="../../tags/Scala/index.html">Scala</a>, <a href="../../tags/Programming/index.html">Programming</a></div>
 
 <p>A result of a discussion in the <a href="irc://freenode.net/#scala">#scala IRC channel</a>.</p>
 <p><strong>Write a minimum function that works on <code>Array[String]</code> and <code>List[Int]</code>.</strong> <em>(see <code>error(&quot;todo&quot;)</code>)</em></p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">trait</span> Foldable[-F[_]] {
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">trait</span> Foldable[-F[_]] {
   <span class="kw">def</span> foldl[A, B](f: (A, B) =&gt; A, a: A, as: F[B]): A
 
   <span class="kw">def</span> reducel[A](f: (A, A) =&gt; A, as: F[A]): Option[A] = foldl[Option[A], A]((a1, a2) =&gt;
@@ -98,7 +98,7 @@
     <span class="kw">val</span> j = <span class="fu">minimum</span>(List(<span class="dv">5</span>, <span class="dv">8</span>, <span class="dv">2</span>, <span class="dv">9</span>), IntOrder, ListFoldable)
     <span class="fu">println</span>(j)
   }
-}</code></pre>
+}</code></pre></div>
 
 
 <hr />

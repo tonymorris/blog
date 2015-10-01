@@ -20,11 +20,11 @@
 </div>
 <div id="header">
   <div id="navigation">
-    <a href="../../index.html">Home</a>
-    <a href="../../posts/">All Posts</a>
-    <a href="../../contact/">Contact</a>
-    <a href="http://cv.tmorris.net/">CV</a>
-    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+    <a class="navbar" href="../../index.html">Home</a>
+    <a class="navbar" href="../../posts/">All Posts</a>
+    <a class="navbar" href="../../contact/">Contact</a>
+    <a class="navbar" href="http://cv.tmorris.net/">CV</a>
+    <a class="navbar" href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
   </div>
 </div>
 <h1>Have you ever wanted to do this?</h1>
@@ -40,11 +40,11 @@
 <li><p>“” and “” are equal</p></li>
 </ul>
 <p>Make sense so far? Good! :) If our problem was related to the ordering of instances of our type, we already have <code>Comparator</code> in the core API to cater for this scenario and best of all, the collections supports the use of our <em>comparing strategy</em> e.g. we can pass an instance to the constructor of <code>TreeSet</code>. However, our problem is related to testing for equality, not ordering. How would the analogous Comparator interface look for equality? How about this:</p>
-<pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">interface</span> Equalable&lt;t&gt; {
+<div class="sourceCode"><pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">interface</span> Equalable&lt;t&gt; {
     <span class="dt">boolean</span> <span class="fu">isEqual</span>(T t1, T t2);
-}</code></pre>
+}</code></pre></div>
 <p>It’s too bad the collections don’t support this type, ain’t it? We can’t plug in our own <em>strategy for testing for equality</em> like we can for comparing for order if we intend on using collections. Instead, the only way we can meet our requirement and still use collections (or anything that uses the inherent <code>equals</code> method) is by declaring a new type:</p>
-<pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">public</span> <span class="dt">final</span> <span class="kw">class</span> XString
+<div class="sourceCode"><pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">public</span> <span class="dt">final</span> <span class="kw">class</span> XString
 {
   <span class="kw">private</span> <span class="dt">final</span> String str;
 
@@ -59,7 +59,7 @@
   <span class="kw">public</span> <span class="dt">boolean</span> <span class="fu">equals</span>(<span class="dt">final</span> Object o) {
     ...
   }
-}</code></pre>
+}</code></pre></div>
 <p>Now we can have collections of this type as it defines its own equality test strategy in accordance with our original requirement. What if the collection types allowed you to pass an instance of <code>Equalable</code> instead? Much easier than having to write our <code>XString</code> type!? Instead of having to create the <code>XString type</code>, we might be creating <code>HashSet</code> instances like so <code>new HashSet(new MyEqualable());</code> and be done.</p>
 <p>Let’s take a look at how this would look in another programming language - with <a href="http://haskell.org/">Haskell</a> - a <em>purely functional</em> programming language. In Haskell, we have the same two choices, we might implement the type-class <a href="http://haskell.org/ghc/docs/latest/html/libraries/base/Prelude.html#t%3AEq">Eq</a> or we might pass a <em>first-class function</em> of type a -&gt; a -&gt; Bool</p>
 <pre><code>newtype XString = XString String
@@ -75,9 +75,9 @@ instance Eq XString where
 <p>Now, since this is my first blog post ever, I reserve the right to throw out some incredibly bold and apparently absurd postulations :). Since such a simple requirement mandates the creation of so much code to fulfill accurately, I postulate, with more formal reasons forthcoming, that approximately 99.9999% of the content of the J2SE API Specification [see note 2] is a result of this problem that is inherent in a language such as Java with a substandard type system. I might name this problem, “Gotta write a new type, right?” for future reference and just to take the piss out of the dominant programming language(s) of our evolving <em>[see note 3]</em> industry. So that’s its name, OK? Great.</p>
 <p>I do not envy you oh Senior J2EE Architect/.NET Super-duper Spanky Star (what do they call those anyway?).</p>
 <p>[1] This can be read as “takes an argument of type a and evaluates to a type b where a and b are both polymorphic and unbound”. The analogous Java is:</p>
-<pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">interface</span> I&lt;a, b&gt; {
+<div class="sourceCode"><pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">interface</span> I&lt;a, b&gt; {
   b <span class="fu">f</span>(a arg);
-}</code></pre>
+}</code></pre></div>
 <p>[2] The “thing” (monolithic abominable creature?) that I used to laboriously implement for IBM <a href="http://java.sun.com/j2se/1.5.0/docs/api/" class="uri">http://java.sun.com/j2se/1.5.0/docs/api/</a></p>
 <p>[3] I must have backspaced 50 or so times before finally settling on the conservative adjective, “evolving” :)</p>
 

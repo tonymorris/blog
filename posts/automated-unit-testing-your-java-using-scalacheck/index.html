@@ -20,11 +20,11 @@
 </div>
 <div id="header">
   <div id="navigation">
-    <a href="../../index.html">Home</a>
-    <a href="../../posts/">All Posts</a>
-    <a href="../../contact/">Contact</a>
-    <a href="http://cv.tmorris.net/">CV</a>
-    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+    <a class="navbar" href="../../index.html">Home</a>
+    <a class="navbar" href="../../posts/">All Posts</a>
+    <a class="navbar" href="../../contact/">Contact</a>
+    <a class="navbar" href="http://cv.tmorris.net/">CV</a>
+    <a class="navbar" href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
   </div>
 </div>
 <h1>Automated Unit Testing your Java using ScalaCheck</h1>
@@ -50,7 +50,7 @@
 <h3 id="on-with-the-story">On with the story</h3>
 <p>The original language, Haskell, has language features called type-classes and higher-order functions, as does Scala. Both of these are required language features to use automated testing effectively, though it is possible to achieve in a lesser form in less useful languages. Note that Java does not have either of these language features. Are we hosed? No!</p>
 <p>Take a look at this source file, which states our property about <code>endsWith</code> using Scala (see <code>endsWithProperty</code>):</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// CheckString.scala</span>
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// CheckString.scala</span>
 
 <span class="kw">import</span> org.<span class="fu">scalacheck</span>.<span class="fu">Prop</span>.<span class="fu">_</span>
 <span class="kw">import</span> org.<span class="fu">scalacheck</span>.<span class="fu">ConsoleReporter</span>.<span class="fu">testStatsEx</span>
@@ -72,7 +72,7 @@
   <span class="co">// Are our properties false?</span>
   <span class="kw">def</span> <span class="fu">main</span>(args: scala.<span class="fu">Array</span>[String]) =
     tests foreach { <span class="kw">case</span> (name, p) =&gt; <span class="fu">testStatsEx</span>(name, <span class="fu">check</span>(p)) }
-}</code></pre>
+}</code></pre></div>
 <p>You can run this source file by downloading <a href="http://scalacheck.googlecode.com/files/ScalaCheck-1.2.jar">ScalaCheck-1.2.jar</a> and compiling it with the <a href="http://www.scala-lang.org/downloads/index.html">Scala</a> compiler.</p>
 <pre><code>$ scalac -classpath ScalaCheck-1.2.jar CheckString.scala</code></pre>
 <p>Does our stated property falsify?</p>
@@ -84,7 +84,7 @@
 <p>For any two Strings (x and y), then <code>x.reverse.startsWith(y.reverse))</code> is equivalent (in truth) to <code>x.endsWith(y)</code>.</p>
 </blockquote>
 <p>Again, <code>startsWith</code> is assumed correct as a premise of the proposition (or theorem). Can the statement be falsified by the test automation?</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// CheckString.scala</span>
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// CheckString.scala</span>
 
 <span class="kw">import</span> org.<span class="fu">scalacheck</span>.<span class="fu">Prop</span>.<span class="fu">_</span>
 <span class="kw">import</span> org.<span class="fu">scalacheck</span>.<span class="fu">ConsoleReporter</span>.<span class="fu">testStatsEx</span>
@@ -106,7 +106,7 @@
 
   <span class="kw">def</span> <span class="fu">main</span>(args: scala.<span class="fu">Array</span>[String]) =
     tests foreach { <span class="kw">case</span> (name, p) =&gt; <span class="fu">testStatsEx</span>(name, <span class="fu">check</span>(p)) }
-}</code></pre>
+}</code></pre></div>
 <p>Well, can it? Oh come on, please tell me! :)</p>
 <pre><code>$ scala -classpath .:ScalaCheck-1.2.jar CheckString
 + OK, passed 100 tests.
@@ -117,17 +117,17 @@
 <p>The test automation supplied 100 <code>String</code> values for each of the two properties in an attempt to falsify; where did they come from? ScalaCheck includes an abstract type called <code>[Arbitrary](http://scalacheck.googlecode.com/svn/artifacts/1.2/doc/api/org/scalacheck/Arbitrary.html)</code> and an implementation for the <code>String</code> type is supplied by ScalaCheck. It is this that is used to generate <code>String</code> values. If we wish to generate values for our own types, we must write our own <code>Arbitrary</code> implementation for it.</p>
 <p>I will state some properties now about <code>java.util.LinkedList</code> and its <code>addFirst</code> method. However, note that unlike <code>java.lang.String</code>, ScalaCheck does not include an arbitrary generator for linked lists, so we will have to write one. Luckily, generators are instances of what is known as a <em>functor</em> (also, a <em>monad</em>), so this task will be quite trivial. Let’s start with doing that.</p>
 <p>We can generate arrays, since that ability comes with ScalaCheck, so we can use the <code>map</code> function (i.e. the essence of a functor) to take the generator for arrays to a generator for linked lists. Given an array, we can create a linked list using: <code>new LinkedList[A](Arrays.asList(array))</code>. This is precisely what the code below does using what is called a <em>higher-order function</em> inside the <code>Arbitrary</code> functor. You needn’t concern yourself with these advanced programming concepts in these demonstrations, but just acknowledge their existence and that the given code is trivial and it works.</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">import</span> org.<span class="fu">scalacheck</span>.<span class="fu">Arbitrary</span>
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">import</span> org.<span class="fu">scalacheck</span>.<span class="fu">Arbitrary</span>
 <span class="kw">import</span> org.<span class="fu">scalacheck</span>.<span class="fu">Arbitrary</span>.<span class="fu">arbitrary</span>
 <span class="kw">import</span> java.<span class="fu">util</span>.{LinkedList, Arrays}
 
 <span class="kw">object</span> CheckLinkedList {
   <span class="kw">implicit</span> <span class="kw">def</span> arbitraryLinkedList[A](<span class="kw">implicit</span> a: Arbitrary[A]): Arbitrary[LinkedList[A]] =
     <span class="fu">Arbitrary</span>(arbitrary[Array[A]].<span class="fu">map</span>(array =&gt; <span class="kw">new</span> LinkedList[A](Arrays.<span class="fu">asList</span>(array))))
-}</code></pre>
+}</code></pre></div>
 <p>Note the <code>implicit</code> declaration on the method. This is <em>required</em>, however, this language feature is very powerful and only a very lengthy discussion would do it justice, so we will say nothing more than it is required in this case, it is very powerful and Java has no equivalent (you can mildly emulate it with the singleton anti-pattern – another topic).</p>
 <p>What properties can we state now about <code>addFirst</code>? How about for any list and any element, adding the element to the list adds 1 to its <code>size</code>? We call this property <code>addsLengthOne</code> below.</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// CheckLinkedList.scala</span>
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// CheckLinkedList.scala</span>
 
 <span class="kw">import</span> org.<span class="fu">scalacheck</span>.<span class="fu">Arbitrary</span>
 <span class="kw">import</span> org.<span class="fu">scalacheck</span>.<span class="fu">Arbitrary</span>.<span class="fu">arbitrary</span>
@@ -150,7 +150,7 @@
 
   <span class="kw">def</span> <span class="fu">main</span>(args: scala.<span class="fu">Array</span>[String]) =
     tests foreach { <span class="kw">case</span> (name, p) =&gt; <span class="fu">testStatsEx</span>(name, <span class="fu">check</span>(p)) }
-}</code></pre>
+}</code></pre></div>
 <p><em>I’ve copied and pasted the boilerplate to get the tests running for the demonstration, but please feel encouraged to put this kind of code in its own function to avoid this repetition.</em></p>
 <p>How did we go?</p>
 <pre><code>$ scala -classpath .:ScalaCheck-1.2.jar CheckLinkedList
@@ -178,7 +178,7 @@ $ scala -classpath .:ScalaCheck-1.2.jar CheckLinkedList
 <p>I will state a property that is false, just to exemplify what happens. The idea is that it is extremely difficult (but not impossible – remember halting problem) to state a false property that ScalaCheck passes. I’m not going to look for a specific corner case that traditional unit testing is unlikely to pick up, but I encourage you to do so as an added exercise.</p>
 <p>Instead, I will state an obviously false property; for any list and any element, adding the element with <code>addFirst</code> is equivalent to adding that element with <code>addLast</code>.</p>
 <p>Here we go (note the fourth property – <code>thisIsFalse</code>):</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// CheckLinkedList.scala</span>
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// CheckLinkedList.scala</span>
 
 <span class="kw">import</span> org.<span class="fu">scalacheck</span>.<span class="fu">Arbitrary</span>
 <span class="kw">import</span> org.<span class="fu">scalacheck</span>.<span class="fu">Arbitrary</span>.<span class="fu">arbitrary</span>
@@ -222,7 +222,7 @@ $ scala -classpath .:ScalaCheck-1.2.jar CheckLinkedList
 
   <span class="kw">def</span> <span class="fu">main</span>(args: scala.<span class="fu">Array</span>[String]) =
     tests foreach { <span class="kw">case</span> (name, p) =&gt; <span class="fu">testStatsEx</span>(name, <span class="fu">check</span>(p)) }
-}</code></pre>
+}</code></pre></div>
 <p>And when we run:</p>
 <pre><code>$ scala -classpath .:ScalaCheck-1.2.jar CheckLinkedList
 + OK, passed 100 tests.

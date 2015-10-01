@@ -20,11 +20,11 @@
 </div>
 <div id="header">
   <div id="navigation">
-    <a href="../../index.html">Home</a>
-    <a href="../../posts/">All Posts</a>
-    <a href="../../contact/">Contact</a>
-    <a href="http://cv.tmorris.net/">CV</a>
-    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+    <a class="navbar" href="../../index.html">Home</a>
+    <a class="navbar" href="../../posts/">All Posts</a>
+    <a class="navbar" href="../../contact/">Contact</a>
+    <a class="navbar" href="http://cv.tmorris.net/">CV</a>
+    <a class="navbar" href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
   </div>
 </div>
 <h1>Functional Java 2.9</h1>
@@ -48,7 +48,7 @@
 <p><strong>Doctor</strong>: And just as an interesting observation, you will have at most, four errors and possibly none in the event of all nine succeeding.</p>
 <p><strong>Patient</strong>: Umm yeah, I hadn’t thought of it that way.</p>
 <p><strong>Doctor</strong>: <em>smiles</em></p>
-<pre class="sourceCode Java"><code class="sourceCode java">Validation&lt;Throwable, Unit&gt; a;
+<div class="sourceCode"><pre class="sourceCode Java"><code class="sourceCode java">Validation&lt;Throwable, Unit&gt; a;
 Validation&lt;Throwable, Unit&gt; b;
 Validation&lt;Throwable, Unit&gt; c;
 Validation&lt;Throwable, Unit&gt; d;
@@ -72,7 +72,7 @@ Option&lt;NonEmptyList&lt;throwable&gt;&gt; <span class="fu">second</span>() {
           g.<span class="fu">nel</span>(),
           h.<span class="fu">nel</span>(),
           i.<span class="fu">nel</span>());
-}</code></pre>
+}</code></pre></div>
 <p><strong>Doctor</strong>: Now, this is the best that Java can do at solving this very popular request of yours, but come and see me when you’re ready to upgrade your tools…</p>
 <p><strong>Patient</strong>: Thanks Doc! I will!</p>
 <p><strong>Doctor</strong>: <em>outward smile, inward scepticism</em>; In the meantime, I will prescribe you with <a href="http://functionaljava.org/">Functional Java 2.9</a> which is only going to work if you exercise <em>at least some</em> amount of intellectual discipline. You will need it for the solution above.</p>

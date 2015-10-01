@@ -28,7 +28,7 @@
 <blockquote>
 <p>Examining the signature to the <code>map</code> function, we see that it takes <em>two arguments</em>:</p>
 </blockquote>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell">map<span class="ot"> ::</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> <span class="dt">List</span> a <span class="ot">-&gt;</span> <span class="dt">List</span> b</code></pre>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell">map<span class="ot"> ::</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> <span class="dt">List</span> a <span class="ot">-&gt;</span> <span class="dt">List</span> b</code></pre></div>
 <p>We will then talk about the <em>first argument</em> and the <em>second argument</em> as if there even is such a thing.</p>
 <p>However, the truth of the original fact has not changed. Look at it, just sitting there, saying nothing, being all shiny and true. So how could all functions take one argument, while we simultaneously and casually talk about a “second argument”? Are we just telling great big lies? Have we made a mistake?</p>
 <p>The problem is our vocabulary. In our spoken words, we are using an <strong>approximation</strong> of fact and superficially, it looks like a blatant contradiction. Let us expand our approximation to more obviously coincide with our statement of fact. I have added some annotation in [brackets].</p>
@@ -38,22 +38,22 @@
 <p>When we say out loud “the <code>map</code> function takes two arguments”, we are approximating for the above expansion. It is important to understand what we really mean here.</p>
 <p>During my teaching, I will often make a deal with students; I will use the terser vocabulary with you and I will even let you use it, however, if at any moment you violate our understanding of its proper meaning, I will rip it out from under you and demand that you use the full expansion. Almost always, the student will agree to this deal.</p>
 <p>Some time after having made this deal, I will hear the following question. Given, for example, this solution to an exercise:</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell">flatten <span class="ot">::</span>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell">flatten <span class="ot">::</span>
   <span class="dt">List</span> (<span class="dt">List</span> a)
   <span class="ot">-&gt;</span> <span class="dt">List</span> a
 flatten <span class="fu">=</span>
-  foldRight (<span class="fu">++</span>) <span class="dt">Nil</span></code></pre>
+  foldRight (<span class="fu">++</span>) <span class="dt">Nil</span></code></pre></div>
 <p>I will hear this question:</p>
 <blockquote>
 <p>Wait a minute, you only passed two arguments to <code>foldRight</code>, however, we have seen that it takes three. How could this possibly work!?</p>
 </blockquote>
 <p>Here is another example of the question. Given this solution:</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell">filter <span class="ot">::</span>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell">filter <span class="ot">::</span>
   (a <span class="ot">-&gt;</span> <span class="dt">Bool</span>)
   <span class="ot">-&gt;</span> <span class="dt">List</span> a
   <span class="ot">-&gt;</span> <span class="dt">List</span> a
 filter f <span class="fu">=</span>
-  foldRight (\a <span class="ot">-&gt;</span> <span class="kw">if</span> f a <span class="kw">then</span> (a<span class="fu">:.</span>) <span class="kw">else</span> id) <span class="dt">Nil</span></code></pre>
+  foldRight (\a <span class="ot">-&gt;</span> <span class="kw">if</span> f a <span class="kw">then</span> (a<span class="fu">:.</span>) <span class="kw">else</span> id) <span class="dt">Nil</span></code></pre></div>
 <p>I will hear this question:</p>
 <blockquote>
 <p>The argument to <code>foldRight</code> (which is itself a function) takes two arguments, however, the function you passed to <code>foldRight</code> has been specified to take only one (which you have called <code>a</code>). How could this even work?</p>

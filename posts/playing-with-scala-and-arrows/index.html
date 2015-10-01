@@ -20,11 +20,11 @@
 </div>
 <div id="header">
   <div id="navigation">
-    <a href="../../index.html">Home</a>
-    <a href="../../posts/">All Posts</a>
-    <a href="../../contact/">Contact</a>
-    <a href="http://cv.tmorris.net/">CV</a>
-    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+    <a class="navbar" href="../../index.html">Home</a>
+    <a class="navbar" href="../../posts/">All Posts</a>
+    <a class="navbar" href="../../contact/">Contact</a>
+    <a class="navbar" href="http://cv.tmorris.net/">CV</a>
+    <a class="navbar" href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
   </div>
 </div>
 <h1>Playing with Scala and Arrows</h1>
@@ -34,7 +34,7 @@
 <p>I didn’t go so far as to test the usefulness, but I was able to express the Kleisli arrow without too much effort. I wonder if it is a viable addition for Scalaz.</p>
 <p>Here it is.</p>
 <p>The typical Functor/Monad abstraction. These are required for the Kleisli arrow.</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">trait</span> Functor[F[+_]] {
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">trait</span> Functor[F[+_]] {
   <span class="kw">def</span> fmap[A, B](fa: F[A], f: A =&gt; B): F[B]
 }
 
@@ -44,9 +44,9 @@
 
   <span class="kw">final</span> <span class="kw">def</span> fmap[A, B](fa: M[A], f: A =&gt; B) =
     <span class="fu">bind</span>(fa, (a: A) =&gt; <span class="fu">pure</span>(<span class="fu">f</span>(a)))
-}</code></pre>
+}</code></pre></div>
 <p>The Kleisli data type and a convenient constructor.</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">trait</span> Kleisli[M[+_], -A, +B] {
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">trait</span> Kleisli[M[+_], -A, +B] {
   <span class="kw">def</span> <span class="fu">apply</span>(a: A): M[B]
 }
 
@@ -54,9 +54,9 @@
   <span class="kw">def</span> kleisli[M[+_], A, B](f: A =&gt; M[B]) = <span class="kw">new</span> Kleisli[M, A, B] {
     <span class="kw">def</span> <span class="fu">apply</span>(a: A) = <span class="fu">f</span>(a)
   }
-}</code></pre>
+}</code></pre></div>
 <p>The arrow abstraction.</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">trait</span> Arrow[A[-_, +_]] {
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">trait</span> Arrow[A[-_, +_]] {
   <span class="kw">def</span> arrow[B, C](f: B =&gt; C): A[B, C]
 
   <span class="kw">def</span> compose[B, C, D](a1: A[B, C], a2: A[C, D]): A[B, D]
@@ -64,9 +64,9 @@
   <span class="kw">def</span> first[B, C, D](a: A[B, C]): A[(B, D), (C, D)]
 
   <span class="kw">def</span> second[B, C, D](a: A[B, C]): A[(D, B), (D, C)]
-}</code></pre>
+}</code></pre></div>
 <p>and the clincher…</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">object</span> Arrow {
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">object</span> Arrow {
   <span class="kw">val</span> Function1Arrow = <span class="kw">new</span> Arrow[Function1] {
     <span class="kw">def</span> arrow[B, C](f: B =&gt; C) = f
 
@@ -96,7 +96,7 @@
     <span class="kw">def</span> second[B, C, D](a: Kleisli[M, B, C]) =
       kleisli[M, (D, B), (D, C)]{ <span class="kw">case</span> (d, b) =&gt; m.<span class="fu">fmap</span>(<span class="fu">a</span>(b), (c: C) =&gt; (d, c)) }
   }
-}</code></pre>
+}</code></pre></div>
 <p>TODO</p>
 <ol style="list-style-type: decimal">
 <li><p>Write functions across arrows.</p></li>

@@ -20,11 +20,11 @@
 </div>
 <div id="header">
   <div id="navigation">
-    <a href="../../index.html">Home</a>
-    <a href="../../posts/">All Posts</a>
-    <a href="../../contact/">Contact</a>
-    <a href="http://cv.tmorris.net/">CV</a>
-    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+    <a class="navbar" href="../../index.html">Home</a>
+    <a class="navbar" href="../../posts/">All Posts</a>
+    <a class="navbar" href="../../contact/">Contact</a>
+    <a class="navbar" href="http://cv.tmorris.net/">CV</a>
+    <a class="navbar" href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
   </div>
 </div>
 <h1>Software requirements do not change</h1>
@@ -37,19 +37,19 @@
 <li><p>a list of characters</p></li>
 </ol>
 <p>It provides one output - a new file system. If a file of the given name exists on the given file system, return the new file system with that file having an updated modified time stamp, otherwise, return the new file system with an additional empty file of the given name. That’s it - nothing more to it. We might even express this software more formally as follows:</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="co">-- &quot;Given a FileSystem,</span>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="co">-- &quot;Given a FileSystem,</span>
 <span class="co">--   then a list of characters (Char),</span>
 <span class="co">--   return a new FileSystem.&quot;</span>
 <span class="co">-- :: means 'is of type'</span>
 <span class="ot">touch ::</span> <span class="dt">FileSystem</span> <span class="ot">-&gt;</span> [<span class="dt">Char</span>] <span class="ot">-&gt;</span> <span class="dt">FileSystem</span>
 touch fs filename <span class="fu">=</span> <span class="kw">if</span> fs <span class="ot">`contains`</span> filename
   <span class="kw">then</span> fs <span class="ot">`updateTimestamp`</span> filename
-    <span class="kw">else</span> fs <span class="ot">`addEmptyFile`</span> filename</code></pre>
+    <span class="kw">else</span> fs <span class="ot">`addEmptyFile`</span> filename</code></pre></div>
 <p>The ‘touch’ software is so fundamental, that most reasonable operating systems provide it without any explicit user intervention - try running it and see.</p>
 <p>While you are free to come up with all sorts of wild and complex examples of software, I’m going to simplify a little with a new example. Suppose a client approaches you, a software developer, on Monday, with the following requirement; “given two integers, sum them, multiply by 4 and give me the result.” Here is the software written in Java:</p>
-<pre class="sourceCode Java"><code class="sourceCode java"><span class="dt">int</span> <span class="fu">software</span>(<span class="dt">int</span> a, <span class="dt">int</span> b) {
+<div class="sourceCode"><pre class="sourceCode Java"><code class="sourceCode java"><span class="dt">int</span> <span class="fu">software</span>(<span class="dt">int</span> a, <span class="dt">int</span> b) {
     <span class="kw">return</span> (a + b) * <span class="dv">4</span>;
-}</code></pre>
+}</code></pre></div>
 <p>Easy peasey! On a side note, write it in Haskell, then play ‘spot the difference’ with the client problem statement and the code. Fun hey? :)</p>
 <p>If the client approaches you on Tuesday with the following, “given two integers, subtract the first from the last. multiply by 4 and give me the result.”, then it is <strong>imperative</strong> to understand that this is <strong>a new requirement</strong>. A software requirement holds from inception until the collapse of the universe. You might argue, “but the old one and the same one look almost the same”, in which case, feel free to write the second one by applying your favourite delta compression algorithm, but by no means should the former be <em>replaced</em> by the latter. You might also argue, “but the client said it is a change”. Well I hope my doctor doesn’t follow any advice that I give him on my condition at the time since I am not well versed in medical practice. I do not say, “I have a headache, I need to fix it with these drugs” or if I did, the doctor, being aware of my naivety, would ignore my advice and only consider the symptom (I would hope!). Likewise, clients do not project their false view of software into their final product and instead, trust the better judgment of a more trained practitioner (ideally).</p>
 <p>If we take the common (not that I accept its legitimacy in this form) approach of unit testing and I write <code>assert(software(42, 43) == 340)</code>, then this statement should hold forever. If it does not, then you have broken your contract to all clients of your software. The typical refutation to this assertion involves the developer ascertaining that no software clients have ever existed and so it is safe to continue. For example, if there is even a slight suspicion of a client, that developer might first deduce that if there is, then those client(s) are in the room. Then that developer asks all people in the room to commit their code so that she can search for occurrences of its use. If none are found, the software is removed, code committed and all persons in the room are instructed to update. Otherwise, if it is found that one or more clients exist, manual contingency measures are engaged.</p>

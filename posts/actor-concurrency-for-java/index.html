@@ -20,11 +20,11 @@
 </div>
 <div id="header">
   <div id="navigation">
-    <a href="../../index.html">Home</a>
-    <a href="../../posts/">All Posts</a>
-    <a href="../../contact/">Contact</a>
-    <a href="http://cv.tmorris.net/">CV</a>
-    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+    <a class="navbar" href="../../index.html">Home</a>
+    <a class="navbar" href="../../posts/">All Posts</a>
+    <a class="navbar" href="../../contact/">Contact</a>
+    <a class="navbar" href="http://cv.tmorris.net/">CV</a>
+    <a class="navbar" href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
   </div>
 </div>
 <h1>Actor concurrency for Java</h1>
@@ -38,7 +38,7 @@
 </ul>
 <p>Here is an <a href="http://projects.workingmouse.com/public/functionaljava/artifacts/2.8/demo/bgga/concurrent/Fibs.java">example</a> of a parallel fibonacci that uses a few hundred virtual threads (unlike <a href="http://projects.workingmouse.com/public/functionaljava/artifacts/2.8/demo/bgga/concurrent/PingPong.java">the ping/pong example</a> that uses… wait for it… <strong>millions</strong> of virtual threads!). On my quad-core machine, the fibonacci computation speeds up by about 6 times (45 seconds serially to about 7 seconds when using actors).</p>
 <p><a href="http://projects.workingmouse.com/public/functionaljava/artifacts/2.8/demo/bgga/concurrent/Fibs.java">The example</a> uses Java 7 BGGA syntax (imports omitted) and after compilation, runs fine on any 1.5 JVM. This example is <a href="http://projects.workingmouse.com/public/functionaljava/artifacts/2.8/demo/1.5/concurrent/Fibs.java">also available with Java 1.5 source code</a> in the Functional Java release.</p>
-<pre class="sourceCode Java"><code class="sourceCode java"><span class="co">/**</span>
+<div class="sourceCode"><pre class="sourceCode Java"><code class="sourceCode java"><span class="co">/**</span>
 <span class="co"> * Parallel Fibonacci numbers.</span>
 <span class="co"> * Based on a Haskell example by Don Stewart.</span>
 <span class="co"> * Author: Runar</span>
@@ -79,7 +79,7 @@
       <span class="kw">return</span> n;
     <span class="kw">else</span> <span class="kw">return</span> <span class="fu">serialFib</span>(n - <span class="dv">1</span>) + <span class="fu">serialFib</span>(n - <span class="dv">2</span>);
   }
-}</code></pre>
+}</code></pre></div>
 
 
 <hr />

@@ -20,18 +20,18 @@
 </div>
 <div id="header">
   <div id="navigation">
-    <a href="../../index.html">Home</a>
-    <a href="../../posts/">All Posts</a>
-    <a href="../../contact/">Contact</a>
-    <a href="http://cv.tmorris.net/">CV</a>
-    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+    <a class="navbar" href="../../index.html">Home</a>
+    <a class="navbar" href="../../posts/">All Posts</a>
+    <a class="navbar" href="../../contact/">Contact</a>
+    <a class="navbar" href="http://cv.tmorris.net/">CV</a>
+    <a class="navbar" href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
   </div>
 </div>
 <h1>Lifting</h1>
 <div class="info">Posted on July 17, 2011, in <a href="../../tags/Programming/index.html">Programming</a></div>
 
 <p>Below is a compileable Scala source file. If you read it from top to bottom, it may help with some insights regarding applicative functors. It was partially inspired by Eric’s rendition of <a href="http://etorreborre.blogspot.com/2011/06/essence-of-iterator-pattern.html">The Essence of the Iterator Pattern</a>.</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">trait</span> Lift[F[_]] {
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">trait</span> Lift[F[_]] {
   <span class="co">// Spot the pattern in these type signatures</span>
   <span class="co">// of increasing arity.</span>
 
@@ -76,7 +76,7 @@
 <span class="co">// Notes</span>
 <span class="co">// * lift0 is often called: unit, return, pure, point, η</span>
 <span class="co">// * lift1 is often called: fmap, map, ∘</span>
-<span class="co">// * lift&lt;n&gt; is often called: liftA&lt;n&gt;, liftM&lt;n&gt;</span></code></pre>
+<span class="co">// * lift&lt;n&gt; is often called: liftA&lt;n&gt;, liftM&lt;n&gt;</span></code></pre></div>
 <p>All that is left to do is to implement the <code>LiftImpl</code> trait! You can do this by implementing the <code>ap</code> and <code>lift0</code> functions.</p>
 <p>Examples of implementations that I know will work out if you try to implement them:</p>
 <ul>

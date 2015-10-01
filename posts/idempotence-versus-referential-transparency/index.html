@@ -20,11 +20,11 @@
 </div>
 <div id="header">
   <div id="navigation">
-    <a href="../../index.html">Home</a>
-    <a href="../../posts/">All Posts</a>
-    <a href="../../contact/">Contact</a>
-    <a href="http://cv.tmorris.net/">CV</a>
-    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+    <a class="navbar" href="../../index.html">Home</a>
+    <a class="navbar" href="../../posts/">All Posts</a>
+    <a class="navbar" href="../../contact/">Contact</a>
+    <a class="navbar" href="http://cv.tmorris.net/">CV</a>
+    <a class="navbar" href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
   </div>
 </div>
 <h1>Idempotence versus Referential Transparency</h1>
@@ -40,7 +40,7 @@
 <p>That’s all there is to it. Since many of my audience are Java programmers, I will appeal to their potential misunderstanding here and elaborate. The o symbol means <em>function composition</em>. The statement can be read as “the function f composed with the function f is equivalent to (just) f”.</p>
 <p>Function composition comes about by… well composing functions. Suppose a function (f) that accepts a type Y and returns a type Z and another function (g) that accepts a type X and a type Y that returns another function that accepts a type X and returns a type Z. We express this as f o g.</p>
 <p>Here is an example in the favourite programming language of some:</p>
-<pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">class</span> Foo {
+<div class="sourceCode"><pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">class</span> Foo {
   <span class="dt">static</span> String <span class="fu">f</span>(<span class="dt">int</span> i) {
     <span class="kw">return</span> Integer.<span class="fu">toString</span>(i);
   }
@@ -52,13 +52,13 @@
   <span class="dt">static</span> String <span class="fu">composeFG</span>(<span class="dt">char</span> c) {
     <span class="kw">return</span> <span class="fu">f</span>(<span class="fu">g</span>(c));
   }
-}</code></pre>
+}</code></pre></div>
 <p>Easy Peasey right? In my statement above, the type X is <code>char</code>, Y is <code>int</code> and Z is <code>String</code>. Function composition is written in Java as <code>f(g(a))</code>. Back to the definition of idempotence, which states (in Java syntax), that f(f(a)) is equivalent to f(a). Clearly we see that f <strong>must</strong> at least have the same type in its argument and return type in order to satisfy idempotence. This means that our previous example has no idempotent functions, however, they were all referentially transparent. Furthermore, a function that is referentially transparent and having the same type in its argument and return type is <em>not necessarily</em> idempotent. A counter-example is easily produced:</p>
-<pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">class</span> Bar {
+<div class="sourceCode"><pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">class</span> Bar {
   <span class="dt">static</span> <span class="dt">int</span> <span class="fu">add1</span>(<span class="dt">int</span> i) {
     <span class="kw">return</span> i + <span class="dv">1</span>;
   }
-}</code></pre>
+}</code></pre></div>
 <p>Since there exists at least one (in fact, all in this case) arg for <code>add1(add1(arg))</code> such that it is not equivalent to <code>add1(arg)</code>, then <code>add1</code> is <strong>not</strong> idempotent. For example, <code>add1(add1(7))</code> is not equivalent to <code>add1(7)</code>, clearly.</p>
 <p>Here are some insights. Adhering with my naming convention, suppose the function <code>add0</code>. Guess what? It <strong>is</strong> idempotent. Also, <code>multiply1</code> is idempotent. Every single function on this web page is referentially transparent, but only the two aforementioned hypothetical functions are idempotent.</p>
 <p>We might write this using logic as follows for <code>add0</code></p>
@@ -72,11 +72,11 @@
 </blockquote>
 <p>For all n such that n is an element of the set of integers, n * 1 = n [is a true statement].</p>
 <p>For completeness, here is an actual idempotent function with the added twist of a polymorphic type parameter (generic parameter in Java speak):</p>
-<pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">class</span> Baz {
+<div class="sourceCode"><pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">class</span> Baz {
   <span class="dt">static</span> &lt;t&gt; T <span class="fu">identity</span>(T t) {
     <span class="kw">return</span> t;
   }
-}</code></pre>
+}</code></pre></div>
 <p>I hope this clears some things up :)</p>
 
 

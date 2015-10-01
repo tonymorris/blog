@@ -20,11 +20,11 @@
 </div>
 <div id="header">
   <div id="navigation">
-    <a href="../../index.html">Home</a>
-    <a href="../../posts/">All Posts</a>
-    <a href="../../contact/">Contact</a>
-    <a href="http://cv.tmorris.net/">CV</a>
-    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+    <a class="navbar" href="../../index.html">Home</a>
+    <a class="navbar" href="../../posts/">All Posts</a>
+    <a class="navbar" href="../../contact/">Contact</a>
+    <a class="navbar" href="http://cv.tmorris.net/">CV</a>
+    <a class="navbar" href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
   </div>
 </div>
 <h1>I have found that...</h1>
@@ -33,10 +33,10 @@
 <blockquote>
 <p>I have found that many classes are created for the specific purpose of a <code>sequence</code> function in the <code>((-&gt;) t)</code> monad, particularly in Java, C# and Python. Create a class, with a constructor that takes an argument (t) so that one may call many of its methods, each of which has access to t.</p>
 </blockquote>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell">sequence<span class="ot"> ::</span> [m a] <span class="ot">-&gt;</span> m [a]
-sequence<span class="fu">*</span><span class="ot"> ::</span> [t <span class="ot">-&gt;</span> a] <span class="ot">-&gt;</span> t <span class="ot">-&gt;</span> [a]</code></pre>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell">sequence<span class="ot"> ::</span> [m a] <span class="ot">-&gt;</span> m [a]
+sequence<span class="fu">*</span><span class="ot"> ::</span> [t <span class="ot">-&gt;</span> a] <span class="ot">-&gt;</span> t <span class="ot">-&gt;</span> [a]</code></pre></div>
 <p>If we consider the type of <code>t</code> which we shall call <code>Swizzle</code> and the created class we shall call <code>SwizzleManager</code> then</p>
-<pre class="sourceCode Java"><code class="sourceCode java"><span class="co">// A constructor accepting a Swizzle</span>
+<div class="sourceCode"><pre class="sourceCode Java"><code class="sourceCode java"><span class="co">// A constructor accepting a Swizzle</span>
 SwizzleManager m = <span class="kw">new</span> <span class="fu">SwizzleManager</span>(t);
 <span class="co">// One of the following usually follow:</span>
 <span class="co">//   A list constructed by the results of executing several methods on 'm'</span>
@@ -48,7 +48,7 @@ List&lt;r&gt; = { m.<span class="fu">a</span>(x), m.<span class="fu">b</span>(y)
 <span class="co">//   A list of effects to execute using 'm'</span>
 m.<span class="fu">a</span>(x);
 m.<span class="fu">b</span>(y);
-m.<span class="fu">c</span>(z);</code></pre>
+m.<span class="fu">c</span>(z);</code></pre></div>
 
 
 <hr />

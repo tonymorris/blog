@@ -20,18 +20,18 @@
 </div>
 <div id="header">
   <div id="navigation">
-    <a href="../../index.html">Home</a>
-    <a href="../../posts/">All Posts</a>
-    <a href="../../contact/">Contact</a>
-    <a href="http://cv.tmorris.net/">CV</a>
-    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+    <a class="navbar" href="../../index.html">Home</a>
+    <a class="navbar" href="../../posts/">All Posts</a>
+    <a class="navbar" href="../../contact/">Contact</a>
+    <a class="navbar" href="http://cv.tmorris.net/">CV</a>
+    <a class="navbar" href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
   </div>
 </div>
 <h1>Functor Laws using Reductio (Scala)</h1>
 <div class="info">Posted on June 25, 2008, in <a href="../../tags/Programming/index.html">Programming</a></div>
 
 <p>A somewhat intricate and extremely useful code snippet using <a href="http://reductiotest.org/">Reductio</a> for testing the laws of any Functor instance (note that the <code>Functor</code> type is part of <a href="http://wiki.workingmouse.com/index.php/Scalaz">Scalaz</a>):</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">import</span> reductios.<span class="fu">Property</span>.<span class="fu">_</span>
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">import</span> reductios.<span class="fu">Property</span>.<span class="fu">_</span>
 <span class="kw">import</span> reductios.<span class="fu">Arbitrary</span>
 <span class="kw">import</span> reductio.<span class="fu">Coarbitrary</span>
 <span class="kw">import</span> reductios.<span class="fu">Arbitrary</span>.<span class="fu">_</span>
@@ -48,7 +48,7 @@
                                           ca: Coarbitrary[A]) =
     <span class="fu">prop</span>((fa: F[A], h: B =&gt; C, i: A =&gt; B) =&gt;
             f.<span class="fu">fmap</span>(h compose i, fa) === f.<span class="fu">fmap</span>(h, f.<span class="fu">fmap</span>(i, fa)))
-}</code></pre>
+}</code></pre></div>
 
 
 <hr />

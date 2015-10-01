@@ -58,7 +58,7 @@
 <blockquote>
 <p>Examining the signature to the <code>map</code> function, we see that it takes <em>two arguments</em>:</p>
 </blockquote>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell">map<span class="ot"> ::</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> <span class="dt">List</span> a <span class="ot">-&gt;</span> <span class="dt">List</span> b</code></pre>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell">map<span class="ot"> ::</span> (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> <span class="dt">List</span> a <span class="ot">-&gt;</span> <span class="dt">List</span> b</code></pre></div>
 <p>We will then talk about the <em>first argument</em> and the <em>second argument</em> as if there even is such a thing.</p>
 <p>However, the truth of the original fact has not changed. Look at it, just sitting there, saying nothing, being all shiny and true. So how could all functions take one argument, while we simultaneously and casually talk about a “second argument”? Are we just telling great big lies? Have we made a mistake?</p>
 <p>The problem is our vocabulary. In our spoken words, we are using an <strong>approximation</strong> of fact and superficially, it looks like a blatant contradiction. Let us expand our approximation to more obviously coincide with our statement of fact. I have added some annotation in [brackets].</p>
@@ -68,22 +68,22 @@
 <p>When we say out loud “the <code>map</code> function takes two arguments”, we are approximating for the above expansion. It is important to understand what we really mean here.</p>
 <p>During my teaching, I will often make a deal with students; I will use the terser vocabulary with you and I will even let you use it, however, if at any moment you violate our understanding of its proper meaning, I will rip it out from under you and demand that you use the full expansion. Almost always, the student will agree to this deal.</p>
 <p>Some time after having made this deal, I will hear the following question. Given, for example, this solution to an exercise:</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell">flatten <span class="ot">::</span>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell">flatten <span class="ot">::</span>
   <span class="dt">List</span> (<span class="dt">List</span> a)
   <span class="ot">-&gt;</span> <span class="dt">List</span> a
 flatten <span class="fu">=</span>
-  foldRight (<span class="fu">++</span>) <span class="dt">Nil</span></code></pre>
+  foldRight (<span class="fu">++</span>) <span class="dt">Nil</span></code></pre></div>
 <p>I will hear this question:</p>
 <blockquote>
 <p>Wait a minute, you only passed two arguments to <code>foldRight</code>, however, we have seen that it takes three. How could this possibly work!?</p>
 </blockquote>
 <p>Here is another example of the question. Given this solution:</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell">filter <span class="ot">::</span>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell">filter <span class="ot">::</span>
   (a <span class="ot">-&gt;</span> <span class="dt">Bool</span>)
   <span class="ot">-&gt;</span> <span class="dt">List</span> a
   <span class="ot">-&gt;</span> <span class="dt">List</span> a
 filter f <span class="fu">=</span>
-  foldRight (\a <span class="ot">-&gt;</span> <span class="kw">if</span> f a <span class="kw">then</span> (a<span class="fu">:.</span>) <span class="kw">else</span> id) <span class="dt">Nil</span></code></pre>
+  foldRight (\a <span class="ot">-&gt;</span> <span class="kw">if</span> f a <span class="kw">then</span> (a<span class="fu">:.</span>) <span class="kw">else</span> id) <span class="dt">Nil</span></code></pre></div>
 <p>I will hear this question:</p>
 <blockquote>
 <p>The argument to <code>foldRight</code> (which is itself a function) takes two arguments, however, the function you passed to <code>foldRight</code> has been specified to take only one (which you have called <code>a</code>). How could this even work?</p>
@@ -112,12 +112,12 @@ appointed Probation Officer</code></pre>
     <updated>2013-10-18T20:00:00Z</updated>
     <summary type="html"><![CDATA[<h3 id="monad-and-functor">Monad and Functor</h3>
 <p>The <a href="http://haskell.org/">Haskell programming language</a> has a <code>Monad</code> type-class as well as a <code>Functor</code> type-class. It is possible to derive the <code>Functor</code> primitive (<code>fmap</code>) from the <code>Monad</code> primitives:</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="co">-- derive fmap from the Monad primitives, (&gt;&gt;=) and return</span>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="co">-- derive fmap from the Monad primitives, (&gt;&gt;=) and return</span>
 fmap f x <span class="fu">=</span>
-  x <span class="fu">&gt;&gt;=</span> return <span class="fu">.</span> f</code></pre>
+  x <span class="fu">&gt;&gt;=</span> return <span class="fu">.</span> f</code></pre></div>
 <p>Therefore, it is reasonably argued that <code>Monad</code> should extend <code>Functor</code> so as to provide this default definition of <code>fmap</code>. Due to history, this is not the case, which leads to some awkward situations.</p>
 <p>For example, since not all <code>Functor</code> instances are <code>Monad</code> instances, a given operation may wish to restrict itself (if possible) to <code>Functor</code> so that it can be used against those data types. In short, use <code>fmap</code> instead of <code>liftM</code> to prevent an unnecessary constraint on the type of the operation.</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell">fFlip <span class="ot">::</span>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell">fFlip <span class="ot">::</span>
   <span class="dt">Functor</span> f <span class="ot">=&gt;</span>
   f (a <span class="ot">-&gt;</span> b)
   <span class="ot">-&gt;</span> a
@@ -131,11 +131,11 @@ mFlip <span class="ot">::</span>
   <span class="ot">-&gt;</span> a
   <span class="ot">-&gt;</span> f b
 mFlip f a <span class="fu">=</span>
-  liftM (<span class="fu">$</span>a) f</code></pre>
+  liftM (<span class="fu">$</span>a) f</code></pre></div>
 <p>The <code>fFlip</code> is available to use to a strict superset of the data types that <code>mFlip</code> is available to, yet they are both equivalent in power. It is desirable to implement <code>fFlip</code>. However, when we combine a usage of <code>fFlip</code> with a monad operation, our type constraint becomes <code>(Monad f, Functor f) =&gt;</code>, which is undesirable boilerplate because <code>Monad</code> implies <code>Functor</code>!</p>
 <h3 id="monad-applicative-and-functor">Monad, Applicative and Functor</h3>
 <p>A <a href="http://www.haskell.org/haskellwiki/Functor-Applicative-Monad_Proposal">proposal to amend this introduces the <code>Applicative</code> type-class</a>, which sits between <code>Monad</code> and <code>Functor</code>. In other words, <code>Monad</code> extends <code>Applicative</code> and <code>Applicative</code> extends <code>Functor</code>. This is again, because the primitives of each superclass can be derived:</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="co">-- derive fmap from the Applicative primitives, (&lt;*&gt;) and pure</span>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="co">-- derive fmap from the Applicative primitives, (&lt;*&gt;) and pure</span>
 fmap <span class="ot">::</span>
   <span class="dt">Applicative</span> f <span class="ot">=&gt;</span>
   (a <span class="ot">-&gt;</span> b)
@@ -160,11 +160,11 @@ pure <span class="ot">::</span>
   a
   <span class="ot">-&gt;</span> f a
 pure <span class="fu">=</span>
-  return</code></pre>
+  return</code></pre></div>
 <h3 id="applicative-do-notation">Applicative do-notation</h3>
 <p>With this proposal, there is <a href="http://ghc.haskell.org/trac/ghc/wiki/ApplicativeDo">another proposal to extend do-notation</a> to take advantage of this improved flexibility. Currently, do-notation translates to the code that uses the <code>Monad</code> primitives, <code>(&gt;&gt;=)</code> and <code>return</code><a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a>.</p>
 <p>There are some arguments against this proposal, because this extension is not always desirable. In particular, the degree to which values are shared may be affected. Consider:</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell">result <span class="fu">=</span>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell">result <span class="fu">=</span>
   <span class="kw">do</span> a <span class="ot">&lt;-</span> expr
      b <span class="ot">&lt;-</span> spaceyExpr
      return (f a b)
@@ -177,7 +177,7 @@ result <span class="fu">=</span>
 
 <span class="co">-- applicative desugaring (proposed)</span>
 result <span class="fu">=</span>
-  fmap f expr <span class="fu">&lt;*&gt;</span> spaceyExpr</code></pre>
+  fmap f expr <span class="fu">&lt;*&gt;</span> spaceyExpr</code></pre></div>
 <p>Since <code>spaceyExpr</code>appears inside a lambda for the current desugaring, it will not be retained and so computed on each invocation of <code>a</code>. However, in the proposed desugaring, the value is retained and shared when the expression is evaluated. This could, of course, lead to surprises in space usage.</p>
 <p>It might be argued that do-notation should maintain its current desugaring using <code>Monad</code> and introduce another means by which to perform <code>Applicative</code> desugaring.</p>
 <p>Whatever the outcome, all of this distracts from the otherwise glaring oversight.</p>
@@ -192,7 +192,7 @@ well, not that: Applicative not being a superclass of Monad.</code></pre>
 <p>Fact: not all semigroups are monoids.</p>
 <p>No desugaring, current or proposed, utilises the identity value. In the <code>Monad</code> case, this is <code>return</code> and in the <code>Applicative</code> case, this is <code>pure</code>. However, it is a requirement of users to implement these functions. There exist structures that can utilise the full power of this desugaring, but cannot provide the identity value. Therefore, we can eliminate the identity value and still exploit the full advantage of desugaring. Not only this, but it then makes operations available to a strict superset of data types.</p>
 <p>Consider the following amendment to the proposal:</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">class</span> <span class="dt">Functor</span> f <span class="ot">=&gt;</span> <span class="dt">Apply</span> f <span class="kw">where</span>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">class</span> <span class="dt">Functor</span> f <span class="ot">=&gt;</span> <span class="dt">Apply</span> f <span class="kw">where</span>
   (<span class="fu">&lt;*&gt;</span>) <span class="ot">::</span>
     f (a <span class="ot">-&gt;</span> b)
     <span class="ot">-&gt;</span> f a
@@ -201,39 +201,39 @@ well, not that: Applicative not being a superclass of Monad.</code></pre>
 <span class="kw">class</span> <span class="dt">Apply</span> f <span class="ot">=&gt;</span> <span class="dt">Applicative</span> f <span class="kw">where</span>
   pure <span class="ot">::</span>
     a
-    <span class="ot">-&gt;</span> f a</code></pre>
+    <span class="ot">-&gt;</span> f a</code></pre></div>
 <p>We may still derive many of the ubiquitous functions, without the full power of <code>Applicative</code>.</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell">liftA2 <span class="ot">::</span>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell">liftA2 <span class="ot">::</span>
   <span class="dt">Apply</span> f <span class="ot">=&gt;</span>
   (a <span class="ot">-&gt;</span> b <span class="ot">-&gt;</span> c)
   <span class="ot">-&gt;</span> f a
   <span class="ot">-&gt;</span> f b
   <span class="ot">-&gt;</span> f c
 liftA2 f a b <span class="fu">=</span>
-  fmap f a <span class="fu">&lt;*&gt;</span> b</code></pre>
+  fmap f a <span class="fu">&lt;*&gt;</span> b</code></pre></div>
 <p>We may still exploit our do-notation:</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell">result <span class="fu">=</span>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell">result <span class="fu">=</span>
   <span class="kw">do</span> a <span class="ot">&lt;-</span> expr1
      b <span class="ot">&lt;-</span> expr2
      return (f a b)
 
 <span class="co">-- apply desugaring</span>
 result <span class="fu">=</span>
-  fmap f expr1 <span class="fu">&lt;*&gt;</span> expr2</code></pre>
+  fmap f expr1 <span class="fu">&lt;*&gt;</span> expr2</code></pre></div>
 <p>However, more to the point, there are now data structures for which these operations (e.g. <code>liftA2</code>) and do-notation become available, that otherwise would not have been.</p>
 <p>Here are some examples of those:</p>
 <h5 id="also">Also</h5>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">NonEmptyList</span> a <span class="fu">=</span> <span class="dt">NEL</span> a [a]
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">NonEmptyList</span> a <span class="fu">=</span> <span class="dt">NEL</span> a [a]
 <span class="kw">data</span> <span class="dt">Also</span> a x <span class="fu">=</span> <span class="dt">Also</span> (<span class="dt">NonEmptyList</span> a) x
 <span class="kw">instance</span> <span class="dt">Functor</span> (<span class="dt">Also</span> a) <span class="kw">where</span>
 <span class="kw">instance</span> <span class="dt">Apply</span> (<span class="dt">Also</span> a) <span class="kw">where</span>
   <span class="dt">Also</span> (<span class="dt">NEL</span> h t) f <span class="fu">&lt;*&gt;</span> <span class="dt">Also</span> (<span class="dt">NEL</span> h&#39; t&#39;) x <span class="fu">=</span>
-    <span class="dt">Also</span> (<span class="dt">NEL</span> h (t <span class="fu">++</span> h&#39; <span class="fu">:</span> t&#39;)) (f x)</code></pre>
+    <span class="dt">Also</span> (<span class="dt">NEL</span> h (t <span class="fu">++</span> h&#39; <span class="fu">:</span> t&#39;)) (f x)</code></pre></div>
 <p>The <code>Also</code> data type has no possible <code>Applicative</code> instance, yet it has a very usable <code>Apply</code>. This means we can use (amended) <code>liftA2</code> and do-notation on <code>Also</code> values, without losing any power.</p>
 <p>This data type generalises in fact, while still maintaining an <code>Apply</code> instance.</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">Also</span> s x <span class="fu">=</span> <span class="dt">Also</span> s x</code></pre>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">Also</span> s x <span class="fu">=</span> <span class="dt">Also</span> s x</code></pre></div>
 <p>There is an <code>Apply</code> instance for <code>(Also s)</code> for as long as there is a <code>Semigroup</code> instance for <code>s</code>, however, if your semigroup is not a monoid, then there is no <code>Monoid</code> instance. I have used <code>(NonEmptyList a)</code> as an example of a data type with a semigroup, but not a monoid.</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">class</span> <span class="dt">Semigroup</span> a <span class="kw">where</span>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">class</span> <span class="dt">Semigroup</span> a <span class="kw">where</span>
 <span class="ot">  (&lt;&gt;) ::</span> <span class="co">-- associative</span>
     a
     <span class="ot">-&gt;</span> a
@@ -241,9 +241,9 @@ result <span class="fu">=</span>
 
 <span class="kw">instance</span> <span class="dt">Semigroup</span> s <span class="ot">=&gt;</span> <span class="dt">Apply</span> (<span class="dt">Also</span> s) <span class="kw">where</span>
   <span class="dt">Also</span> s1 f <span class="fu">&lt;*&gt;</span> <span class="dt">Also</span> s2 x <span class="fu">=</span>
-    <span class="dt">Also</span> (s1 <span class="fu">&lt;&gt;</span> s2) (f x)</code></pre>
+    <span class="dt">Also</span> (s1 <span class="fu">&lt;&gt;</span> s2) (f x)</code></pre></div>
 <h5 id="ornot">OrNot</h5>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">OrNot</span> a <span class="fu">=</span> <span class="co">-- Maybe (NonEmptyList a)</span>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">OrNot</span> a <span class="fu">=</span> <span class="co">-- Maybe (NonEmptyList a)</span>
   <span class="dt">Not</span>
   <span class="fu">|</span> <span class="dt">Or</span> (<span class="dt">NonEmptyList</span> a)
 
@@ -255,14 +255,14 @@ result <span class="fu">=</span>
   <span class="dt">Or</span> _ <span class="fu">&lt;*&gt;</span> <span class="dt">Not</span> <span class="fu">=</span>
     <span class="dt">Not</span>
   <span class="dt">Or</span> (<span class="dt">NEL</span> h t) <span class="fu">&lt;*&gt;</span> <span class="dt">Or</span> (<span class="dt">NEL</span> h&#39; t&#39;) <span class="fu">=</span>
-    <span class="dt">Or</span> (<span class="dt">NEL</span> (h h&#39;) (t <span class="fu">&lt;*&gt;</span> t&#39;))</code></pre>
+    <span class="dt">Or</span> (<span class="dt">NEL</span> (h h&#39;) (t <span class="fu">&lt;*&gt;</span> t&#39;))</code></pre></div>
 <p>The <code>OrNot</code> data is isomorphic to <code>Maybe (NonEmptyList a)</code> and has an <code>Apply</code> instance that is similar to the <code>Applicative</code> for <code>Maybe</code>. However, since this data type holds a non-empty list, there is no possibility for an <code>Applicative</code> instance.</p>
 <p>Again, with an amended do-notation and library functions, we could use <code>OrNot</code> values.</p>
 <h5 id="but-it-doesnt-stop-there">But it doesn’t stop there…</h5>
 <p>Your regular old <code>Data.Map#Map</code> can provide an <code>Apply</code> instance, but not an <code>Applicative</code>.</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">instance</span> <span class="dt">Ord</span> k <span class="ot">=&gt;</span> <span class="dt">Apply</span> (<span class="dt">Map</span> k) <span class="kw">where</span>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">instance</span> <span class="dt">Ord</span> k <span class="ot">=&gt;</span> <span class="dt">Apply</span> (<span class="dt">Map</span> k) <span class="kw">where</span>
   (<span class="fu">&lt;*&gt;</span>) <span class="fu">=</span>
-    Map.intersectionWith (<span class="fu">$</span>)</code></pre>
+    Map.intersectionWith (<span class="fu">$</span>)</code></pre></div>
 <p>There is no corresponding <code>Applicative</code> instance for this <code>Apply</code> instance. This is the same story for <code>Data.IntMap#IntMap</code>.</p>
 <p>I want to use <code>liftA2</code> and many other generalised functions on <code>(Map k)</code> values and no, I am not sorry!</p>
 <h3 id="apply-not-applicative">Apply not Applicative</h3>
@@ -274,7 +274,7 @@ result <span class="fu">=</span>
 <h3 id="type-class-hierarchy-proper">Type-class Hierarchy Proper</h3>
 <p>In order to take full advantage of a type-class amendment, I submit the following proposed type-class hierarchy. I contend that it subsumes the existing proposal by providing additional flexibility for zero additional loss.</p>
 <p>Library functions, such as <code>liftA2</code>, could slowly adopt an amendment to their type signature so as to open up to more data types.</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">class</span> <span class="dt">Functor</span> f <span class="kw">where</span>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">class</span> <span class="dt">Functor</span> f <span class="kw">where</span>
   fmap <span class="ot">::</span>
     (a <span class="ot">-&gt;</span> b)
     <span class="ot">-&gt;</span> f a
@@ -297,9 +297,9 @@ result <span class="fu">=</span>
     <span class="ot">-&gt;</span> f a
     <span class="ot">-&gt;</span> f b
 
-<span class="kw">class</span> (<span class="dt">Applicative</span> f, <span class="dt">Bind</span> f) <span class="ot">=&gt;</span> <span class="dt">Monad</span> f <span class="kw">where</span></code></pre>
+<span class="kw">class</span> (<span class="dt">Applicative</span> f, <span class="dt">Bind</span> f) <span class="ot">=&gt;</span> <span class="dt">Monad</span> f <span class="kw">where</span></code></pre></div>
 <p>and while we’re at it…</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">class</span> <span class="dt">Semigroup</span> a <span class="kw">where</span>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">class</span> <span class="dt">Semigroup</span> a <span class="kw">where</span>
 <span class="ot">  (&lt;&gt;) ::</span> <span class="co">-- mappend</span>
     a
     <span class="ot">-&gt;</span> a
@@ -307,15 +307,15 @@ result <span class="fu">=</span>
 
 <span class="kw">class</span> <span class="dt">Semigroup</span> a <span class="ot">=&gt;</span> <span class="dt">Monoid</span> a <span class="kw">where</span>
   mempty <span class="ot">::</span>
-    a</code></pre>
+    a</code></pre></div>
 <p>but maybe I am biting off a bit too much there :)</p>
 <h3 id="addendum-on-pointed">Addendum on Pointed</h3>
 <p>I have not mentioned the <code>Pointed</code> experiment, because it is not worth mentioning anymore. It was an experiment, executed in both Scala and Haskell, and the result is conclusive.</p>
 <p>However, here is the type-class:</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">class</span> <span class="dt">Functor</span> f <span class="ot">=&gt;</span> <span class="dt">Pointed</span> f <span class="kw">where</span>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">class</span> <span class="dt">Functor</span> f <span class="ot">=&gt;</span> <span class="dt">Pointed</span> f <span class="kw">where</span>
   pure <span class="ot">::</span>
     a
-    <span class="ot">-&gt;</span> f a</code></pre>
+    <span class="ot">-&gt;</span> f a</code></pre></div>
 <p>It was once proposed to slot in between <code>Applicative</code> and <code>Functor</code>. The <code>Pointed</code> type-class is not at all useful and there is no value in continuing discussion in this context, but instead about the result of the failed experiment. This is for another day.</p>
 <div class="footnotes">
 <hr />
@@ -346,7 +346,7 @@ result <span class="fu">=</span>
     <published>2013-07-18T20:00:00Z</published>
     <updated>2013-07-18T20:00:00Z</updated>
     <summary type="html"><![CDATA[<p>There are various tools for comprehending code. It is often alleged to me that identifier names are one such tool — an important one even. In order to be a useful tool for comprehension, it must have a degree of efficacy above an arbitrary hypothesis. For example, suppose the following code:</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">def</span> reverse: List[Banana] =&gt; List[Banana]</code></pre>
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">def</span> reverse: List[Banana] =&gt; List[Banana]</code></pre></div>
 <p>Without viewing the body of the code, one might infer that this code “reverses the list.” What does it mean to reverse a list? Let us try to rigorously define reversing a list:</p>
 <ul>
 <li>Reversing the empty list produces the empty list.</li>
@@ -358,7 +358,7 @@ result <span class="fu">=</span>
 <p>Thankfully, this is unimportant. It is unimportant because there exist methods of code comprehension that are <em>significantly more effective</em>, so you can abandon the question of whether or not there is efficacy of using identifier names for inferring properties of code.</p>
 <hr />
 <p>Suppose the following code:</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">def</span> reverse[A]: List[A] =&gt; List[A]</code></pre>
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">def</span> reverse[A]: List[A] =&gt; List[A]</code></pre></div>
 <p>At first glance, it might appear that we must take a leap of confidence in inferring that the function reverses the list. However, we can infer the following fact — <em>this function definitely does not peel the first <code>Banana</code> in the list</em>. I can infer this because if the function attempted to do this, it <em>would not compile</em><a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a>. In fact, I can infer lots of things here, such as:</p>
 <ul>
 <li>The <code>reverse</code> function did not add <code>10</code> to every second list element.</li>
@@ -366,7 +366,7 @@ result <span class="fu">=</span>
 </ul>
 <p>We are able to infer these things simply by making the <code>reverse</code> function <em>parametric</em>. We are no longer reversing a list of bananas — although that might be our use-case — we are reversing a list of <code>A</code> for all values of <code>A</code>. One virtue of this <em>parametricity</em> is that we can infer a significant number of things that <em>do not occur</em>. This theme of learning what does not occur is ubiquitous when deploying these programming techniques and is described in more detail by Wadler<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a>.</p>
 <p>Here is another example, using a programming language called SafeHaskell (very similar to Haskell):</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="ot">add10 ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span></code></pre>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="ot">add10 ::</span> <span class="dt">Int</span> <span class="ot">-&gt;</span> <span class="dt">Int</span></code></pre></div>
 <p>By the name of the function, we might unreliably infer (OK, let’s be honest, we are making a bold guess) that the function adds <code>10</code> to its argument. However, looking at the type, we know for sure that the function <em>did not print its argument to the standard output stream</em>. We know this because had the library provider attempted it, the code would not have compiled. To be clear, it would not be a valid SafeHaskell program, so our assumption that we are looking at SafeHaskell fails, forcing us to unify by selecting one of the following:</p>
 <ul>
 <li>The function does not print its argument to the standard output stream.</li>
@@ -375,7 +375,7 @@ result <span class="fu">=</span>
 </ul>
 <p>There are simply no other options. What other things can we reliably conclude this function does not do?</p>
 <p>Here is yet another example:</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">def</span> constant[A, B]: A =&gt; B =&gt; A</code></pre>
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">def</span> constant[A, B]: A =&gt; B =&gt; A</code></pre></div>
 <p>In this case, we can reliably infer that this function does one single thing. It ignores its second argument and returns its first. This might be protested:</p>
 <ul>
 <li>It might perform a side-effect first!
@@ -415,7 +415,7 @@ result <span class="fu">=</span>
 <p>Unfortunately, an implication of the halting problem is that we cannot prove these program properties, for the general case. This is not the end of the world though — we can still attempt to <em>disprove</em> these program properties. That is to say, we can go to efforts to determine if the function is <em>not</em> one which reverses the list. We can express our algebraic properties, which give away the full specification of the function, then automate the assertion that there exist values for which the property does not hold. This automation is precisely what <a href="http://code.google.com/p/scalacheck/">ScalaCheck</a> does, however, the expression itself is enough to rigorously specify the function behaviour without degenerating to faith in function names.</p>
 <p>The next time you see a function named <code>&lt;-:</code> and you think to yourself, “OMG, how unreadable, what am I going to do now!?”, ask yourself if there are other tools — perhaps more robust than those familiar — to comprehend the code. What is its type? What are its algebraic properties? Are there parametric properties to exploit?</p>
 <p>What if it has this type?</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">def</span> &lt;-:[A, B](f: A =&gt; B): List[A] =&gt; List[B]</code></pre>
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">def</span> &lt;-:[A, B](f: A =&gt; B): List[A] =&gt; List[B]</code></pre></div>
 <p>Does it map the function across the list elements? Maybe. However, we definitely know that the elements in the resulting list came from running the given function on an element from the input list. You see? Parametricity, just like that, was 73 fuck-loads more reliable than looking at the function name to comprehend how this code works, and this is only the start of answering the question. We have many more tools at our disposal. Importantly, they are <em>reliable</em>. I like reliable, because I also like things that are true. Hopefully you do too!</p>
 <hr />
 <p>So what about these allegations of utility of identifier names? Do they have any merit at all?</p>
@@ -444,7 +444,7 @@ result <span class="fu">=</span>
 </ol>
 <p>You will find a similar type-class hierarchy in <a href="http://github.com/scalaz/scalaz">the Scalaz library</a>. That implementation is far more comprehensive and is aimed primarily for production use. A secondary goal here is to help document the Scalaz hierarchy in terse form, however, note that you will find some minor differences (improvements?) in the arrangement.</p>
 <p>Discussion about addition or rearrangement of the proposed hierarchy is welcome.</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">trait</span> ~&gt;[F[_], G[_]] {
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">trait</span> ~&gt;[F[_], G[_]] {
   <span class="kw">def</span> apply[A]: F[A] =&gt; G[A]
 }
 
@@ -554,7 +554,7 @@ result <span class="fu">=</span>
 
 <span class="kw">trait</span> Arrow[~&gt;[_, _]] <span class="kw">extends</span> Category[~&gt;] <span class="kw">with</span> First[~&gt;] {
   <span class="kw">def</span> idA[A, B]: (A =&gt; B) =&gt; (A ~&gt; B)
-}</code></pre>]]></summary>
+}</code></pre></div>]]></summary>
 </entry>
 <entry>
     <title>Refactoring Puzzle</title>
@@ -567,7 +567,7 @@ result <span class="fu">=</span>
 <p><strong>How might the problem of code duplication be solved for this case?</strong></p>
 <p>The puzzle is designed to compile as-is, which means for some languages, support data structures need to be provided. For example, the C# programming language does not provide an immutable (cons) list data structure, so the bare minimum is supplied here. This makes the puzzle appear quite noisy for that specific programming language, however be assured it is the same code.</p>
 <h1 id="scala">Scala</h1>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">object</span> RefactorPuzzle {
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">object</span> RefactorPuzzle {
   <span class="kw">case</span> <span class="kw">class</span> IntRdr[+A](read: Int =&gt; A) {
     <span class="kw">def</span> map[B](f: A =&gt; B): IntRdr[B] =
       <span class="fu">IntRdr</span>(f compose read)
@@ -599,9 +599,9 @@ result <span class="fu">=</span>
 <span class="co">// x.foldRight[Option[List[A]]](Option(Nil))((a, b) =&gt; a.flatMap(aa =&gt; b.map(aa :: _)))</span>
 <span class="co">// x.foldRight[IntRdr[List[A]]](IntRdr(Nil))((a, b) =&gt; a.flatMap(aa =&gt; b.map(aa :: _)))</span>
 
-}</code></pre>
+}</code></pre></div>
 <h1 id="haskell">Haskell</h1>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">module</span> <span class="dt">RefactoringPuzzle</span> <span class="kw">where</span>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">module</span> <span class="dt">RefactoringPuzzle</span> <span class="kw">where</span>
 
 <span class="kw">newtype</span> <span class="dt">IntRdr</span> a <span class="fu">=</span>
   <span class="dt">IntRdr</span> {
@@ -670,9 +670,9 @@ runIntRdrs <span class="fu">=</span> foldr (\a b <span class="ot">-&gt;</span> b
 
 <span class="co">-- ***      ***********************      **************      ************           ****</span>
 <span class="co">-- runOptions = foldr (\a b -&gt; bindOption a (\aa -&gt; mapOption b (aa:))) (applyOption [])</span>
-<span class="co">-- runIntRdrs = foldr (\a b -&gt; bindIntRdr a (\aa -&gt; mapIntRdr b (aa:))) (applyIntRdr [])</span></code></pre>
+<span class="co">-- runIntRdrs = foldr (\a b -&gt; bindIntRdr a (\aa -&gt; mapIntRdr b (aa:))) (applyIntRdr [])</span></code></pre></div>
 <h1 id="c">C#</h1>
-<pre class="sourceCode cs"><code class="sourceCode cs"><span class="kw">using</span> System;
+<div class="sourceCode"><pre class="sourceCode cs"><code class="sourceCode cs"><span class="kw">using</span> System;
 
 <span class="kw">namespace</span> RefactoringPuzzle {
 <span class="kw">class</span> IntRdr&lt;A&gt; {
@@ -783,9 +783,9 @@ runIntRdrs <span class="fu">=</span> foldr (\a b <span class="ot">-&gt;</span> b
 <span class="co">// b.Select(bb =&gt; bb.Prepend(aa))), Option&lt;List&lt;A&gt;&gt;.apply(new Nil()));</span>
 <span class="co">// b.Select(bb =&gt; bb.Prepend(aa))), IntRdr&lt;List&lt;A&gt;&gt;.apply(new Nil()));</span>
 
-}</code></pre>
+}</code></pre></div>
 <h1 id="java">Java</h1>
-<pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">package RefactoringPuzzle;</span>
+<div class="sourceCode"><pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">package RefactoringPuzzle;</span>
 
 <span class="kw">abstract</span> <span class="kw">class</span> Func&lt;T, U&gt; {
   <span class="kw">abstract</span> U <span class="fu">apply</span>(T t);
@@ -962,7 +962,7 @@ runIntRdrs <span class="fu">=</span> foldr (\a b <span class="ot">-&gt;</span> b
 <span class="co">//   ***      ***********************</span>
 <span class="co">//   }, Option.apply(List.&lt;A&gt;nil()));</span>
 <span class="co">//   }, IntRdr.apply(List.&lt;A&gt;nil()));</span>
-  …</code></pre>]]></summary>
+  …</code></pre></div>]]></summary>
 </entry>
 <entry>
     <title>Obturator Entrapment Neuropathy (update)</title>

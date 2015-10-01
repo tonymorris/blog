@@ -20,11 +20,11 @@
 </div>
 <div id="header">
   <div id="navigation">
-    <a href="../../index.html">Home</a>
-    <a href="../../posts/">All Posts</a>
-    <a href="../../contact/">Contact</a>
-    <a href="http://cv.tmorris.net/">CV</a>
-    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+    <a class="navbar" href="../../index.html">Home</a>
+    <a class="navbar" href="../../posts/">All Posts</a>
+    <a class="navbar" href="../../contact/">Contact</a>
+    <a class="navbar" href="http://cv.tmorris.net/">CV</a>
+    <a class="navbar" href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
   </div>
 </div>
 <h1>Strong Type Systems</h1>
@@ -44,23 +44,23 @@
 </ol>
 <p>The function returns a monad with a type parameter ‘b’. ‘Implementing this interface’ would make the class itself an instance of <code>Monad</code> and so itself can be used as the function arguments. This is one of many things that <em>higher-order types</em> gives us.</p>
 <p>Let’s attempt this with a weak type system, Java. First, we acknowledge that Java has no first-class functions (cannot pass functions as arguments), but we can loosely emulate it (good enough for our purposes) with a single interface:</p>
-<pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">interface</span> F&lt;X, Y&gt; {
+<div class="sourceCode"><pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">interface</span> F&lt;X, Y&gt; {
   Y <span class="fu">f</span>(X x);
-}</code></pre>
+}</code></pre></div>
 <p>Let’s attempt to write the <code>Monad</code> interface:</p>
-<pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">interface</span> Monad&lt;A&gt; {
+<div class="sourceCode"><pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">interface</span> Monad&lt;A&gt; {
   &lt;B&gt; Monad&lt;B&gt; <span class="fu">bind</span>(Monad&lt;A&gt; ma, F&lt;A, Monad&lt;B&gt;&gt; f);
-}</code></pre>
+}</code></pre></div>
 <p>Looking good so far. But don’t be fooled – there is a huge problem. Namely, that the interface cannot be implemented correctly. Keeping with tradition, let’s attempt to write the <a href="http://blog.tmorris.net/maybe-in-java">Maybe monad</a>:</p>
-<pre class="sourceCode Java"><code class="sourceCode java"><span class="dt">final</span> <span class="kw">class</span> Maybe&lt;A&gt; <span class="kw">implements</span> Monad&lt;A&gt; {
+<div class="sourceCode"><pre class="sourceCode Java"><code class="sourceCode java"><span class="dt">final</span> <span class="kw">class</span> Maybe&lt;A&gt; <span class="kw">implements</span> Monad&lt;A&gt; {
   <span class="co">// BZZT! WRONG!</span>
-  Maybe&lt;A&gt; <span class="fu">bind</span>(<span class="dt">final</span> Maybe&lt;A&gt; ma, <span class="dt">final</span> F&lt;A, Maybe&lt;B&gt;&gt; f) {</code></pre>
+  Maybe&lt;A&gt; <span class="fu">bind</span>(<span class="dt">final</span> Maybe&lt;A&gt; ma, <span class="dt">final</span> F&lt;A, Maybe&lt;B&gt;&gt; f) {</code></pre></div>
 <p>We hit our first problem, can we work around it? In Java, we have co-variant return types, but we do not have higher-order types. This means that we can keep our return type declaration, but not the types of our arguments – they <strong>must</strong> match the interface. Then, we can resort to casting – an abomination that indicates a flaw of the type system.</p>
 <p>Let’s try again:</p>
-<pre class="sourceCode Java"><code class="sourceCode java"><span class="dt">final</span> <span class="kw">class</span> Maybe&lt;A&gt; <span class="kw">implements</span> Monad&lt;A&gt; {
+<div class="sourceCode"><pre class="sourceCode Java"><code class="sourceCode java"><span class="dt">final</span> <span class="kw">class</span> Maybe&lt;A&gt; <span class="kw">implements</span> Monad&lt;A&gt; {
   <span class="kw">public</span> &lt;B&gt; Maybe&lt;B&gt; <span class="fu">bind</span>(<span class="dt">final</span> Monad&lt;A&gt; ma, <span class="dt">final</span> F&lt;A, Monad&lt;B&gt;&gt; f) {
     <span class="kw">if</span>(ma <span class="kw">instanceof</span> Maybe) {
-    ...</code></pre>
+    ...</code></pre></div>
 <p>This solution works, but we have to admit to having to work around the type system by resorting to casting. As a result, I will no longer call it a solution, but instead, it is a work around – a flaw in the expressitivity of the type system. The lack of higher-order types in common type systems is one of many problems with quite devastating consequences. In attempting to model a fundamental computational concept, we find that the type system of Java (and many other programming languages with weak type systems) is not a sound premise from which to extrapolate conclusions about type systems in general. If we were to do so, we would be making a fundamental mistake. In fact, this particular problem is one that dynamic typing appears to solve. But don’t let these superficial appearances delude you. A stronger type system is the correct solution.</p>
 <p>Here are some conclusions from these findings:</p>
 <ul>
@@ -79,7 +79,7 @@
 </ul>
 <p>It is this latter question that needs to be explored before drawing any potentially misleading conclusions about type systems. <strong>It is a crucial mistake to make a comparison to weak type systems that do not in any way exemplify soundness, as anything else but unsound examples of type systems. The implication that dynamic typing is a correct solution is a blind-man’s fallacy.</strong></p>
 <p>A compilable solution follows:</p>
-<pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">interface</span> F&lt;X, Y&gt; {
+<div class="sourceCode"><pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">interface</span> F&lt;X, Y&gt; {
   Y <span class="fu">f</span>(X x);
 }
 
@@ -129,7 +129,7 @@
   <span class="kw">public</span> A <span class="fu">just</span>() {
     <span class="kw">return</span> a;
   }
-}</code></pre>
+}</code></pre></div>
 
 
 <hr />

@@ -20,11 +20,11 @@
 </div>
 <div id="header">
   <div id="navigation">
-    <a href="../../index.html">Home</a>
-    <a href="../../posts/">All Posts</a>
-    <a href="../../contact/">Contact</a>
-    <a href="http://cv.tmorris.net/">CV</a>
-    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+    <a class="navbar" href="../../index.html">Home</a>
+    <a class="navbar" href="../../posts/">All Posts</a>
+    <a class="navbar" href="../../contact/">Contact</a>
+    <a class="navbar" href="http://cv.tmorris.net/">CV</a>
+    <a class="navbar" href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
   </div>
 </div>
 <h1>Nothing returns anything, ever!</h1>
@@ -37,22 +37,22 @@
 <p>This person operates under the illusion that I am in an intellectual battle with him, so I can excuse the somewhat awkward discussion. My efforts to destroy this destructive illusion have been repeated failure to date. That’s a side-story.</p>
 <p>It occurred to me later, thanks to Edward Kmett, that perhaps it wasn’t a CPS transform but using exceptions instead! I doubt that was the case :) I’m also reasonably confident this discussion was <em>argumentum ad ignorantiam</em> – my converser doesn’t know what CPS transform means (so it can’t possibly be true!), but that’s cool – let’s not dwell on it. Instead, let’s have a look how you can simulate returning a value without actually returning a value using continuation-passing style (CPS)!</p>
 <p>We may conjure up both simple and elaborate examples of functions that actually return a value:</p>
-<pre class="sourceCode Java"><code class="sourceCode java">Integer <span class="fu">wibble</span>(String s, <span class="dt">double</span> d)
-Swizzler <span class="fu">function1</span>(<span class="dt">int</span> i, String s, Swazzle z)</code></pre>
+<div class="sourceCode"><pre class="sourceCode Java"><code class="sourceCode java">Integer <span class="fu">wibble</span>(String s, <span class="dt">double</span> d)
+Swizzler <span class="fu">function1</span>(<span class="dt">int</span> i, String s, Swazzle z)</code></pre></div>
 <p>I am going to use the trivial example (top one), but I hope you’ll be able to extrapolate to swizzlier cases.</p>
 <p>First, note that Java methods may perform side-effects willy-nilly. Passing in a <code>String</code> and a <code>double</code> are not the only values that the function may access. The function may print to standard output, use variables in any scope, read/write files, the network and so on. This changes things a little (read: a lot) with regard to how we look at a function, so perhaps this is why this technique has apparent (read: apparent) merit.</p>
 <p>Suppose a very simple interface:</p>
-<pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">interface</span> To&lt;a&gt; {
+<div class="sourceCode"><pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">interface</span> To&lt;a&gt; {
   <span class="dt">void</span> <span class="fu">to</span>(A a);
-}</code></pre>
+}</code></pre></div>
 <p>Quite simply, this function takes a polymorphic (aka generic) value and performs a side-effect, perhaps using this value. It is important to point out that this polymorphic interface may be modelled differently e.g. it may not be polymorphic:</p>
-<pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">interface</span> Stringer {
+<div class="sourceCode"><pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">interface</span> Stringer {
   <span class="dt">void</span> <span class="fu">stringer</span>(String s);
-}</code></pre>
+}</code></pre></div>
 <p>This interface is exactly equivalent to <code>To&lt;String&gt;</code> so I’m also trusting that you’ll extrapolate my generic example to other possibilities.</p>
 <p>Now, instead of returning a type e.g. <code>Integer</code> in the <code>wibble</code> function, we may return <code>void</code> with an additional <code>To&lt;Integer&gt;</code> argument. We can do this for every single function that would otherwise return a value!</p>
 <p>How does that work then? Simple really. We compute the <code>Integer</code> as we normally would in the body of <code>wibble</code> and instead of returning it (we can’t of course), we pass it to the <code>to</code> method of the given <code>To&lt;Integer&gt;</code> instance.</p>
-<pre class="sourceCode Java"><code class="sourceCode java"><span class="dt">void</span> <span class="fu">wibble</span>(String s, <span class="dt">double</span> d, To&lt;integer&gt; t)</code></pre>
+<div class="sourceCode"><pre class="sourceCode Java"><code class="sourceCode java"><span class="dt">void</span> <span class="fu">wibble</span>(String s, <span class="dt">double</span> d, To&lt;integer&gt; t)</code></pre></div>
 <p>And so on it goes, for every method.</p>
 <p>Essentially, this results in a function that, instead of returning a value of type T, returns a value of the type <code>(T =&gt; void) =&gt; void</code> where <code>(T =&gt; void)</code> is represented by the <code>To</code> interface and is of course, in the position of a method argument where that method returns <code>void</code>. This is exactly equivalent to a specific example of a continuation. We are doing a CPS transform to simulate returning a value!</p>
 <p>To summarise the formula:</p>

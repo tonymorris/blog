@@ -20,11 +20,11 @@
 </div>
 <div id="header">
   <div id="navigation">
-    <a href="../../index.html">Home</a>
-    <a href="../../posts/">All Posts</a>
-    <a href="../../contact/">Contact</a>
-    <a href="http://cv.tmorris.net/">CV</a>
-    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+    <a class="navbar" href="../../index.html">Home</a>
+    <a class="navbar" href="../../posts/">All Posts</a>
+    <a class="navbar" href="../../contact/">Contact</a>
+    <a class="navbar" href="http://cv.tmorris.net/">CV</a>
+    <a class="navbar" href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
   </div>
 </div>
 <h1>Folds for Imperative Programmers</h1>
@@ -32,16 +32,16 @@
 
 <p>Coming from an imperative language such as Java/C/C# and moving to a functional language, you will almost certainly encounter ‘folding functions’. There are usually two folding functions (sometimes there are minor variants) – one folds to the right and the other folds to the left. In Haskell, these functions are named <code>foldr</code> and <code>foldl</code>.</p>
 <p>This first encounter with folding functions can often be quite daunting, but I propose an alternative approach. In fact, these folding functions are almost certainly quite familiar to the imperative programmer – just without consciousness. If I had a dollar for every time I saw something like this (I’d buy every CS student a book on the lambda calculus :)):</p>
-<pre class="sourceCode Java"><code class="sourceCode java">...
+<div class="sourceCode"><pre class="sourceCode Java"><code class="sourceCode java">...
 B accum = b;
 <span class="kw">for</span>(<span class="dt">final</span> A a : as) {
   accum = f.<span class="fu">f</span>(a, accum);
 }
-<span class="kw">return</span> accum;</code></pre>
+<span class="kw">return</span> accum;</code></pre></div>
 <p>Look familiar? Not so daunting? Great, because it’s a fold – specificially, a fold to the left. It is a fold to the left because the sequence (list, array, whatever) is iterated from the left/start to the right/end. Conversely, a fold right iterates from the right/end of the sequence to the left/start.</p>
 <p>Let’s take a closer look at the ‘fold left’ above. The first line initialises an accumulator of type <code>B</code> to the given argument. Then the sequence (of <code>A</code>) is iterated and each element is passed to some function and its result assigned to the accumulator. Finally, the accumulated value is returned.</p>
 <p>Have I just trivialised a seemingly complicated concept? Not at all! I have undermined its apparent complexity perhaps. On the contrary, it is the imperative language version that has complicated a trivial concept. Let’s take a look at a complete and compilable example:</p>
-<pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">class</span> Foldr {
+<div class="sourceCode"><pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">class</span> Foldr {
   <span class="dt">static</span> <span class="kw">interface</span> F&lt;A, B&gt; {
     B <span class="fu">f</span>(A a, B b);
   }
@@ -93,7 +93,7 @@ B accum = b;
 
     System.<span class="fu">out</span>.<span class="fu">println</span>(left);
   }
-}</code></pre>
+}</code></pre></div>
 <p>Phew! What an effort – pass me a beer!</p>
 <p>We notice in the <code>main</code> method that the types of both <code>A</code> and <code>B</code> are the same (<code>Integer</code>). This is purely consequential and these types may, and often do, differ. Also notice that our function in each case is <strong>not</strong> commutative. That is, <code>f(a, b)</code> is not necessarily equivalent to <code>f(b, a)</code>. We know this because <code>a - b</code> is not necessarily equivalent to <code>b - a</code>. If the functions were commutative, then the result of a fold right would be equivalent to the result of a fold left. If you execute the code above, you will not get the same output for each fold. Try changing the implementation of each function to be commutative (like +) and observe the equivalent results.</p>
 <p>Let’s take a look at the Haskell equivalent at an interpreter:</p>

@@ -20,18 +20,18 @@
 </div>
 <div id="header">
   <div id="navigation">
-    <a href="../../index.html">Home</a>
-    <a href="../../posts/">All Posts</a>
-    <a href="../../contact/">Contact</a>
-    <a href="http://cv.tmorris.net/">CV</a>
-    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+    <a class="navbar" href="../../index.html">Home</a>
+    <a class="navbar" href="../../posts/">All Posts</a>
+    <a class="navbar" href="../../contact/">Contact</a>
+    <a class="navbar" href="http://cv.tmorris.net/">CV</a>
+    <a class="navbar" href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
   </div>
 </div>
 <h1>22 of 99</h1>
 <div class="info">Posted on March 31, 2009, in <a href="../../tags/Programming/index.html">Programming</a></div>
 
 <p>From <a href="http://aperiodic.net/phil/scala/s-99/" class="uri">http://aperiodic.net/phil/scala/s-99/</a>.</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">object</span> NinetyNine {
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">object</span> NinetyNine {
   <span class="co">// P01</span>
   <span class="kw">def</span> last[A](as: List[A]): A = as <span class="kw">match</span> {
     <span class="kw">case</span> Nil =&gt; <span class="fu">error</span>(<span class="st">&quot;last on empty list&quot;</span>)
@@ -181,7 +181,7 @@
 
     ps.<span class="fu">zipWithIndex</span> foreach { <span class="kw">case</span> (p, n) =&gt; <span class="fu">println</span>(<span class="st">&quot;P&quot;</span> + (n + <span class="dv">1</span>) + <span class="st">&quot;: &quot;</span> + p) }
   }
-}</code></pre>
+}</code></pre></div>
 
 
 <hr />

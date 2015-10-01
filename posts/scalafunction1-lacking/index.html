@@ -20,11 +20,11 @@
 </div>
 <div id="header">
   <div id="navigation">
-    <a href="../../index.html">Home</a>
-    <a href="../../posts/">All Posts</a>
-    <a href="../../contact/">Contact</a>
-    <a href="http://cv.tmorris.net/">CV</a>
-    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+    <a class="navbar" href="../../index.html">Home</a>
+    <a class="navbar" href="../../posts/">All Posts</a>
+    <a class="navbar" href="../../contact/">Contact</a>
+    <a class="navbar" href="http://cv.tmorris.net/">CV</a>
+    <a class="navbar" href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
   </div>
 </div>
 <h1>scala.Function1 lacking</h1>
@@ -39,7 +39,7 @@
 <li><p><code>on</code></p></li>
 </ul>
 <p>Using some magic with the <code>implicit</code> keyword I can make it appear as if these methods did in fact exist:</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">sealed</span> <span class="kw">trait</span> RichFunction1[-T, +R] {
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">sealed</span> <span class="kw">trait</span> RichFunction1[-T, +R] {
   <span class="kw">def</span> <span class="fu">apply</span>(t: T): R
 
   <span class="kw">import</span> RichFunction1.<span class="fu">rich</span>
@@ -65,42 +65,42 @@
   <span class="kw">implicit</span> <span class="kw">def</span> rich[T, R](f: T =&gt; R) = <span class="kw">new</span> RichFunction1[T, R] {
     <span class="kw">def</span> <span class="fu">apply</span>(t: T) = <span class="fu">f</span>(t)
   }
-}</code></pre>
+}</code></pre></div>
 <p>By having <code>flatMap</code> (and therefore <code>map</code>) this allows you to remove a lot of duplication. This may come at the expense of syntactical noise per Scala, but not always. Suppose you were given a String and you wanted to check if it was equal to one of a few Strings (ignoring case). You could use some trickery with existing methods on <code>List</code>, but I want to keep this example simple, so let us ignore that possibility for now (and accept that I could come up with a sufficient example that such trickery is insufficient).</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// For example, suppose this predicate function</span>
-<span class="kw">def</span> <span class="fu">predicate</span>(s1: String) = s1 <span class="fu">equalsIgnoreCase</span> (_: String)</code></pre>
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// For example, suppose this predicate function</span>
+<span class="kw">def</span> <span class="fu">predicate</span>(s1: String) = s1 <span class="fu">equalsIgnoreCase</span> (_: String)</code></pre></div>
 <p>Here is the repetition</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// predicate(s, _) repeats</span>
-<span class="kw">def</span> <span class="fu">f</span>(s: String) = <span class="fu">predicate</span>(<span class="st">&quot;x&quot;</span>)(s) || <span class="fu">predicate</span>(<span class="st">&quot;y&quot;</span>)(s) || <span class="fu">predicate</span>(<span class="st">&quot;z&quot;</span>)(s)</code></pre>
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// predicate(s, _) repeats</span>
+<span class="kw">def</span> <span class="fu">f</span>(s: String) = <span class="fu">predicate</span>(<span class="st">&quot;x&quot;</span>)(s) || <span class="fu">predicate</span>(<span class="st">&quot;y&quot;</span>)(s) || <span class="fu">predicate</span>(<span class="st">&quot;z&quot;</span>)(s)</code></pre></div>
 <p>But if we have <code>flatMap</code> and <code>map</code> we can use a for-comprehension:</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// Taking advantage of flatMap/map</span>
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// Taking advantage of flatMap/map</span>
 <span class="kw">val</span> g = <span class="kw">for</span>(a &lt;- <span class="fu">predicate</span>(<span class="st">&quot;x&quot;</span>);
             b &lt;- <span class="fu">predicate</span>(<span class="st">&quot;y&quot;</span>);
             c &lt;- <span class="fu">predicate</span>(<span class="st">&quot;z&quot;</span>))
-        <span class="kw">yield</span> a || b || c</code></pre>
+        <span class="kw">yield</span> a || b || c</code></pre></div>
 <p>Here is how that same code looks when expanded:</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// Expansion of g</span>
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// Expansion of g</span>
 <span class="kw">val</span> h = <span class="fu">predicate</span>(<span class="st">&quot;x&quot;</span>) <span class="fu">flatMap</span> (a =&gt;
         <span class="fu">predicate</span>(<span class="st">&quot;y&quot;</span>) <span class="fu">flatMap</span> (b =&gt;
         <span class="fu">predicate</span>(<span class="st">&quot;z&quot;</span>) <span class="fu">map</span> ((c =&gt;
-          a || b || c))))</code></pre>
+          a || b || c))))</code></pre></div>
 <p>How about some fancy stuff with the S combinator (<code>&lt;*&gt;</code>):</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">val</span> or = Function.<span class="fu">curried</span>((_: Boolean) || (_: Boolean) || (_: Boolean))
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">val</span> or = Function.<span class="fu">curried</span>((_: Boolean) || (_: Boolean) || (_: Boolean))
 
 <span class="co">// Using the S combinator</span>
 <span class="kw">val</span> i = <span class="fu">predicate</span>(<span class="st">&quot;z&quot;</span>) &lt;*&gt;
         (<span class="fu">predicate</span>(<span class="st">&quot;y&quot;</span>) &lt;*&gt;
         (<span class="fu">predicate</span>(<span class="st">&quot;x&quot;</span>) map
-        or))</code></pre>
+        or))</code></pre></div>
 <p>Or with the arguments swapped around:</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// Using S with swapped arguments</span>
-<span class="kw">val</span> j = ((or &lt;-: <span class="fu">predicate</span>(<span class="st">&quot;x&quot;</span>)) &lt;*&gt;: <span class="fu">predicate</span>(<span class="st">&quot;y&quot;</span>)) &lt;*&gt;: <span class="fu">predicate</span>(<span class="st">&quot;z&quot;</span>)</code></pre>
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// Using S with swapped arguments</span>
+<span class="kw">val</span> j = ((or &lt;-: <span class="fu">predicate</span>(<span class="st">&quot;x&quot;</span>)) &lt;*&gt;: <span class="fu">predicate</span>(<span class="st">&quot;y&quot;</span>)) &lt;*&gt;: <span class="fu">predicate</span>(<span class="st">&quot;z&quot;</span>)</code></pre></div>
 <p>Pretty neat eh?</p>
 <p>Suppose you wanted to check if the length of one List was less than the length of another. You might be tempted to write <code>x.length &lt; y.length</code>. Notice how <code>_.length</code> repeats? Again I want to keep this example simple so while the solution below is more noisy, there are cases where it is not.</p>
 <p>Scala is let down a little by first-class function semantics. We’ll begin with assuming this first-class function value:</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">val</span> length = (_: List[Int]).<span class="fu">length</span></code></pre>
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">val</span> length = (_: List[Int]).<span class="fu">length</span></code></pre></div>
 <p>Then comparing using length:</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">val</span> k = length <span class="fu">on</span> (_ &lt; _, List(<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">7</span>), List(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>))</code></pre>
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">val</span> k = length <span class="fu">on</span> (_ &lt; _, List(<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>, <span class="dv">7</span>), List(<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>))</code></pre></div>
 <p>A bit noisier but the repetition is gone. It’s a shame that abstraction comes at a syntactic cost and in some cases it may even be worth that cost. I wish I had the choice.</p>
 
 

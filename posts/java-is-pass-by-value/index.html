@@ -20,11 +20,11 @@
 </div>
 <div id="header">
   <div id="navigation">
-    <a href="../../index.html">Home</a>
-    <a href="../../posts/">All Posts</a>
-    <a href="../../contact/">Contact</a>
-    <a href="http://cv.tmorris.net/">CV</a>
-    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+    <a class="navbar" href="../../index.html">Home</a>
+    <a class="navbar" href="../../posts/">All Posts</a>
+    <a class="navbar" href="../../contact/">Contact</a>
+    <a class="navbar" href="http://cv.tmorris.net/">CV</a>
+    <a class="navbar" href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
   </div>
 </div>
 <h1>Java is pass by value</h1>
@@ -49,12 +49,12 @@
 <p><em>…initialize newly created parameter variables (§2.5), each of the declared type, before execution of the body of the method. </em></p>
 </blockquote>
 <p>Did you see that? Java is pass by value, without reservation. It says so in the specification. It is even observable by writing a trivial program.</p>
-<pre class="sourceCode Java"><code class="sourceCode java">Object o = <span class="kw">new</span> Object();</code></pre>
+<div class="sourceCode"><pre class="sourceCode Java"><code class="sourceCode java">Object o = <span class="kw">new</span> Object();</code></pre></div>
 <p>Now I know you may be accustomed to calling ‘o’ an object here, and it may even be the source of confusion, but it’s not an object. It’s an object reference. The object referred to by ‘o’ has no name.</p>
 <p>When you pass ‘o’, it is copied, as per the <strong>specification</strong>, to a new reference, specified by the method being called. This means that if you reassign that reference, it cannot be observed outside of that method. Of course, since <strong>it is a copy of the method parameter</strong>.</p>
-<pre class="sourceCode Java"><code class="sourceCode java"><span class="dt">void</span> <span class="fu">method</span>(Object o) {
+<div class="sourceCode"><pre class="sourceCode Java"><code class="sourceCode java"><span class="dt">void</span> <span class="fu">method</span>(Object o) {
   o = x; <span class="co">// not observable outside local scope</span>
-}</code></pre>
+}</code></pre></div>
 <p>If you were to dereference ‘o’ you may be able to execute some effect that may be outside of the method. Note the adjective here, <strong>dereference</strong>. What are we dereferencing? An object reference of course! Surely you have seen a <code>NullPointerException</code>. Know what this means? You dereferenced a reference which held no object!</p>
 <p>I don’t know how else to make this clear, so I won’t continue trying.</p>
 <p><strong>Java is pass by value.</strong></p>

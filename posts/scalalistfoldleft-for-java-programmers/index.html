@@ -20,11 +20,11 @@
 </div>
 <div id="header">
   <div id="navigation">
-    <a href="../../index.html">Home</a>
-    <a href="../../posts/">All Posts</a>
-    <a href="../../contact/">Contact</a>
-    <a href="http://cv.tmorris.net/">CV</a>
-    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+    <a class="navbar" href="../../index.html">Home</a>
+    <a class="navbar" href="../../posts/">All Posts</a>
+    <a class="navbar" href="../../contact/">Contact</a>
+    <a class="navbar" href="http://cv.tmorris.net/">CV</a>
+    <a class="navbar" href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
   </div>
 </div>
 <h1>scala.List.foldLeft for Java programmers</h1>
@@ -32,13 +32,13 @@
 
 <p>I recently ran another Scala training course and I produced a hand-out that seemed to help people understand what a foldLeft is. Here is a brief explanation of it.</p>
 <p>Suppose you have the following Java code:</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala">B b = start
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala">B b = start
 
 <span class="kw">for</span>(<span class="kw">final</span> A a : listOfA) {
   b = <span class="fu">method</span>(b, a);
 }
 
-<span class="kw">return</span> b;</code></pre>
+<span class="kw">return</span> b;</code></pre></div>
 <p>You can have any value for <code>start</code>, <code>method</code> and <code>listOfA</code>. Also, <code>method</code> may ignore any of its arguments or even not have them passed at all. You’ll notice that a <strong>lot</strong> of Java code is written this way, so it would be fair to say that “left folds occur a lot in Java”, despite being encoded as loops.</p>
 <p>The above Java code is equivalent to the following Scala code, again for all values of the given identifiers (so long as they type check of course):</p>
 <pre><code>listOfA.foldLeft(start)(method)</code></pre>

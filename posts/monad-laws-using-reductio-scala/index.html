@@ -20,18 +20,18 @@
 </div>
 <div id="header">
   <div id="navigation">
-    <a href="../../index.html">Home</a>
-    <a href="../../posts/">All Posts</a>
-    <a href="../../contact/">Contact</a>
-    <a href="http://cv.tmorris.net/">CV</a>
-    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+    <a class="navbar" href="../../index.html">Home</a>
+    <a class="navbar" href="../../posts/">All Posts</a>
+    <a class="navbar" href="../../contact/">Contact</a>
+    <a class="navbar" href="http://cv.tmorris.net/">CV</a>
+    <a class="navbar" href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
   </div>
 </div>
 <h1>Monad Laws using Reductio (Scala)</h1>
 <div class="info">Posted on June 26, 2008, in <a href="../../tags/Programming/index.html">Programming</a></div>
 
 <p>In the spirit of yesterday’s post that denoted the Functor Laws using Reductio, I will also give the Monad Laws. Before I do however, here is an example use of the <code>FunctorLaws</code> object that runs 600 unit tests when testing a <code>Functor</code> implementation for <code>scala.Option[A]</code>, <code>scala.List</code> and finally, for the <code>scala.Either[A, _]</code> functor just to make it a bit quirky and probably confuse a few of you (in that case, ignore it for now!) :)</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">val</span> prop_OptionIdentity = identity[Option, Int]
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">val</span> prop_OptionIdentity = identity[Option, Int]
 <span class="kw">val</span> prop_OptionComposition = composition[Option, Int, String, Long]
 
 <span class="kw">val</span> prop_ListIdentity = identity[List, Int]
@@ -40,9 +40,9 @@
 <span class="kw">val</span> prop_EitherIdentity = identity[Apply1Of2[Either, String]#Apply, Int]
 <span class="kw">val</span> prop_EitherComposition = composition[Apply1Of2[Either, String]#Apply, Int, String, Long]
 
-<span class="co">// OK passed 100 tests. (appears 6 times -- once per property)</span></code></pre>
+<span class="co">// OK passed 100 tests. (appears 6 times -- once per property)</span></code></pre></div>
 <p>…and the obligatory Monad Laws follow (import statements omitted this time, but they are the same as previous)…</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">object</span> MonadLaws {
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">object</span> MonadLaws {
   <span class="kw">def</span> leftIdentity[M[_], A, B](<span class="kw">implicit</span> m: Monad[M],
                                      am: Arbitrary[M[B]],
                                      aa: Arbitrary[A],
@@ -63,7 +63,7 @@
                                            amc: Arbitrary[M[C]]) =
     <span class="fu">prop</span>((ma: M[A], f: A =&gt; M[B], g: B =&gt; M[C]) =&gt;
       m.<span class="fu">bind</span>(g, m.<span class="fu">bind</span>(f, ma)) === m.<span class="fu">bind</span>((a: A) =&gt; m.<span class="fu">bind</span>(g, <span class="fu">f</span>(a)), ma))
-}</code></pre>
+}</code></pre></div>
 <p>Woot! Woot!</p>
 
 

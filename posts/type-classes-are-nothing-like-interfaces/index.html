@@ -20,11 +20,11 @@
 </div>
 <div id="header">
   <div id="navigation">
-    <a href="../../index.html">Home</a>
-    <a href="../../posts/">All Posts</a>
-    <a href="../../contact/">Contact</a>
-    <a href="http://cv.tmorris.net/">CV</a>
-    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+    <a class="navbar" href="../../index.html">Home</a>
+    <a class="navbar" href="../../posts/">All Posts</a>
+    <a class="navbar" href="../../contact/">Contact</a>
+    <a class="navbar" href="http://cv.tmorris.net/">CV</a>
+    <a class="navbar" href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
   </div>
 </div>
 <h1>Type-classes are nothing like interfaces</h1>
@@ -35,11 +35,11 @@
 <p>Type-classes are nothing like interfaces <em>(emphasis on nothing)</em>.</p>
 </blockquote>
 <p>Haskell has something like interfaces. They are called data types and are expressed using the <code>data</code> or <code>newtype</code> keywords. Languages like Java/C# have nothing like type-classes; there is not even a close analogy. Consider for example, Java’s <code>[Comparator](http://java.sun.com/javase/6/docs/api/java/util/Comparator.html)</code> interface. We would express this in Haskell like so:</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">newtype</span> <span class="dt">Comparator</span> a <span class="fu">=</span> <span class="dt">C</span> {<span class="ot"> compare ::</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Int</span> }</code></pre>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">newtype</span> <span class="dt">Comparator</span> a <span class="fu">=</span> <span class="dt">C</span> {<span class="ot"> compare ::</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Int</span> }</code></pre></div>
 <p>Then if we wanted to sort a list, the type would be <code>sort :: Comparator a -&gt; [a] -&gt; [a]</code>. Notice the <em>explicit</em> passing of the <code>Comparator</code> that would be required at the call site. This is just like Java.</p>
 <p>Now suppose we did something that Java cannot do. We used a type-class.</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">class</span> <span class="dt">Comparator</span> a <span class="kw">where</span>
-<span class="ot">  compare ::</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Int</span></code></pre>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">class</span> <span class="dt">Comparator</span> a <span class="kw">where</span>
+<span class="ot">  compare ::</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Int</span></code></pre></div>
 <p>The type for sorting a list now becomes <code>sort :: Comparator a =&gt; [a] -&gt; [a]</code>. This is just like the previous signature except for the way the left-most arrow is written. This is an important distinction. When the caller uses this function, it <em>implicitly</em> passes the <code>Comparator</code>. Also, the type-class instance is decoupled from the data type. These are essential properties of type-classes. Indeed, it is its single-most defining property and since Java/C# have nothing like this, then it has nothing like type-classes.</p>
 <p>Scala has implicit parameters which give you the ability to implement the essential property of type-classes (and more). Therefore, Scala does have something very much like type-classes. This is evident in a library such as <a href="http://code.google.com/p/scalaz">Scalaz</a>.</p>
 <p>But let’s try to save the idea.</p>

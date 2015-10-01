@@ -20,11 +20,11 @@
 </div>
 <div id="header">
   <div id="navigation">
-    <a href="../../index.html">Home</a>
-    <a href="../../posts/">All Posts</a>
-    <a href="../../contact/">Contact</a>
-    <a href="http://cv.tmorris.net/">CV</a>
-    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+    <a class="navbar" href="../../index.html">Home</a>
+    <a class="navbar" href="../../posts/">All Posts</a>
+    <a class="navbar" href="../../contact/">Contact</a>
+    <a class="navbar" href="http://cv.tmorris.net/">CV</a>
+    <a class="navbar" href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
   </div>
 </div>
 <h1>Refactoring filter</h1>
@@ -32,86 +32,86 @@
 
 <h2 id="the-filter-function">The <code>filter</code> function</h2>
 <p>The <code>filter</code> function is one that accepts a list as an argument, keeping all elements that satisfy a given predicate, discarding all others and returns the resulting list. For example, I might use the <code>filter</code> function in Haskell to keep all <strong>even</strong> elements in a list:</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell">λ<span class="fu">&gt;</span> filter even [<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">6</span>,<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">7</span>,<span class="dv">6</span>,<span class="dv">75</span>,<span class="dv">22</span>]
-[<span class="dv">2</span>,<span class="dv">6</span>,<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">6</span>,<span class="dv">22</span>]</code></pre>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell">λ<span class="fu">&gt;</span> filter even [<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">6</span>,<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">7</span>,<span class="dv">6</span>,<span class="dv">75</span>,<span class="dv">22</span>]
+[<span class="dv">2</span>,<span class="dv">6</span>,<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">6</span>,<span class="dv">22</span>]</code></pre></div>
 <p>or perhaps using Scala:</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala">scala&gt; List(<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">6</span>,<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">7</span>,<span class="dv">6</span>,<span class="dv">75</span>,<span class="dv">22</span>) <span class="fu">filter</span> (_ % <span class="dv">2</span> == <span class="dv">0</span>)
-res0: List[Int] = List(<span class="dv">2</span>, <span class="dv">6</span>, <span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">22</span>)</code></pre>
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala">scala&gt; List(<span class="dv">2</span>,<span class="dv">3</span>,<span class="dv">6</span>,<span class="dv">2</span>,<span class="dv">4</span>,<span class="dv">7</span>,<span class="dv">6</span>,<span class="dv">75</span>,<span class="dv">22</span>) <span class="fu">filter</span> (_ % <span class="dv">2</span> == <span class="dv">0</span>)
+res0: List[Int] = List(<span class="dv">2</span>, <span class="dv">6</span>, <span class="dv">2</span>, <span class="dv">4</span>, <span class="dv">6</span>, <span class="dv">22</span>)</code></pre></div>
 <p>In both cases, the list structure under examination is a <a href="http://en.wikipedia.org/wiki/Cons">cons list</a>.</p>
 <p>When I teach functional programming, we are usually implementing the <code>filter</code> function on <a href="https://github.com/tonymorris/course/blob/master/src/L02/List.hs#L80">our own cons list using Haskell</a><a href="#fn1" class="footnoteRef" id="fnref1"><sup>1</sup></a> on the first day. Having done this enough times now, with both Haskell and Scala, I observe a recurring pattern.</p>
 <p>The usual solutions are given either with explicit pattern-matching along with explicit recursion:</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell">fiilter _ [] <span class="fu">=</span> []
-fiilter p (h<span class="fu">:</span>t) <span class="fu">=</span> <span class="kw">if</span> p h <span class="kw">then</span> h<span class="fu">:</span>fiilter p t <span class="kw">else</span> fiilter p t</code></pre>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell">fiilter _ [] <span class="fu">=</span> []
+fiilter p (h<span class="fu">:</span>t) <span class="fu">=</span> <span class="kw">if</span> p h <span class="kw">then</span> h<span class="fu">:</span>fiilter p t <span class="kw">else</span> fiilter p t</code></pre></div>
 <p>…or by using the provided <code>foldRight</code> function, which abstracts the pattern-matching and recursion for cons lists:</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell">fiilter p x <span class="fu">=</span> foldRight (\a b <span class="ot">-&gt;</span> <span class="kw">if</span> p a <span class="kw">then</span> a<span class="fu">:</span>b <span class="kw">else</span> b) [] x</code></pre>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell">fiilter p x <span class="fu">=</span> foldRight (\a b <span class="ot">-&gt;</span> <span class="kw">if</span> p a <span class="kw">then</span> a<span class="fu">:</span>b <span class="kw">else</span> b) [] x</code></pre></div>
 <h2 id="re-implementing-filter-as-an-exercise">Re-implementing <code>filter</code> as an exercise</h2>
 <p>Whichever solution is given, they are both correct. However, almost invariably, at this stage in the exercise, there is a developing suspicion that this solution can be <em>done better</em>. I am usually quizzed about how to improve the solution. For example, in the pattern-matching solution, both sides of the <code>if</code> branch repeat the code <code>fiilter p t</code>. Indeed, even in the <code>foldRight</code> solution, there is application to the value <code>b</code> on both sides of the <code>if</code> branch – a classic example of repetitive code (we functional programmers take the DRY principle seriously, even obsess over it!).</p>
 <p>So let’s get on with the refactor. Since we are using pure functional programming, we are able to deploy <em>equational reasoning</em>. In other words, we are able to shuffle our expressions around, so long as we have an equivalent expression, because we are void of side-effects.</p>
 <h2 id="denying-equational-reasoning">Denying equational reasoning</h2>
 <p>Let’s take a quick diversion for a minute and imagine if we did not have this guarantee and suppose we were to tidy up this code:</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">if</span> p <span class="kw">then</span> f x <span class="kw">else</span> f y</code></pre>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">if</span> p <span class="kw">then</span> f x <span class="kw">else</span> f y</code></pre></div>
 <p>This code can be refactored to remove the repetition of application of the function <code>f</code>:</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell">f (<span class="kw">if</span> p <span class="kw">then</span> x <span class="kw">else</span> y)</code></pre>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell">f (<span class="kw">if</span> p <span class="kw">then</span> x <span class="kw">else</span> y)</code></pre></div>
 <p>However, imagine if <code>f</code> performed a side-effect! For example, if <code>f</code> printed its argument to standard output, then our refactoring would have altered the way the program runs.</p>
 <p>Thankfully, in our context, we are guaranteed that this is not the case, so we can go right ahead.</p>
 <h2 id="refactoring-fiilter">Refactoring <code>fiilter</code></h2>
 <p>I am going to demonstrate a refactoring of <code>fiilter</code> at every intermediate step. Some people skip these steps when they do this for themselves, but I will specify each step that I usually see. The first step in refactoring the pattern-matching solution is to use <code>foldRight</code> as has already been given:</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell">fiilter p x <span class="fu">=</span> foldRight (\a b <span class="ot">-&gt;</span> <span class="kw">if</span> p a <span class="kw">then</span> a<span class="fu">:</span>b <span class="kw">else</span> b) [] x</code></pre>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell">fiilter p x <span class="fu">=</span> foldRight (\a b <span class="ot">-&gt;</span> <span class="kw">if</span> p a <span class="kw">then</span> a<span class="fu">:</span>b <span class="kw">else</span> b) [] x</code></pre></div>
 <p>Once we get to this step (or perhaps we started here), we move on to removing the repetition in the lambda expression – specifically, the application to the value <code>b</code> appearing on each branch of the <code>if</code>.</p>
 <p>First, let’s introduce the <code>id</code> function, perhaps the easiest function to understand ever!</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell">id<span class="ot"> ::</span> a <span class="ot">-&gt;</span> a
-id a <span class="fu">=</span> a</code></pre>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell">id<span class="ot"> ::</span> a <span class="ot">-&gt;</span> a
+id a <span class="fu">=</span> a</code></pre></div>
 <p>That’s right, the <code>id</code> function takes one argument and simply returns it. That means I can refactor the above code to this, without changing the way the function behaves:</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell">fiilter p x <span class="fu">=</span> foldRight (\a b <span class="ot">-&gt;</span> <span class="kw">if</span> p a <span class="kw">then</span> a<span class="fu">:</span>b <span class="kw">else</span> id b) [] x</code></pre>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell">fiilter p x <span class="fu">=</span> foldRight (\a b <span class="ot">-&gt;</span> <span class="kw">if</span> p a <span class="kw">then</span> a<span class="fu">:</span>b <span class="kw">else</span> id b) [] x</code></pre></div>
 <p>All I have done here is use <code>id</code> on one side of the <code>if</code> branch. Next I am going to do a purely syntactic transformation. I am going to move the use of <code>(:)</code> into prefix position. I am doing this to help make the next step a bit more obvious :)</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell">fiilter p x <span class="fu">=</span> foldRight (\a b <span class="ot">-&gt;</span> <span class="kw">if</span> p a <span class="kw">then</span> (<span class="fu">:</span>) a b <span class="kw">else</span> id b) [] x</code></pre>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell">fiilter p x <span class="fu">=</span> foldRight (\a b <span class="ot">-&gt;</span> <span class="kw">if</span> p a <span class="kw">then</span> (<span class="fu">:</span>) a b <span class="kw">else</span> id b) [] x</code></pre></div>
 <p>Now we apply the true side to <code>b</code> using <code>(:) a</code> and the false side using <code>id</code>. We can refactor that away by returning a function on each branch, then applying that result to <code>b</code>:</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell">fiilter p x <span class="fu">=</span> foldRight (\a b <span class="ot">-&gt;</span> (<span class="kw">if</span> p a <span class="kw">then</span> ((<span class="fu">:</span>) a) <span class="kw">else</span> id) b) [] x</code></pre>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell">fiilter p x <span class="fu">=</span> foldRight (\a b <span class="ot">-&gt;</span> (<span class="kw">if</span> p a <span class="kw">then</span> ((<span class="fu">:</span>) a) <span class="kw">else</span> id) b) [] x</code></pre></div>
 <p>Great! The application to the value <code>b</code> occurs only once. Next we can remove the explicit value <code>b</code> that is declared for the lambda expression, then we merely apply a function to it. Let’s just return that function! In other words, since this:</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell">\x <span class="ot">-&gt;</span> f x</code></pre>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell">\x <span class="ot">-&gt;</span> f x</code></pre></div>
 <p>…can be replaced with this:</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell">f</code></pre>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell">f</code></pre></div>
 <p>…and this:</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell">\x y <span class="ot">-&gt;</span> f x y</code></pre>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell">\x y <span class="ot">-&gt;</span> f x y</code></pre></div>
 <p>…can be replaced with this:</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell">\x <span class="ot">-&gt;</span> f x</code></pre>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell">\x <span class="ot">-&gt;</span> f x</code></pre></div>
 <p>…then this:</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell">fiilter p x <span class="fu">=</span> foldRight (\a b <span class="ot">-&gt;</span> (<span class="kw">if</span> p a <span class="kw">then</span> ((<span class="fu">:</span>) a) <span class="kw">else</span> id) b) [] x</code></pre>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell">fiilter p x <span class="fu">=</span> foldRight (\a b <span class="ot">-&gt;</span> (<span class="kw">if</span> p a <span class="kw">then</span> ((<span class="fu">:</span>) a) <span class="kw">else</span> id) b) [] x</code></pre></div>
 <p>…can be replaced with:</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell">fiilter p <span class="fu">=</span> foldRight (\a <span class="ot">-&gt;</span> <span class="kw">if</span> p a <span class="kw">then</span> ((<span class="fu">:</span>) a) <span class="kw">else</span> id) []</code></pre>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell">fiilter p <span class="fu">=</span> foldRight (\a <span class="ot">-&gt;</span> <span class="kw">if</span> p a <span class="kw">then</span> ((<span class="fu">:</span>) a) <span class="kw">else</span> id) []</code></pre></div>
 <p>OK, this is great! We are simply replacing each cons cell with the given function<a href="#fn2" class="footnoteRef" id="fnref2"><sup>2</sup></a> and we needn’t specify the list in the argument list only to apply to it on the far right. But are we finished?</p>
 <h2 id="final-housekeeping">Final housekeeping</h2>
 <p>Unfortunately, Haskell (and most languages) provide <code>if</code> as syntax. Since Haskell is a non-strict language, we can easily write it ourselves as a library function:</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="ot">if' ::</span> <span class="dt">Bool</span> <span class="ot">-&gt;</span> x <span class="ot">-&gt;</span> x <span class="ot">-&gt;</span> x
-if' p t f <span class="fu">=</span> <span class="kw">if</span> p <span class="kw">then</span> t <span class="kw">else</span> f</code></pre>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="ot">if' ::</span> <span class="dt">Bool</span> <span class="ot">-&gt;</span> x <span class="ot">-&gt;</span> x <span class="ot">-&gt;</span> x
+if' p t f <span class="fu">=</span> <span class="kw">if</span> p <span class="kw">then</span> t <span class="kw">else</span> f</code></pre></div>
 <p>So how does our code look?</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell">fiilter p <span class="fu">=</span> foldRight (\a <span class="ot">-&gt;</span> if' (p a) ((<span class="fu">:</span>) a) id) []</code></pre>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell">fiilter p <span class="fu">=</span> foldRight (\a <span class="ot">-&gt;</span> if' (p a) ((<span class="fu">:</span>) a) id) []</code></pre></div>
 <p>No real improvement.</p>
 <p>However, for consistency with other <em>catamorphisms</em><a href="#fn3" class="footnoteRef" id="fnref3"><sup>3</sup></a> in the Haskell library, we should shuffle the argument order<a href="#fn4" class="footnoteRef" id="fnref4"><sup>4</sup></a>. I will also move the false branching argument to the <em>first position</em>. There is an underlying theoretical reason for this, but run with me for now!</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="ot">if' ::</span> x <span class="ot">-&gt;</span> x <span class="ot">-&gt;</span> <span class="dt">Bool</span> <span class="ot">-&gt;</span> x
-if' f t p <span class="fu">=</span> <span class="kw">if</span> p <span class="kw">then</span> t <span class="kw">else</span> f</code></pre>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="ot">if' ::</span> x <span class="ot">-&gt;</span> x <span class="ot">-&gt;</span> <span class="dt">Bool</span> <span class="ot">-&gt;</span> x
+if' f t p <span class="fu">=</span> <span class="kw">if</span> p <span class="kw">then</span> t <span class="kw">else</span> f</code></pre></div>
 <p>Great, we have a branching function with arguments in appropriate order :)</p>
 <p>OK so what about now?</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell">fiilter p <span class="fu">=</span> foldRight (\a <span class="ot">-&gt;</span> if' id ((<span class="fu">:</span>) a) (p a)) []</code></pre>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell">fiilter p <span class="fu">=</span> foldRight (\a <span class="ot">-&gt;</span> if' id ((<span class="fu">:</span>) a) (p a)) []</code></pre></div>
 <p>Still no real difference :( However, there is a very regular pattern to be observed here, perhaps a little too advanced for day one, but it is here nonetheless!</p>
 <h3 id="function-composition">Function composition</h3>
 <p>Let’s first do a small refactor on our expression using function composition. Any expression of the form:</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell">\x <span class="ot">-&gt;</span> f (g x)</code></pre>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell">\x <span class="ot">-&gt;</span> f (g x)</code></pre></div>
 <p>can be written using function composition:</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell">f <span class="fu">.</span> g</code></pre>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell">f <span class="fu">.</span> g</code></pre></div>
 <p>Therefore, our expression <code>\a -&gt; if' id ((:) a) (p a)</code> can be written:</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell">\a <span class="ot">-&gt;</span> ((if' id <span class="fu">.</span> (<span class="fu">:</span>)) a) (p a)</code></pre>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell">\a <span class="ot">-&gt;</span> ((if' id <span class="fu">.</span> (<span class="fu">:</span>)) a) (p a)</code></pre></div>
 <p>Although, this is a somewhat messy step, it allows us to get to the next one, where the purpose becomes a bit more apparent.</p>
 <h3 id="the-ski-combinator-calculus">The SK(I) combinator calculus</h3>
 <p>We have an expression of this form:</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell">\x <span class="ot">-&gt;</span> f x (g x)</code></pre>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell">\x <span class="ot">-&gt;</span> f x (g x)</code></pre></div>
 <p>This is known as <em>the S combinator of <a href="http://en.wikipedia.org/wiki/SKI_combinator_calculus">the SK(I) combinator calculus</a></em><a href="#fn5" class="footnoteRef" id="fnref5"><sup>5</sup></a>. The S combinator generalises to an applicative functor<a href="#fn6" class="footnoteRef" id="fnref6"><sup>6</sup></a> and we can exploit this to take our refactoring further. The S combinator (generalised) in Haskell is written with <code>(&lt;*&gt;)</code><a href="#fn7" class="footnoteRef" id="fnref7"><sup>7</sup></a> and you will need to <code>import Control.Applicative</code> to use it.</p>
 <p>The expression <code>\x -&gt; f x (g x)</code> can be written <code>f &lt;*&gt; g</code> and we have an expression of precisely this form:</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell">\a <span class="ot">-&gt;</span> ((if' id <span class="fu">.</span> (<span class="fu">:</span>)) a) (p a)</code></pre>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell">\a <span class="ot">-&gt;</span> ((if' id <span class="fu">.</span> (<span class="fu">:</span>)) a) (p a)</code></pre></div>
 <p>which can be refactored to:</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell">if' id <span class="fu">.</span> (<span class="fu">:</span>) <span class="fu">&lt;*&gt;</span> p</code></pre>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell">if' id <span class="fu">.</span> (<span class="fu">:</span>) <span class="fu">&lt;*&gt;</span> p</code></pre></div>
 <p>This is great! So now our solution for <code>fiilter</code> looks like this:</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell">fiilter p <span class="fu">=</span> foldRight (if' id <span class="fu">.</span> (<span class="fu">:</span>) <span class="fu">&lt;*&gt;</span> p) []</code></pre>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell">fiilter p <span class="fu">=</span> foldRight (if' id <span class="fu">.</span> (<span class="fu">:</span>) <span class="fu">&lt;*&gt;</span> p) []</code></pre></div>
 <h2 id="finally">Finally</h2>
 <p>This is how I might express a final solution. Taking the refactoring this far is questionable to begin with, however, it is at least a great exercise in the application of equational reasoning and pattern recognition.</p>
 <p>The readability of this code might also be questioned, however, it is very important to properly follow the process of pattern recognition before developing opinions about readability. I usually cannot address this concern quickly or in a helpful way. so I smile at this point and move on to the next exercise. Let’s do that :)</p>

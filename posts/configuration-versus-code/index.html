@@ -20,11 +20,11 @@
 </div>
 <div id="header">
   <div id="navigation">
-    <a href="../../index.html">Home</a>
-    <a href="../../posts/">All Posts</a>
-    <a href="../../contact/">Contact</a>
-    <a href="http://cv.tmorris.net/">CV</a>
-    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+    <a class="navbar" href="../../index.html">Home</a>
+    <a class="navbar" href="../../posts/">All Posts</a>
+    <a class="navbar" href="../../contact/">Contact</a>
+    <a class="navbar" href="http://cv.tmorris.net/">CV</a>
+    <a class="navbar" href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
   </div>
 </div>
 <h1>Configuration versus Code</h1>
@@ -33,18 +33,18 @@
 <p>Sometimes I’ll be working away when a colleague will make some distinction between “that which is configuration” and “that which is code.” In all cases, it turns out that this distinction is premised on a having a very narrow understanding of solving software problems. That can’t be good.</p>
 <p>When we write compositional code using techniques such as <em>referential transparency</em>, the distinction between configuration and code completely evaporates. I wish to emphasise this evaporation, so I will restate it: <strong>it is not possible to determine which is configuration and which is code, except when using very sloppy problem solving habits, no matter how much we wish to save the thesis</strong>. I made this emphasis because I have even seen people accept that the delineation disappears, then in the very next breath say something to the effect as if it were still there. Brains are fascinating machines. I digress.</p>
 <p>Let us suppose a Haskell program, though, the language is unimportant to this point. We only need to examine the type signature:</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="ot">application ::</span> <span class="dt">IO</span> ()</code></pre>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="ot">application ::</span> <span class="dt">IO</span> ()</code></pre></div>
 <p>If we need some form of “configuration”, such as a possible <code>String</code> value with a “default”, we pass it as such:</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="ot">application ::</span> <span class="dt">Maybe</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()</code></pre>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="ot">application ::</span> <span class="dt">Maybe</span> <span class="dt">String</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()</code></pre></div>
 <p>Then the body of <code>application</code> will apply the default: <code>fromMaybe &quot;default string&quot;</code>. Easy right?</p>
 <p>You might have multiple configuration values and not necessarily with the type <code>String</code>. Now of course, since we are using Haskell (and not XML!), we can give our configuration values a type! Here is an example:</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">Initialisation</span> <span class="fu">=</span> <span class="dt">Initialisation</span> {
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">Initialisation</span> <span class="fu">=</span> <span class="dt">Initialisation</span> {
 <span class="ot">  ioWait ::</span> <span class="dt">Int</span>
 ,<span class="ot"> performance ::</span> <span class="dt">Speed</span>
 ,<span class="ot"> password ::</span> <span class="dt">String</span>
-}</code></pre>
+}</code></pre></div>
 <p>then your application becomes:</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="ot">application ::</span> <span class="dt">Initialisation</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()</code></pre>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="ot">application ::</span> <span class="dt">Initialisation</span> <span class="ot">-&gt;</span> <span class="dt">IO</span> ()</code></pre></div>
 <p>With Haskell you also get record selector syntax with this data structure. This means that setting say, 2 of these values can be done with effort proportional to the size of 2. With languages such as Java, achieving this goal results in a quadratic blow-out, requiring n^2 methods with overloads where n is the number of record fields.</p>
 <p>Now, notice how doing this is simply, <strong>using a function</strong>. Let’s be clear, I am using a function, like any other, a function, code. It is not special and does not deserve any elevated status above other functions. No more useless ceremony here.</p>
 <p>A good example of an application, that I use each day, is <a href="http://xmonad.org/">xmonad</a>, which I “configure” by writing Haskell. OK, now let’s be honest, I just write a program and take advantage of the comprehensive libraries.</p>

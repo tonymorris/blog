@@ -20,11 +20,11 @@
 </div>
 <div id="header">
   <div id="navigation">
-    <a href="../../index.html">Home</a>
-    <a href="../../posts/">All Posts</a>
-    <a href="../../contact/">Contact</a>
-    <a href="http://cv.tmorris.net/">CV</a>
-    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+    <a class="navbar" href="../../index.html">Home</a>
+    <a class="navbar" href="../../posts/">All Posts</a>
+    <a class="navbar" href="../../contact/">Contact</a>
+    <a class="navbar" href="http://cv.tmorris.net/">CV</a>
+    <a class="navbar" href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
   </div>
 </div>
 <h1>List with O(1) cons and snoc in Scala</h1>
@@ -33,7 +33,7 @@
 <p>A pseudo difference list with constant time prepend (cons) and append (snoc).</p>
 <p><a href="http://code.google.com/p/scalaz/issues/detail?id=19">There is an efficiency issue</a> with respect to Scala’s TCO implementation (making this data structure untenable?), however, I have forgotten the details of that.</p>
 <p>In any case, a finger-tree is often more appropriate, but it would be nice to revive the <code>Endo[List[A]]</code>!</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">sealed</span> <span class="kw">trait</span> DiffList[A] {
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">sealed</span> <span class="kw">trait</span> DiffList[A] {
   <span class="kw">val</span> endo: List[A] =&gt; List[A]
 
   <span class="kw">import</span> DiffList.<span class="fu">_</span>
@@ -63,7 +63,7 @@
   }
 
   <span class="kw">def</span> single[A](a: A): DiffList[A] = a &lt;:: empty[A]
-}</code></pre>
+}</code></pre></div>
 
 
 <hr />

@@ -20,11 +20,11 @@
 </div>
 <div id="header">
   <div id="navigation">
-    <a href="../../index.html">Home</a>
-    <a href="../../posts/">All Posts</a>
-    <a href="../../contact/">Contact</a>
-    <a href="http://cv.tmorris.net/">CV</a>
-    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+    <a class="navbar" href="../../index.html">Home</a>
+    <a class="navbar" href="../../posts/">All Posts</a>
+    <a class="navbar" href="../../contact/">Contact</a>
+    <a class="navbar" href="http://cv.tmorris.net/">CV</a>
+    <a class="navbar" href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
   </div>
 </div>
 <h1>A poke at the essence of functional programming</h1>
@@ -32,7 +32,7 @@
 
 <p>I used to work for IBM on the Java implementation. I learned the language inside-out. I did all those Sun certifications and other spanky things. I wanted to understand what a lot of people alleged was so special. I didn’t ever find it.</p>
 <p>I have found that few people can tell me the answer to this question. If you don’t know the answer, don’t fret; it’s not the important part.</p>
-<pre class="sourceCode Java"><code class="sourceCode java"><span class="fu">method</span>(s1.<span class="fu">charAt</span>(i), s2.<span class="fu">charAt</span>(j));</code></pre>
+<div class="sourceCode"><pre class="sourceCode Java"><code class="sourceCode java"><span class="fu">method</span>(s1.<span class="fu">charAt</span>(i), s2.<span class="fu">charAt</span>(j));</code></pre></div>
 <blockquote>
 <p>Assuming <code>s1</code> and <code>s2</code> are both of the type <code>java.lang.String</code>, then which call to <code>charAt</code> will occur first?</p>
 </blockquote>

@@ -16,7 +16,7 @@
     <published>2008-10-03T14:04:43Z</published>
     <updated>2008-10-03T14:04:43Z</updated>
     <summary type="html"><![CDATA[<p><a href="http://projecteuler.net/index.php?section=problems&amp;id=2">Project Euler Problem 2</a> using <a href="http://functionaljava.org/">Functional Java</a>:</p>
-<pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">import fj.data.Stream;</span>
+<div class="sourceCode"><pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">import fj.data.Stream;</span>
 <span class="kw">import fj.P1;</span>
 <span class="kw">import fj.F2;</span>
 <span class="kw">import static fj.function.Integers.even;</span>
@@ -33,7 +33,7 @@ Stream&lt;integer&gt; fibs = <span class="kw">new</span> F2&lt;Integer, Integer,
   }
 }.<span class="fu">f</span>(<span class="dv">1</span>, <span class="dv">2</span>);
 
-<span class="dt">final</span> <span class="dt">int</span> problem2 = intAdditionMonoid.<span class="fu">sumLeft</span>(fibs.<span class="fu">takeWhile</span>(intOrd.<span class="fu">isLessThan</span>(<span class="dv">1000001</span>)).<span class="fu">filter</span>(even).<span class="fu">toList</span>());</code></pre>]]></summary>
+<span class="dt">final</span> <span class="dt">int</span> problem2 = intAdditionMonoid.<span class="fu">sumLeft</span>(fibs.<span class="fu">takeWhile</span>(intOrd.<span class="fu">isLessThan</span>(<span class="dv">1000001</span>)).<span class="fu">filter</span>(even).<span class="fu">toList</span>());</code></pre></div>]]></summary>
 </entry>
 <entry>
     <title>Project Euler Problem 1 Functional Java</title>
@@ -42,7 +42,7 @@ Stream&lt;integer&gt; fibs = <span class="kw">new</span> F2&lt;Integer, Integer,
     <published>2008-10-03T13:59:39Z</published>
     <updated>2008-10-03T13:59:39Z</updated>
     <summary type="html"><![CDATA[<p><a href="http://projecteuler.net/index.php?section=problems&amp;id=1">Project Euler Problem 1</a> using <a href="http://functionaljava.org/">Functional Java</a>:</p>
-<pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">import static fj.pre.Monoid.intAdditionMonoid;</span>
+<div class="sourceCode"><pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">import static fj.pre.Monoid.intAdditionMonoid;</span>
 <span class="kw">import static fj.data.List.range;</span>
 <span class="kw">import fj.F;</span>
 
@@ -52,7 +52,7 @@ Stream&lt;integer&gt; fibs = <span class="kw">new</span> F2&lt;Integer, Integer,
   <span class="kw">public</span> Boolean <span class="fu">f</span>(<span class="dt">final</span> Integer a) {
     <span class="kw">return</span> a % <span class="dv">3</span> == <span class="dv">0</span> || a % <span class="dv">5</span> == <span class="dv">0</span>;
   }
-}));</code></pre>]]></summary>
+}));</code></pre></div>]]></summary>
 </entry>
 
 </feed>

@@ -20,11 +20,11 @@
 </div>
 <div id="header">
   <div id="navigation">
-    <a href="../../index.html">Home</a>
-    <a href="../../posts/">All Posts</a>
-    <a href="../../contact/">Contact</a>
-    <a href="http://cv.tmorris.net/">CV</a>
-    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+    <a class="navbar" href="../../index.html">Home</a>
+    <a class="navbar" href="../../posts/">All Posts</a>
+    <a class="navbar" href="../../contact/">Contact</a>
+    <a class="navbar" href="http://cv.tmorris.net/">CV</a>
+    <a class="navbar" href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
   </div>
 </div>
 <h1>What is Haskell's primary feature?</h1>
@@ -32,7 +32,7 @@
 
 <p>Today I was asked what Haskell’s main feature is. The answer is its non-strict evaluation.</p>
 <p>Java is a strictly evaluated language. Consider this Java program:</p>
-<pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">class</span> C {
+<div class="sourceCode"><pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">class</span> C {
   <span class="dt">static</span> String <span class="fu">i</span>() {
     <span class="kw">throw</span> <span class="kw">new</span> Error(<span class="st">&quot;boo!&quot;</span>);
   }
@@ -45,15 +45,15 @@
     <span class="dt">int</span> k = <span class="fu">f</span>(<span class="fu">i</span>());
     System.<span class="fu">out</span>.<span class="fu">println</span>(k);
   }
-}</code></pre>
+}</code></pre></div>
 <p>The program fails with a runtime error.</p>
 <p>Consider this (otherwise equivalent) Haskell program:</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell">i <span class="fu">=</span> error <span class="st">&quot;boo!&quot;</span>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell">i <span class="fu">=</span> error <span class="st">&quot;boo!&quot;</span>
 
 f a <span class="fu">=</span> <span class="dv">3</span>
 
 main <span class="fu">=</span> <span class="kw">let</span> k <span class="fu">=</span> f i
-       <span class="kw">in</span> print k</code></pre>
+       <span class="kw">in</span> print k</code></pre></div>
 <p>The program prints 3 and does not fail like the Java program. This is a key property of Haskell with very far reaching implications. One of those implications is that Haskell is a pure language. There are many more implications, particularly with respect to the compositional properties of programs.</p>
 <p>Haskell’s evaluation model and its implications is perhaps its most widely misunderstood feature. While the benefits are (enormously) enormous, they are far too deep to consider writing a short article about.</p>
 

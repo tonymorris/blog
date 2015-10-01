@@ -20,11 +20,11 @@
 </div>
 <div id="header">
   <div id="navigation">
-    <a href="../../index.html">Home</a>
-    <a href="../../posts/">All Posts</a>
-    <a href="../../contact/">Contact</a>
-    <a href="http://cv.tmorris.net/">CV</a>
-    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+    <a class="navbar" href="../../index.html">Home</a>
+    <a class="navbar" href="../../posts/">All Posts</a>
+    <a class="navbar" href="../../contact/">Contact</a>
+    <a class="navbar" href="http://cv.tmorris.net/">CV</a>
+    <a class="navbar" href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
   </div>
 </div>
 <h1>Monad exercises in Scala</h1>
@@ -38,7 +38,7 @@
 <li><p>The <code>object MonadicFunctions</code> answers the question “What are the practical implications?”</p></li>
 </ul>
 <p>If there are any questions or you get stuck, the <code>#scala</code> or <code>#scalaz</code> channel on Freenode could help out.</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// 1. Start here. Observe this trait</span>
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// 1. Start here. Observe this trait</span>
 <span class="kw">trait</span> Monad[M[_]] {
   <span class="kw">def</span> flatMap[A, B](a: M[A], f: A =&gt; M[B]): M[B]
   <span class="kw">def</span> unital[A](a: A): M[A]
@@ -97,14 +97,14 @@
     <span class="fu">error</span>(<span class="st">&quot;todo&quot;</span>)
 
   <span class="co">// lift3, lift4, etc. Interesting question: Can we have liftN?</span>
-}</code></pre>
+}</code></pre></div>
 <p><strong>Haskell</strong></p>
 <ul>
 <li><p>The <code>data Monad'</code> answers the question “What does monad mean?”</p></li>
 <li><p>The functions under <code>*** Monad implementations ***</code> answers the question “What are some examples?”</p></li>
 <li><p>The functions under <code>*** Monadic Functions ***</code> answers the question “What are the practical implications?”</p></li>
 </ul>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="ot">{-# LANGUAGE RankNTypes #-}</span>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="ot">{-# LANGUAGE RankNTypes #-}</span>
 
 <span class="co">-- 1. Start here. Observe this data type</span>
 <span class="kw">data</span> <span class="dt">Monad'</span> m <span class="fu">=</span> <span class="dt">Monad'</span> {
@@ -167,7 +167,7 @@ replicateM' <span class="fu">=</span> error <span class="st">&quot;todo: flatMap
 <span class="ot">lift2 ::</span> (a <span class="ot">-&gt;</span> b <span class="ot">-&gt;</span> c) <span class="ot">-&gt;</span> m a <span class="ot">-&gt;</span> m b <span class="ot">-&gt;</span> <span class="dt">Monad'</span> m <span class="ot">-&gt;</span> m c
 lift2 <span class="fu">=</span> error <span class="st">&quot;todo&quot;</span>
 
-<span class="co">-- lift3, lift4, etc. Interesting question: Can we have liftN?</span></code></pre>
+<span class="co">-- lift3, lift4, etc. Interesting question: Can we have liftN?</span></code></pre></div>
 
 
 <hr />

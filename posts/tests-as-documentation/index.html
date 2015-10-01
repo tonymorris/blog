@@ -20,11 +20,11 @@
 </div>
 <div id="header">
   <div id="navigation">
-    <a href="../../index.html">Home</a>
-    <a href="../../posts/">All Posts</a>
-    <a href="../../contact/">Contact</a>
-    <a href="http://cv.tmorris.net/">CV</a>
-    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+    <a class="navbar" href="../../index.html">Home</a>
+    <a class="navbar" href="../../posts/">All Posts</a>
+    <a class="navbar" href="../../contact/">Contact</a>
+    <a class="navbar" href="http://cv.tmorris.net/">CV</a>
+    <a class="navbar" href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
   </div>
 </div>
 <h1>Tests as Documentation</h1>
@@ -33,16 +33,16 @@
 <p><a href="http://wiki.workingmouse.com/index.php/Tests_As_Documentation"><em>(Copied from)</em></a></p>
 <h4 id="wouldnt-it-be-nice-if">Wouldn’t it be nice if?</h4>
 <p>When disciplined programmers write unit tests, they often make reference to the fact that their tests provide a means of documentation the software that it is testing. This documentation is more appropriate than what would otherwise be informal and potentially ambiguous comments using English. Take the simple example of adding two numbers. We might document using informal language:</p>
-<pre class="sourceCode Java"><code class="sourceCode java"><span class="co">/**</span>
+<div class="sourceCode"><pre class="sourceCode Java"><code class="sourceCode java"><span class="co">/**</span>
 <span class="co"> * Adds the two arguments.</span>
 <span class="co"> *</span>
 <span class="co"> * </span><span class="kw">@param a </span><span class="co">Add this argument to the other one.</span>
 <span class="co"> * </span><span class="kw">@param b </span><span class="co">Add this argument to the other one.</span>
 <span class="co"> * </span><span class="kw">@return </span><span class="co">The sum of the two arguments.</span>
-<span class="co"> */</span></code></pre>
+<span class="co"> */</span></code></pre></div>
 <p>With unit tests, we might instead write something more formal and unambiguous:</p>
-<pre class="sourceCode Java"><code class="sourceCode java"><span class="fu">assertEqual</span>(<span class="fu">add</span>(<span class="dv">2</span>, <span class="dv">2</span>), <span class="dv">4</span>)
-<span class="fu">assertEqual</span>(<span class="fu">add</span>(<span class="dv">4</span>, <span class="dv">3</span>), <span class="dv">7</span>)</code></pre>
+<div class="sourceCode"><pre class="sourceCode Java"><code class="sourceCode java"><span class="fu">assertEqual</span>(<span class="fu">add</span>(<span class="dv">2</span>, <span class="dv">2</span>), <span class="dv">4</span>)
+<span class="fu">assertEqual</span>(<span class="fu">add</span>(<span class="dv">4</span>, <span class="dv">3</span>), <span class="dv">7</span>)</code></pre></div>
 <pre><code>... so on</code></pre>
 <p>It might be argued that both these forms of documentation complement each other. After all, while the unit tests have less room for misinterpretation, they are incomplete; for example, what about <code>add(88, 37)</code>? The English description makes up for this shortcoming.</p>
 <p>We could reword our English to be a little more succinct:</p>
@@ -59,28 +59,28 @@
 </ol>
 <p>It is an interesting observation here that we have <em>completely specified</em> the <code>reverse</code> method. That is, under some reasonable assumptions, it is not possible to write a method that is not equivalent to <code>reverse</code> that also satisfies our statements above. This is the ultimate form of code documentation!</p>
 <p>We will ignore the first statement for the sake of interest and verbosity and focus on expressing the other two. This is because statements 2 and 3 have <em>free variables</em>, while statement 1 is merely an assertion that does not illustrate any interesting points. Let us start with the second statement and articulate it using <a href="http://reductiotest.org/">Reductio</a>:</p>
-<pre class="sourceCode Java"><code class="sourceCode java">    Property p2 = <span class="fu">property</span>(arbInteger, <span class="kw">new</span> F&lt;Integer, Property&gt;() {
+<div class="sourceCode"><pre class="sourceCode Java"><code class="sourceCode java">    Property p2 = <span class="fu">property</span>(arbInteger, <span class="kw">new</span> F&lt;Integer, Property&gt;() {
       <span class="kw">public</span> Property <span class="fu">f</span>(Integer i) {
         <span class="kw">return</span> <span class="fu">prop</span>(<span class="fu">single</span>(i).<span class="fu">equals</span>(<span class="fu">reverse</span>(<span class="fu">single</span>(i))));
       }
-    });</code></pre>
+    });</code></pre></div>
 <p>That pretty much sums up statement 2 doesn’t it? What about statement 3:</p>
-<pre class="sourceCode Java"><code class="sourceCode java">Property p3 = <span class="fu">property</span>(<span class="fu">arbLinkedList</span>(arbInteger), <span class="fu">arbLinkedList</span>(arbInteger), <span class="kw">new</span> F2&lt;LinkedList&lt;integer&gt;, LinkedList&lt;integer&gt;, Property&gt;() {
+<div class="sourceCode"><pre class="sourceCode Java"><code class="sourceCode java">Property p3 = <span class="fu">property</span>(<span class="fu">arbLinkedList</span>(arbInteger), <span class="fu">arbLinkedList</span>(arbInteger), <span class="kw">new</span> F2&lt;LinkedList&lt;integer&gt;, LinkedList&lt;integer&gt;, Property&gt;() {
   <span class="kw">public</span> Property <span class="fu">f</span>(LinkedList&lt;integer&gt; a, LinkedList&lt;integer&gt; b) {
     <span class="dt">final</span> LinkedList&lt;integer&gt; x = <span class="fu">reverse</span>(<span class="fu">append</span>(a, b));
     <span class="dt">final</span> LinkedList&lt;integer&gt; y = <span class="fu">append</span>(<span class="fu">reverse</span>(b), <span class="fu">reverse</span>(a));
     <span class="kw">return</span> <span class="fu">prop</span>(x.<span class="fu">equals</span>(y));
   }
-});</code></pre>
+});</code></pre></div>
 <h4 id="is-that-it">Is that it?</h4>
 <p>Yep. Notwithstanding the absence of statement 1, we have completely specified the behaviour for the Java <code>Collections.reverse</code> method. We have exhaustive and formal documentation instead of one or the other as we traditionally do. What an improvement!</p>
 <h4 id="yeah-but-i-want-to-unit-test-it-too">Yeah but I want to unit test it too</h4>
 <p>That’s not hard either. How many unit tests do you want to run? By default, Reductio will run 100 unit tests per <code>Property</code> declaration. You can adjust this and various other factors about how your unit tests are executed. If you want to take the default, then a few more lines of code are enough to do just that:</p>
-<pre class="sourceCode Java"><code class="sourceCode java"><span class="fu">list</span>(p2, p3).<span class="fu">foreach</span>(<span class="kw">new</span> Effect&lt;property&gt;() {
+<div class="sourceCode"><pre class="sourceCode Java"><code class="sourceCode java"><span class="fu">list</span>(p2, p3).<span class="fu">foreach</span>(<span class="kw">new</span> Effect&lt;property&gt;() {
   <span class="kw">public</span> <span class="dt">void</span> <span class="fu">e</span>(Property p) {
     summary.<span class="fu">println</span>(p.<span class="fu">check</span>());
   }
-});</code></pre>
+});</code></pre></div>
 <p>If you run this line of code, you will see the result of your 200 unit tests on the standard output:</p>
 <pre><code>OK, passed 100 tests.
 OK, passed 100 tests.</code></pre>
@@ -97,7 +97,7 @@ Falsified after 4 passed tests with arguments: [[3, 2, -3, 4, -3],[2, -3, 4, -3]
 <li><p><a href="http://reductiotest.org/manual">Reductio Manual</a></p></li>
 </ul>
 <h4 id="complete-runnable-source-code">Complete Runnable Source Code</h4>
-<pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">import fj.Effect;</span>
+<div class="sourceCode"><pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">import fj.Effect;</span>
 <span class="kw">import fj.F;</span>
 <span class="kw">import fj.F2;</span>
 <span class="kw">import static fj.data.List.list;</span>
@@ -150,7 +150,7 @@ Falsified after 4 passed tests with arguments: [[3, 2, -3, 4, -3],[2, -3, 4, -3]
     aas.<span class="fu">addAll</span>(as2);
     <span class="kw">return</span> aas;
   }
-}</code></pre>
+}</code></pre></div>
 
 
 <hr />

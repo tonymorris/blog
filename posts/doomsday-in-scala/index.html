@@ -20,18 +20,18 @@
 </div>
 <div id="header">
   <div id="navigation">
-    <a href="../../index.html">Home</a>
-    <a href="../../posts/">All Posts</a>
-    <a href="../../contact/">Contact</a>
-    <a href="http://cv.tmorris.net/">CV</a>
-    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+    <a class="navbar" href="../../index.html">Home</a>
+    <a class="navbar" href="../../posts/">All Posts</a>
+    <a class="navbar" href="../../contact/">Contact</a>
+    <a class="navbar" href="http://cv.tmorris.net/">CV</a>
+    <a class="navbar" href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
   </div>
 </div>
 <h1>Doomsday in Scala</h1>
 <div class="info">Posted on January  1, 2008, in <a href="../../tags/Programming/index.html">Programming</a></div>
 
 <p>Just for kicks, from <a href="http://en.wikipedia.org/wiki/Doomsday_algorithm" class="uri">http://en.wikipedia.org/wiki/Doomsday_algorithm</a></p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">sealed</span> <span class="kw">trait</span> Day {
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">sealed</span> <span class="kw">trait</span> Day {
   <span class="kw">def</span> +(n: Int): Day
 }
 <span class="kw">final</span> <span class="kw">case</span> <span class="kw">object</span> Sunday <span class="kw">extends</span> Day {
@@ -128,7 +128,7 @@
     <span class="kw">val</span> d = a + b + c
     <span class="fu">anchor</span>(y) + d
   }
-}</code></pre>
+}</code></pre></div>
 <blockquote>
 <p>scala&gt; import Doomsday.<em> import Doomsday.</em></p>
 </blockquote>

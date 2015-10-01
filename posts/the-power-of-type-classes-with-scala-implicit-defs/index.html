@@ -20,11 +20,11 @@
 </div>
 <div id="header">
   <div id="navigation">
-    <a href="../../index.html">Home</a>
-    <a href="../../posts/">All Posts</a>
-    <a href="../../contact/">Contact</a>
-    <a href="http://cv.tmorris.net/">CV</a>
-    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+    <a class="navbar" href="../../index.html">Home</a>
+    <a class="navbar" href="../../posts/">All Posts</a>
+    <a class="navbar" href="../../contact/">Contact</a>
+    <a class="navbar" href="http://cv.tmorris.net/">CV</a>
+    <a class="navbar" href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
   </div>
 </div>
 <h1>The Power of Type-classes with Scala implicit defs</h1>
@@ -32,33 +32,33 @@
 
 <p>A core part of Haskell’s type system is that of type-classes. If you have never used type-classes, then there is <a href="http://en.wikibooks.org/wiki/Haskell/YAHT/Type_basics#Type_Classes">a pretty good description in Yet Another Haskell Tutorial (YAHT)</a>. Haskell type-classes have been likened to Java/C# interfaces or Scala traits, but there are some significant differences.</p>
 <p>With Scala’s implicit definitions (defs), it is possible to come pretty close to emulating Haskell’s type-classes. This ability can make writing certain constructs very simple and also, extremely flexible. Imagine you were asked to write a function that found the maximum value in a List of values. In Scala, we might write it like this:</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">object</span> O {
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">object</span> O {
   <span class="kw">def</span> <span class="fu">maximum</span>(x: List[Int]): Int = x <span class="kw">match</span> {
     <span class="kw">case</span> Nil =&gt; <span class="fu">error</span>(<span class="st">&quot;maximum undefined for empty list&quot;</span>)
     <span class="kw">case</span> x :: y :: ys =&gt; <span class="fu">maximum</span>((<span class="kw">if</span>(x &gt; y) x <span class="kw">else</span> y) :: ys)
     <span class="kw">case</span> x :: _ =&gt; x
   }
-}</code></pre>
+}</code></pre></div>
 <p>Notice that if we wish to write the function for some other type besides <code>Int</code>, we would have to start again. Or, we could <em>generalise</em> to the Scala <code>Ordered</code> type:</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">object</span> O {
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">object</span> O {
   <span class="kw">def</span> maximum[a &lt;: Ordered[a]](x: List[a]): a = x <span class="kw">match</span> {
     <span class="kw">case</span> Nil =&gt; <span class="fu">error</span>(<span class="st">&quot;maximum undefined for empty list&quot;</span>)
     <span class="kw">case</span> x :: y :: ys =&gt; <span class="fu">maximum</span>((<span class="kw">if</span>(x &gt; y) x <span class="kw">else</span> y) :: ys)
     <span class="kw">case</span> x :: _ =&gt; x
   }
-}</code></pre>
+}</code></pre></div>
 <p>So we accept now that we can find the maximum of any type, so long as that type implements the <code>Ordered</code> trait/interface. But what if we have a type that doesn’t implement that interface? Worse still, what if our type does implement that interface, but we wish to redefine ordering? The only solution here is to create a new type that wraps the old type and redefines ordering. In Haskell, this is called “newtyping”, because it is done with the <code>newtype</code> keyword and is one line of very trivial code (<code>newtype T = T U</code>) plus the two or three for the redefinition of ordering. However, in other languages, this is a little cumbersome and can lead to the bloating of code that is difficult to understand.</p>
 <p>Scala implicit defs come to the rescue here. But first, a little introduction to two core Haskell type-classes called <code>Eq</code> and <code>Ord</code>. Here is an excerpt of their definitions:</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">class</span>  <span class="dt">Eq</span> a  <span class="kw">where</span>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">class</span>  <span class="dt">Eq</span> a  <span class="kw">where</span>
   (<span class="fu">==</span>),<span class="ot"> (/=)   ::</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Bool</span>
   <span class="co">-- omitted as superfluous to the topic</span>
 
 <span class="kw">class</span>  (<span class="dt">Eq</span> a) <span class="ot">=&gt;</span> <span class="dt">Ord</span> a  <span class="kw">where</span>
 <span class="ot">  compare      ::</span> a <span class="ot">-&gt;</span> a <span class="ot">-&gt;</span> <span class="dt">Ordering</span>
-  <span class="co">-- omitted as superfluous to the topic</span></code></pre>
+  <span class="co">-- omitted as superfluous to the topic</span></code></pre></div>
 <p>This first declaration is of the <code>Eq</code> type-class and states that to implement the class over an unbound type (a), one must define equality such that gives two instances of (a), return a boolean value indicating equality (or non-equality). The second declaration is of the <code>Ord</code> type-class and states that to implement the class over a type (a) that is bound by the type-class <code>Eq</code>, one must define ordering such that given two instances of (a), return a type <code>Ordering</code> (which has only three possible values; LT, EQ, GT).</p>
 <p>We can express something similar in Scala. However, note that the type parameter (a) is not co-variant, while all Haskell type parameters are co-variant. This is because Haskell is a <em>pure functional programming language</em>, while Scala is not.</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">trait</span> Eq[a] {
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">trait</span> Eq[a] {
   <span class="kw">def</span> <span class="fu">eq</span>(a1: a)(a2: a): Boolean
 }
 
@@ -71,10 +71,10 @@
 <span class="kw">sealed</span> <span class="kw">abstract</span> <span class="kw">class</span> Ordering
 <span class="kw">final</span> <span class="kw">case</span> <span class="kw">object</span> LT <span class="kw">extends</span> Ordering
 <span class="kw">final</span> <span class="kw">case</span> <span class="kw">object</span> EQ <span class="kw">extends</span> Ordering
-<span class="kw">final</span> <span class="kw">case</span> <span class="kw">object</span> GT <span class="kw">extends</span> Ordering</code></pre>
+<span class="kw">final</span> <span class="kw">case</span> <span class="kw">object</span> GT <span class="kw">extends</span> Ordering</code></pre></div>
 <p>Now comes the interesting part (sorry to the impatient :)). Imagine now that we could write our maximum function, where we could say “the maximum of a list of any type (a) such that there exists <strong>one and only one implementation</strong> of the <code>Ord</code> trait for type (a) <strong>implicitly defined in compiler scope</strong>”. That is to say, if there exists two or more implementations of <code>Ord</code>, fail the compiler with an ambiguity error (indeed, many Scala newcomers have likely observed these ambiguity errors from the core Scala APIs). If there is no implementation within scope, fail as well.</p>
 <p>Here is how we would write the function now:</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">object</span> Maximum {
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">object</span> Maximum {
   <span class="kw">def</span> maximum[a](as: List[a])(<span class="kw">implicit</span> o: Ord[a]): a = as <span class="kw">match</span> {
     <span class="kw">case</span> Nil =&gt; <span class="fu">error</span>(<span class="st">&quot;maximum undefined for empty list&quot;</span>)
     <span class="kw">case</span> x :: y :: ys =&gt; <span class="fu">maximum</span>((o.<span class="fu">compare</span>(x)(y) <span class="kw">match</span> {
@@ -83,38 +83,38 @@
     }) :: ys)
     <span class="kw">case</span> x :: _ =&gt; x
   }
-}</code></pre>
+}</code></pre></div>
 <p>Notice that the function takes two arguments, however, one of them is declared <strong>implicit</strong>. This means that we do not need to explicitly provide this argument (though we can and we might to resolve an ambiguity, but there are also other means). So long as there exists one implementation of <code>Ord[a]</code> implicitly defined in compiler scope, then this implementation is used.</p>
 <p>Let us write such an implementation:</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">object</span> Ord {
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">object</span> Ord {
   <span class="kw">implicit</span> <span class="kw">def</span> intOrd = <span class="kw">new</span> Ord[Int] {
     <span class="kw">def</span> <span class="fu">compare</span>(a1: Int)(a2: Int) = <span class="kw">if</span>(a1 == a2) EQ <span class="kw">else</span> <span class="kw">if</span>(a1 &lt; a2) LT <span class="kw">else</span> GT
   }
-}</code></pre>
+}</code></pre></div>
 <p>Notice that the definition of <code>intOrd</code> is declared with the <strong>implicit</strong> keyword. Now, if the <code>intOrd</code> function is in scope (and no other implementation is), then we can call the <code>maximum</code> function with a list of integers. Indeed, if we had some other definition of ordering for integers (which is rarely the case for integers, but imagine it were some other type), we would not have to rewrite anything to continue using our <code>maximum</code> function.</p>
 <p>Also, be aware that implicit definitions are <strong>not</strong> transitive. This means that although we might have an implicit definition from <code>Int</code> to <code>Ord[Int]</code> and we might have some other implicit definition from T to <code>Int</code>, however, this does not imply that we have an implicit definition from T to <code>Ord[Int]</code>. This attribute is very unfortunate and quite limiting of the potential of implicit definitions, but one that is to be accepted nonetheless.</p>
 <p>At this point, some would be thinking, “so what?”. After all, some have no problem with newtyping (or adapting or design patterning or whatever you want to call it). However, I draw your attention to one example of many where this approach would save much more work. Let us take a look at that <a href="http://www.scala-lang.org/docu/files/api/scala/List$object.html#range%28Int%2CInt%29"><code>List.range</code></a> function. Notice how the <code>range</code> function is defined over integers only? If I wanted to get a range for some other type, I’d have to rewrite the <code>range</code> function, or I’d have to write a conversion to type <code>Int</code> and use that. Both very annoying.</p>
 <p>Indeed, the <code>range</code> function can be generalised to any type that has the notion of a successor (as well, a predecessor if we wish to support backward ranges). However, if we were to define a range function with a step n (default: n = 1), then invoking our successor or predecessor function n times may lead to an inefficiency that is resolved by the integer type, because it has the constant-time + function. Indeed, we would need another function successor(n) so that this efficiency gain could be utilised for types that support it, such as the integer type, where it would use the + function. By default, this implementation would simply invoke the successor function n times. We will acknowledged this fact but will ignore it hereon.</p>
 <p>Let us define our successor function:</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">trait</span> Successor[a] {
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">trait</span> Successor[a] {
   <span class="kw">def</span> <span class="fu">succ</span>(a: a): Option[a]
 
   <span class="co">// for efficiency reasons, we might define this function</span>
   <span class="co">// A default implementation invokes the succ function n times.</span>
   <span class="co">// The integer implementation would override and use +</span>
   <span class="co">// def succn(n: Int)(a: a): Option[a]</span>
-}</code></pre>
+}</code></pre></div>
 <p>The <code>succ</code> function returns a succeeding value of type (a) if it exists, but no value if there is no successor i.e. the type is maximally bounded. This is the case for the integer type where <code>Integer.MAX_VALUE</code> has no successor. We would write the implementation like so:</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">object</span> Successor {
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">object</span> Successor {
   <span class="kw">implicit</span> <span class="kw">def</span> intSuccessor = <span class="kw">new</span> Successor[Int] {
     <span class="kw">override</span> <span class="kw">def</span> <span class="fu">succ</span>(a: Int) = a <span class="kw">match</span> {
       <span class="kw">case</span> Integer.<span class="fu">MAX_VALUE</span> =&gt; None
       <span class="kw">case</span> _ =&gt; Some(a + <span class="dv">1</span>)
     }
   }
-}</code></pre>
+}</code></pre></div>
 <p>Now, we can write our <code>range</code> function such that it is defined over <strong>any</strong> type, so long as that type has one and only one implementation of both <code>Successor[a]</code> and <code>Ord[a]</code> in scope. The implementation of <code>Ord[a]</code> is required to determine the ordering of the <code>from</code> parameter to the <code>to</code> parameter. Also, the equality relation (defined by <code>Eq[a]</code>) is required to know when the range stops.</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">object</span> Range {
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">object</span> Range {
   <span class="kw">def</span> range[a](from: a)(to: a)(<span class="kw">implicit</span> e: Successor[a], o: Ord[a]): List[a] =
     <span class="kw">if</span>(o.<span class="fu">compare</span>(from)(to) == GT) Nil
     <span class="kw">else</span> <span class="kw">if</span>(o.<span class="fu">eq</span>(from)(to)) List(from)
@@ -122,9 +122,9 @@
       <span class="kw">case</span> None =&gt; List(from)
       <span class="kw">case</span> Some(s) =&gt; from :: <span class="fu">range</span>(s)(to)
     }
-}</code></pre>
+}</code></pre></div>
 <p>Suppose we wish to find the range of a list of playing cards. Is it Aces high or Aces low? What about other card orderings used in the myriad of different card games? What about other types besides playing cards? It doesn’t matter, since <strong>our <code>range</code> function is as general as it can be</strong>. Yay! No more writing the same code over and over!</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">sealed</span> <span class="kw">abstract</span> <span class="kw">class</span> Rank
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">sealed</span> <span class="kw">abstract</span> <span class="kw">class</span> Rank
 <span class="kw">final</span> <span class="kw">case</span> <span class="kw">object</span> ACE <span class="kw">extends</span> Rank
 <span class="kw">final</span> <span class="kw">case</span> <span class="kw">object</span> TWO <span class="kw">extends</span> Rank
 <span class="kw">final</span> <span class="kw">case</span> <span class="kw">object</span> THREE <span class="kw">extends</span> Rank
@@ -159,9 +159,9 @@
       <span class="kw">case</span> _ =&gt; Some(<span class="fu">ranks</span>(ranks.<span class="fu">indexOf</span>(a) + <span class="dv">1</span>))
     }
   }
-}</code></pre>
+}</code></pre></div>
 <p>Notice here that we can bring either <code>acesHigh</code> or <code>acesLow</code> into compiler scope (but not both) and use the <code>range</code> function successfully. Indeed, the following code prints different output because of which function is in scope:</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">object</span> Main {
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">object</span> Main {
   <span class="kw">def</span> <span class="fu">main</span>(args: Array[String]) = {
     {
       <span class="kw">import</span> Rank.<span class="fu">acesHigh</span>
@@ -177,10 +177,10 @@
       Console.<span class="fu">println</span>(<span class="fu">range</span>(ACE: Rank)(KING)) <span class="co">// List()</span>
     }
   }
-}</code></pre>
+}</code></pre></div>
 <p>Reader’s exercise: write a <code>range</code> function with step of type <code>Int</code>, which may be negative (and so step backward)</p>
 <p>Here is a complete, compilable source code listing:</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">trait</span> Eq[a] {
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">trait</span> Eq[a] {
   <span class="kw">def</span> <span class="fu">eq</span>(a1: a)(a2: a): Boolean
 }
 
@@ -300,7 +300,7 @@
       Console.<span class="fu">println</span>(<span class="fu">range</span>(ACE: Rank)(KING))
     }
   }
-}</code></pre>
+}</code></pre></div>
 
 
 <hr />

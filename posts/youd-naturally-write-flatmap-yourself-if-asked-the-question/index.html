@@ -20,11 +20,11 @@
 </div>
 <div id="header">
   <div id="navigation">
-    <a href="../../index.html">Home</a>
-    <a href="../../posts/">All Posts</a>
-    <a href="../../contact/">Contact</a>
-    <a href="http://cv.tmorris.net/">CV</a>
-    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+    <a class="navbar" href="../../index.html">Home</a>
+    <a class="navbar" href="../../posts/">All Posts</a>
+    <a class="navbar" href="../../contact/">Contact</a>
+    <a class="navbar" href="http://cv.tmorris.net/">CV</a>
+    <a class="navbar" href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
   </div>
 </div>
 <h1>You’d naturally write flatMap yourself if asked the question</h1>
@@ -33,14 +33,14 @@
 <p>Many people struggle to understand those fluffy things called <em>Monads</em> and why they are important. I’m not going to attempt to alleviate this to a large degree, but I have had a recent success with a friend in having them attempt to write a familiar Scala function as a method. That is, the <code>[List.flatten](http://www.scala-lang.org/docu/files/api/scala/List$object.html#flatten(List[List[A]]))</code> function, which simply takes a <code>List</code> of <code>List</code> of some type <code>A</code> and returns a <code>List[A]</code>. It does this by concatenating all the lists together. I think most people are familiar with this function and have a good mental model of how it works. If this is the case and you are less confident about <code>List.flatMap</code>, then I hope to bring a point to your attention that might help you bring it home.</p>
 <p>If you take a look at <code>List.sort</code>, you see it takes a function <code>(A, A) =&gt; Boolean</code>. This is because the type parameter to <code>List</code> is ‘just any A’. It would be nice if it was ‘any A, so long as it has defined order’. That way, you can just call <code>list.sort</code> and be done with it. This would require the creation of a new class with a more restricted type parameter; for example, you might pass the function at list creation time, like you do with a <code>TreeMap</code>.</p>
 <p>Imagine writing <code>List.flatten</code> on the <code>List[A]</code> class as a <em>method</em> using the same technique. You wouldn’t be able to, since the method belongs on a <code>List[List[A]]</code>. You’d need to write the method such that it takes an argument: <code>A =&gt; List[A]</code> before you could then call <code>flatten</code>. When you have a <code>List[List[A]]</code>, you’d just call this method with the identity function <code>x =&gt; x</code> to obtain your resulting <code>List[A]</code>. Here is how the method would look:</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">def</span> <span class="fu">flatten</span>(f: A =&gt; List[A]): List[A] = ...</code></pre>
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">def</span> <span class="fu">flatten</span>(f: A =&gt; List[A]): List[A] = ...</code></pre></div>
 <p>Guess what?! This method is <code>flatMap</code>! Let’s ignore the fact that the Scala API is significantly broken, including the <code>List.flatMap</code> method using <code>Iterable</code> in place of <code>List</code> here. Notice though, that <code>flatMap</code> is actually generalised by taking another type parameter, so we have just invented an unnecessarily specialised version of <code>flatMap</code>. Let’s fix it:</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">def</span> flatten[B](f: A =&gt; List[B]): List[B] = ...</code></pre>
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">def</span> flatten[B](f: A =&gt; List[B]): List[B] = ...</code></pre></div>
 <p>Woot woot! In other words, <code>flatten(list)</code> is equivalent to <code>list flatMap (x =&gt; x)</code>. Furthermore, this should hold for more than just list, but for other type constructors too (sadly, <code>Option</code> is missing a flatten function: <code>Option[Option[A]] =&gt; Option[A]</code>). This is a special relationship that all monads have (join is a synonym for flatten and bind is a synonym for flatMap):</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell">join <span class="fu">=</span> bind id</code></pre>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell">join <span class="fu">=</span> bind id</code></pre></div>
 <p>We can express this using <a href="http://reductiotest.org/">Reductio</a> (the Scala API of course!):</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">val</span> prop_flat = <span class="fu">prop</span>((t: List[List[Int]]) =&gt; List.<span class="fu">flatten</span>(t) == t.<span class="fu">flatMap</span>(x =&gt; x))
-<span class="co">// OK passed 100 tests.</span></code></pre>
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">val</span> prop_flat = <span class="fu">prop</span>((t: List[List[Int]]) =&gt; List.<span class="fu">flatten</span>(t) == t.<span class="fu">flatMap</span>(x =&gt; x))
+<span class="co">// OK passed 100 tests.</span></code></pre></div>
 <p>I hope this helps. If it doesn’t, ask a question or ignore my ranting :)</p>
 
 

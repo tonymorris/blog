@@ -20,11 +20,11 @@
 </div>
 <div id="header">
   <div id="navigation">
-    <a href="../../index.html">Home</a>
-    <a href="../../posts/">All Posts</a>
-    <a href="../../contact/">Contact</a>
-    <a href="http://cv.tmorris.net/">CV</a>
-    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+    <a class="navbar" href="../../index.html">Home</a>
+    <a class="navbar" href="../../posts/">All Posts</a>
+    <a class="navbar" href="../../contact/">Contact</a>
+    <a class="navbar" href="http://cv.tmorris.net/">CV</a>
+    <a class="navbar" href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
   </div>
 </div>
 <h1>Algebraic Data Types again</h1>
@@ -33,12 +33,12 @@
 <p>I recently watched Simon Peyton-Jones’ presentation as OSCON 2007 titled, “A Taste of Haskell”. As usual for Simon, his enthusiastic and very animated presentation was of high quality in both content and the way that content was presented. If you have a spare 3 hours (a little over in fact) and you are interested in learning the basics of a very powerful programming language called Haskell, I recommend that you invest the time in this presentation, which is split into <a href="http://blip.tv/file/324976">Part 1</a> and <a href="http://blip.tv/file/325646">Part 2</a>. Be sure to keep <a href="http://conferences.oreillynet.com/presentations/os2007/os_peytonjones.pdf">the slides</a> available as well, since a lot of the time, the camera is focused on Simon and not on the slide that he is discussing.</p>
 <p>During the presentation, the audience were asking questions of Simon as he was presenting Algebraic Data Types (ADTs), which are written in Haskell using the <code>data</code> keyword. As Simon pointed out, ADTs are a fundamental part of writing Haskell. I felt that members of the audience were perhaps considering the concept of an ADT to be more complicated than what it really is. It truly is quite simple and in this post, I hope to try a new tact to explain this very simple concept. As Simon also pointed out, ADTs are important, powerful and fundamental to programming, but I don’t expect this to be obvious at first. First, let’s understand exactly what an ADT is. If the following confuses you and you prefer Simon’s (or some other) approach, then please ignore it. I intend to use a (probably) familiar language to demonstrate what an ADT is.</p>
 <p>In Haskell, ADTs are <em>closed</em>. That is, at the point of declaration you specify all the constructors of the ADT and it is not possible to dynamically add more constructors for that type. For example, the Haskell Maybe data type is written as follows:</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">Maybe</span> a <span class="fu">=</span> <span class="dt">Just</span> a <span class="fu">|</span> <span class="dt">Nothing</span></code></pre>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">Maybe</span> a <span class="fu">=</span> <span class="dt">Just</span> a <span class="fu">|</span> <span class="dt">Nothing</span></code></pre></div>
 <p>Therefore, the Maybe data type has 2 <strong>and only 2</strong> constructors. It is the “and only 2” that makes this data type a closed algebraic data type.</p>
 <p>If we consider a Java or C# <code>class</code> that can somehow enforce 2 <strong>and only 2</strong> subclasses, then we could emulate closed algebraic data types in these languages. Indeed, it is possible to do so, however, you have to get really quirky with the language at hand. <a href="http://blog.tmorris.net/maybe-in-java/">I have written about this before</a>, but instead of using this trick, I am going to invent a new keyword for these languages called <code>klass</code>.</p>
 <p>A <code>klass</code> declaration is always abstract and all of its subtypes are always specified in the same source file and they are always implicitly final. An attempt to subclass a <code>klass</code> outside of its own source file or any subtypes of a <code>klass</code> is a compile-time error. Furthermore a <code>klass</code> cannot declare anything at all in its body – it simply takes on the default constructor and nothing more is permitted.</p>
 <p>Given this new keyword, we can write the Haskell Maybe data type as follows:</p>
-<pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">class</span> Maybe&lt;A&gt; {
+<div class="sourceCode"><pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">class</span> Maybe&lt;A&gt; {
 
 }
 
@@ -51,10 +51,10 @@
 
 <span class="kw">class</span> Nothing&lt;A&gt; <span class="kw">extends</span> Maybe&lt;A&gt; {
 
-}</code></pre>
+}</code></pre></div>
 <p>To reiterate, no other classes may subclass <code>Maybe</code>, <code>Just</code> or <code>Nothing</code> and there is a single type parameter that I have called <code>A</code> (and Haskell calls <code>a</code> by enforced convention). Therefore, if a function or method is passed an instance of <code>Maybe&lt;A&gt;</code>, we can be <strong>certain</strong> that it is either a <code>Nothing&lt;A&gt;</code> or a <code>Just&lt;A&gt;</code> and in the <code>Just</code> case, we might wish to access that <code>A</code> (which is a field called <code>a</code>).</p>
 <p>Indeed, we might write code that is similar to the following:</p>
-<pre class="sourceCode Java"><code class="sourceCode java">X <span class="fu">someFunction</span>(Maybe&lt;A&gt; m) {
+<div class="sourceCode"><pre class="sourceCode Java"><code class="sourceCode java">X <span class="fu">someFunction</span>(Maybe&lt;A&gt; m) {
   <span class="kw">if</span>(m <span class="kw">instanceof</span> Just) {
     Just&lt;A&gt; j = (Just&lt;A&gt;)m;
     <span class="fu">foo</span>(j.<span class="fu">a</span>);
@@ -62,15 +62,15 @@
   } <span class="kw">else</span> <span class="kw">if</span>(m <span class="kw">instanceof</span> Nothing) {
     <span class="fu">bar</span>();
   }
-}</code></pre>
+}</code></pre></div>
 <p>This code is effectively <em>pattern matching</em> (another topic that Simon talked about and the audience seemed unnecessarily confused). In the second <code>if</code> statement I have ensured <em>non-overlapping</em> pattern matching, which is a good practice that I follow. That is to say, the order of my <code>if</code> statements is not relevant to the outcome of the function. You might recall that Simon said that pattern matching occurs “top to bottom”, however, I prefer not to rely on this by not overlapping patterns. If I’d left out the second <code>if</code> condition as a simple <code>else</code> block, then I have effectively said, “and everything else” and the behaviour of the function would not change. However, this pattern overlaps with the <code>Just</code> case and the behaviour of the function would be affected if I swapped their order. This notion of “and everything else” is denoted in Haskell pattern matching with an underscore or sometimes, a variable to bind to.</p>
 <p>The code above, written using Haskell pattern matching would look like this:</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="ot">someFunction ::</span> <span class="dt">Maybe</span> a <span class="ot">-&gt;</span> <span class="dt">X</span> <span class="co">-- remember, this is a type declaration</span>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="ot">someFunction ::</span> <span class="dt">Maybe</span> a <span class="ot">-&gt;</span> <span class="dt">X</span> <span class="co">-- remember, this is a type declaration</span>
 someFunction (<span class="dt">Just</span> a) <span class="fu">=</span> foo(a)
-someFunction <span class="dt">Nothing</span> <span class="fu">=</span> bar</code></pre>
+someFunction <span class="dt">Nothing</span> <span class="fu">=</span> bar</code></pre></div>
 <p>Simon talked about pattern matching as “decomposing” a data type. You can see in the earlier code that I have pulled apart the <code>Maybe</code> into its components of <code>Just</code> or <code>Nothing</code> and I have “decomposed” the components of the <code>Just</code> further, by getting the <code>A</code> out of it. This is what Simon was referring to when he was talking about decomposition of a data type using its constructors.</p>
 <p>Of course, in Haskell, you can create all sorts of data types and the <code>Maybe</code> data type is very common. There is another called <code>Either</code> that looks like this:</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">Either</span> a b <span class="fu">=</span> <span class="dt">Left</span> a <span class="fu">|</span> <span class="dt">Right</span> b</code></pre>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">data</span> <span class="dt">Either</span> a b <span class="fu">=</span> <span class="dt">Left</span> a <span class="fu">|</span> <span class="dt">Right</span> b</code></pre></div>
 <p>It is almost like <code>Maybe</code> except that both constructor cases take an argument of any type.</p>
 <p>Here’s the fun part :) If we take a look at all the excitement with “non-nullable types” using the type system in <a href="http://www.disi.unige.it/person/AnconaD/FTfJP06/paper03.pdf">Java</a> and <a href="http://codebetter.com/blogs/patricksmacchia/archive/2007/07/25/i-want-non-nullable-types-in-c-4.aspx">C#</a>, then we see that this is <strong>exactly</strong> what the <code>Maybe</code> data type does in Haskell, also using the type system. In fact, imagine “exceptionable types” in these languages, where returning one of these “non-exceptionable” types from a method cannot throw an exception. This is <strong>exactly</strong> what the <code>Either</code> data type above does also using the type system, since we can return “either the value to be returned or the exception that was thrown”. Furthermore, the <code>Maybe</code> and <code>Either</code> data types are one line of Haskell code and just 2 of many possible data types. In other words, and as is usual for previous industry trends, the excitement around Java/C# non-nullable types, is just a fundamental library feature of Haskell that has been there for years. How about that eh? :)</p>
 <p>The next time a Haskeller just smiles and nods at a Jumping Java Joey or Shaggin’ C Sharpy who is all excited about non-nullable types (or any “revolutionary” language feature in fact), you’ll now know why since both <code>Maybe</code> and <code>Either</code> are so trivial and fundamental, that they are included in the default import of the Haskell standard library (like <code>java.lang.*</code>).</p>

@@ -20,11 +20,11 @@
 </div>
 <div id="header">
   <div id="navigation">
-    <a href="../../index.html">Home</a>
-    <a href="../../posts/">All Posts</a>
-    <a href="../../contact/">Contact</a>
-    <a href="http://cv.tmorris.net/">CV</a>
-    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+    <a class="navbar" href="../../index.html">Home</a>
+    <a class="navbar" href="../../posts/">All Posts</a>
+    <a class="navbar" href="../../contact/">Contact</a>
+    <a class="navbar" href="http://cv.tmorris.net/">CV</a>
+    <a class="navbar" href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
   </div>
 </div>
 <h1>Maybe Monad in Java</h1>
@@ -35,24 +35,24 @@
 <p>All this aside, I am writing this post to introduce the Maybe Monad in Java, not to demonstrate anything meaningful or clever. Rather, I wish to simply point out to Java programmers what this abstract and apparently mystical notion of a monad - taken from the mathematical branch of category theory - really is. We now know that exceptions are <strong>only ever</strong> used for representing a partial function (even for I/O!) and we know that the Java programming language has built-in language and API support for exceptions. Let’s just revisit what the concept of a ‘partial function’ means exactly. It means that “there exists”[<em>see note 1</em>] some x take from our <em>universe of discourse</em> (U) such that f(x) is undefined.</p>
 <p>Sound scary? It’s not really. Suppose we have a data type, <code>int</code>. The size of our universe of discourse is finite; it is 2^32. We can represent this as |U| = 2^32. The notation f(x) represents some function with x applied. Having a universe of discourse of finite size implies that we can do an exhaustive proof for behaviour of the function, though not necessarily in a reasonable amount of time.</p>
 <p>Let’s call a function ‘divide’ and x can be two ints, a and b. The size of our universe of discourse of our arguments is 2^32 * 2^32 (i.e. 2 ^ 64) because that is the total number of combinations for the values of its arguments that are available. We can say that for our function, divide, it holds that for all[<em>see note 2</em>] a and for b = 0, the function is undefined. That is, regardless of the value of a, if the value of b is 0, the function is undefined:</p>
-<pre class="sourceCode Java"><code class="sourceCode java"><span class="dt">int</span> a = <span class="kw">... </span><span class="co">// anything</span>
+<div class="sourceCode"><pre class="sourceCode Java"><code class="sourceCode java"><span class="dt">int</span> a = <span class="kw">... </span><span class="co">// anything</span>
 <span class="dt">int</span> b = <span class="dv">0</span>;
-<span class="fu">divide</span>(a, b); <span class="co">// undefined</span></code></pre>
+<span class="fu">divide</span>(a, b); <span class="co">// undefined</span></code></pre></div>
 <p>If we try to use this function with b = 0, we will observe an exception (ArithmeticException). If we were using reference types, we could write our own divide function that instead returns <code>null</code> or returns <code>Maybe&lt;Integer&gt;</code> and Nothing for the case of an undefined function application.</p>
 <p>Have we got it? Great! :) The Maybe Monad is used for defining a partial function that might call 2 or more partial functions; if any of those functions called are undefined, then our function that we are writing is undefined. This might be called, “<em>threading partial function through a computation</em>”. We could write it in pseudo-code:</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell">f x <span class="fu">=</span> <span class="kw">if</span> isNothing (g x)
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell">f x <span class="fu">=</span> <span class="kw">if</span> isNothing (g x)
             <span class="kw">then</span> return <span class="dt">Nothing</span>
             <span class="kw">else</span> <span class="kw">if</span> isNothing (h (g x))
               <span class="kw">then</span> return <span class="dt">Nothing</span>
-              <span class="kw">else</span> return maybeToJust (h (g x))</code></pre>
+              <span class="kw">else</span> return maybeToJust (h (g x))</code></pre></div>
 <p>Very cumbersome to write and I sure hope that the function f doesn’t need to use more than 2 partial functions (g and h) in order to define! It would be great if you could write something similar to this instead…</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell">f x <span class="fu">=</span> h (g x)</code></pre>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell">f x <span class="fu">=</span> h (g x)</code></pre></div>
 <p>…and not have to worry about “<em>threading partial function through the computation</em>”. Those familiar with Haskell, or those who are trying to understand monads in a Haskell context, should hopefully recognise the latter syntax as <em>do-notation</em>. Those who are not familiar with do-notation can just know that Haskell provides language support for this notion of threading computation, represented by the more familiar term, monads. This support is provided with a language keyword called <code>do</code> (<strong>very</strong> different to do/while in an imperative language!).</p>
 <p>Anyway, this post is getting a bit long and I still haven’t introduced Java’s monad for threading partial function through a computation. Luckily, it is not very long to write so without further ado, I introduce it as follows:</p>
 <pre><code>throws</code></pre>
 <p>“WTF!!? You mean I have been using monads all along!!? How can that be!?” Well, it has been stated more than once, that many people <a href="http://sigfpe.blogspot.com/2006/08/you-could-have-invented-monads-and.html">have already used monads</a>, even if they didn’t call it that. In recent years, fundamental computer programming concepts have often been confused with euphemisms like “design patterns” or some such, so rather than speculate at an analogy that might be familiar, I will instead turn focus on the Java <code>throws</code> keyword.</p>
 <p>Consider the following rough Java code:</p>
-<pre class="sourceCode Java"><code class="sourceCode java">T <span class="fu">foo</span>() <span class="kw">throws</span> IOException {
+<div class="sourceCode"><pre class="sourceCode Java"><code class="sourceCode java">T <span class="fu">foo</span>() <span class="kw">throws</span> IOException {
   H handle = <span class="fu">openFile</span>(); <span class="co">// this method declares throws IOException</span>
 
   <span class="kw">try</span> {
@@ -62,7 +62,7 @@
   } <span class="kw">finally</span> {
     <span class="fu">close</span>(handle); <span class="co">// this method declares throws IOException</span>
   }
-}</code></pre>
+}</code></pre></div>
 <p>We see quite clearly that if any of the invoked methods are undefined then our entire method (<code>foo</code>) is also undefined - by returning with an exception instead of a type T. Sound familiar yet? Since we know that exceptions are only ever used to represent partial function, then we can infer that the <code>throws</code> keyword is indeed a (poor man’s) Maybe Monad in disguise. I note at this point that the Maybe Monad is one of a possible squillion monads that are used in every day programming; <em>even</em> in the weakest of programming languages. Here are a couple that are used very often though not necessarily with built-in language support:</p>
 <ul>
 <li><p>The list monad - building up a list or threading a list through a computation</p></li>

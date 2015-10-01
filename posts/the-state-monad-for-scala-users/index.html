@@ -20,11 +20,11 @@
 </div>
 <div id="header">
   <div id="navigation">
-    <a href="../../index.html">Home</a>
-    <a href="../../posts/">All Posts</a>
-    <a href="../../contact/">Contact</a>
-    <a href="http://cv.tmorris.net/">CV</a>
-    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+    <a class="navbar" href="../../index.html">Home</a>
+    <a class="navbar" href="../../posts/">All Posts</a>
+    <a class="navbar" href="../../contact/">Contact</a>
+    <a class="navbar" href="http://cv.tmorris.net/">CV</a>
+    <a class="navbar" href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
   </div>
 </div>
 <h1>The State Monad for Scala users</h1>
@@ -33,12 +33,12 @@
 <p><a href="http://wiki.workingmouse.com/index.php/Scalaz">Scalaz 3.2</a> includes support for a State data type for the <a href="http://scala-lang.org/">Scala Programming Language</a>. This data type is a monad and thus supports <code>flatMap</code> and can be used in a for-comprehension.</p>
 <p>Below I will give a practical demonstration of why you might choose to use the State data type as a monad.</p>
 <p>Consider a binary leaf tree data type:</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">sealed</span> <span class="kw">abstract</span> <span class="kw">class</span> Tree[+A]
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">sealed</span> <span class="kw">abstract</span> <span class="kw">class</span> Tree[+A]
 <span class="kw">final</span> <span class="kw">case</span> <span class="kw">class</span> Leaf[A](a: A) <span class="kw">extends</span> Tree[A]
-<span class="kw">final</span> <span class="kw">case</span> <span class="kw">class</span> Branch[A](left: Tree[A], right: Tree[A]) <span class="kw">extends</span> Tree[A]</code></pre>
+<span class="kw">final</span> <span class="kw">case</span> <span class="kw">class</span> Branch[A](left: Tree[A], right: Tree[A]) <span class="kw">extends</span> Tree[A]</code></pre></div>
 <p>This is pretty simple so far. Now suppose we wanted to map a function across a <code>Tree</code> from left to right <strong>where the result depended on the previous result</strong>. For this example, consider that we wanted to number each leaf by adding 1 as we traverse left to right (at a given starting value). That is, the result depends on the previous result because we must add 1 to that previous result.</p>
 <p>We might implement this by passing in the integer value and returning the pair of the <code>Tree</code> as it is constructed and the integer value as it increments. Such an implementation might look like this:</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">sealed</span> <span class="kw">abstract</span> <span class="kw">class</span> Tree[+A] {
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">sealed</span> <span class="kw">abstract</span> <span class="kw">class</span> Tree[+A] {
   <span class="kw">def</span> <span class="fu">number</span>(seed: Int): (Tree[(A, Int)], Int) = <span class="kw">this</span> <span class="kw">match</span> {
     <span class="kw">case</span> <span class="fu">Leaf</span>(x) =&gt; (<span class="fu">Leaf</span>(x, seed), seed + <span class="dv">1</span>)
     <span class="kw">case</span> <span class="fu">Branch</span>(left, right) =&gt; left number seed <span class="kw">match</span> {
@@ -49,17 +49,17 @@
       }
     }
   }
-}</code></pre>
+}</code></pre></div>
 <p>This code is pretty messy and it would become even messier with a less trivial example to apply across the <code>Tree</code>.</p>
 <p>The <code>State</code> data type is effectively a <code>Function[S, (S, A)]</code> and the monad instance runs across the <code>Function[_, (_, A)]</code> part. That is to say, the <code>flatMap</code> signature looks roughly like this:</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">trait</span> State[S, A] {
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">trait</span> State[S, A] {
   <span class="kw">val</span> s: Function[S, (S, A)] <span class="co">// abstract</span>
   <span class="kw">def</span> flatMap[B](f: A =&gt; Function[S, (S, B)]): Function[S, (S, B)]
-}</code></pre>
+}</code></pre></div>
 <p>You might consider filling out this method signature for fun :)</p>
 <p>The <code>flatMap</code> function allows the user to make the state change implicit rather than explicit (and messy!). The <code>State</code> data type includes a few useful methods and functions. I will only use two of those functions below; <code>init</code>, which constructs a <code>State</code> object that has computed the state itself. For example, going with the analogy to <code>Function[S, (S, A)]</code>, the <code>init</code> function looks like this: <code>s =&gt; (s, s)</code> and so returns a <code>State[S, S]</code>. The second function is <code>modify</code>, which applies a transform the state and it is intended to ignore the computed value (<code>Unit</code>).</p>
 <p>Here is our new implementation:</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">import</span> scalaz.<span class="fu">State</span>
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">import</span> scalaz.<span class="fu">State</span>
 <span class="kw">import</span> scalaz.<span class="fu">State</span>.<span class="fu">_</span>
 
 <span class="kw">def</span> numbers: State[Int, Tree[(A, Int)]] = <span class="kw">this</span> <span class="kw">match</span> {
@@ -69,9 +69,9 @@
   <span class="kw">case</span> <span class="fu">Branch</span>(left, right) =&gt; <span class="kw">for</span>(l &lt;- left.<span class="fu">numbers</span>;
                                   r &lt;- right.<span class="fu">numbers</span>)
                               <span class="kw">yield</span> <span class="fu">Branch</span>(l, r)
-}</code></pre>
+}</code></pre></div>
 <p>This is much neater and hides the otherwise explicit recursive application of adding 1 to an integer. Following is a complete source file that can be compiled successfully against Scalaz 3.2 using the latest version of Scala.</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">sealed</span> <span class="kw">abstract</span> <span class="kw">class</span> Tree[+A] {
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">sealed</span> <span class="kw">abstract</span> <span class="kw">class</span> Tree[+A] {
   <span class="kw">def</span> <span class="fu">number</span>(seed: Int): (Tree[(A, Int)], Int) = <span class="kw">this</span> <span class="kw">match</span> {
     <span class="kw">case</span> <span class="fu">Leaf</span>(x) =&gt; (<span class="fu">Leaf</span>(x, seed), seed + <span class="dv">1</span>)
     <span class="kw">case</span> <span class="fu">Branch</span>(left, right) =&gt; left number seed <span class="kw">match</span> {
@@ -96,9 +96,9 @@
   }
 }
 <span class="kw">final</span> <span class="kw">case</span> <span class="kw">class</span> Leaf[A](a: A) <span class="kw">extends</span> Tree[A]
-<span class="kw">final</span> <span class="kw">case</span> <span class="kw">class</span> Branch[A](left: Tree[A], right: Tree[A]) <span class="kw">extends</span> Tree[A]</code></pre>
+<span class="kw">final</span> <span class="kw">case</span> <span class="kw">class</span> Branch[A](left: Tree[A], right: Tree[A]) <span class="kw">extends</span> Tree[A]</code></pre></div>
 <p>And if you find Haskell easier to read, this might help too. It is a roughly equivalent program using GHC’s built-in <code>State</code> data type.</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">import </span><span class="dt">Control.Monad.State.Lazy</span>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">import </span><span class="dt">Control.Monad.State.Lazy</span>
 
 <span class="kw">data</span> <span class="dt">Tree</span> a <span class="fu">=</span> <span class="dt">Leaf</span> a <span class="fu">|</span> <span class="dt">Branch</span> (<span class="dt">Tree</span> a) (<span class="dt">Tree</span> a)
 
@@ -120,7 +120,7 @@ numbers (<span class="dt">Branch</span> l r) <span class="fu">=</span> <span cla
                           return (<span class="dt">Branch</span> left right)
 
 <span class="ot">initState ::</span> <span class="dt">State</span> s s
-initState <span class="fu">=</span> <span class="dt">State</span> (\s <span class="ot">-&gt;</span> (s, s))</code></pre>
+initState <span class="fu">=</span> <span class="dt">State</span> (\s <span class="ot">-&gt;</span> (s, s))</code></pre></div>
 
 
 <hr />

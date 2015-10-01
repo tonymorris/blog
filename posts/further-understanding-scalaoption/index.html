@@ -20,11 +20,11 @@
 </div>
 <div id="header">
   <div id="navigation">
-    <a href="../../index.html">Home</a>
-    <a href="../../posts/">All Posts</a>
-    <a href="../../contact/">Contact</a>
-    <a href="http://cv.tmorris.net/">CV</a>
-    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+    <a class="navbar" href="../../index.html">Home</a>
+    <a class="navbar" href="../../posts/">All Posts</a>
+    <a class="navbar" href="../../contact/">Contact</a>
+    <a class="navbar" href="http://cv.tmorris.net/">CV</a>
+    <a class="navbar" href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
   </div>
 </div>
 <h1>Further understanding scala.Option</h1>
@@ -32,7 +32,7 @@
 
 <p>Below are 15 (probably fun) exercises for anyone interested in obtaining a deeper understanding of <code>scala.Option</code> and algebraic data types in general. I could write the same in Haskell but this will require either type-classes or rank-n types (GHC extension), so I thought I’d give that a miss.</p>
 <p>Instructions are in the comments. Let me know if there are any questions.</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// Scala version 2.8.0.final</span>
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="co">// Scala version 2.8.0.final</span>
 <span class="co">// http://scalacheck.googlecode.com/files/scalacheck_2.8.0-1.8-SNAPSHOT.jar</span>
 
 
@@ -291,7 +291,7 @@
   <span class="kw">def</span> <span class="fu">main</span>(args: Array[String]) {
     props <span class="fu">foreach</span> (_.<span class="fu">check</span>)
   }
-}</code></pre>
+}</code></pre></div>
 
 
 <hr />

@@ -20,29 +20,33 @@
 </div>
 <div id="header">
   <div id="navigation">
-    <a href="../../index.html">Home</a>
-    <a href="../../posts/">All Posts</a>
-    <a href="../../contact/">Contact</a>
-    <a href="http://cv.tmorris.net/">CV</a>
-    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+    <a class="navbar" href="../../index.html">Home</a>
+    <a class="navbar" href="../../posts/">All Posts</a>
+    <a class="navbar" href="../../contact/">Contact</a>
+    <a class="navbar" href="http://cv.tmorris.net/">CV</a>
+    <a class="navbar" href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
   </div>
 </div>
 <h1>Applicative Functor laws using Reductio (Scala)</h1>
 <div class="info">Posted on July  3, 2008, in <a href="../../tags/Programming/index.html">Programming</a></div>
 
 <p>Here is the <code>Applicative</code> functor type-class (<em>see <a href="http://www.soi.city.ac.uk/~ross/papers/Applicative.html">Applicative Programming with Effects</a>, Conor McBride, Ross Paterson</em>):</p>
-<pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">class</span> <span class="dt">Applicative</span> f <span class="kw">where</span>
+<div class="sourceCode"><pre class="sourceCode Haskell"><code class="sourceCode haskell"><span class="kw">class</span> <span class="dt">Applicative</span> f <span class="kw">where</span>
 <span class="ot">  pure ::</span> a <span class="ot">-&gt;</span> f a
-<span class="ot">  (&lt;*&gt;) ::</span> f (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> f a <span class="ot">-&gt;</span> f b</code></pre>
+<span class="ot">  (&lt;*&gt;) ::</span> f (a <span class="ot">-&gt;</span> b) <span class="ot">-&gt;</span> f a <span class="ot">-&gt;</span> f b</code></pre></div>
 <p>Here are the laws for the Applicative functor type-class:</p>
 <ul>
-<li><p>identity<br /><code>pure id &lt;*&gt; u == u</code></p></li>
-<li><p>composition<br /><code>pure (.) &lt;*&gt; u &lt;*&gt; v &lt;*&gt; w == u &lt;*&gt; (v &lt;*&gt; w)</code></p></li>
-<li><p>homomorphism<br /><code>pure f &lt;*&gt; pure x == pure (f x)</code></p></li>
-<li><p>interchange<br /><code>u &lt;*&gt; pure x == pure (\f -&gt; f x) &lt;*&gt; u</code></p></li>
+<li><p>identity<br />
+<code>pure id &lt;*&gt; u == u</code></p></li>
+<li><p>composition<br />
+<code>pure (.) &lt;*&gt; u &lt;*&gt; v &lt;*&gt; w == u &lt;*&gt; (v &lt;*&gt; w)</code></p></li>
+<li><p>homomorphism<br />
+<code>pure f &lt;*&gt; pure x == pure (f x)</code></p></li>
+<li><p>interchange<br />
+<code>u &lt;*&gt; pure x == pure (\f -&gt; f x) &lt;*&gt; u</code></p></li>
 </ul>
 <p>Here are those laws stated using <a href="http://reductiotest.org/">Reductio</a>. I have changed <code>pure</code> to <code>unit</code> and the language is Scala:</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">object</span> ApplicativeLaws {
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">object</span> ApplicativeLaws {
   <span class="kw">def</span> identity[A[_], X](<span class="kw">implicit</span> a: Applicative[A],
                                  aax: Arbitrary[A[X]],
                                  e: Equal[A[X]]) =
@@ -69,13 +73,13 @@
                                        e: Equal[A[Y]]) =
     <span class="fu">prop</span>((f: A[X =&gt; Y], x: X) =&gt;
       <span class="fu">a</span>(f, a.<span class="fu">unit</span>(x)) === <span class="fu">a</span>(a.<span class="fu">unit</span>((f: X =&gt; Y) =&gt; <span class="fu">f</span>(x)), f))
-}</code></pre>
+}</code></pre></div>
 <p>Pretty neat eh? :) Let’s test the <code>Applicative</code> instance for <code>List</code>:</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala">List(identity[List, Int],
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala">List(identity[List, Int],
      composition[List, Int, Long, String],
      homomorphism[List, Int, String],
      interchange[List, Int, String]).
-  <span class="fu">foreach</span>(p =&gt; summary println p)</code></pre>
+  <span class="fu">foreach</span>(p =&gt; summary println p)</code></pre></div>
 <p>This runs 100 unit tests per property, so 400 unit tests altogether. Here is the output:</p>
 <pre><code>OK, passed 100 tests.
 OK, passed 100 tests.

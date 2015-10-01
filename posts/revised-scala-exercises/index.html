@@ -20,11 +20,11 @@
 </div>
 <div id="header">
   <div id="navigation">
-    <a href="../../index.html">Home</a>
-    <a href="../../posts/">All Posts</a>
-    <a href="../../contact/">Contact</a>
-    <a href="http://cv.tmorris.net/">CV</a>
-    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+    <a class="navbar" href="../../index.html">Home</a>
+    <a class="navbar" href="../../posts/">All Posts</a>
+    <a class="navbar" href="../../contact/">Contact</a>
+    <a class="navbar" href="http://cv.tmorris.net/">CV</a>
+    <a class="navbar" href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
   </div>
 </div>
 <h1>Revised Scala Exercises</h1>
@@ -32,7 +32,7 @@
 
 <p>Without the rules as per last time, I have rewritten the Scala exercises to be closer to the Haskell revision. Enjoy :)</p>
 <p>(And yes, I will get around to giving you all feedback (you should also see my email inbox) – just hang in there!).</p>
-<pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">sealed</span> <span class="kw">trait</span> List[+A] {
+<div class="sourceCode"><pre class="sourceCode Scala"><code class="sourceCode scala"><span class="kw">sealed</span> <span class="kw">trait</span> List[+A] {
   <span class="kw">override</span> <span class="kw">def</span> toString = {
     <span class="kw">def</span> <span class="fu">toScalaList</span>(t: List[A]): scala.<span class="fu">List</span>[A] = t <span class="kw">match</span> {
       <span class="kw">case</span> Empty =&gt; Nil
@@ -164,7 +164,7 @@
 <span class="co">// Elegance: 2.5 marks</span>
 <span class="co">// Total: 10</span>
 <span class="kw">def</span> reverse[A](as: List[A]): List[A] = <span class="fu">error</span>(<span class="st">&quot;todo&quot;</span>)
-}</code></pre>
+}</code></pre></div>
 
 
 <hr />

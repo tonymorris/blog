@@ -20,11 +20,11 @@
 </div>
 <div id="header">
   <div id="navigation">
-    <a href="../../index.html">Home</a>
-    <a href="../../posts/">All Posts</a>
-    <a href="../../contact/">Contact</a>
-    <a href="http://cv.tmorris.net/">CV</a>
-    <a href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
+    <a class="navbar" href="../../index.html">Home</a>
+    <a class="navbar" href="../../posts/">All Posts</a>
+    <a class="navbar" href="../../contact/">Contact</a>
+    <a class="navbar" href="http://cv.tmorris.net/">CV</a>
+    <a class="navbar" href="../../atom.xml"><img src="../../images/feed-icon-14x14.png" alt="feed" /></a>
   </div>
 </div>
 <h1>Revisiting Maybe in Java</h1>
@@ -38,7 +38,7 @@
 <li><p>I’ll let your imagination run wild with possibilities from here :)</p></li>
 </ul>
 <p>To remedy this situation, I have added further to the original Maybe type <em>which was intentionally left incomplete</em>, and it is <strong>still not complete</strong>. I hope this will help those who haven’t made the leap to do so and those who have made the leap, to understand my objective in this writing.</p>
-<pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">abstract</span> <span class="kw">class</span> Maybe&lt;t&gt; {
+<div class="sourceCode"><pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">public</span> <span class="kw">abstract</span> <span class="kw">class</span> Maybe&lt;t&gt; {
   <span class="kw">private</span> <span class="fu">Maybe</span>() {
   }
 
@@ -86,10 +86,10 @@
 
 <span class="kw">public</span> <span class="kw">interface</span> NothingC&lt;q&gt; {
   Q <span class="fu">c</span>();
-}</code></pre>
+}</code></pre></div>
 <p>Those of you familiar with the Visitor Design Pattern (or any other GoF design euphemism) will immediately recognise the modification - hence the title of the post :). Please feel free to replace identifiers with your preferred view of the world; continuation, quasi-continuation, visitor, whatever.</p>
 <p>For those who <em>insist</em> on returning <code>null</code> or throwing an exception/error, or more so, insist on failing to recognise the distinction, I have yielded to your pressure:</p>
-<pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">public</span> <span class="dt">final</span> <span class="kw">class</span> NullNothingC&lt;t&gt; <span class="kw">implements</span> NothingC&lt;t&gt; {
+<div class="sourceCode"><pre class="sourceCode Java"><code class="sourceCode java"><span class="kw">public</span> <span class="dt">final</span> <span class="kw">class</span> NullNothingC&lt;t&gt; <span class="kw">implements</span> NothingC&lt;t&gt; {
   <span class="kw">public</span> T <span class="fu">c</span>() {
     <span class="kw">return</span> <span class="kw">null</span>;
   }
@@ -99,7 +99,7 @@
   <span class="kw">public</span> T <span class="fu">c</span>() {
     <span class="kw">throw</span> <span class="kw">new</span> Error();
   }
-}</code></pre>
+}</code></pre></div>
 
 
 <hr />
