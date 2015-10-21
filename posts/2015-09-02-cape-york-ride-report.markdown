@@ -13,7 +13,7 @@ tags: Motorcycle, KTM, Ride Report, Cape York
 
 ###### Monday 24 August 2015
 
-Mossman to Lion's Den
+Mossman to Lion's Den, Rossville
 
 ### Day 2
 
@@ -25,7 +25,7 @@ Rest day
 
 ##### Wednesday 26 August 2015
 
-Lion's Den to Musgrave Roadhouse
+Lion's Den, Rossville to Musgrave Roadhouse
 
 ### Day 4
 
