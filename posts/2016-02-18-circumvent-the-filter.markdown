@@ -10,7 +10,7 @@ tags: DNS, Internet Filter, Law
 On 31 December 2007 the Telecommunications Minister for the Australian
 government announced that Australia would be introducing mandatory internet
 filtering. The only implementation of this idea, until now, has been the
-ridiculed [blocking of 250000 websites by the Australian Securities and Investments Commission (ASIC) in April 2013](http://www.abc.net.au/news/2014-08-27/asic-accidentally-blocked-250,000-websites-ip-address/5701734)
+ridiculed [blocking of 250,000 websites by the Australian Securities and Investments Commission (ASIC) in April 2013](http://www.abc.net.au/news/2014-08-27/asic-accidentally-blocked-250,000-websites-ip-address/5701734)
 under *section 313 of Australia's Telecommunications Act*. The block was
 intended for only two websites engaged in fraudulent activity. In a subsequent
 inquiry, ASIC commented that "99.6 per cent of those sites contained no
@@ -18,11 +18,13 @@ substantive content." *facepalm*
 
 The reason this occurred is because the block performed filtering of an internet
 address called an *IP address*, however, multiple unrelated websites can share
-an IP address. In doing implementing this type of filtering, ASIC blocked an
-unrelated 250,000 websites. Clearly, a blocking mechanism cannot be
-implement this way and a repeat has not occurred since. Nevertheless, such
-profound eyeroll-inducing incompetence has become a recent trend of the
-(federal) Australian government. A repeat of some such stupidity is imminent.
+an IP address. In implementing this type of filtering, ASIC blocked an unrelated
+249,998 websites. Clearly, a blocking mechanism cannot be implement this way and
+a repeat has not occurred since. Nevertheless, such profound eyeroll-inducing
+incompetence has become a recent trend of the (federal) Australian government.
+
+A repeat of some such stupidity is imminent. Not the brightest bricks in the
+box.
 
 Australian politicians have been banging on about internet filtering for quite
 some time now. Unfortunately, those same politicians seek their "expert advice"
