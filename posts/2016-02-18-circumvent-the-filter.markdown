@@ -3,7 +3,7 @@ comments: true
 date: 2016-02-11 19:00:0
 layout: post
 slug: circumventing-the-filter
-title: Circumventing Australia's Internet Filtering Mechanism
+title: Circumventing Australia's Internet Filtering
 tags: DNS, Internet Filter, Law
 ---
 
