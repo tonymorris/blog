@@ -58,8 +58,8 @@ this, and it is not illegal for you to implement this block. I achieve no
 monetary gain by writing this article. My single motivation is freedom for
 myself, and for others. We can all do good things, despite the numpties
 numptying about in federal government. Aside, if such a block were implemented
-10 years ago, it would not have affected me, as my network already incidentally
-avoids the mechanism for implementation. I will show you how.
+10 years ago, it would not have affected me, as my home network already
+incidentally avoids DNS poisoning. I will show you how to do it too.
 
 First let's understand a little bit about "DNS." Suppose you have a broadband
 connection, such as ADSL or Cable. You might have this service with a provider
