@@ -63,18 +63,18 @@ incidentally avoids DNS poisoning. I will show you how to do it too.
 
 First let's understand a little bit about "DNS." Suppose you have a broadband
 connection, such as ADSL or Cable. You might have this service with a provider
-such as Telstra or Optus. In your property somewhere, you will have a "ADSL
-modem" or a "cable modem" -- sometimes called a modem/router. When you go to a
+such as Telstra or Optus. In your home somewhere, you will have a "ADSL modem"
+or a "cable modem." Sometimes it is called a modem/router. When you go to a
 website with a name such as `google.com` or `facebook.com`, your computer asks
-your modem/router to *provide an internet address for that name*. Your
-modem/router will have a setting for what to do when this happens. Your
-modem/router will have a setting so that it probably then asks the same question
-from your service provider (such as Telstra or Optus). When your service
-provider responds to your modem/router with the address for your desired
-website, that address is then sent to your computer, so now your computer knows
-which website address to go to. This happens every time you type a website name
-into your web browser. DNS is all about a **Naming System** for all this to
-occur. That's all you need to know to now understand DNS poisoning.
+your modem/router to *provide an internet address for that name*.
+Your modem/router will have a setting for what to do when this happens.
+That setting will probably then ask for the internet address for the website name from your service
+provider (such as Telstra or Optus). When your service provider responds to your
+modem/router with the address for your desired website, that address is then
+sent to your computer, so now your computer knows which website address to go
+to. This happens every time you type a website name into your web browser. DNS
+is all about a **Naming System** for all this to occur. That's all you need to
+know to now understand DNS poisoning.
 
 The method of DNS poisoning is simply this. When your service provider (Telstra,
 Optus, whatever) sends back the website address for your website name, there is
@@ -94,17 +94,19 @@ are blocked from using that website.
 However, not all service providers must comply with this request. Specifically,
 not those located outside of Australia. Other DNS answers for website names will
 still be providing the correct address. For example, Google has a DNS service
-that provides the correct answer. Many others do too.
+that provides the correct answer. Many others exist too.
 
 You are blocked because your modem/router has a setting that says, "when looking
-up the address for a website name, use my Australian service provider to look it
-up." You can circumvent this by:
+up the address for a website name, use my Australian service provider to figure
+it out." You can circumvent this by:
 
-1. Changing the setting on your modem/router to use a different DNS service than
-the automatic one provided by your service provider.
+1. Changing the setting on your modem/router to use a different (non-Australia)
+DNS service than the automatic one provided by your service provider.
 
 2. *Add a setting on your computer* so that a specific website name answers with
-a specific address. This will only work on that one computer.
+a specific address. This will only work on that one computer and for that
+website name. However, you can set many different website names on different
+computers. It just becomes a bit more tedious.
 
 3. There are other mechanisms for circumvention, but they are a bit more
 complicated, so I will leave those out.
