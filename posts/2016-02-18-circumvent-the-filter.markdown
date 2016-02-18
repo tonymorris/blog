@@ -4,7 +4,7 @@ date: 2016-02-11 19:00:0
 layout: post
 slug: circumventing-the-filter
 title: Circumventing Australia's Internet Filtering Mechanism
-tags: Programming, Internet Filter, Law
+tags: DNS, Internet Filter, Law
 ---
 
 On 31 December 2007 the Telecommunications Minister the Australian government
