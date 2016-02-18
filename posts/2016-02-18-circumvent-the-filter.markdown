@@ -14,7 +14,7 @@ ridiculed [blocking of 250000 websites by the Australian Securities and Investme
 under *section 313 of Australia's Telecommunications Act*. The block was
 intended for only two websites engaged in fraudulent activity. In a subsequent
 inquiry, ASIC commented that "99.6 per cent of those sites contained no
-substantive content."
+substantive content." *facepalm*
 
 The reason this occurred is because the block performed filtering of an internet
 address called an *IP address*, however, multiple unrelated websites can share
