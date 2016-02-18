@@ -48,7 +48,7 @@ Since we know that IP-address filtering does not work, and the all parties
 involved in the implementation of this fascination with website blocking are
 incompetent, we can easily predict their next move. It is predicted that a
 technique called **DNS poisoning** will be implemented and of course, this will
-also not work, because nothing will. Today, it was announced that [the first application for implementing this blocking (under the aforementioned bill) has been made to our Federal Court](http://www.abc.net.au/news/2016-02-18/village-roadshow-launches-legal-action-to-block-piracy-website/7176688). As you can see in the
+also not work, because nothing will. Today, it was announced that [the first application for implementing this blocking (under the aforementioned bill) has been made to our Federal Court by Village Roadshow](http://www.abc.net.au/news/2016-02-18/village-roadshow-launches-legal-action-to-block-piracy-website/7176688). As you can see in the
 ABC article, it is speculated that DNS poisoning will be the method of
 implementation for this block.
 
