@@ -7,10 +7,10 @@ title: Circumventing Australia's Internet Filtering Mechanism
 tags: DNS, Internet Filter, Law
 ---
 
-On 31 December 2007 the Telecommunications Minister the Australian government
-announced that Australia would be introducing mandatory internet filtering. 
-The only implementation of this idea, until now, has been the ridiculed
-[blocking of 250000 websites by the Australian Securities and Investments Commission (ASIC) in April 2013](http://www.abc.net.au/news/2014-08-27/asic-accidentally-blocked-250,000-websites-ip-address/5701734)
+On 31 December 2007 the Telecommunications Minister for the Australian
+government announced that Australia would be introducing mandatory internet
+filtering. The only implementation of this idea, until now, has been the
+ridiculed [blocking of 250000 websites by the Australian Securities and Investments Commission (ASIC) in April 2013](http://www.abc.net.au/news/2014-08-27/asic-accidentally-blocked-250,000-websites-ip-address/5701734)
 under *section 313 of Australia's Telecommunications Act*. The block was
 intended for only two websites engaged in fraudulent activity. In a subsequent
 inquiry, ASIC commented that "99.6 per cent of those sites contained no
