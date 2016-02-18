@@ -37,12 +37,12 @@ completely ignored.
 In June 2015, a bill called [s.115a of the Copyright Amendment (Online Infringement) Bill 2015](https://www.comlaw.gov.au/Details/C2015B00052)
 was passed in Senate. This bill gives holders of copyright (e.g. television,
 movies, music) an ability to apply to our Federal Court to have piracy-related
-websites blocked from being used in Australia. At the forefront of this bill is
-an effort to block [The Pirate Bay](http://thepiratebay.se/). Even though this
-website does not host material that infringes copyright, it contains links to
-copyrighted material. Despite the fact that Facebook directly hosts infringing
-copyrighted material, it is websites like The Pirate Bay that have become the
-centre of attention.
+websites blocked from being used in Australia. At the forefront of of the agenda
+of this bill is an effort to block [The Pirate Bay](http://thepiratebay.se/).
+Even though this website does not host material that infringes copyright, it
+contains links to copyrighted material. Despite the fact that Facebook directly
+hosts infringing copyrighted material, it is websites like The Pirate Bay that
+have become the centre of attention.
 
 Since we know that IP-address filtering does not work, and the all parties
 involved in the implementation of this fascination with website blocking are
