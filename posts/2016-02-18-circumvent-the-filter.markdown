@@ -48,9 +48,9 @@ Since we know that IP-address filtering does not work, and the all parties
 involved in the implementation of this fascination with website blocking are
 incompetent, we can easily predict their next move. It is predicted that a
 technique called **DNS poisoning** will be implemented and of course, this will
-also not work, because nothing will. Today, it was announced that [the first application for implementing this blocking (under the aforementioned bill) has been made to our Federal Court by Village Roadshow](http://www.abc.net.au/news/2016-02-18/village-roadshow-launches-legal-action-to-block-piracy-website/7176688). As you can see in the
-ABC article, it is speculated that DNS poisoning will be the method of
-implementation for this block.
+also not work, because nothing will. Today, it was announced that [the first application for implementing this blocking (under the aforementioned bill) has been made to our Federal Court by Village Roadshow](http://www.abc.net.au/news/2016-02-18/village-roadshow-launches-legal-action-to-block-piracy-website/7176688). As
+you can see in the ABC article, it is speculated that DNS poisoning will be the
+method of implementation for this block.
 
 In this article, I will show you how to circumvent this block. There are a few
 different ways of achieving this. It is not illegal for me to tell you how to do
@@ -68,13 +68,13 @@ or a "cable modem." Sometimes it is called a modem/router. When you go to a
 website with a name such as `google.com` or `facebook.com`, your computer asks
 your modem/router to *provide an internet address for that name*.
 Your modem/router will have a setting for what to do when this happens.
-That setting will probably then ask for the internet address for the website name from your service
-provider (such as Telstra or Optus). When your service provider responds to your
-modem/router with the address for your desired website, that address is then
-sent to your computer, so now your computer knows which website address to go
-to. This happens every time you type a website name into your web browser. DNS
-is all about a **Naming System** for all this to occur. That's all you need to
-know to now understand DNS poisoning.
+That setting will probably then ask for the internet address for the website
+name from your service provider (such as Telstra or Optus). When your service
+provider responds to your modem/router with the address for your desired
+website, that address is then sent to your computer, so now your computer knows
+which website address to go to. This happens every time you type a website name
+into your web browser. DNS is all about a **Naming System** for all this to
+occur. That's all you need to know to now understand DNS poisoning.
 
 The method of DNS poisoning is simply this. When your service provider (Telstra,
 Optus, whatever) sends back the website address for your website name, there is
@@ -142,9 +142,10 @@ service to circumvent their government's foolish internet filtering service.
 ![8.8.8.8 in Turkey](http://i.imgur.com/N9BoYDy.jpg)
 
 You might not wish to use Google's DNS service. There are other services outside
-of Australia; for example, OpenDNS. The addresses for this are: `208.67.222.222`
-and `208.67.220.220`. You might consider looking into this some more and finding
-a DNS service (outside of Australia) that you are comfortable with.
+of Australia; for example, OpenDNS. The addresses for OpenDNS are:
+`208.67.222.222` and `208.67.220.220`. You might consider looking into this some
+more and finding a DNS service (outside of Australia) that you are comfortable
+with.
 
 Wait is it that easy? Yes, it is. So why aren't more people making this simple
 change to their home internet settings? Yes, exactly. Now hurry up. Freedom is
@@ -159,24 +160,24 @@ computer would ask your modem/router for the website address for the name
 provider (e.g. Telstra) for the address and it will respond with
 `141.101.118.194` and now your web browser will go to that address. If our
 government has our way, Telstra will give you an *incorrect website address*
-instead.
+instead and your web browser will not go to that website.
 
 However, you can tell your computer not to use your modem/router to find the
-website address for `thepiratebay.se` but instead, to make it always be
+website address for `thepiratebay.se` but instead, to make the address always be
 `141.101.118.194`. You do this by *editing your hosts file*.
 
 Open up your hosts file on your computer with a text editor, such as Notepad on
-Windows, or TextEdit on Mac OSX. Your hosts file is located:
+Windows, or TextEdit on Mac OSX. Your hosts file is located at:
 
 * On Windows: `%SystemRoot%\System32\drivers\etc\hosts`
 
 * On Mac OSX: /private/etc/hosts
 
-With your text editor, select open a file and then type in the file location as
-above. You may have problems with editing or opening this file because of your
-computer's security. If that is the case, please ask a friend (or me) to help
-you. It's usually a matter of using the administrator account of the computer to
-successfully edit the file.
+With your text editor, select *open a file* and then type in the file location
+as above. You may have problems with editing or opening this file because of
+your computer's security. If that is the case, please ask a friend (or me) to
+help you. It's usually a matter of using the administrator account of the
+computer to successfully edit the file.
 
 With the file open, add the following line at the end of the file:
 
