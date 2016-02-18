@@ -43,7 +43,7 @@
 <p>The Tor project is committed to the preservation of your freedom. Be a part of it.</p>
 <h3 id="changing-the-setting-on-your-modemrouter">Changing the setting on your modem/router</h3>
 <p>You will need to go to the administration interface for your router. I understand this might not be easy for some. However, it is often as simple as typing <code>192.168.0.1</code> or <code>192.168.1.1</code> into your web browser. If you are unsure how to do this step, perhaps ask a friend for some help. It is actually quite easy, so give it a try, but if you get stuck, seek out help!</p>
-<p>Once you are there, you need to change a setting to “use the given DNS servers”, then enter in the address of a server that does not fall under Australia’s legislation, such as Google. Sometimes the setting will have a “primary” and a “secondary” DNS server setting. The address for Google’s servers are <code>8.8.8.8</code> and <code>8.8.8.4</code>. Here is how it looks on a Netgear modem/router that I had lying around:</p>
+<p>Once you are there, you need to change a setting to “use the given DNS servers”, then enter in the address of a server that does not fall under Australia’s legislation, such as Google. Sometimes the setting will have a “primary” and a “secondary” DNS server setting. The address for Google’s servers are <code>8.8.8.8</code> and <code>8.8.4.4</code>. Here is how it looks on a Netgear modem/router that I had lying around:</p>
 <div class="figure">
 <img src="https://i.imgur.com/osv3MhS.png" alt="Netgear DNS settings" />
 <p class="caption">Netgear DNS settings</p>
