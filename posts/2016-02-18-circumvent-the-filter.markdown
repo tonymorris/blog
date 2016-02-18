@@ -18,8 +18,7 @@ substantive content."
 
 The reason this occurred is because the block performed filtering of an internet
 address called an *IP address*, however, multiple unrelated websites can share
-an IP address. In doing implementing this type of filtering, ASIC blocked an
-unrelated 250,000 websites. Clearly, a blocking mechanism cannot be
+an IP address. In doing implementing this type of filtering, ASIC blocked 250,000 unrelated websites. Clearly, a blocking mechanism cannot be
 implement this way and a repeat has not occurred since. Nevertheless, such
 profound eyeroll-inducing incompetence has become a recent trend of the
 (federal) Australian government. A repeat of some such stupidity is imminent.
@@ -97,13 +96,13 @@ You are blocked because your modem/router has a setting that says, "when looking
 up the address for a website name, use my Australian service provider to look it
 up." You can circumvent this by:
 
-1. Changing the setting on your modem/router to use a different DNS service than
+a) Changing the setting on your modem/router to use a different DNS service than
 the automatic one provided by your service provider.
 
-2. *Add a setting on your computer* so that a specific website name answers with
+2) *Add a setting on your computer* so that a specific website name answers with
 a specific address. This will only work on that one computer.
 
-3. There are other mechanisms for circumvention, but they are a bit more
+3) There are other mechanisms for circumvention, but they are a bit more
 complicated, so I will leave those out.
 
 ----
