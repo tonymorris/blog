@@ -46,13 +46,16 @@
 <p>However, not all service providers must comply with this request. Specifically, not those located outside of Australia. Other DNS answers for website names will still be providing the correct address. For example, Google has a DNS service that provides the correct answer. Many others exist too.</p>
 <p>You are blocked because your modem/router has a setting that says, “when looking up the address for a website name, use my Australian service provider to figure it out.” You can circumvent this by:</p>
 <ol style="list-style-type: decimal">
+<li><p>Download and install the <a href="https://www.torproject.org/download/download.html.en">Tor Browser</a></p></li>
 <li><p>Changing the setting on your modem/router to use a different (non-Australian) DNS service than the automatic one provided by your service provider.</p></li>
 <li><p><em>Add a setting on your computer</em> so that a specific website name answers with a specific address. This will only work on that one computer and for that website name. However, you can set many different website names on different computers. It just becomes a bit more tedious.</p></li>
-</ol>
-<ol start="3" style="list-style-type: decimal">
-<li>There are other mechanisms for circumvention, but they are a bit more complicated, so I will leave those out.</li>
+<li><p>There are other mechanisms for circumvention, but they are a bit more complicated, so I will leave those out.</p></li>
 </ol>
 <hr />
+<h3 id="download-and-install-the-tor-browser">Download and install the Tor Browser</h3>
+<p>After you have downloaded and installed the <a href="https://www.torproject.org/download/download.html.en">Tor Browser</a>, use this as a web browser to your favourite websites. The Tor Browser will send your internet requests (encrypted) through a networked chain of computers around the world, before ultimately ending up at your preferred website. Importantly, whichever computer is at the end of the chain is the one that will do your DNS resolution. This means it is not your computer, modem/router or internet service provider that is doing your internet requests, but rather, another computer on your behalf. This computer is likely to not be in Australia, and so has circumvented Australia’s internet filtering. This computer that is acting on your behalf is called the <em>exit node</em>, with some other computers in between as <em>intermediate nodes</em>. If the exit node is in say, Germany and there is no DNS poisoning in Germany, then it will receive correct website address answers for website names.</p>
+<p>All of this is handled automatically for you by the Tor Browser. You just need to install it and start using it. Unfortunately, if your exit node is still in Australia, then you will still have the DNS poisoning problem. The location of the exit node changes over time, so it is only a temporary problem.</p>
+<p>The Tor project is committed to the preservation of your freedom. Be a part of it.</p>
 <h3 id="changing-the-setting-on-your-modemrouter">Changing the setting on your modem/router</h3>
 <p>You will need to go to the administration interface for your router. I understand this might not be easy for some. However, it is often as simple as typing <code>192.168.0.1</code> or <code>192.168.1.1</code> into your web browser. If you are unsure how to do this step, perhaps ask a friend for some help. It is actually quite easy, so give it a try, but if you get stuck, seek out help!</p>
 <p>Once you are there, you need to change a setting to “use the given DNS servers”, then enter in the address of a server that does not fall under Australia’s legislation, such as Google. Sometimes the setting will have a “primary” and a “secondary” DNS server setting. The address for Google’s servers are <code>8.8.8.8</code> and <code>8.8.8.4</code>. Here is how it looks on a Netgear modem/router that I had lying around:</p>
