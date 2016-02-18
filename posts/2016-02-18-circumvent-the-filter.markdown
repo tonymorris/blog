@@ -19,7 +19,7 @@ substantive content."
 The reason this occurred is because the block performed filtering of an internet
 address called an *IP address*, however, multiple unrelated websites can share
 an IP address. In doing implementing this type of filtering, ASIC blocked an
-unrelated 250,000 unrelated websites. Clearly, a blocking mechanism cannot be
+unrelated 250,000 websites. Clearly, a blocking mechanism cannot be
 implement this way and a repeat has not occurred since. Nevertheless, such
 profound eyeroll-inducing incompetence has become a recent trend of the
 (federal) Australian government. A repeat of some such stupidity is imminent.
