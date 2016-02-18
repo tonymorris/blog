@@ -131,8 +131,8 @@ filter. You are no longer DNS-poisoned and all the computers at your house will
 now receive the correct answer for a website name.
 
 [Here is an example of a similarly oppressed society in Turkey](http://mic.com/articles/85987/turkish-protesters-are-spray-painting-8-8-8-8-and-8-8-4-4-on-walls-here-s-what-it-means#.pPjaa8I1v).
-They spray painted buildings with the Google settings for a DNS service to
-circumvent their government's foolish internet filtering service.
+Regular people spray painted buildings with the Google settings for a DNS
+service to circumvent their government's foolish internet filtering service.
 
 ![8.8.8.8 in Turkey](http://i.imgur.com/N9BoYDy.jpg)
 
