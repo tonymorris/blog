@@ -151,7 +151,7 @@ Once you are there, you need to change a setting to "use the given DNS servers",
 then enter in the address of a server that does not fall under Australia's
 legislation, such as Google. Sometimes the setting will have a "primary" and a
 "secondary" DNS server setting. The address for Google's servers are `8.8.8.8`
-and `8.8.8.4`. Here is how it looks on a Netgear modem/router that I had lying
+and `8.8.4.4`. Here is how it looks on a Netgear modem/router that I had lying
 around:
 
 ![Netgear DNS settings](https://i.imgur.com/osv3MhS.png)
