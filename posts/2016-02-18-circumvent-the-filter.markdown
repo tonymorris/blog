@@ -29,9 +29,10 @@ box.
 Australian politicians have been banging on about internet filtering for quite
 some time now. Unfortunately, those same politicians seek their "expert advice"
 from such (dopey) organisations as the Australian Federal Police. Australia does
-indeed fund a significant research organisation of actual experts in this field,
-however, the advice that might be provided by such experts (unanimously) would
-not be conducive to the agenda, and so it is largely ignored.
+indeed fund a significant technology research organisation of actual PhD-holding
+experts in this field, however, the advice that might be provided by such
+experts (unanimously) would not be conducive to the agenda, and so it is
+completely ignored.
 
 In June 2015, a bill called [s.115a of the Copyright Amendment (Online Infringement) Bill 2015](https://www.comlaw.gov.au/Details/C2015B00052)
 was passed in Senate. This bill gives holders of copyright (e.g. television,
