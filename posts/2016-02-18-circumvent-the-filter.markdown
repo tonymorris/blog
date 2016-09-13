@@ -3,7 +3,7 @@ comments: true
 date: 2016-02-11 19:00:0
 layout: post
 slug: circumventing-the-filter
-title: Circumventing Australia's Internet Filtering Mechanism
+title: Circumventing Australia's Internet Filtering
 tags: DNS, Internet Filter, Law
 ---
 
@@ -100,18 +100,44 @@ You are blocked because your modem/router has a setting that says, "when looking
 up the address for a website name, use my Australian service provider to figure
 it out." You can circumvent this by:
 
-1. Changing the setting on your modem/router to use a different (non-Australian)
+1. Download and install the [Tor Browser](https://www.torproject.org/download/download.html.en)
+
+2. Changing the setting on your modem/router to use a different (non-Australian)
 DNS service than the automatic one provided by your service provider.
 
-2. *Add a setting on your computer* so that a specific website name answers with
+3. *Add a setting on your computer* so that a specific website name answers with
 a specific address. This will only work on that one computer and for that
 website name. However, you can set many different website names on different
 computers. It just becomes a bit more tedious.
 
-3) There are other mechanisms for circumvention, but they are a bit more
+4. There are other mechanisms for circumvention, but they are a bit more
 complicated, so I will leave those out.
 
 ----
+
+### Download and install the Tor Browser
+
+After you have downloaded and installed the [Tor Browser](https://www.torproject.org/download/download.html.en),
+use this as a web browser to your favourite websites. The Tor Browser will send
+your internet requests (encrypted) through a networked chain of computers around
+the world, before ultimately ending up at your preferred website. Importantly,
+whichever computer is at the end of the chain is the one that will do your DNS
+resolution. This means it is not your computer, modem/router or internet service
+provider that is doing your internet requests, but rather, another computer on
+your behalf. This computer is likely to not be in Australia, and so has
+circumvented Australia's internet filtering. This computer that is acting on 
+your behalf is called the *exit node*, with some other computers in between as
+*intermediate nodes*. If the exit node is in say, Germany and there is no DNS 
+poisoning in Germany, then it will receive correct website address answers for
+website names.
+
+All of this is handled automatically for you by the Tor Browser. You just need
+to install it and start using it. Unfortunately, if your exit node is still in
+Australia, then you will still have the DNS poisoning problem. The location of
+the exit node changes over time, so it is only a temporary problem.
+
+The Tor project is committed to the preservation of your freedom. Be a part of
+it.
 
 ### Changing the setting on your modem/router
 
@@ -125,7 +151,7 @@ Once you are there, you need to change a setting to "use the given DNS servers",
 then enter in the address of a server that does not fall under Australia's
 legislation, such as Google. Sometimes the setting will have a "primary" and a
 "secondary" DNS server setting. The address for Google's servers are `8.8.8.8`
-and `8.8.8.4`. Here is how it looks on a Netgear modem/router that I had lying
+and `8.8.4.4`. Here is how it looks on a Netgear modem/router that I had lying
 around:
 
 ![Netgear DNS settings](https://i.imgur.com/osv3MhS.png)

@@ -8,7 +8,7 @@ wordpressid: 451
 tags: Programming
 ---
 
-[Why Functional Programming Matters](http://www.md.chalmers.se/~rjmh/Papers/whyfp.html) paraphrased -- a result of a discussion in an IRC channel. Others may find value.
+[Why Functional Programming Matters](http://www.cse.chalmers.se/~rjmh/Papers/whyfp.html) paraphrased -- a result of a discussion in an IRC channel. Others may find value.
 
 A program may be represented as a function that accepts some input and produces some outputλ This function may be composed of parts; other functions and values.
 

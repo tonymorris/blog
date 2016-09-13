@@ -273,9 +273,9 @@ harness. It should take a maximum of 15 minutes in total.
     ignition start sequence.
 10. By pressing the **MODE** button, scroll to the **TRIP 1** mode.
 11. Hold down the **MODE** button for 10 seconds, until the dashboard displays
-    the factory wheel length (`2250`), then release.
-12. Using the **MODE** button to increase the wheel length and the **SET**
-    button to decrease it, set the length to (`1840`).
+    the factory wheel circumference (`2250`), then release.
+12. Using the **MODE** button to increase the wheel circumference and the **SET**
+    button to decrease it, set the circumference to (`1840`).
 
     Be careful about holding down either of these two buttons for too long,
     since the scrolling speed increases rapidly.
