@@ -5,7 +5,6 @@ import Prelude(String, FilePath, IO, Monad(..), Functor(..), take, all, (=<<), (
 import Data.List(drop)
 import Data.Monoid(mappend, mconcat)
 import Data.Maybe(fromMaybe)
-import Data.Map(lookup)
 import Text.Pandoc(WriterOptions, HTMLMathMethod(..), writerHTMLMathMethod)
 import System.FilePath(joinPath, splitDirectories, dropExtension, combine)
 import Control.Lens(_last, over)
@@ -116,7 +115,7 @@ colourField ::
   -> Context a
 colourField name defaultC = field name $ \i -> do
   metadata <- getMetadata (itemIdentifier i)
-  return . fromMaybe defaultC . lookup "colour" $ metadata
+  return . fromMaybe defaultC . lookupString "colour" $ metadata
 
 defaultColour ::
   String
