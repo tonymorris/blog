@@ -1,6 +1,6 @@
 ---
 comments: true
-date: 2013-03-01 12:00.00
+date: 2013-03-01
 layout: post
 slug: functors-and-things-using-scala
 title: Functors and things using Scala

@@ -1,6 +1,6 @@
 ---
 comments: true
-date: 2013-02-22 19:00.00
+date: 2013-02-22
 layout: post
 slug: memoisation-with-state-using-scala
 title: Memoisation with State using Scala

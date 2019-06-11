@@ -1,6 +1,6 @@
 ---
 comments: true
-date: 2013-01-12 19:00.00
+date: 2013-01-12
 layout: post
 slug: refactoring-filter
 title: Refactoring filter

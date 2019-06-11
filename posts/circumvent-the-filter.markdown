@@ -1,6 +1,6 @@
 ---
 comments: true
-date: 2016-02-11 19:00:0
+date: 2016-02-11
 layout: post
 slug: circumventing-the-filter
 title: Circumventing Australia's Internet Filtering
