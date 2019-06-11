@@ -4,6 +4,7 @@
 /dist
 /dist-newstyle
 /public
+/.stack
 /.stack-work
 /thumb
 /thumbs.db
