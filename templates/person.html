@@ -1,0 +1,36 @@
+<div class="container">
+
+  <div class="row">
+    <div class="col my-2">
+      <h2>$title$</h2>
+
+      <div class="person-content">
+        $if(portrait)$
+        <img class="person-portrait m-1" src="$portrait$" alt="$title$">
+        $endif$
+
+        $body$
+      </div>
+
+    </div>
+  </div>
+
+  $if(talks)$
+  <div class="row">
+    <div class="col my-2">
+      <h4 class="tgcc-bottom-line">Talks</h4>
+      $partial("templates/talk-list.html")$
+    </div>
+  </div>
+  $endif$
+
+  $if(posts)$
+  <div class="row">
+    <div class="col my-2">
+      <h4 class="tgcc-bottom-line">Posts</h4>
+      $partial("templates/post-list.html")$
+    </div>
+  </div>
+  $endif$
+
+</div>

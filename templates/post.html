@@ -1,4 +1,45 @@
-<h1>$title$</h1>
-<div class="info">Posted on $date$, in $tags$</div>
+<div class="container">
+  <div class="row">
+    <div class="col my-2">
+      <h2>$title$</h2>
+      <small>Posted on $date$</small>
+    </div>
+  </div>
 
-$body$
+  <div class="row">
+    <div class="col my-2">
+      $body$
+    </div>
+  </div>
+
+  $if(project)$
+  <div class="row">
+    <div class="col my-2">
+      $project$
+    </div>
+  </div>
+  $endif$
+
+  $if(authors)$
+  <div class="row">
+    <div class="col my-2">
+      $for(authors)$
+      $body$
+      $endfor$
+    </div>
+  </div>
+  $endif$
+
+</div>
+</div>
+$endif$
+
+$if(authors)$
+<div class="row">
+$for(authors)$
+<div class="col-md-12">
+    $body$
+</div>
+$endfor$
+</div>
+$endif$

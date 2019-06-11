@@ -1,4 +1,0 @@
-:set prompt "blog>> "
-:set -XOverloadedStrings
-:set -Wall
-

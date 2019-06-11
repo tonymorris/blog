@@ -1,0 +1,140 @@
+.tgcc-green {
+  background-color: rgb(48, 184, 136) !important;
+}
+
+.tgcc-green-text {
+  color: rgb(48, 184, 136) !important;
+}
+.tgcc-border {
+  border-color: rgb(48, 184, 136) !important;
+}
+
+.advance-qld-logo img {
+  width: 344.4px;
+  height: 67.2px;
+  margin-top: 2.3em;
+}
+
+@media (max-width: 768px) {
+  .advance-qld-logo img {
+    margin-left: -1.6em;
+  }
+}
+
+.page-footer {
+  padding: 1rem;
+}
+
+code {
+  color: #007A53;
+  background-color: #F5F5F5;
+}
+
+pre.sourceCode {
+  padding: 1rem;
+  border: rgb(48, 184, 136) 2px solid;
+  border-radius: 0.25rem;
+  background-color: #F5F5F5;
+}
+
+
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+main {
+  flex: 1; 
+}
+
+table {
+  border: 1px solid black;
+  background-color: #EEEEEE;
+  width: 50%;
+  text-align: left;
+  border-collapse: collapse;
+}
+
+th {
+  text-align: center;
+}
+
+td, th {
+  border: 1px solid #AAAAAA;
+  padding: 3px 2px;
+}
+
+tbody td {
+  font-size: 13px;
+}
+tr:nth-child(even) {
+  background: #D0E4F5;
+}
+thead {
+  background: #1C6EA4;
+  background: -moz-linear-gradient(top, #5592bb 0%, #327cad 66%, #1C6EA4 100%);
+  background: -webkit-linear-gradient(top, #5592bb 0%, #327cad 66%, #1C6EA4 100%);
+  background: linear-gradient(to bottom, #5592bb 0%, #327cad 66%, #1C6EA4 100%);
+  border-bottom: 2px solid #444444;
+}
+thead th {
+  font-size: 15px;
+  font-weight: bold;
+  color: #FFFFFF;
+  border-left: 2px solid #D0E4F5;
+}
+thead th:first-child {
+  border-left: none;
+}
+
+@font-face {
+  font-family: UnitRounded;
+  src: url("https://www.csiro.au/themes/default/font/UnitRoundedWeb-Black.woff") format("woff");
+  font-weight: 900;
+  font-style: normal; }
+@font-face {
+  font-family: UnitRounded;
+  src: url("https://www.csiro.au/themes/default/font/UnitRoundedWeb-Bold.woff") format("woff");
+  font-weight: bold;
+  font-style: normal; }
+@font-face {
+  font-family: UnitRounded;
+  src: url("https://www.csiro.au/themes/default/font/UnitRoundedWeb-Medium.woff") format("woff");
+  font-weight: 500;
+  font-style: normal; }
+
+body {
+  font-family: "Open sans", sans-serif;
+}
+
+a {
+    color: #2FB787;
+    font-family: UnitRounded, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  color: #1D2021;
+  font-family: UnitRounded, sans-serif;
+}
+
+img.location-image  {
+  height: 500px;
+}
+
+@media only screen and (max-width: 768px) {
+  img.location-image  {
+    height: 300px;
+  }
+}
+
+.tgcc-bottom-line {
+  border-bottom: #007A53 solid 2px;
+}
+
+.person-portrait {
+  float: right;
+  border: #007A53 solid 2px;
+  height: 200px;
+  max-width: 200px;
+}

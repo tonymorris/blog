@@ -1,0 +1,35 @@
+name:                 thegapchessclub-org-au
+version:              0.1.0.0
+build-type:           Simple
+cabal-version:        >= 1.10
+license:              BSD3
+license-file:         LICENCE
+author:               Tony Morris <ʇǝu˙sıɹɹoɯʇ@ןןǝʞsɐɥ> <dibblego>
+maintainer:           Tony Morris <ʇǝu˙sıɹɹoɯʇ@ןןǝʞsɐɥ> <dibblego>
+copyright:            Copyright (C) 2019 Tony Morris
+                    
+executable            site
+  main-is:            Site.hs
+  hs-source-dirs:     src
+  other-modules:      Posts
+                      , Posts.Context
+                      , People
+                      , People.Common
+                      , People.Context
+                      , Util.Order
+                      , Util.Nick
+                      , Util.Pandoc
+                      , Util.Index
+                      , Util.Items
+  build-depends:      base == 4.*
+                      , hakyll == 4.9.*
+                      , pandoc
+                      , unordered-containers
+                      , text
+                      , aeson
+                      , scientific
+                      , filepath
+                      , containers
+  ghc-options:        -Wall
+                      -threaded
+  default-language:   Haskell2010
