@@ -6,15 +6,16 @@ import Control.Monad(return, (>>=), (=<<))
 import Data.Bool(Bool(False))
 import Data.Function(($))
 import Data.Functor(fmap)
-import Data.List(take)
+import Data.List(take, drop)
 import Data.Monoid(mappend)
-import Hakyll(feedRoot, feedAuthorName, feedDescription, feedAuthorEmail, feedTitle, FeedConfiguration(FeedConfiguration), Configuration(destinationDirectory, ignoreFile), renderRss, loadAllSnapshots, renderAtom, recentFirst, compile, bodyField, idRoute, route, create, templateBodyCompiler, match, relativizeUrls, loadAndApplyTemplate, constField, applyAsTemplate, getResourceBody, defaultContext, listField, loadAll, setExtension, defaultContext, copyFileCompiler, compressCssCompiler, hakyllWith, defaultConfiguration)
+import Hakyll(feedRoot, feedAuthorName, feedDescription, feedAuthorEmail, feedTitle, FeedConfiguration(FeedConfiguration), Configuration(destinationDirectory, ignoreFile), renderRss, loadAllSnapshots, renderAtom, recentFirst, compile, bodyField, idRoute, route, create, templateBodyCompiler, match, relativizeUrls, loadAndApplyTemplate, constField, applyAsTemplate, getResourceBody, defaultContext, listField, loadAll, setExtension, defaultContext, copyFileCompiler, compressCssCompiler, hakyllWith, defaultConfiguration, customRoute, toFilePath)
 import People(peopleRules)
 import Posts(postRules)
 import Posts.Context(postCtx)
 import System.IO(IO)
 import Util.Index(niceRoute, removeIndexHtml)
 import Util.Pandoc(pandocCompiler')
+import System.FilePath
 
 config ::
   Configuration
@@ -45,7 +46,7 @@ main = do
       compile compressCssCompiler
 
     match "share/**" $ do
-      route   idRoute
+      route   (customRoute (joinPath . drop 1 . splitDirectories . toFilePath))
       compile copyFileCompiler
 
     match "location.html" $ do
@@ -67,14 +68,6 @@ main = do
           >>= loadAndApplyTemplate "templates/default.html" contactCtx
           >>= relativizeUrls
           >>= removeIndexHtml
-
-    match "404.html" $ do
-      route idRoute
-      compile $ do
-        let contactCtx =
-              constField "contact-active" "true" `mappend` defaultContext
-        getResourceBody
-          >>= loadAndApplyTemplate "templates/default.html" contactCtx
           
     peopleRules pandocCompiler'
 
@@ -115,9 +108,9 @@ feedConfiguration ::
   FeedConfiguration
 feedConfiguration =
   FeedConfiguration {
-      feedTitle       = "The Gap Chess Club"
+      feedTitle       = "Tony's Blog"
     , feedDescription = ""
-    , feedAuthorName  = "TGCC"
-    , feedAuthorEmail = "contact@thegapchessclub.org.au"
-    , feedRoot        = "https://thegapchessclub.org.au/"
+    , feedAuthorName  = "Tony Morris"
+    , feedAuthorEmail = "tmorris@tmorris.net"
+    , feedRoot        = "https://blog.tmorris.net/"
     }
