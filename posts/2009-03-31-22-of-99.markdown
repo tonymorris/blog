@@ -1,0 +1,167 @@
+---
+comments: true
+date: 2009-03-31 19:14:27
+layout: post
+slug: 22-of-99
+title: 22 of 99
+wordpressid: 592
+tags: Programming
+---
+
+From [http://aperiodic.net/phil/scala/s-99/](http://aperiodic.net/phil/scala/s-99/). 
+
+
+    
+~~~{.Scala}
+object NinetyNine {
+  // P01
+  def last[A](as: List[A]): A = as match {
+    case Nil => error("last on empty list")
+    case List(x) => x
+    case _ :: xs => last(xs)
+  }
+
+  // P02
+  def penultimate[A](as: List[A]): A = as match {
+    case x :: _ :: Nil => x
+    case _ => penultimate(as.tail)
+  }
+
+  // P03
+  def nth[A](n: Int, as: List[A]): A = as match {
+    case x :: _ if n == 0 => x
+    case _ => nth(n - 1, as.tail)
+  }
+
+  // P04
+  def length[A](as: List[A]) = (0 /: as)((a, _) => a + 1)
+
+  // P05
+  def reverse[A](as: List[A]) = (List[A]() /: as)((a, b) => b :: a)
+
+  // P06
+  def isPalindrome[A](as: List[A]) = as == reverse(as)
+
+  // P07
+  def flatten(as: Any*): List[Any] = as flatMap {
+    case (ns: List[Any]) => flatten(ns: _*)
+    case (n: Any) => List(n)
+  } toList
+
+  // List is missing a group method
+  implicit def Group[A](as: List[A]): { def group: List[List[A]] } = new {
+    def group = as match {
+      case Nil => Nil
+      case x :: xs => {
+        val (a, b) = xs.span(_ == x)
+        (x :: a) :: Group(b).group
+      }
+    }
+  }
+
+  // P08
+  def compress[A](as: List[A]) = as.group map (_.head)
+
+  def compress2[A](as: List[A]): List[A] = as match {
+    case Nil => Nil
+    case x :: xs => x :: compress(xs.dropWhile(_ == x))
+  }
+
+  // P09
+  def pack[A] = (_: List[A]).group
+
+  // P10
+  def encode[A](as: List[A]) = pack(as) map (k => (k.length, k.head))
+
+  // P11
+  // ick
+  def encodeModified[A](as: List[A]) = pack(as) map (k => {
+    val l = k.length
+    val h = k.head
+    if(l == 1) h else (l, h)
+  })
+
+  // P12
+  // ick
+  def decodeModified(as: List[_]) = as flatMap {
+    case (n: Int, s) => Stream.make(n, s)
+    case s => List(s)
+  }
+
+  // P13
+  // WTF?
+  def encode_direct[A] = (_: List[A]).group map (k => (k.length, k.head))
+
+  // P14
+  def duplicate[A] = (_: List[A]) flatMap (k => List(k, k))
+
+  // P15
+  def duplicateN[A](n: Int, as: List[A]) = as flatMap (k => Stream.make(n, k))
+
+  // P16
+  def drop[A](n: Int, as: List[A]) = as.zipWithIndex filter { case (_, x) => x % n != 2 } map (_._1)
+
+  // P17
+  def split[A](n: Int, as: List[A]) = (as take n, as drop n)
+
+  // P18
+  def slice[A](x: Int, y: Int, as: List[A]) = as drop x take (y - x)
+
+  // P19
+  def rotate[A](n: Int, as: List[A]): List[A] =
+    if(n < 0) rotate(as.length + n, as)
+    else (as drop n) ::: (as take n)
+
+  // P20
+  def remove_at[A](n: Int, as: List[A]) = {
+    val (k, Some(z)) = as.zipWithIndex.foldRight[(List[A], Option[A])]((Nil, None)) { case ((a, x), (t, s)) => if(n == x) (t, Some(a)) else (a :: t, s) }
+    (k, z)
+  }
+
+  // P21
+  def insert_at[A](a: A, n: Int, as: List[A]) = {
+    val (x, y) = as splitAt n
+    x ::: a :: y
+  }
+
+  // another missing library function
+  implicit def Unfold[A](a: A): { def unfold[B](f: A => Option[(B, A)]): List[B] } = new {
+    def unfold[B](f: A => Option[(B, A)]) = f(a) match {
+      case None => Nil
+      case Some((b, z)) => b :: (Unfold(z) unfold f)
+    }
+  }
+
+  // P22
+  def range[A](x: Int, y: Int) = x unfold (a => if(a > y) None else Some(a, a + 1))
+
+  def main(args: Array[String]) {
+    val ps = List(
+      last(List(1, 1, 2, 3, 5, 8)), // P01
+      penultimate(List(1, 1, 2, 3, 5, 8)), // P02
+      nth(2, List(1, 1, 2, 3, 5, 8)), // P03
+      length(List(1, 1, 2, 3, 5, 8)), // P04
+      reverse(List(1, 1, 2, 3, 5, 8)), // P05
+      isPalindrome(List(1, 2, 3, 2, 1)), // P06
+      flatten(List(1, 1), 2, List(3, List(5, 8))), // P07
+      compress(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e)), // P08
+      pack(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e)), // P09
+      encode(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e)), // P10
+      encodeModified(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e)), // P11
+      decodeModified(List((4, 'a), 'b, (2, 'c), (2, 'a), 'd, (4, 'e))), // P12
+      encode_direct(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e)), // P13
+      duplicate(List('a, 'b, 'c, 'c, 'd)), // P14
+      duplicateN(3, List('a, 'b, 'c, 'c, 'd)), // P15
+      drop(3, List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i, 'j, 'k)), // P16
+      split(3, List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i, 'j, 'k)), // P17
+      slice(3, 7, List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i, 'j, 'k)), // P18
+      (rotate(3, List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i, 'j, 'k)), rotate(-2, List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h, 'i, 'j, 'k))), // P19
+      remove_at(1, List('a, 'b, 'c, 'd)), // P20
+      insert_at('new, 1, List('a, 'b, 'c, 'd)), // P21
+      range(4, 9), // P22
+    )
+
+    ps.zipWithIndex foreach { case (p, n) => println("P" + (n + 1) + ": " + p) }
+  }
+}
+~~~

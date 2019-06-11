@@ -1,0 +1,46 @@
+---
+comments: true
+date: 2008-12-13 19:30:00
+layout: post
+slug: '%e2%89%a0-%e2%87%92'
+title: = ≠ ⇒
+wordpressid: 485
+tags: Philosophy, Programming
+---
+
+If you say "Microsoft Windows = bad" you are almost certainly making a false claim within your own beliefs. Not because Windows is not bad necessarily and not because I might think it is good, but because Windows = bad is likely to give rise to an absurdity within your own beliefs should I interrogate you on the matter. There is a difference. Consider also "Hitler = bad". If you think that "Windows = bad" and "Hitler = bad" then you also think "Windows = Hitler". I will expect you don't believe "Windows = Hitler".
+
+What you likely intend instead is "Windows ⇒ bad". You could read this as "Windows implies bad". Now you are free to believe the following three statements without giving rise to an inconsistency in your belief:
+
+
+
+
+  1. Windows ⇒ bad
+
+
+  2. Hitler ⇒ bad
+
+
+  3. Windows ≠ Hitler
+
+
+
+Here is the truth table for implication:
+
+
+> 
+P Q P⇒Q
+0 0 1
+0 1 1
+1 0 0
+1 1 1
+
+
+
+Notice how ⇒ does not commute? Specifically, if you swap the propositions around you might get a different result. Bad ⇒ Windows is not the same as Windows ⇒ Bad -- of course. This cannot be said for =. Bad = Windows is the same as Windows = bad.
+
+You might wonder why I care so much. After all, if you said "Windows = bad" I'd know what you meant. But did you know what you meant and is this understanding universal each time you relax your discourse like this?
+
+I have often observed a confusion between equivalence (also often called bi-implication) and implication in general discussion. Indeed, I hypothesise that this tendency to subvert a proposition in this manner is responsible for many failings in humanity's general faculty of reason. I think we as a species would be better for it if we repair this failure of intellectual discipline (for what gain anyway?).
+
+Therefore, I think that not only is this trivial correction important, but very much so. Thanks for listening.
