@@ -1,12 +1,12 @@
 .tmorris-green {
-  background-color: rgb(48, 184, 136) !important;
+  background-color: rgb(57, 120, 155) !important;
 }
 
 .tmorris-green-text {
-  color: rgb(48, 184, 136) !important;
+  color: rgb(57, 120, 155) !important;
 }
 .tmorris-border {
-  border-color: rgb(48, 184, 136) !important;
+  border-color: rgb(57, 120, 155) !important;
 }
 
 .advance-qld-logo img {
@@ -32,7 +32,7 @@ code {
 
 pre.sourceCode {
   padding: 1rem;
-  border: rgb(48, 184, 136) 2px solid;
+  border: rgb(57, 120, 155) 2px solid;
   border-radius: 0.25rem;
   background-color: #F5F5F5;
 }
@@ -109,7 +109,7 @@ body {
 }
 
 a {
-    color: #2FB787;
+    color: rgb(57, 120, 155);
     font-family: UnitRounded, sans-serif;
 }
 
