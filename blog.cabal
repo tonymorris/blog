@@ -13,9 +13,6 @@ executable            site
   hs-source-dirs:     src
   other-modules:      Posts
                       , Posts.Context
-                      , People
-                      , People.Common
-                      , People.Context
                       , Util.Order
                       , Util.Nick
                       , Util.Pandoc

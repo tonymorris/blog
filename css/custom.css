@@ -1,11 +1,11 @@
-.tgcc-green {
+.tmorris-green {
   background-color: rgb(48, 184, 136) !important;
 }
 
-.tgcc-green-text {
+.tmorris-green-text {
   color: rgb(48, 184, 136) !important;
 }
-.tgcc-border {
+.tmorris-border {
   border-color: rgb(48, 184, 136) !important;
 }
 
@@ -128,7 +128,7 @@ img.location-image  {
   }
 }
 
-.tgcc-bottom-line {
+.tmorris-bottom-line {
   border-bottom: #007A53 solid 2px;
 }
 

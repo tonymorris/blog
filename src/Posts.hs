@@ -10,7 +10,6 @@ import Data.Function(($))
 import Data.Monoid(mappend)
 import Data.String(String)
 import Hakyll(recentFirst, compile, idRoute, route, create, match, relativizeUrls, loadAndApplyTemplate, constField, defaultContext, listField, loadAll, defaultContext, Compiler, Item, Rules, saveSnapshot, makeItem)
-import People.Context(authorFieldCtx)
 import Posts.Context(postCtx)
 import Util.Index(niceRoute, removeIndexHtml)
 
@@ -23,7 +22,7 @@ postRules pc = do
     compile $ do
       let
           projectCtx =
-            authorFieldCtx `mappend` postCtx
+            postCtx
       pc
         >>= saveSnapshot "post-content"
         >>= loadAndApplyTemplate "templates/post.html"    projectCtx
@@ -36,7 +35,7 @@ postRules pc = do
     compile $ do
       let
           projectCtx =
-            authorFieldCtx `mappend` postCtx
+            postCtx
       pc
         >>= loadAndApplyTemplate "templates/post.html"    projectCtx
         >>= loadAndApplyTemplate "templates/default.html" projectCtx
@@ -48,7 +47,7 @@ postRules pc = do
     compile $ do
       let
           projectCtx =
-            authorFieldCtx `mappend` postCtx
+            postCtx
       pc
         >>= loadAndApplyTemplate "templates/post.html"    projectCtx
         >>= loadAndApplyTemplate "templates/default.html" projectCtx

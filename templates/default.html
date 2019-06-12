@@ -1,123 +1,120 @@
 <!doctype html>
 <html lang="en">
 <head>
-    <meta charset="utf-8">
-    <meta http-equiv="x-ua-compatible" content="ie=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <title>λ Tony's Blog λ - $title$</title>
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,300italic,300,600,600italic,700,700italic,800,800italic' rel='stylesheet' type='text/css'>
-        <link rel="stylesheet" href="/css/bootstrap.min.css" />
-        <link rel="stylesheet" href="/css/font-awesome.min.css" />
-        <link rel="stylesheet" href="/css/custom.css">
-        <link rel="stylesheet" href="/css/syntax.css">
-        $if(extra-css)$
-          $for(extra-css)$
-            <link rel="stylesheet" href="$body$">
-          $endfor$
-        $endif$
-        <link rel="alternate" type="application/atom+xml" title="λ Tony's Blog λ" href="/atom.xml">
-        <link rel="alternate" type="application/rss+xml" title="λ Tony's Blog λ" href="/rss.xml">
-        <!-- Global site tag (gtag.js) - Google Analytics -->
-        <script async src="https://www.googletagmanager.com/gtag/js?id=UA-3405112-1"></script>
-        <script>
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <title>λ Tony's Blog λ - $title$</title>
+  <link href='https://fonts.googleapis.com/css?family=Open+Sans:400,400italic,300italic,300,600,600italic,700,700italic,800,800italic' rel='stylesheet' type='text/css'>
+      <link rel="stylesheet" href="/css/bootstrap.min.css" />
+      <link rel="stylesheet" href="/css/font-awesome.min.css" />
+      <link rel="stylesheet" href="/css/custom.css">
+      <link rel="stylesheet" href="/css/syntax.css">
+      $if(extra-css)$
+        $for(extra-css)$
+          <link rel="stylesheet" href="$body$">
+        $endfor$
+      $endif$
+      <link rel="alternate" type="application/atom+xml" title="λ Tony's Blog λ" href="/atom.xml">
+      <link rel="alternate" type="application/rss+xml" title="λ Tony's Blog λ" href="/rss.xml">
+      <!-- Global site tag (gtag.js) - Google Analytics -->
+      <script async src="https://www.googletagmanager.com/gtag/js?id=UA-3405112-1"></script>
+      <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
 
-          gtag('config', 'UA-3405112-1');
-        </script>
-    </head>
-    <body>
+        gtag('config', 'UA-3405112-1');
+      </script>
+  </head>
+  <body>
+    <header>
+      <nav class="navbar navbar-expand-lg tmorris-green">
+        <a class="navbar-brand text-white" href="/">
+          <img height="75" alt="lambda small" src="/images/lambda-small.png"/>
+        </a>
 
-        <header>
-            <nav class="navbar navbar-expand-lg tgcc-green">
-              <a class="navbar-brand text-white" href="/">
-                <img height="75" alt="TGCC logo" src="/images/tgcc-logo.png"/>
-              </a>
+        <button class="navbar-toggler"
+                type="button"
+                data-toggle="collapse"
+                data-target="#navbarNav"
+                aria-controls="navbarNav"
+                aria-expanded="false"
+                aria-label="Toggle navigation">
 
-              <button class="navbar-toggler"
-                      type="button"
-                      data-toggle="collapse"
-                      data-target="#navbarNav"
-                      aria-controls="navbarNav"
-                      aria-expanded="false"
-                      aria-label="Toggle navigation">
+          <i class="fa fa-lg fa-fw fa-bars text-white"></i>
+        </button>
 
-                <i class="fa fa-lg fa-fw fa-bars text-white"></i>
-              </button>
-
-              <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-                  <ul class="navbar-nav">
-                    <li $if(home-active)$ class="nav-item active" $else$ class="nav-item" $endif$>
-                      <a class="nav-link text-white" href="/">Home</a>
-                    </li>
-                    <li $if(location-active)$ class="nav-item active" $else$ class="nav-item" $endif$ >
-                      <a class="nav-link text-white" href="/location">Location</a>
-                    </li>
-                    <li $if(people-active)$ class="nav-item active" $else$ class="nav-item" $endif$ >
-                      <a class="nav-link text-white" href="/people">People</a>
-                    </li>
-                    <li $if(contact-active)$ class="nav-item active" $else$ class="nav-item" $endif$ >
-                      <a class="nav-link text-white" href="/contact">Contact</a>
-                    </li>
-                    <li $if(archive-active)$ class="nav-item active" $else$ class="nav-item" $endif$ >
-                      <a class="nav-link text-white" href="/archive">Archive</a>
-                    </li>
-                  </ul>
-                </div>
-            </nav>
-        </header>
-
-        <main>
-          <div class="container-fluid">
-              $body$
+        <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+            <ul class="navbar-nav">
+              <li $if(home-active)$ class="nav-item active" $else$ class="nav-item" $endif$>
+                <a class="nav-link text-white" href="/">Home</a>
+              </li>
+              <li $if(location-active)$ class="nav-item active" $else$ class="nav-item" $endif$ >
+                <a class="nav-link text-white" href="/location">Location</a>
+              </li>
+              <li $if(contact-active)$ class="nav-item active" $else$ class="nav-item" $endif$ >
+                <a class="nav-link text-white" href="/contact">Contact</a>
+              </li>
+              <li $if(archive-active)$ class="nav-item active" $else$ class="nav-item" $endif$ >
+                <a class="nav-link text-white" href="/archive">Archive</a>
+              </li>
+              <li $if(feed-active)$ class="nav-item feed" $else$ class="nav-item" $endif$ >
+                <a class="nav-link text-white" href="/atom.xml"><img src="/images/feed-icon-14x14.png" alt="feed"/></a>
+              </li>
+            </ul>
           </div>
-          <div class="collapse navbar-collapse navbar-right" id="navbar-collapse-1">
-              <ul class="nav navbar-nav">
-                  <li role="presentation" $if(home-active)$ class="active" $endif$ ><a href="/">Home</a></li>
-                  <li role="presentation" $if(location-active)$ class="active" $endif$ ><a href="/location">Location</a></li>
-                  <li role="presentation" $if(people-active)$ class="active" $endif$ ><a href="/people">People</a></li>
-                  <li role="presentation" $if(contact-active)$ class="active" $endif$ ><a href="/contact">Contact</a></li>
-                  <li role="presentation" $if(archive-active)$ class="active" $endif$ ><a href="/archive">Archive</a></li>
-              </ul>
+      </nav>
+    </header>
+
+    <main>
+      <div class="container-fluid">
+          $body$
+      </div>
+      <div class="collapse navbar-collapse navbar-right" id="navbar-collapse-1">
+          <ul class="nav navbar-nav">
+              <li role="presentation" $if(home-active)$ class="active" $endif$ ><a href="/">Home</a></li>
+              <li role="presentation" $if(location-active)$ class="active" $endif$ ><a href="/location">Location</a></li>
+              <li role="presentation" $if(contact-active)$ class="active" $endif$ ><a href="/contact">Contact</a></li>
+              <li role="presentation" $if(archive-active)$ class="active" $endif$ ><a href="/archive">Archive</a></li>
+          </ul>
+      </div>
+    </main>
+
+    <footer class="page-footer tmorris-green">
+      <div class="container">
+        <div class="row justify-content-centre">
+          <div class="col">
+            <a href="mailto:tmorris@tmorris.net"><i class="text-white fa fa-at fa-2x"></i></a>
+            <a href="https://twitter.com/dibblego"><i class="text-white fa fa-twitter fa-2x"></i></a>
+            <a href="http://webchat.freenode.net/?randomnick=1&amp;channels=%23qfpl&amp;uio=d4"><i class="text-white fa fa-comments fa-2x"></i></a>
+            <a href="https://gitlab.com/tonymorris"><i class="text-white fa fa-gitlab fa-2x"></i></a>
+            <a href="https://github.com/tonymorris"><i class="text-white fa fa-github fa-2x"></i></a>
           </div>
+          <div class="col">
+            <a class="float-right" rel="license" href="http://creativecommons.org/licenses/by/4.0/">
+              <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" />
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
 
-        </main>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+            integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+            crossorigin="anonymous">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous">
+    </script>
 
-        <footer class="page-footer tgcc-green">
-            <div class="container">
-              <div class="row justify-content-centre">
-                <div class="col">
-                  <a href="mailto:tmorris@tmorris.net"><i class="text-white fa fa-at fa-2x"></i></a>
-                  <a href="https://twitter.com/dibblego"><i class="text-white fa fa-twitter fa-2x"></i></a>
-                  <a href="http://webchat.freenode.net/?randomnick=1&amp;channels=%23qfpl&amp;uio=d4"><i class="text-white fa fa-comments fa-2x"></i></a>
-                  <a href="https://gitlab.com/tonymorris"><i class="text-white fa fa-gitlab fa-2x"></i></a>
-                  <a href="https://github.com/tonymorris"><i class="text-white fa fa-github fa-2x"></i></a>
-                </div>
-                <div class="col">
-                  <a class="float-right" rel="license" href="http://creativecommons.org/licenses/by/4.0/">
-                    <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" />
-                  </a>
-                </div>
-              </div>
-            </div>
-        </footer>
+    <script src="/js/bootstrap.min.js"></script>
 
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
-                integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
-                crossorigin="anonymous">
-        </script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
-                integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
-                crossorigin="anonymous">
-        </script>
-
-        <script src="/js/bootstrap.min.js"></script>
-
-        $if(extra-js)$
-          $for(extra-js)$
-            <script src="$body$" defer></script>
-          $endfor$
-        $endif$
-    </body>
+    $if(extra-js)$
+      $for(extra-js)$
+        <script src="$body$" defer></script>
+      $endfor$
+    $endif$
+  </body>
 </html>

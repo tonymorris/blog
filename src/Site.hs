@@ -9,7 +9,6 @@ import Data.Functor(fmap)
 import Data.List(take, drop)
 import Data.Monoid(mappend)
 import Hakyll(feedRoot, feedAuthorName, feedDescription, feedAuthorEmail, feedTitle, FeedConfiguration(FeedConfiguration), Configuration(destinationDirectory, ignoreFile), renderRss, loadAllSnapshots, renderAtom, recentFirst, compile, bodyField, idRoute, route, create, templateBodyCompiler, match, relativizeUrls, loadAndApplyTemplate, constField, applyAsTemplate, getResourceBody, defaultContext, listField, loadAll, setExtension, defaultContext, copyFileCompiler, compressCssCompiler, hakyllWith, defaultConfiguration, customRoute, toFilePath)
-import People(peopleRules)
 import Posts(postRules)
 import Posts.Context(postCtx)
 import System.IO(IO)
@@ -69,8 +68,6 @@ main = do
           >>= relativizeUrls
           >>= removeIndexHtml
           
-    peopleRules pandocCompiler'
-
     postRules pandocCompiler'
 
     match "index.html" $ do
@@ -79,6 +76,7 @@ main = do
         posts <- fmap (take 5) . recentFirst =<< loadAll "posts/**"
         let indexCtx =
               constField "home-active" ""              `mappend`
+              constField "feed-active" ""              `mappend`
               listField "posts" postCtx (return posts) `mappend`
               constField "title" "Home"                `mappend`
               defaultContext
