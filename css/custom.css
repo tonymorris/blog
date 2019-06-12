@@ -118,16 +118,6 @@ h1, h2, h3, h4, h5, h6 {
   font-family: UnitRounded, sans-serif;
 }
 
-img.location-image  {
-  height: 500px;
-}
-
-@media only screen and (max-width: 768px) {
-  img.location-image  {
-    height: 300px;
-  }
-}
-
 .tmorris-bottom-line {
   border-bottom: #007A53 solid 2px;
 }

@@ -48,16 +48,6 @@ main = do
       route   (customRoute (joinPath . drop 1 . splitDirectories . toFilePath))
       compile copyFileCompiler
 
-    match "location.html" $ do
-      route niceRoute
-      compile $ do
-        let locationCtx =
-              constField "location-active" "" `mappend` defaultContext
-        getResourceBody
-          >>= loadAndApplyTemplate "templates/default.html" locationCtx
-          >>= relativizeUrls
-          >>= removeIndexHtml
-
     match "contact.html" $ do
       route niceRoute
       compile $ do
